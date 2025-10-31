@@ -14,12 +14,18 @@ import net.minecraft.world.event.GameEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
+import static com.equilibrium.util.XpHashMap.getXpForLevel;
+
 @Mixin(HostileEntity.class)
 public class HostileEntityMixin extends PathAwareEntity implements Monster {
     protected HostileEntityMixin(EntityType<? extends PathAwareEntity> entityType, World world) {
         super(entityType, world);
     }
 
+    @Override
+    public int getXpToDrop(){
+        return getXpForLevel(1);
+    }
     @Override
     public void onDeath(DamageSource damageSource) {
         if (!this.isRemoved() && !this.dead) {

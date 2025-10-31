@@ -30,6 +30,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+import static com.equilibrium.util.XpHashMap.getXpForLevel;
+
 public class PuddingSlimeEntity extends BaseSlimeEntity{
     public PuddingSlimeEntity(EntityType<? extends BaseSlimeEntity> entityType, World world) {
         super(entityType, world);
@@ -48,6 +50,11 @@ public class PuddingSlimeEntity extends BaseSlimeEntity{
     }
 
 
+    @Override
+    protected int getXpToDrop(){
+        int i = this.getSize();
+        return getXpForLevel(i);
+    }
 
     //不管什么情况
     @Override

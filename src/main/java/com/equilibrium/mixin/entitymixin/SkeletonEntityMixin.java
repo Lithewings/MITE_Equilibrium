@@ -25,8 +25,21 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import static com.equilibrium.util.XpHashMap.getXpForLevel;
+
 @Mixin(AbstractSkeletonEntity.class)
 public abstract class SkeletonEntityMixin extends HostileEntity implements RangedAttackMob {
+
+
+
+    @Override
+    public int getXpToDrop(){
+        return getXpForLevel(1);
+    }
+
+
+
+
 
     protected SkeletonEntityMixin(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
@@ -66,32 +79,4 @@ public abstract class SkeletonEntityMixin extends HostileEntity implements Range
         cir.setReturnValue(40);
     }
 
-//    @Inject(method = "shootAt",at = @At(value = "HEAD"),cancellable = true)
-//    public void shootAt(LivingEntity target, float pullProgress, CallbackInfo ci) {
-//        ci.cancel();
-//        ItemStack itemStack = this.getStackInHand(ProjectileUtil.getHandPossiblyHolding(this, Items.BOW));
-//        ItemStack itemStack2 = this.getProjectileType(itemStack);
-//
-//
-//        PersistentProjectileEntity persistentProjectileEntity = this.createArrowProjectile(itemStack2, pullProgress, itemStack);
-//
-//
-//        double x = target.getX()-this.getX();
-//        double y = target.getZ()-this.getZ();
-//        double distance = Math.sqrt(x * x + y * y);
-//        float preTime = (float) (distance/32);
-//
-//
-//
-//        double d = target.getX()+(target.getVelocity().getX()*8*preTime) -this.getX();
-//        double e = target.getBodyY(0.3333333333333333) - persistentProjectileEntity.getY();
-//        double f = target.getZ()+(target.getVelocity().getZ()*8*preTime) - this.getZ();
-//        double g = Math.sqrt(d * d + f * f);
-//        g=distance>16?g*1.2:g;
-//        persistentProjectileEntity.setVelocity(d, e + g * 0.2F, f, 1.6F, 0);
-//
-//        this.playSound(SoundEvents.ENTITY_SKELETON_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
-//        this.getWorld().spawnEntity(persistentProjectileEntity);
-//
-//    }
 }

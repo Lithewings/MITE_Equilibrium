@@ -25,6 +25,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import static com.equilibrium.util.XpHashMap.getXpForLevel;
 import static net.minecraft.entity.mob.Angriness.ANGRY;
 
 @Mixin(EndermanEntity.class)
@@ -49,6 +50,11 @@ public abstract class EnderManEntity extends HostileEntity implements Angerable 
     //末影人下次进入愤怒状态的冷却值
     int endermanEntityCoolDown = 0;
 
+
+    @Override
+    public int getXpToDrop(){
+        return getXpForLevel(3);
+    }
 
     @Inject(method = "damage", at = @At(value = "HEAD"))
     public void damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {

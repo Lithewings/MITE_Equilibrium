@@ -28,6 +28,8 @@ import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.UUID;
 
+import static com.equilibrium.util.XpHashMap.getXpForLevel;
+
 @Mixin(ZombieVillagerEntity.class)
 public abstract class ZombieVillagerEntityMixin extends ZombieEntity implements VillagerDataContainer {
     public ZombieVillagerEntityMixin(EntityType<? extends ZombieEntity> entityType, World world) {
@@ -57,6 +59,10 @@ public abstract class ZombieVillagerEntityMixin extends ZombieEntity implements 
     }
 
 
+    @Override
+    public int getXpToDrop(){
+        return getXpForLevel(1);
+    }
 
 
 

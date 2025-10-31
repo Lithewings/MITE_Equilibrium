@@ -50,40 +50,6 @@ public abstract class CowEntityMixin extends AnimalEntity {
     }
 
 
-
-
-
-
-
-
-
-
-    public boolean isBaby() {
-        return this.getBreedingAge() < 0;
-    }
-
-
-
-
-    @Override
-    public void tick() {
-        super.tick();
-        milkAmount++;
-        if (breedColdDown > 0) {
-            breedColdDown--;
-        }
-    }
-
-
-    @Unique
-    private int milkAmount;
-
-
-
-    @Unique
-    private int breedColdDown=1000;
-
-
     @Unique
     @Override
 
@@ -92,69 +58,6 @@ public abstract class CowEntityMixin extends AnimalEntity {
             this.lastDamageSource = null;
         }
         return this.lastDamageSource;
-    }
-
-
-
-
-
-
-
-    @Inject(method = "interactMob",at = @At(value = "HEAD"))
-    public void interactMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) throws InterruptedException {
-        cir.cancel();
-//        //这份代码会被执行两次,一次在客户端一次在服务端
-//        ItemStack itemStack = player.getStackInHand(hand);
-//
-//
-//        //以下是拿桶对牛交互的逻辑
-//        if (itemStack.isOf(Items.BUCKET) && !this.isBaby()) {
-//            //先执行产奶判断
-//            //在游戏中完整度过半天,奶牛才会产一桶奶
-//            //一开始,没有奶,奶量最大为两桶
-//            //先获取奶量,上限两桶
-//            milkAmount = min(milkAmount,24000);
-//            if(milkAmount>=12000) {
-//                milkAmount=milkAmount-12000;
-//                player.playSound(SoundEvents.ENTITY_COW_MILK, 1.0F, 1.0F);
-//                ItemStack itemStack2 = ItemUsage.exchangeStack(itemStack, player, Items.MILK_BUCKET.getDefaultStack());
-//                player.setStackInHand(hand, itemStack2);
-//                cir.setReturnValue(ActionResult.success(this.getWorld().isClient));
-//            }
-//            else{
-//                if(this.getWorld().isClient){
-//                    player.sendMessage(Text.of("The cow is not ready for milking"));
-//                    player.sendMessage(Text.of(String.valueOf(milkAmount)));
-//                    player.sendMessage(Text.of("The next bucket of milk is "+(int)(100*(milkAmount/12000F))+"%"));
-//                }
-//
-//                cir.setReturnValue(ActionResult.PASS);
-//
-//            }
-//        }
-//        else if (itemStack.isOf(Items.WHEAT) && !this.isBaby()){
-//            if(breedColdDown==0){
-//                this.eat(player, hand, itemStack);
-//                this.lovePlayer(player);
-//                cir.setReturnValue(ActionResult.SUCCESS);
-//                milkAmount=24000;
-//                breedColdDown=1000;
-//            }else{
-//                if(breedColdDown>0){
-//                    if(this.getWorld().isClient){
-//                        player.sendMessage(Text.of("The cow is full"));
-//                        cir.setReturnValue(ActionResult.PASS);
-//                    }
-//                    cir.setReturnValue(ActionResult.PASS);
-//                }
-//                cir.setReturnValue(ActionResult.PASS);
-//            }
-//
-//
-//        }else{
-//            cir.setReturnValue(super.interactMob(player, hand));
-//        }
-
     }
 }
 

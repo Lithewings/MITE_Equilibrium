@@ -18,10 +18,10 @@ import static com.equilibrium.MITEequilibrium.MOD_ID;
 public class Armors {
 
 
-    public static final Item COPPER_HELMET =new ArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.HELMET,new Item.Settings().maxDamage(3*32));
-    public static final Item COPPER_CHEST_PLATE =new ArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.CHESTPLATE,new Item.Settings().maxDamage(6*32));
-    public static final Item COPPER_LEGGINGS =new ArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.LEGGINGS,new Item.Settings().maxDamage(4*32));
-    public static final Item COPPER_BOOTS =new ArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.BOOTS,new Item.Settings().maxDamage(2*32));
+    public static final Item COPPER_HELMET =new ArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.HELMET,new Item.Settings().maxDamage(6*32));
+    public static final Item COPPER_CHEST_PLATE =new ArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.CHESTPLATE,new Item.Settings().maxDamage(12*32));
+    public static final Item COPPER_LEGGINGS =new ArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.LEGGINGS,new Item.Settings().maxDamage(8*32));
+    public static final Item COPPER_BOOTS =new ArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.BOOTS,new Item.Settings().maxDamage(4*32));
 
     public static final Item MITHRIL_HELMET =new ArmorItem(ModArmorMaterials.MITHRIL, ArmorItem.Type.HELMET,new Item.Settings().maxDamage(5*64));
     public static final Item MITHRIL_CHEST_PLATE =new ArmorItem(ModArmorMaterials.MITHRIL, ArmorItem.Type.CHESTPLATE,new Item.Settings().maxDamage(8*64));

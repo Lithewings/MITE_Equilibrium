@@ -3,7 +3,6 @@ package com.equilibrium.mixin.player;
 import com.equilibrium.util.PlayerMaxHealthOrFoodLevelHelper;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Items;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -12,8 +11,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import static com.equilibrium.MITEequilibrium.LOGGER;
 
 @Mixin(HungerManager.class)
 
@@ -38,4 +35,20 @@ public abstract class HungerManagerMixin {
         this.foodLevel = MathHelper.clamp(this.foodLevel, 0, maxFoodLevel);
         this.saturationLevel = MathHelper.clamp(this.saturationLevel, 0.0F, maxFoodLevel);
     }
+
+
+
+    @Inject(method = "addInternal", at = @At("HEAD"), cancellable = true)
+    private void addInternal(int nutrition, float saturation, CallbackInfo ci) {
+        this.foodLevel = MathHelper.clamp(nutrition + this.foodLevel, 0, 20);
+        this.saturationLevel = MathHelper.clamp(saturation + this.saturationLevel, 0.0F, 20);
+        ci.cancel();
+    }
+
+    @Inject(method = "isNotFull", at = @At("HEAD"), cancellable = true)
+    public void isNotFull(CallbackInfoReturnable<Boolean> cir) {
+        cir.setReturnValue(true);
+    }
+
+
 }

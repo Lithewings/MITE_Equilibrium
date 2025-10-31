@@ -16,12 +16,19 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import static com.equilibrium.util.XpHashMap.getXpForLevel;
+
 @Mixin(BlazeEntity.class)
 public class BlazeEntityMixin extends HostileEntity {
 
 
     protected BlazeEntityMixin(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
+    }
+
+    @Override
+    public int getXpToDrop(){
+        return getXpForLevel(3);
     }
 
 

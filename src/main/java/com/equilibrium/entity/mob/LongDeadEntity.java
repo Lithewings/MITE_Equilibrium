@@ -32,6 +32,7 @@ import net.minecraft.world.*;
 import org.jetbrains.annotations.Nullable;
 
 import static com.equilibrium.MITEequilibrium.MOD_ID;
+import static com.equilibrium.util.XpHashMap.getXpForLevel;
 
 public class LongDeadEntity extends ModAbstractSkeletonEntity {
 
@@ -43,6 +44,16 @@ public class LongDeadEntity extends ModAbstractSkeletonEntity {
     SoundEvent getStepSound() {
         return SoundEvents.ENTITY_SKELETON_STEP;
     }
+
+
+
+    @Override
+    protected int getXpToDrop(){
+        return getXpForLevel(2);
+    }
+
+
+
 
 
     @Override

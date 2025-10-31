@@ -21,12 +21,17 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
 import static com.equilibrium.event.sound.SoundEventRegistry.*;
+import static com.equilibrium.util.XpHashMap.getXpForLevel;
 import static net.minecraft.entity.effect.StatusEffects.SLOWNESS;
 
 public class ShadowEntity extends ZombieEntity {
     //黑色食尸鬼,(应该主动破坏火把)若在主世界,只会在世界最黑暗处且y位置小于0生成
 
 
+    @Override
+    protected int getXpToDrop(){
+        return getXpForLevel(2);
+    }
 
 
 

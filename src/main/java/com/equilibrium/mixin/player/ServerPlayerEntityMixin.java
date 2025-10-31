@@ -65,6 +65,10 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
 
     @Shadow public abstract ServerWorld getServerWorld();
 
+    @Shadow public abstract void sendMessage(Text message, boolean overlay);
+
+    @Shadow public abstract void sendMessage(Text message);
+
     @Inject(method = "onDeath",at = @At("HEAD"))
     public void onDeath(DamageSource damageSource, CallbackInfo ci) {
         StateSaverAndLoader serverState;
@@ -78,10 +82,22 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
 
 
 
+    @Inject(method = "increaseTravelMotionStats",at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayerEntity;addExhaustion(F)V",ordinal = 3), cancellable = true)
+    public void increaseTravelMotionStats1(double deltaX, double deltaY, double deltaZ, CallbackInfo ci){
+        int i = Math.round((float)Math.sqrt(deltaX * deltaX + deltaZ * deltaZ) * 100.0F);
+        this.addExhaustion(0.025F * (float)i * 0.01F);
+//        this.sendMessage(Text.of("你正在疾跑"));
+        ci.cancel();
+    }
 
 
-
-
+    @Inject(method = "increaseTravelMotionStats",at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayerEntity;addExhaustion(F)V",ordinal = 5), cancellable = true)
+    public void increaseTravelMotionStats2(double deltaX, double deltaY, double deltaZ, CallbackInfo ci){
+        int i = Math.round((float)Math.sqrt(deltaX * deltaX + deltaZ * deltaZ) * 100.0F);
+        this.addExhaustion(0.0125F * (float)i * 0.01F);
+//        this.sendMessage(Text.of("你正在走路"));
+        ci.cancel();
+    }
 
 
 

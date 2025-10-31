@@ -39,6 +39,8 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 
+import static com.equilibrium.util.XpHashMap.getXpForLevel;
+
 public class BaseSlimeEntity extends MobEntity implements Monster {
     private static final TrackedData<Integer> SLIME_SIZE = DataTracker.registerData(BaseSlimeEntity.class, TrackedDataHandlerRegistry.INTEGER);
     public static final int MIN_SIZE = 1;
@@ -116,6 +118,7 @@ public class BaseSlimeEntity extends MobEntity implements Monster {
         nbt.putInt("Size", this.getSize() - 1);
         nbt.putBoolean("wasOnGround", this.onGroundLastTick);
     }
+
 
     @Override
     public void readCustomDataFromNbt(NbtCompound nbt) {

@@ -9,6 +9,8 @@ import com.equilibrium.event.BreakBlockEvent;
 import com.equilibrium.event.CraftingMetalPickAxeCallback;
 import com.equilibrium.item.*;
 import com.equilibrium.persistent_state.StateSaverAndLoader;
+import com.equilibrium.tags.ModItemTags;
+import com.equilibrium.util.XpHashMap;
 import com.equilibrium.util.OnServerInitializeMethod;
 import com.mojang.brigadier.CommandDispatcher;
 import net.fabricmc.api.ModInitializer;
@@ -18,6 +20,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
+import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
 import net.minecraft.GameVersion;
 import net.minecraft.SaveVersion;
 import net.minecraft.SharedConstants;
@@ -86,6 +89,18 @@ public class MITEequilibrium implements ModInitializer {
     public static final String MOD_ID = "miteequilibrium";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
+
+
+
+
+
+
+
+
+
+
+
+
 //	public static Config config;
 
 
@@ -105,6 +120,17 @@ public class MITEequilibrium implements ModInitializer {
     }
 
 
+
+    public static void initXpMap() {
+        XpHashMap.setXpForLevel(1, 10);
+        XpHashMap.setXpForLevel(2, 50);
+        XpHashMap.setXpForLevel(3, 100);
+        XpHashMap.setXpForLevel(4, 200);
+        XpHashMap.setXpForLevel(5, 500);
+    }
+
+
+
     public static void talkToAllServerPlayer(MinecraftServer server, String context) {
         for (ServerPlayerEntity serverPlayer : server.getPlayerManager().getPlayerList()) {
             serverPlayer.sendMessage(Text.of(context));
@@ -120,158 +146,7 @@ public class MITEequilibrium implements ModInitializer {
                                 (OnServerInitializeMethod::isPickAxeCrafted)
 
         );
-//		dispatcher.register(CommandManager.literal("hardcore")
-//				.executes(context -> {
-//					ServerCommandSource source = context.getSource();
-//					PlayerEntity player = source.getPlayer();
-//
-//
-//
-//
-//					// 构建可点击文本
-//					Text clickableText = Text.literal("[切换到聊天栏,点击文字切换至极限模式(该操作将无法撤销)]")
-//							.styled(style -> style
-//									.withColor(Formatting.GREEN)
-//									.withClickEvent(new ClickEvent(
-//											ClickEvent.Action.RUN_COMMAND,
-//											"/triggeraction" // 点击后触发的命令
-//									))
-//									.withHoverEvent(new HoverEvent(
-//											HoverEvent.Action.SHOW_TEXT,
-//											Text.of("该操作将无法撤销,是否继续?")
-//									))
-//							);
-//					// 发送消息给玩家
-//					player.sendMessage(clickableText, false);
-//					return 1;
-//				}));
-//
-//
-//		dispatcher.register(CommandManager.literal("triggeraction")
-//				.executes(context -> {
-//					MinecraftServer server = context.getSource().getServer();
-//					ServerCommandSource source = context.getSource();
-//					PlayerEntity player = source.getPlayer();
-//
-//					if(context.getSource().getWorld().getTimeOfDay()>24000L){
-//						player.sendMessage(Text.of("目前状态无法再切换至极限模式（生存时间已大于1天）"));
-//						return 1;
-//					}
-//
-//
-//
-//					// 执行自定义逻辑（例如发送提示）
-//					talkToAllServerPlayer(server,"世界已切换至极限模式,重新进入世界以生效设置");
-//
-//					// 这里可以添加更多操作，如给予物品、修改游戏状态等
-//
-//					//放到记录类中,在别的位置可能就会用到
-//					StateSaverAndLoader serverState = StateSaverAndLoader.getServerState(ServerInfoRecorder.getServerInstance());
-//					serverState.keepHardcore=true;
-//
-//
-//
-//
-//					return 1;
-//				}));
-
-
-//		dispatcher.register(
-//				CommandManager.literal("difficultyLevel")
-//						.then(CommandManager.literal("set")
-//								.then(CommandManager.argument("level", IntegerArgumentType.integer())
-//										.executes(commandContext -> {
-//											MinecraftServer server = commandContext.getSource().getServer();
-//											if(server.getWorld(World.OVERWORLD).getTimeOfDay()>24000L) {
-//												talkToAllServerPlayer(server, "目前无法再使用该命令调整游戏难度等级（生存时间已大于1天）");
-//												return 1;
-//											}
-//
-//
-//
-//											int level = IntegerArgumentType.getInteger(commandContext, "level");
-//
-//
-//											StateSaverAndLoader serverState = StateSaverAndLoader.getServerState(server);
-//
-//
-//											switch(level){
-//												case 0:{
-//													server.setDifficulty(Difficulty.EASY,true);
-//													talkToAllServerPlayer(server,"游戏难度将始终保持在简单难度");
-//													serverState.difficultyLevel = level;
-//													break;
-//												}
-//												case 1: {
-//													server.setDifficulty(Difficulty.NORMAL, true);
-//													talkToAllServerPlayer(server, "游戏难度将始终保持在普通难度");
-//													serverState.difficultyLevel = level;
-//													break;
-//												}
-//												case 2: {
-//													server.setDifficulty(Difficulty.HARD, true);
-//													talkToAllServerPlayer(server, "游戏难度将始终保持在困难难度");
-//													serverState.difficultyLevel = level;
-//													break;
-//												}
-//												default:
-//													server.setDifficulty(Difficulty.NORMAL,true);
-//													talkToAllServerPlayer(server,"未知的游戏难度等级,请重新选择难度");
-//													break;
-//											}
-//
-//
-//											return 1;
-//
-//
-//
-//
-//
-//
-//										}
-//
-//
-//
-//
-//										)
-//
-//
-//
-//		)));
-        // 监听右键点击事件，检查是否持有指南针
-//		ServerTickEvents.END_SERVER_TICK.register(server -> {
-//			for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
-//				if (player.getMainHandStack().getItem() == Items.COMPASS) {
-//					// 当玩家右键点击指南针时，触发 locate 指令
-//					player.sendMessage(Text.literal("Right-clicked with compass! Locating fortress..."), false);
-//					try {
-//						executeLocateStructure(player.getCommandSource());
-//						player.sendMessage(Text.of("你右键了指南针!"));
-//					} catch (CommandSyntaxException e) {
-//						throw new RuntimeException(e);
-//					}
-//				}
-//			}
-//		});
     }
-
-
-//        // 给玩家发送调试信息（可选）
-//        player.sendMessage(Text.literal(
-//                String.format(
-//                        "当前耐久: %.0f%% -> 护甲系数(S曲线): %.1f%%",
-//                        100 * linearRatio,
-//                        100 * sCurveRatio
-//                )
-//        ), true);
-
-
-//
-//	 执行 locate structure 指令
-//	private static int executeLocateStructure(ServerCommandSource source) throws CommandSyntaxException {
-//        return 0;
-//    }
-
 
     private static final int TICK_INTERVAL = 500; // 每隔500 tick检查一次
     private int tickCount = 0; // 记录当前 tick
@@ -287,6 +162,10 @@ public class MITEequilibrium implements ModInitializer {
 
 
     public void onInitialize() {
+
+
+        //原版物品修改
+        DefaultItemComponentEvents.MODIFY.register(new VanillaItemModifier());
 
         SharedConstants.gameVersion = new GameVersion() {
             @Override
@@ -330,7 +209,6 @@ public class MITEequilibrium implements ModInitializer {
 
             //锁定游戏难度
             server.setDifficultyLocked(true);
-
 
 
 
@@ -496,17 +374,24 @@ public class MITEequilibrium implements ModInitializer {
             // 获取玩家手中的物品
             ItemStack itemStack = player.getStackInHand(hand);
 
-            // 判断是否为青金石
-            if (itemStack.getItem() == Items.LAPIS_LAZULI) {
-                return onUseCrystalItem(itemStack, player, world, 25);
+            // 判断是否为青金石等晶体
+            if(player.experienceLevel<=35) {
+                if (itemStack.getItem() == Items.REDSTONE) {
+                    return onUseCrystalItem(itemStack, player, world, 10);
+                }
+                if (itemStack.getItem() == Items.LAPIS_LAZULI) {
+                    return onUseCrystalItem(itemStack, player, world, 25);
+                }
+                if (itemStack.getItem() == Items.QUARTZ) {
+                    return onUseCrystalItem(itemStack, player, world, 50);
+                }
+                if (itemStack.getItem() == Items.EMERALD) {
+                    return onUseCrystalItem(itemStack, player, world, 250);
+                }
+                if (itemStack.getItem() == Items.DIAMOND) {
+                    return onUseCrystalItem(itemStack, player, world, 500);
+                }
             }
-            if (itemStack.getItem() == Items.QUARTZ) {
-                return onUseCrystalItem(itemStack, player, world, 50);
-            }
-            if (itemStack.getItem() == Items.DIAMOND) {
-                return onUseCrystalItem(itemStack, player, world, 500);
-            }
-
             if (itemStack.getItem() == Items.BOWL) {
                 return vanillaBowlItemUse(world,player,hand,itemStack);
             }
@@ -529,6 +414,9 @@ public class MITEequilibrium implements ModInitializer {
             }
             if (stack.getItem() == Items.DIAMOND) {
                 lines.add(Text.literal("500XP").formatted(Formatting.DARK_GRAY));
+            }
+            if (stack.getItem() == Items.EMERALD) {
+                lines.add(Text.literal("250XP").formatted(Formatting.DARK_GRAY));
             }
             if (stack.getItem() == Items.ENCHANTED_GOLDEN_APPLE) {
                 lines.add(Text.literal("Regeneration II（00:40）").formatted(Formatting.BLUE));
@@ -553,9 +441,8 @@ public class MITEequilibrium implements ModInitializer {
         //食物修改
         foodComponentModify();
 
-
-
-
+        //xp映射表
+        initXpMap();
 
         //玩家食用食品监听器
 //		OnPlayerEntityEatEvent.EVENT.register((player)->{

@@ -42,6 +42,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import static com.equilibrium.util.WorldMoonPhasesSelector.setAndGetMoonType;
+import static com.equilibrium.util.XpHashMap.getXpForLevel;
 
 @Mixin(ZombieEntity.class)
 public abstract class ZombieEntityMixin extends HostileEntity {
@@ -158,6 +159,10 @@ public abstract class ZombieEntityMixin extends HostileEntity {
         return stack;
     }
 
+    @Override
+    public int getXpToDrop(){
+        return getXpForLevel(1);
+    }
 
 
 

@@ -159,8 +159,8 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     @Unique
     public long phytonutrient = 0;
     //生物交互距离增益
-    @Unique
-    public float entityInteractBonus = 0;
+
+
 
 
 
@@ -187,10 +187,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         return (int) this.phytonutrient;
     }
 
-    @Unique
-    public void setEntityInteractBonus(float bonus) {
-        this.entityInteractBonus = bonus;
-    }
+
 
 
     @Inject(method = "canHarvest", at = @At(value = "HEAD"), cancellable = true)
@@ -276,7 +273,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
 
 
-
+//
 //        if(!this.getWorld().isClient) {
 //            this.sendMessage(Text.of("饱食度为" + this.getHungerManager().getFoodLevel()));
 //            this.sendMessage(Text.of("营养值为" + this.getHungerManager().getSaturationLevel()));
@@ -317,52 +314,59 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
     }
 
+    @Unique
+    private double interactionRange = 2f;
+
+
+
     //以下修改实体交互距离
     @Inject(method = "getEntityInteractionRange", at = @At("HEAD"), cancellable = true)
     public void getEntityInteractionRange(CallbackInfoReturnable<Double> cir) {
-        ItemStack itemstack = this.getMainHandStack();
-
-        if (itemstack.isEnchantable()) {
-            if (itemstack.isIn(ModItemTags.SHOVELS)) {
-                //铲子
-                setEntityInteractBonus(0.75f);
-            } else if (itemstack.isIn(ModItemTags.PICKAXES)) {
-                //镐子
-                setEntityInteractBonus(0.75f);
-            } else if (itemstack.isIn(ModItemTags.AXES)) {
-                //斧子
-                setEntityInteractBonus(0.75f);
-            } else if (itemstack.isIn(ModItemTags.SWORDS)) {
-                //剑
-                setEntityInteractBonus(1.00f);
-            } else if (itemstack.isIn(ModItemTags.HOES)) {
-                //锄头
-                setEntityInteractBonus(0.75f);
-                //手斧
-            } else if (itemstack.isIn(ModItemTags.HATCHET)) {
-                setEntityInteractBonus(0.5f);
-            } else if (itemstack.isIn(ModItemTags.DAGGERS)) {
-                //小刀、匕首
-                setEntityInteractBonus(0.5f);
-            }
-
-        } else if (itemstack.isOf(Items.STICK) || itemstack.isOf(Items.BONE)) {
+        ItemStack itemStack = this.getMainHandStack();
+        if (itemStack.isIn(ModItemTags.SHOVELS)) {
+            //铲子
+            interactionRange = 1.5f + 0.75f;
+        } else if (itemStack.isIn(ModItemTags.PICKAXES)) {
+            //镐子
+            interactionRange = 1.5f + 0.75f;
+        } else if (itemStack.isIn(ModItemTags.AXES)) {
+            //斧子
+            interactionRange = 1.5f + 0.75f;
+        } else if (itemStack.isIn(ModItemTags.SWORDS)) {
+            //剑
+            interactionRange = 1.5f + 1f;
+        } else if (itemStack.isIn(ModItemTags.HOES)) {
+            //锄头
+            interactionRange = 1.5f + 0.75f;
+            //手斧
+        } else if (itemStack.isIn(ModItemTags.HATCHET)) {
+            interactionRange = 1.5f + 0.75f;
+        } else if (itemStack.isIn(ModItemTags.DAGGERS)) {
+            //小刀、匕首
+            interactionRange = 1.5f + 0.5f;
+        }
+        else if (itemStack.isOf(Items.STICK) || itemStack.isOf(Items.BONE)) {
             //木棍和骨头
-            setEntityInteractBonus(0.5f);
+            interactionRange = 1.5f + 0.5f;
         } else {
-//            this.sendMessage(Text.of("这是一个平凡的无法附魔的东西"));
-            setEntityInteractBonus(0f);
+            interactionRange = 1.5f + 0f;
         }
-        //潜行向下看时,增加生物交互距离
+
+
         RegistryKey<World> end = World.END;
+        //潜行向下看时,增加生物交互距离
+        if(this.isSneaking() && this.getPitch()>0)
+            interactionRange += 0.5f;
+        //末地可以摸到末影龙
         if(this.getWorld().getRegistryKey()==end){
-            cir.setReturnValue( 4.5 + entityInteractBonus);
+            interactionRange += 1.5f;
         }
-        else if(this.isSneaking() && this.getPitch()>60)
-            cir.setReturnValue( 3.0 + entityInteractBonus);
-        else{
-            cir.setReturnValue((2.0 + entityInteractBonus));
-        }
+
+//        if(!this.getWorld().isClient)
+//            this.sendMessage(Text.of("你的生物交互距离为"+interactionRange));
+
+        cir.setReturnValue(interactionRange);
+
     }
 
 
@@ -421,7 +425,6 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     public void getBlockBreakingSpeed(BlockState block, CallbackInfoReturnable<Float> cir) {
         cir.cancel();
         this.addExhaustion(0.0005f);
-        this.addExhaustion(555555f);
         ItemStack stack = this.getMainHandStack();
         float f = this.inventory.getBlockBreakingSpeed(block);
         if (f > 1.0F) {
@@ -589,6 +592,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
     @Inject(method = "tick", at = @At("HEAD"))
     public void tick(CallbackInfo ci){
+
         //首日保护
         if(this.getWorld().getTimeOfDay()<24000)
             this.phytonutrient=192000;

@@ -22,6 +22,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
 import static com.equilibrium.event.sound.SoundEventRegistry.*;
+import static com.equilibrium.util.XpHashMap.getXpForLevel;
 import static net.minecraft.entity.effect.StatusEffects.SLOWNESS;
 import static net.minecraft.sound.SoundCategory.HOSTILE;
 
@@ -29,6 +30,17 @@ public class WightEntity extends ZombieEntity{
     //白色食尸鬼,会扣除玩家经验值
     public WightEntity(EntityType<? extends ZombieEntity> entityType, World world) {
         super(entityType, world);
+    }
+
+
+
+
+
+
+
+    @Override
+    protected int getXpToDrop(){
+        return getXpForLevel(2);
     }
 
     @Override

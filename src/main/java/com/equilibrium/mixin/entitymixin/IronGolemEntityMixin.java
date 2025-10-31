@@ -24,14 +24,18 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import static com.equilibrium.util.XpHashMap.getXpForLevel;
+
 @Mixin(IronGolemEntity.class)
 public abstract class IronGolemEntityMixin extends GolemEntity implements Angerable {
     protected IronGolemEntityMixin(EntityType<? extends GolemEntity> entityType, World world) {
         super(entityType, world);
     }
 
-
-
+    @Override
+    public int getXpToDrop(){
+        return getXpForLevel(4);
+    }
 //
     @Inject(method = "createIronGolemAttributes",at = @At("HEAD"), cancellable = true)
     private static void createIronGolemAttributes(CallbackInfoReturnable<DefaultAttributeContainer.Builder> cir) {

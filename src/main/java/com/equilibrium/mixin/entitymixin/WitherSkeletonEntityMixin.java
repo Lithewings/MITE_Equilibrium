@@ -10,11 +10,20 @@ import net.minecraft.registry.tag.EntityTypeTags;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 
+import static com.equilibrium.util.XpHashMap.getXpForLevel;
+
 @Mixin(WitherSkeletonEntity.class)
 public class WitherSkeletonEntityMixin extends HostileEntity {
     protected WitherSkeletonEntityMixin(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
     }
+
+    @Override
+    public int getXpToDrop(){
+        return getXpForLevel(3);
+    }
+
+
 
     @Override
     public boolean isInvulnerableTo(DamageSource damageSource) {

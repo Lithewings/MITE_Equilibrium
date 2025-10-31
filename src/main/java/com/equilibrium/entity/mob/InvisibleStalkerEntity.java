@@ -32,6 +32,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
 import static com.equilibrium.event.sound.SoundEventRegistry.*;
+import static com.equilibrium.util.XpHashMap.getXpForLevel;
 import static net.minecraft.entity.effect.StatusEffects.*;
 
 public class InvisibleStalkerEntity extends ZombieEntity {
@@ -94,6 +95,15 @@ public class InvisibleStalkerEntity extends ZombieEntity {
         }
         return super.canSpawn(world, spawnReason);
     }
+
+
+
+    @Override
+    protected int getXpToDrop(){
+        return getXpForLevel(2);
+    }
+
+
 
 
     @Override
