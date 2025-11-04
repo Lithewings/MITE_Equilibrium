@@ -50,6 +50,9 @@ public class PuddingSlimeEntity extends BaseSlimeEntity{
     }
 
 
+
+
+
     @Override
     protected int getXpToDrop(){
         int i = this.getSize();
@@ -258,8 +261,9 @@ public class PuddingSlimeEntity extends BaseSlimeEntity{
         //只在地下世界发现悬空生成的情况,奇怪
         if(!this.isOnGround()){
             BlockPos pos = findGroundPosition(this.getWorld(),this.getBlockPos());
-            if(pos!=null)
-                this.setPosition(pos.getX(),pos.getY(),pos.getZ());
+            if(pos!=null && world.getLightLevel(pos)<7) {
+                this.setPosition(pos.getX(), pos.getY(), pos.getZ());
+            }
             else
                 return false;
         }

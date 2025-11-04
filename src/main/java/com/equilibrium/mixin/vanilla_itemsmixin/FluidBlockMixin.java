@@ -14,7 +14,9 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
+import net.minecraft.world.WorldEvents;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
@@ -38,12 +40,37 @@ public abstract class FluidBlockMixin extends Block implements FluidDrainable {
     protected FlowableFluid fluid;
 
 
+
+
+    @Unique
+    public void addParticle(World world, BlockPos pos){
+        for (int i = 0; i < 10; i++) {
+            world.addParticle(ParticleTypes.SMOKE,
+                    pos.getX() + 0.5, pos.getY() + 0.8, pos.getZ() + 0.5,
+                    0.05 ,
+                    0.05 ,
+                    0.05
+            );
+        }
+    }
+
+
+
+
     @Override
     public ItemStack tryDrainFluid(@Nullable PlayerEntity player, WorldAccess world, BlockPos pos, BlockState state) {
         //玩家捞
         if(player!=null){
+
+
+
+
+
             //捞源头,是岩浆,玩家没有下蹲
             if(state.get(LEVEL) == 0 && state.isOf(Blocks.LAVA )&& !player.isSneaking()){
+                if(world.isClient()){
+                    addParticle((World)world,pos);
+                }
 
                 if (failToGetLava(player, world, pos)) return ItemStack.EMPTY;
 
@@ -56,6 +83,9 @@ public abstract class FluidBlockMixin extends Block implements FluidDrainable {
             }
             //捞源头,是岩浆,玩家下蹲
             else if ((Integer)state.get(LEVEL) == 0 && state.isOf(Blocks.LAVA) && player.isSneaking()){
+                if(world.isClient()){
+                    addParticle((World)world,pos);
+                }
 
                 if (failToGetLava(player, world, pos)) return ItemStack.EMPTY;
 
@@ -101,7 +131,7 @@ public abstract class FluidBlockMixin extends Block implements FluidDrainable {
 
     @Unique
     private boolean failToGetLava(@NotNull PlayerEntity player, WorldAccess world, BlockPos pos) {
-        if(player.getRandom().nextInt(2)<1){
+        if(player.getRandom().nextInt(100)<8){
             //岩浆烧坏
             if(player.getWorld().isClient){
                 //只是触发动作,无意义

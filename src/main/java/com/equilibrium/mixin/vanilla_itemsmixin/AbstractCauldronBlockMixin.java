@@ -28,9 +28,10 @@ public class AbstractCauldronBlockMixin extends Block {
     protected void onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit, CallbackInfoReturnable<ItemActionResult> cir) {
         //也就只有附魔的桶会被拦截吧,不会有附魔的物品可以与之互动了对吧
         if(player.getMainHandStack().isOf(Items.BUCKET)) {
-            if(!player.getMainHandStack().getEnchantments().isEmpty())
+            if(!player.getMainHandStack().getEnchantments().isEmpty()){
                 player.sendMessage(Text.of("无法与附魔物品交互"), true);
-            cir.setReturnValue(ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION);
+                cir.setReturnValue(ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION);
+            }
         }
     }
 
