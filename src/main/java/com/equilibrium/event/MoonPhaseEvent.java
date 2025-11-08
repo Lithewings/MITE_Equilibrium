@@ -2,6 +2,8 @@ package com.equilibrium.event;
 
 import com.equilibrium.MITEequilibrium;
 import com.equilibrium.util.WorldMoonPhasesSelector;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -25,9 +27,7 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.TypeFilter;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
@@ -318,16 +318,41 @@ public class MoonPhaseEvent {
 
     public static void spawnLighteningNearPlayer(ServerWorld world, PlayerEntity player) {
         Random random = new Random();
-        Vec3d playerPos = player.getPos();
+        BlockPos playerBlockPos = player.getBlockPos();
 
-        double offsetX = (random.nextDouble() - 0.5) * 40.0; // Offset range extended to 40
-        double offsetZ = (random.nextDouble() - 0.5) * 40.0; // Offset range extended to 40
+        int offsetX = (int) ((random.nextDouble() - 0.5) * 40.0); // Offset range extended to 40
+        int offsetZ = (int) ((random.nextDouble() - 0.5) * 40.0); // Offset range extended to 40
 
-        BlockPos spawnPos = new BlockPos((int) (playerPos.x + offsetX), (int) playerPos.y, (int) (playerPos.z + offsetZ));
-        // Find the highest non-air block at the spawn position
-        while (world.isAir(spawnPos) && spawnPos.getY() > 0) {
-            spawnPos = spawnPos.down();
+        //预先就在玩家高度生成
+        BlockPos spawnPos = new BlockPos(playerBlockPos.getX() + offsetX, playerBlockPos.getY(), playerBlockPos.getZ()+offsetZ);
+
+
+        //以下获取玩家头顶方块
+
+        //玩家头顶的高度
+        int y = playerBlockPos.getY();
+
+
+        BlockPos search = playerBlockPos;
+
+
+        while (y < 384) {
+            BlockState state =world.getBlockState(search);
+            //检查玩家头顶方块
+            if (!state.isSolidBlock(world,search)) {
+                //如果找到了第一个屋顶实体方块,则返回,就在这里的高度生成闪电
+                //否则继续向上搜索
+                y++;
+                search=search.up();
+            }
+            else
+                break;
         }
+        //露天
+        if(y==384)
+            y=playerBlockPos.getY();
+
+        //这里确定了闪电的水平高度
 
         LightningEntity lightning = EntityType.LIGHTNING_BOLT.create(world);
         //搜索该位置最近的一个避雷针位置
@@ -337,8 +362,11 @@ public class MoonPhaseEvent {
             if(availableLighteningRod.isPresent())
                 //避雷针处生成闪电,若没有,则在玩家附近生成
                 lightning.refreshPositionAfterTeleport(Vec3d.ofBottomCenter(availableLighteningRod.get()));
-            else
-                lightning.refreshPositionAfterTeleport(Vec3d.ofBottomCenter(spawnPos));
+            else{
+                lightning.refreshPositionAfterTeleport(new Vec3d(spawnPos.getX(),y,spawnPos.getZ()));
+//                player.sendMessage(Text.of("一处闪电生成在了 "+"X :"+spawnPos.getX()+"Y :"+y+"Z :"+spawnPos.getZ()));
+            }
+
             world.spawnEntity(lightning);
         }
 

@@ -1,4 +1,4 @@
-package com.equilibrium.ore_generator;
+package com.equilibrium.structure_generator;
 
 
 import com.mojang.serialization.Codec;

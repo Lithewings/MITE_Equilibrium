@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "age=0": {
+      "model": "miteequilibrium:block/onion_stage0"
+    },
+    "age=1": {
+      "model": "miteequilibrium:block/onion_stage1"
+    },
+    "age=2": {
+      "model": "miteequilibrium:block/onion_stage1"
+    },
+    "age=3": {
+      "model": "miteequilibrium:block/onion_stage2"
+    },
+    "age=4": {
+      "model": "miteequilibrium:block/onion_stage2"
+    },
+    "age=5": {
+      "model": "miteequilibrium:block/onion_stage3"
+    },
+    "age=6": {
+      "model": "miteequilibrium:block/onion_stage3"
+    },
+    "age=7": {
+      "model": "miteequilibrium:block/onion_stage4"
+    }
+  }
+}

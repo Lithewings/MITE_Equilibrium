@@ -17,6 +17,6 @@ public class BeefSoup extends Item {
         super(settings);
     }
 
-    public static final FoodComponent BEEF_SOUP = new FoodComponent(16,20f,false,1.6F, Optional.of(new ItemStack(Items.BOWL)), List.of(new FoodComponent.StatusEffectEntry(new StatusEffectInstance(StatusEffects.STRENGTH,2000),1)));
+    public static final FoodComponent BEEF_SOUP = new FoodComponent(20,20f,false,1.6F, Optional.of(new ItemStack(Items.BOWL)), List.of(new FoodComponent.StatusEffectEntry(new StatusEffectInstance(StatusEffects.STRENGTH,2000),1)));
 
 }

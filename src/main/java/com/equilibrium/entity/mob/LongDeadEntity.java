@@ -98,6 +98,7 @@ public class LongDeadEntity extends ModAbstractSkeletonEntity {
             else
                 return false;
         }
+
         return super.canSpawn(world, spawnReason);
     }
 

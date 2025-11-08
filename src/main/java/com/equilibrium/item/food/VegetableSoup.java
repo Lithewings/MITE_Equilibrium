@@ -15,6 +15,6 @@ public class VegetableSoup extends Item {
         super(settings);
     }
 
-    public static final FoodComponent VEGETABLE_SOUP = new FoodComponent(4,8f,false,1.6F, Optional.of(new ItemStack(Items.BOWL)), List.of());
+    public static final FoodComponent VEGETABLE_SOUP = new FoodComponent(6,8f,false,1.6F, Optional.of(new ItemStack(Items.BOWL)), List.of());
 
 }

@@ -1,5 +1,6 @@
 package com.equilibrium.mixin.crop;
 
+import com.equilibrium.item.ModItems;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -7,6 +8,7 @@ import net.minecraft.block.FarmlandBlock;
 import net.minecraft.client.render.model.BlockStatesLoader;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
@@ -66,8 +68,8 @@ public abstract class FarmlandBlockMixin extends Block {
 //
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-
-        if (player.getStackInHand(Hand.MAIN_HAND).isOf(Items.BONE_MEAL)) {
+        ItemStack itemStack = player.getStackInHand(Hand.MAIN_HAND);
+        if (itemStack.isOf(ModItems.MANURE)) {
             if (!world.isClient) {
                 // 设置施肥状态为 true
 
@@ -75,7 +77,7 @@ public abstract class FarmlandBlockMixin extends Block {
                 // 添加视觉和声音效果
                 world.syncWorldEvent(1505, pos, 0); // 骨粉使用效果
 
-                // 消耗骨粉（非创造模式）
+                // 消耗肥料（非创造模式）
                 if (!player.getAbilities().creativeMode) {
                     player.getStackInHand(Hand.MAIN_HAND).decrement(1);
                 }

@@ -36,17 +36,17 @@ public class BoneMealItemMixin {
             stack.decrement(1);
         }
     }
-    @Inject(method = "useOnBlock",at= @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemUsageContext;getPlayer()Lnet/minecraft/entity/player/PlayerEntity;",ordinal = 0), cancellable = true)
-    private void useOnBlock(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir) {
-        World world = context.getWorld();
-        //考虑情景:骨粉选中农田上的农作物时,对其土地施肥也能生效
-        BlockPos blockPos = context.getBlockPos().down();
-        BlockState state = world.getBlockState(blockPos);
-        //注入的位置,stack数量-1的逻辑已经完成
-        if(state.contains(FERTILIZED) && state.get(FERTILIZED)==false){
-            world.setBlockState(blockPos, state.with(FERTILIZED, true), Block.NOTIFY_ALL);
-        }
-    }
+//    @Inject(method = "useOnBlock",at= @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemUsageContext;getPlayer()Lnet/minecraft/entity/player/PlayerEntity;",ordinal = 0), cancellable = true)
+//    private void useOnBlock(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir) {
+//        World world = context.getWorld();
+//        //考虑情景:骨粉选中农田上的农作物时,对其土地施肥也能生效
+//        BlockPos blockPos = context.getBlockPos().down();
+//        BlockState state = world.getBlockState(blockPos);
+//        //注入的位置,stack数量-1的逻辑已经完成
+//        if(state.contains(FERTILIZED) && state.get(FERTILIZED)==false){
+//            world.setBlockState(blockPos, state.with(FERTILIZED, true), Block.NOTIFY_ALL);
+//        }
+//    }
 
 
 }

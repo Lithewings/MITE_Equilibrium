@@ -27,13 +27,26 @@ public class NewWorldTab extends GridScreenTab {
     private static final Text WORLD_TAB_TITLE_TEXT = Text.translatable("createWorld.tab.world.title");
     private static final Text AMPLIFIED_GENERATOR_INFO_TEXT = Text.translatable("generator.minecraft.amplified.info");
     private static final Text MAP_FEATURES_TEXT = Text.translatable("selectWorld.mapFeatures");
-    private static final Text MAP_FEATURES_INFO_TEXT = Text.translatable("selectWorld.mapFeatures.info");
+    private static final Text MAP_FEATURES_INFO_TEXT = Text.translatable("mod.selectWorld.mapFeatures.info");
     private static final Text BONUS_ITEMS_TEXT = Text.translatable("selectWorld.bonusItems");
+    private static final Text BONUS_ITEMS_INFO_TEXT = Text.translatable("mod.selectWorld.bonusItems");
+
     private static final Text ENTER_SEED_TEXT = Text.translatable("selectWorld.enterSeed");
     static final Text SEED_INFO_TEXT = Text.translatable("mod.selectWorld.seedInfo").formatted(Formatting.DARK_GRAY);
     private static final int field_42190 = 310;
     private final TextFieldWidget seedField;
     private final ButtonWidget customizeButton;
+
+
+    public static boolean alwaysTrue() {
+        return true;
+    }
+    public static boolean alwaysFalse() {
+        return false;
+    }
+
+
+
 
     public NewWorldTab(CreateWorldScreen createWorldScreen, TextRenderer textRenderer) {
         super(WORLD_TAB_TITLE_TEXT);
@@ -61,13 +74,24 @@ public class NewWorldTab extends GridScreenTab {
 
         adder.add(LayoutWidgets.createLabeledWidget(textRenderer, this.seedField, ENTER_SEED_TEXT), 2);
         WorldScreenOptionGrid.Builder builder = WorldScreenOptionGrid.builder(310);
+        //我可以保证这个屏幕只会在非调试模式下使用,奖励箱无论何时一定生成;结构也一定会生成,默认在所有模式下都生成结构,调式模式下不调用这个屏幕
         builder.add(MAP_FEATURES_TEXT, createWorldScreen.worldCreator::shouldGenerateStructures, createWorldScreen.worldCreator::setGenerateStructures)
-                .toggleable(() -> !createWorldScreen.worldCreator.isDebug())
+                .toggleable(()->false)
                 .tooltip(MAP_FEATURES_INFO_TEXT);
-        builder.add(BONUS_ITEMS_TEXT, createWorldScreen.worldCreator::isBonusChestEnabled, createWorldScreen.worldCreator::setBonusChestEnabled)
-                .toggleable(() -> false);
-        WorldScreenOptionGrid worldScreenOptionGrid = builder.build(widget -> adder.add(widget, 2));
+        builder.add(BONUS_ITEMS_TEXT, NewWorldTab::alwaysTrue, null)
+                .toggleable(() -> false)
+                .tooltip(BONUS_ITEMS_INFO_TEXT);
+        createWorldScreen.worldCreator.setBonusChestEnabled(true);
+        WorldScreenOptionGrid worldScreenOptionGrid = builder.build(widget ->
+            adder.add(widget, 2)
+        );
+
+
+
+
         createWorldScreen.worldCreator.addListener(creator -> worldScreenOptionGrid.refresh());
+
+
     }
 
     private void openCustomizeScreen(CreateWorldScreen createWorldScreen) {

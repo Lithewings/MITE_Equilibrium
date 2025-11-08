@@ -40,7 +40,7 @@ public class ModItemGroup {
 
     //金属栏
     public static final ItemGroup modIngots = Registry.register(Registries.ITEM_GROUP, Identifier.of(MITEequilibrium.MOD_ID,"metalgroup"),
-            FabricItemGroup.builder().displayName(Text.of("Metal Craft"))
+            FabricItemGroup.builder().displayName(Text.of("Mod Craft"))
                     .icon(()->new ItemStack(Metal.adamantium)).entries((displayContext, entries) ->
                             {
                                 entries.add(Metal.adamantium);
@@ -147,7 +147,9 @@ public class ModItemGroup {
                                 entries.add(FoodItems.WATER_BOWL);
                                 entries.add(FoodItems.VEGETABLE_SOUP);
                                 entries.add(FoodItems.BEEF_SOUP);
+                                entries.add(FoodItems.ONION);
                                 entries.add(ModBlocks.EMERALD_ENCHANTING_TABLE);
+                                entries.add(ModItems.MANURE);
                             }
                     ).build());
 

@@ -1,4 +1,4 @@
-package com.equilibrium.ore_generator;
+package com.equilibrium.structure_generator;
 
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.minecraft.registry.RegistryKey;

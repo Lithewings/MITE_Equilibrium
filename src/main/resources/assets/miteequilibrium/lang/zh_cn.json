@@ -1,18 +1,31 @@
+
 {
 
 
+
+
+  "next_respawn": "距离下次可用的重生还有: ",
+  "mod.first_day.helloWorld": "在你的附近寻找箱子,取出其中的物品",
+  "mod_death_text": "不必冒险，你有无限次重来的机会，这个世界永远等待着你",
 
   "mod.selectWorld.seedInfo":"让随机数决定这些",
   "mod.options.difficulty.easy.info": "敌对生物会生成但造成较少伤害。饥饿条耗尽时会消耗生命值。",
   "mod.options.difficulty.normal.info": "敌对生物会生成并造成标准伤害。饥饿条耗尽时会消耗生命值。",
   "mod.options.difficulty.hard.info": "敌对生物会生成并造成更多伤害。饥饿条耗尽时会消耗生命值。",
 
-
-
+  "mod.selectWorld.mapFeatures.info": "这是完成主要流程的必需选项",
+  "mod.selectWorld.bonusItems": "用于生成触发初始成就的物品",
 
   "item.miteequilibrium.beef_soup": "牛肉汤",
   "item.miteequilibrium.vegetable_soup": "蔬菜汤",
   "item.miteequilibrium.bowl_water": "一碗水",
+
+  "item.miteequilibrium.onion": "洋葱",
+
+  "item.miteequilibrium.manure": "肥料",
+
+
+
 
   "block.miteequilibrium.emerald_enchanting_table": "绿宝石附魔台",
 

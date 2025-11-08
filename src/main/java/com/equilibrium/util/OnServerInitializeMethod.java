@@ -33,7 +33,9 @@ public class OnServerInitializeMethod {
         return false;
     }
 
-
+    public static boolean alwaysTrue() {
+        return true;
+    }
 
 
     public static void doNothing() {

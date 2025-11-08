@@ -1,13 +1,16 @@
 package com.equilibrium.block;
 
 
+import com.equilibrium.block.crop.OnionBlock;
 import com.equilibrium.block.enchanting_table.EmeraldEnchantingTableBlock;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.NoteBlockInstrument;
+import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 
 import static com.equilibrium.MITEequilibrium.MOD_ID;
@@ -19,6 +22,15 @@ public class ModBlocks {
 
 
 
+    public static final Block ONION_BLOCK = new OnionBlock(
+                    AbstractBlock.Settings.create()
+                            .mapColor(MapColor.DARK_GREEN)
+                            .noCollision()
+                            .ticksRandomly()
+                            .breakInstantly()
+                            .sounds(BlockSoundGroup.CROP)
+                            .pistonBehavior(PistonBehavior.DESTROY)
+    );
 
 
     public static final Block EMERALD_ENCHANTING_TABLE = new EmeraldEnchantingTableBlock(AbstractBlock.Settings.create().mapColor(MapColor.RED).instrument(NoteBlockInstrument.BASEDRUM).luminance(state->7).strength(0.2F, 1200.0F).nonOpaque());
@@ -67,6 +79,15 @@ public class ModBlocks {
 //                            .pistonBehavior(PistonBehavior.BLOCK)
 //            );
     public static void registerModBlocks(){
+
+
+        Registry.register(Registries.BLOCK, Identifier.of(MOD_ID, "onion"),ONION_BLOCK);
+
+
+
+
+
+
         Registry.register(Registries.BLOCK, Identifier.of(MOD_ID, "emerald_enchanting_table"), EMERALD_ENCHANTING_TABLE);
         Registry.register(Registries.ITEM, Identifier.of(MOD_ID, "emerald_enchanting_table"), new BlockItem(EMERALD_ENCHANTING_TABLE, new Item.Settings()));
 

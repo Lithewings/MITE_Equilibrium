@@ -9,12 +9,10 @@ import com.equilibrium.event.BreakBlockEvent;
 import com.equilibrium.event.CraftingMetalPickAxeCallback;
 import com.equilibrium.item.*;
 import com.equilibrium.persistent_state.StateSaverAndLoader;
-import com.equilibrium.tags.ModItemTags;
 import com.equilibrium.util.XpHashMap;
 import com.equilibrium.util.OnServerInitializeMethod;
 import com.mojang.brigadier.CommandDispatcher;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -37,7 +35,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
@@ -66,6 +63,7 @@ import static com.equilibrium.enchantments.EnchantmentsCodec.registerAllOfEnchan
 import static com.equilibrium.entity.ModEntities.registerModEntities;
 
 
+import static com.equilibrium.entity.mob.ModEntityTypes.modEntityTypeRegister;
 import static com.equilibrium.event.MoonPhaseEvent.*;
 import static com.equilibrium.event.MoonPhaseEvent.RandomTickModifier;
 import static com.equilibrium.event.sound.SoundEventRegistry.registrySoundEvents;
@@ -75,12 +73,13 @@ import static com.equilibrium.item.extend_item.CoinItems.registerCoinItems;
 import static com.equilibrium.item.food.FoodItems.registerFoodItems;
 import static com.equilibrium.item.food.ItemComponentModifier.foodComponentModify;
 import static com.equilibrium.item.food.WaterBowl.vanillaBowlItemUse;
+import static com.equilibrium.structure_generator.ModPlacementGenerator.*;
 import static com.equilibrium.status.registerStatusEffect.registerStatusEffects;
+import static com.equilibrium.structure_generator.StructureRegister.registerStructure;
 import static com.equilibrium.tags.ModBlockTags.registerModBlockTags;
 import static com.equilibrium.tags.ModItemTags.registerModItemTags;
 
 
-import static com.equilibrium.ore_generator.ModPlacementGenerator.registerModOre;
 import static com.equilibrium.util.OnServerInitializeMethod.onUseCrystalItem;
 
 
@@ -180,7 +179,7 @@ public class MITEequilibrium implements ModInitializer {
 
             @Override
             public String getName() {
-                return "MITE:Equilibrium Beta v1.0.6";
+                return "MITE:Equilibrium Beta v1.0.7";
             }
 
             @Override
@@ -190,7 +189,7 @@ public class MITEequilibrium implements ModInitializer {
 
             @Override
             public int getResourceVersion(ResourceType type) {
-                return 106;
+                return 34;
             }
 
             @Override
@@ -203,6 +202,19 @@ public class MITEequilibrium implements ModInitializer {
                 return true;
             }
         };
+
+
+
+
+
+
+
+//        BiomeModifications.addFeature(
+//                BiomeSelectors.all(),
+//                GenerationStep.Feature.UNDERGROUND_STRUCTURES, // 生成阶段
+//                MONSTER_ROOM_PLACE // 使用你的 RegistryKey
+//        );
+
 
 
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
@@ -404,31 +416,7 @@ public class MITEequilibrium implements ModInitializer {
         //不能和数据生成一起使用
 
 
-        ItemTooltipCallback.EVENT.register((stack, context, type, lines) -> {
-            // 判断物品是青金石（Lapis Lazuli）或其他物品
-            if (stack.getItem() == Items.LAPIS_LAZULI) {
-                lines.add(Text.literal("25XP").formatted(Formatting.DARK_GRAY));
-            }
-            if (stack.getItem() == Items.QUARTZ) {
-                lines.add(Text.literal("50XP").formatted(Formatting.DARK_GRAY));
-            }
-            if (stack.getItem() == Items.DIAMOND) {
-                lines.add(Text.literal("500XP").formatted(Formatting.DARK_GRAY));
-            }
-            if (stack.getItem() == Items.EMERALD) {
-                lines.add(Text.literal("250XP").formatted(Formatting.DARK_GRAY));
-            }
-            if (stack.getItem() == Items.ENCHANTED_GOLDEN_APPLE) {
-                lines.add(Text.literal("Regeneration II（00:40）").formatted(Formatting.BLUE));
-                lines.add(Text.literal("Fire Resistance（00:40）").formatted(Formatting.BLUE));
-            }
-            if (stack.getItem() == Items.GOLDEN_APPLE) {
-                lines.add(Text.literal("Regeneration I（00:20）").formatted(Formatting.BLUE));
-            }
-            if (stack.getItem() == Armors.MITHRIL_CHEST_PLATE) {
-                lines.add(Text.literal("Regeneration: Doubles the natural health recovery rate").formatted(Formatting.BLUE));
-            }
-        });
+
 //
 //
 //
@@ -436,8 +424,10 @@ public class MITEequilibrium implements ModInitializer {
 //
 //
 //		});
-
-
+        //结构注册
+        registerStructure();
+        //生物类型注册
+        modEntityTypeRegister();
         //食物修改
         foodComponentModify();
 
@@ -495,8 +485,8 @@ public class MITEequilibrium implements ModInitializer {
         registerArmors();
         //物品栏添加
         ModItemGroup.registerModItemGroup();
-        //物品添加测试
-        ModItems.registerModItemTest();
+        //模组杂项物品添加
+        ModItems.registerModItems();
         //方块添加测试
         ModBlocks.registerModBlocks();
         //以下开始正式添加物品:

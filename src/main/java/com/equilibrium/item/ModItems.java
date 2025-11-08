@@ -1,13 +1,15 @@
 package com.equilibrium.item;
 
 
-import net.minecraft.component.type.FoodComponents;
+import com.equilibrium.item.food.ManureItem;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
 import static com.equilibrium.MITEequilibrium.MOD_ID;
+import static com.equilibrium.block.ModBlocks.ONION_BLOCK;
 
 public class ModItems {
     //Add a “test” Item
@@ -22,6 +24,7 @@ public class ModItems {
 
 
 
+    public static final Item MANURE = new ManureItem(new Item.Settings().maxCount(64));
 
 
 
@@ -48,8 +51,7 @@ public class ModItems {
 
 
 
-
-    public static void registerModItemTest() {
+    public static void registerModItems() {
         Registry.register(Registries.ITEM, Identifier.of(MOD_ID,"test"), test);
         //give @s miteequilibrium:test以获取该物品
         //注册名必须小写
@@ -58,8 +60,7 @@ public class ModItems {
 
         Registry.register(Registries.ITEM, Identifier.of(MOD_ID,"pudding_slime_ball"), PUDDING_SLIME_BALL);
 
-
-
+        Registry.register(Registries.ITEM, Identifier.of(MOD_ID,"manure"), MANURE);
 
 
 

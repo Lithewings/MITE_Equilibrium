@@ -64,28 +64,9 @@ public abstract class PlayerManagerMixin {
 
         serverState = StateSaverAndLoader.getServerState(this.server);
         if (serverState.onFirstInTheWorld) {
-
             //只触发一次
             serverState.onFirstInTheWorld = false;
-            player.sendMessage(Text.literal("在你的附近寻找箱子,取走物品以解锁成就栏").formatted(Formatting.YELLOW));
-            World world = player.getWorld();
-            BlockPos spawnPos = player.getWorld().getSpawnPos();
-            StatusEffectInstance boost = new StatusEffectInstance(StatusEffects.SATURATION, 24000, 0, false, false, true);
-            // 在出生点放置箱子
-            world.setBlockState(spawnPos, Blocks.CHEST.getDefaultState());
-            // 在箱子内放入一个望远镜
-            if (world.getBlockEntity(spawnPos) instanceof ChestBlockEntity chest) {
-                chest.setStack(0, new ItemStack(Items.SPYGLASS, 1));
-            }
-            // 在箱子旁边放置火把
-            world.setBlockState(spawnPos.add(1, 0, 0), Blocks.TORCH.getDefaultState());
-            world.setBlockState(spawnPos.add(0, 0, 1), Blocks.TORCH.getDefaultState());
-            world.setBlockState(spawnPos.add(-1, 0, 0), Blocks.TORCH.getDefaultState());
-            world.setBlockState(spawnPos.add(0, 0, -1), Blocks.TORCH.getDefaultState());
-
-            StatusEffectUtil.addEffectToPlayersWithinDistance((ServerWorld) player.getWorld(), player, player.getPos(), 4, boost, 24000);
-
-
+            player.sendMessage(Text.translatable("mod.first_day.helloWorld").formatted(Formatting.YELLOW));
         }
 
 
