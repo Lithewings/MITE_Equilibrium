@@ -27,7 +27,6 @@ public abstract class AnimalEntityMixin extends PassiveEntity {
     public void tickMovement() {
         super.tickMovement();
         if (!this.getWorld().isClient && this.isAlive() && !this.isBaby() && --this.itemLayTime <= 0) {
-            this.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
             //肥料制造机器
             this.dropItem(ModItems.MANURE);
             this.emitGameEvent(GameEvent.ENTITY_PLACE);

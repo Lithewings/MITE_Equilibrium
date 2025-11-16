@@ -21,7 +21,7 @@ public class FoodItems {
     public static final Item WATER_BOWL= new WaterBowl(new Item.Settings().maxCount(16));
     public static final Item BEEF_SOUP= new BeefSoup(new Item.Settings().food(BeefSoup.BEEF_SOUP).maxCount(16));
     public static final Item VEGETABLE_SOUP = new BeefSoup(new Item.Settings().food(VegetableSoup.VEGETABLE_SOUP).maxCount(16));
-    public static final Item ONION = new AliasedBlockItem(ModBlocks.ONION_BLOCK,new Item.Settings().food(new FoodComponent(1,1f,false,1.6F,Optional.empty(), List.of())).maxCount(16));
+    public static final Item ONION = new AliasedBlockItem(ModBlocks.ONION_BLOCK,new Item.Settings().food(new FoodComponent(1,1f,false,1.6F,Optional.empty(), List.of())).maxCount(32));
 
     public static void registerFoodItems() {
         Registry.register(Registries.ITEM, Identifier.of(MOD_ID,"pumpkin_soup"), PUMPKIN_SOUP);

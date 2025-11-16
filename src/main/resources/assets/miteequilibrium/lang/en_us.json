@@ -220,6 +220,6 @@
   "container.obsidian_furnace": "Obsidian Furnace",
   "crafttime.join_info": "Crafttable and Dnchantment tablecan be synthesized on low-level workbench.",
   "crafttime.group": "Craft Time",
-  "effect.miteequilibrium.phytonutrient": "phytonutrient",
+  "effect.miteequilibrium.phytonutrient": "Malnutrition",
   "item.effect.miteequilibrium.sub_night_vision": "Nightvision Potion(cold brew)"
 }

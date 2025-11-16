@@ -36,7 +36,7 @@ public abstract  class AnvilScreenHandlerMixin extends ForgingScreenHandler {
     //最大200级就可以无限回复耐久了
     @Inject(method = "getNextCost",at = @At("HEAD"), cancellable = true)
     private static void getNextCost(int cost, CallbackInfoReturnable<Integer> cir) {
-        cir.setReturnValue ((int)Math.min((long)cost * 2L + 1L, 199));
+        cir.setReturnValue ((int)Math.min((long)cost * 2L + 1L, 49));
     }
 
 

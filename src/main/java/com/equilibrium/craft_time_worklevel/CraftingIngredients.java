@@ -1,8 +1,28 @@
 package com.equilibrium.craft_time_worklevel;
 
+import com.equilibrium.craft_time_register.BlockInit;
+import net.minecraft.block.Block;
+
 import java.util.HashMap;
+import java.util.Map;
 
 public class CraftingIngredients {
+
+
+    public static Map<Block, Integer> TABLE_LEVELS = Map.of(
+            BlockInit.FLINT_CRAFTING_TABLE, 1,
+            BlockInit.COPPER_CRAFTING_TABLE, 2,
+            BlockInit.IRON_CRAFTING_TABLE, 3,
+            BlockInit.DIAMOND_CRAFTING_TABLE, 4,
+            BlockInit.NETHERITE_CRAFTING_TABLE, 5
+    );
+
+
+
+
+
+
+
 
 //    public static HashMap<Item, CraftingIngredient> ingredients = new HashMap<>();
 //    public static HashMap<Material, CraftingIngredient> block_ingredients = new HashMap<>();

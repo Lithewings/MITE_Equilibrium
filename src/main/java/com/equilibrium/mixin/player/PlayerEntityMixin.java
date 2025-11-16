@@ -24,6 +24,7 @@ import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonPart;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffectUtil;
 import net.minecraft.entity.effect.StatusEffects;
@@ -40,6 +41,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.Potions;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
@@ -590,14 +592,16 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
 
 
+
     @Inject(method = "tick", at = @At("HEAD"))
     public void tick(CallbackInfo ci){
 
         //首日保护
-        if(this.getWorld().getTimeOfDay()<24000)
-            this.phytonutrient=192000;
-
-
+        if(this.getWorld().getTimeOfDay()<24000) {
+            this.phytonutrient = 192000;
+            if(!this.hasStatusEffect(StatusEffects.SATURATION))
+                this.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 24000, 0, false, false, true));
+        }
 
 
 

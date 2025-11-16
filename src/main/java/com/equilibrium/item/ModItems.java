@@ -24,7 +24,7 @@ public class ModItems {
 
 
 
-    public static final Item MANURE = new ManureItem(new Item.Settings().maxCount(64));
+    public static final Item MANURE = new ManureItem(new Item.Settings().maxCount(32));
 
 
 

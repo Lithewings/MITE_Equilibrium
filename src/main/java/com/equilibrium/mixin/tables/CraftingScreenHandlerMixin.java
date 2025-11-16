@@ -2,29 +2,44 @@ package com.equilibrium.mixin.tables;
 
 
 import com.equilibrium.craft_time_register.BlockInit;
+import com.equilibrium.item.Metal;
 import com.equilibrium.item.Tools;
 import com.equilibrium.item.extend_item.CoinItems;
+import com.equilibrium.item.tools_attribute.ModToolMaterials;
+import com.equilibrium.item.tools_attribute.metal.MetalPickAxe;
+import com.equilibrium.network.C2SClickTimesPacket;
 import com.equilibrium.tags.ModItemTags;
+import net.minecraft.block.Block;
 import net.minecraft.block.CraftingTableBlock;
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.NbtComponent;
 import net.minecraft.component.type.PotionContentsComponent;
+import net.minecraft.component.type.ToolComponent;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.CraftingResultInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.RecipeInputInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.ScreenHandlerSlotUpdateS2CPacket;
 import net.minecraft.recipe.CraftingRecipe;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.input.CraftingRecipeInput;
 import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.screen.*;
+import net.minecraft.screen.slot.Slot;
+import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
+import net.minecraft.util.ClickType;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
@@ -34,6 +49,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.*;
+
+import static com.equilibrium.craft_time_worklevel.CraftingIngredients.TABLE_LEVELS;
+
 
 @Mixin(CraftingScreenHandler.class)
 public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHandler<CraftingRecipeInput, CraftingRecipe> {
@@ -76,31 +94,20 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 
 
 
-
-
-
 	@Inject(method = "onContentChanged",at = @At(value = "HEAD"), cancellable = true)
 	public void onContentChanged(Inventory inventory, CallbackInfo ci) {
 		ci.cancel();
-		this.result.clear();
+
+//		this.result.clear();
 
 		if (!this.filling) {
 			this.context.run((world, pos) -> {
 
+
+				Block currentBlock = world.getBlockState(pos).getBlock();
 				//确定合成台的合成等级
-				int craftTableLevel = 0;
-				if (world.getBlockState(pos).getBlock() == BlockInit.FLINT_CRAFTING_TABLE) {
-					craftTableLevel = 1;
-				} else if (world.getBlockState(pos).getBlock() == BlockInit.COPPER_CRAFTING_TABLE) {
-					craftTableLevel = 2;
-				} else if (world.getBlockState(pos).getBlock() == BlockInit.IRON_CRAFTING_TABLE) {
-					craftTableLevel = 3;
-				} else if (world.getBlockState(pos).getBlock() == BlockInit.DIAMOND_CRAFTING_TABLE) {
-					craftTableLevel = 4;
-				} else if (world.getBlockState(pos).getBlock() == BlockInit.NETHERITE_CRAFTING_TABLE) {
-					craftTableLevel = 5;
-				} else
-					craftTableLevel = 0;
+				int craftTableLevel = TABLE_LEVELS.getOrDefault(currentBlock, 0);
+
 
 
 				//确定9个输入物品的合成等级
@@ -110,7 +117,6 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 				for (int i = 0; i < 10; i++) {
 					int craftLevel = 0;
 					ItemStack itemStack = this.input.getStack(i);
-					//this.player.sendMessage(Text.of((itemStack).toString()));
 					if (itemStack.isIn(ModItemTags.CRAFT_LEVEL1))
 						craftLevel = 1;
 					else if (itemStack.isIn(ModItemTags.CRAFT_LEVEL2))
@@ -141,12 +147,11 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 
 
 				if(isLevelValid){
+					updateResult(this, world, this.player, this.input, this.result, (RecipeEntry) null);
 				}
 				else
 					return;
 
-
-				updateResult(this, world, this.player, this.input, this.result, (RecipeEntry) null);
 //				this.player.sendMessage(this.result.getStack(0).getName());
 			});
 		}
@@ -192,10 +197,6 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 
 
 
-
-
-
-
 	@Unique
 	//根据混合的颜色,来判断是何种药水,然后施加自定义属性
 	private static ItemStack potion(int color) {
@@ -219,13 +220,20 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 		return potionMap.getOrDefault(color, ItemStack.EMPTY);
 	}
 
-
+//
+//	@Override
+//	public void onSlotClick(int slotIndex, int button, SlotActionType actionType, PlayerEntity player) {
+//		super.onSlotClick(slotIndex, button, actionType, player);
+//	}
 
 	@Inject(method = "updateResult",at = @At(value = "HEAD"),cancellable = true)
 	private static void updateResults(
 			ScreenHandler handler, World world, PlayerEntity player, RecipeInputInventory craftingInventory, CraftingResultInventory resultInventory, @Nullable RecipeEntry<CraftingRecipe> recipe, CallbackInfo ci
 	) {
 		ci.cancel();
+
+
+
 		if (!world.isClient) {
 			CraftingRecipeInput craftingRecipeInput = craftingInventory.createRecipeInput();
 			ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity)player;
@@ -241,6 +249,10 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 					}
 				}
 			}
+
+
+
+
 			//合成表过滤器,按照物品频率排序
 
 
@@ -258,13 +270,9 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 			};
 
 
-
-
-
-
 			//金苹果至少需要200xp才能合成
-			if(itemStack.isOf(Items.GOLDEN_APPLE) && player.totalExperience<200 && !player.isCreative())
-				itemStack = ItemStack.EMPTY;
+//			if(itemStack.isOf(Items.GOLDEN_APPLE) && player.totalExperience<200 && !player.isCreative())
+//				itemStack = ItemStack.EMPTY;
 
 
 			//铜硬币至少需要足额经验才能合成
@@ -313,12 +321,44 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 				if(itemStack.isOf(Items.GOLDEN_SWORD))
 					itemStack = Tools.GOLD_SWORD.getDefaultStack();
 			}
-			if(itemStack.isIn(ModItemTags.PICKAXES)){
-				if(itemStack.isOf(Items.IRON_PICKAXE))
+
+			if (itemStack.isIn(ModItemTags.PICKAXES)) {
+
+				if (itemStack.isOf(Items.IRON_PICKAXE)) {
 					itemStack = Tools.IRON_PICKAXE.getDefaultStack();
 
-				if(itemStack.isOf(Items.GOLDEN_PICKAXE))
+
+				}
+				if (itemStack.isOf(Items.GOLDEN_PICKAXE)) {
 					itemStack = Tools.GOLD_PICKAXE.getDefaultStack();
+
+				}
+				int clickTimes = C2SClickTimesPacket.getClickTimes(player);
+
+				MetalPickAxe metalPickAxe = (MetalPickAxe) itemStack.getItem();
+				int maxDurabilityBoost = Math.min(metalPickAxe.maxPlayerDurabilityBoost(player),4);
+
+				int function = clickTimes % (maxDurabilityBoost+1);
+
+				//7200经验,可供强化3次
+				//右键0次,输出0%(3+1)=0等级
+				//右键1次,输出1%(3+1)=1等级
+				//右键2次,输出2%(3+1)=2等级
+				//右键3次,输出3%(3+1)=3等级
+				//右键4次,输出4%(3+1)=0等级
+
+
+
+
+
+
+
+				NbtCompound nbt = new NbtCompound();
+				nbt.putInt("DurabilityLevel", function);
+				itemStack.set(DataComponentTypes.CUSTOM_DATA, NbtComponent.of(nbt));
+				int maxDamage = (int) (itemStack.getMaxDamage() * (1 + 0.5f * function));
+				itemStack.set(DataComponentTypes.MAX_DAMAGE, maxDamage);
+
 			}
 
 

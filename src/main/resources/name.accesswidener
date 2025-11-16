@@ -1,4 +1,13 @@
 accessWidener v1 named
+
+
+
+
+accessible field net/minecraft/screen/CraftingScreenHandler result Lnet/minecraft/inventory/CraftingResultInventory;
+
+accessible field net/minecraft/screen/CraftingScreenHandler input Lnet/minecraft/inventory/RecipeInputInventory;
+
+
 accessible method net/minecraft/world/gen/feature/Feature register (Ljava/lang/String;Lnet/minecraft/world/gen/feature/Feature;)Lnet/minecraft/world/gen/feature/Feature;
 accessible method net/minecraft/client/gui/screen/Screen setInitialFocus (Lnet/minecraft/client/gui/Element;)V
 accessible class net/minecraft/client/gui/screen/world/WorldScreenOptionGrid

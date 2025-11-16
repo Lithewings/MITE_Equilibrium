@@ -1,15 +1,24 @@
 package com.equilibrium.mixin.crafttime;
 
 import com.equilibrium.ITimeCraftPlayer;
-import com.equilibrium.MITEequilibrium;
+import com.equilibrium.item.Metal;
+import com.equilibrium.item.ModItems;
+import com.equilibrium.item.tools_attribute.metal.MetalPickAxe;
+import com.equilibrium.network.C2SClickTimesPacket;
+import com.equilibrium.network.C2STriggerContentChangePacket;
 import com.equilibrium.util.CraftingDifficultyHelper;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.CraftingScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.client.gui.screen.ingame.InventoryScreen;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.NbtComponent;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.CraftingScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
@@ -17,6 +26,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -27,6 +37,7 @@ import java.util.ArrayList;
 @Mixin(CraftingScreen.class)
 public abstract class MixinCraftingScreen extends HandledScreen<CraftingScreenHandler> {
 
+	@Shadow protected abstract void onMouseClick(Slot slot, int slotId, int button, SlotActionType actionType);
 
 	@Unique
 	private ITimeCraftPlayer player;
@@ -45,6 +56,7 @@ public abstract class MixinCraftingScreen extends HandledScreen<CraftingScreenHa
 		if (keyCode != GLFW.GLFW_KEY_LEFT_SHIFT && this.shouldCloseOnEsc()) {
 			//一旦中途退出,就失去所有进度渲染
 			player.craftTime$setCraftTime(0);
+			C2SClickTimesPacket.sendClickTimes(0);
 			this.close();
 			return true;
 		}else{
@@ -78,7 +90,10 @@ public abstract class MixinCraftingScreen extends HandledScreen<CraftingScreenHa
 		}
 
 
+
+
 	}
+
 
 
 	@Inject(method = "handledScreenTick", at = @At("TAIL"))
@@ -87,28 +102,76 @@ public abstract class MixinCraftingScreen extends HandledScreen<CraftingScreenHa
 		assert this.client != null;
 		this.player = (ITimeCraftPlayer) this.client.player;
 		ItemStack resultStack = this.handler.getSlot(0).getStack();
+//		if(resultStack==ItemStack.EMPTY)
+//			//恢复默认值
+//			this.toolDurabilityLevel =0;
+
 		boolean finished = player.craftTime$tick(resultStack);
 
+//		if (resultStack.getItem() instanceof MetalPickAxe metalPickAxe) {
+//			nbt.putInt("DurabilityLevel", toolDurabilityLevel);
+//			resultStack.set(DataComponentTypes.CUSTOM_DATA,NbtComponent.of(nbt));
+//
+//		}
+
+
 		if (finished) {
+			C2SClickTimesPacket.sendClickTimes(0);
+			super.onMouseClick(this.handler.getSlot(0), 0, 0, SlotActionType.THROW);
+//			this.getScreenHandler().result.setStack(0,resultStack);
 
 			ArrayList<Item> old_recipe = CraftingDifficultyHelper.getItemFromMatrix(this.handler, true);
 
 			//---------------------------------------------------------
-			super.onMouseClick(this.handler.getSlot(0), 0, 0, SlotActionType.THROW);
+
 
 			ArrayList<Item> new_recipe = CraftingDifficultyHelper.getItemFromMatrix(this.handler, true);
 
 			if (old_recipe.equals(new_recipe) )
 				player.craftTime$setCraftPeriod(CraftingDifficultyHelper.getCraftingDifficultyFromMatrix(this.handler, true,this));
-			else
+			else {
 				player.craftTime$stopCraft();
 
+			}
 		}
 	}
 
+//	@Inject(method = "mouseClicked", at = @At("TAIL"), cancellable = true)
+//	public void mouseClicked(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
+//		//button = 0 : leftClick
+//		//button = 1 : rightClick
+//		if(button==1){
+//			this.durabilityLevel = 1;
+//			cir.setReturnValue(false);
+//		}
+//	}
+
+
+
+
+
+	int time = 0;
+
 	@Inject(method = "onMouseClick", at = @At("HEAD"), cancellable = true)
 	public void timecraft$onMouseClick(Slot slot, int invSlot, int clickData, SlotActionType actionType,
-			CallbackInfo info) {
+			CallbackInfo ci) {
+
+		//slot = null时,会触发invSlot=-999index越界错,说明鼠标点击的位置没有slot可用
+
+		if(invSlot == 0 && clickData==1){
+			//右键只会改变配方,不会合成
+			time++;
+
+			//服务端处理,真实逻辑处理
+			C2SClickTimesPacket.sendClickTimes(time);
+			C2STriggerContentChangePacket.sendTrigger();
+			player.craftTime$setCraftTime(0);
+			player.craftTime$setCrafting(false);
+			ci.cancel();
+		}
+
+
+
 		if (slot != null) {
 			invSlot = slot.id;
 		}
@@ -116,13 +179,15 @@ public abstract class MixinCraftingScreen extends HandledScreen<CraftingScreenHa
 			player.craftTime$setCraftTime(0);
 			player.craftTime$setCrafting(false);
 		}
-		if (invSlot == 0) {
+		if (invSlot == 0 &&  clickData==0) {
 			if (!player.craftTime$isCrafting() ) {
-
 				player.craftTime$startCraftWithNewPeriod(CraftingDifficultyHelper.getCraftingDifficultyFromMatrix(this.handler, true,this));
+
+
 			}
 
-			info.cancel();
+			ci.cancel();
 		}
+
 	}
 }

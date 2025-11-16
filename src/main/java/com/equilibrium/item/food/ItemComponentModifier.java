@@ -55,7 +55,7 @@ public class ItemComponentModifier {
                 FoodComponent food = entry.getValue();
                 context.modify(item, builder -> {
                     builder.add(DataComponentTypes.FOOD, food);
-                    System.out.println("Modify: " + Registries.ITEM.getId(item) + " attributes");
+//                    System.out.println("Modify: " + Registries.ITEM.getId(item) + " attributes");
                 });
             }
         });

@@ -8,6 +8,8 @@ import com.equilibrium.entity.goal.BreakBlockGoal;
 import com.equilibrium.event.BreakBlockEvent;
 import com.equilibrium.event.CraftingMetalPickAxeCallback;
 import com.equilibrium.item.*;
+import com.equilibrium.network.C2SClickTimesPacket;
+import com.equilibrium.network.C2STriggerContentChangePacket;
 import com.equilibrium.persistent_state.StateSaverAndLoader;
 import com.equilibrium.util.XpHashMap;
 import com.equilibrium.util.OnServerInitializeMethod;
@@ -64,6 +66,7 @@ import static com.equilibrium.entity.ModEntities.registerModEntities;
 
 
 import static com.equilibrium.entity.mob.ModEntityTypes.modEntityTypeRegister;
+import static com.equilibrium.entity.mob.ModSpawnRestriction.setModSpawnRestriction;
 import static com.equilibrium.event.MoonPhaseEvent.*;
 import static com.equilibrium.event.MoonPhaseEvent.RandomTickModifier;
 import static com.equilibrium.event.sound.SoundEventRegistry.registrySoundEvents;
@@ -179,7 +182,7 @@ public class MITEequilibrium implements ModInitializer {
 
             @Override
             public String getName() {
-                return "MITE:Equilibrium Beta v1.0.7";
+                return "MITE:Equilibrium Beta v1.0.7_1";
             }
 
             @Override
@@ -430,9 +433,18 @@ public class MITEequilibrium implements ModInitializer {
         modEntityTypeRegister();
         //食物修改
         foodComponentModify();
-
+        //生成限制
+        setModSpawnRestriction();
         //xp映射表
         initXpMap();
+
+
+        //网络服务
+        C2SClickTimesPacket.register();
+        C2STriggerContentChangePacket.register();
+
+
+
 
         //玩家食用食品监听器
 //		OnPlayerEntityEatEvent.EVENT.register((player)->{

@@ -3,6 +3,7 @@ package com.equilibrium.entity.mob;
 import com.equilibrium.item.Armors;
 import com.equilibrium.item.Tools;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.ai.pathing.NavigationType;
@@ -88,19 +89,22 @@ public class LongDeadEntity extends ModAbstractSkeletonEntity {
         return null;
     }
 
-    @Override
-    public boolean canSpawn(WorldAccess world, SpawnReason spawnReason) {
-        //只在地下世界发现悬空生成的情况,奇怪
-        if(!this.isOnGround()){
-            BlockPos pos = findGroundPosition(this.getWorld(),this.getBlockPos());
-            if(pos!=null)
-                this.setPosition(pos.getX(),pos.getY(),pos.getZ());
-            else
-                return false;
-        }
-
-        return super.canSpawn(world, spawnReason);
-    }
+//    @Override
+//    public boolean canSpawn(WorldAccess world, SpawnReason spawnReason) {
+//        //只在地下世界发现悬空生成的情况,奇怪
+//        if(!this.isOnGround()){
+//            BlockPos pos = findGroundPosition(this.getWorld(),this.getBlockPos());
+//            if(pos!=null)
+//                this.setPosition(pos.getX(),pos.getY(),pos.getZ());
+//            else
+//                return false;
+//        }
+//        BlockState state = world.getBlockState(BlockPos.ofFloored(this.getEyePos()));
+//        world.notifyAll();
+//        if(state.getBlock()==Blocks.COBBLESTONE||state.getBlock()==Blocks.MOSSY_COBBLESTONE)
+//            return false;
+//        return super.canSpawn(world, spawnReason);
+//    }
 
     @Override
     protected void initGoals() {

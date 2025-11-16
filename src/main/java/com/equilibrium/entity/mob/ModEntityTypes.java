@@ -15,5 +15,6 @@ public class ModEntityTypes {
             //古尸的尺寸?再次定义了一次?
             EntityType.Builder.create(LongDeadEntity::new, SpawnGroup.MONSTER).dimensions(0.6F, 1.99F).build()
     );
+    //记得把黑色史莱姆的也加进来,之后补充生成限制
     public static void modEntityTypeRegister(){}
 }
