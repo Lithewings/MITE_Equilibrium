@@ -1,12 +1,9 @@
 package com.equilibrium.mixin.tables;
 
 
-import com.equilibrium.craft_time_register.BlockInit;
-import com.equilibrium.item.Metal;
 import com.equilibrium.item.Tools;
 import com.equilibrium.item.extend_item.CoinItems;
-import com.equilibrium.item.tools_attribute.ModToolMaterials;
-import com.equilibrium.item.tools_attribute.metal.MetalPickAxe;
+import com.equilibrium.item.tools_attribute.metal.*;
 import com.equilibrium.network.C2SClickTimesPacket;
 import com.equilibrium.tags.ModItemTags;
 import net.minecraft.block.Block;
@@ -14,15 +11,12 @@ import net.minecraft.block.CraftingTableBlock;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.NbtComponent;
 import net.minecraft.component.type.PotionContentsComponent;
-import net.minecraft.component.type.ToolComponent;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.CraftingResultInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.RecipeInputInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
@@ -32,14 +26,9 @@ import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.input.CraftingRecipeInput;
 import net.minecraft.registry.tag.ItemTags;
-import net.minecraft.registry.tag.TagKey;
 import net.minecraft.screen.*;
-import net.minecraft.screen.slot.Slot;
-import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
-import net.minecraft.util.ClickType;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
@@ -199,7 +188,7 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 
 	@Unique
 	//根据混合的颜色,来判断是何种药水,然后施加自定义属性
-	private static ItemStack potion(int color) {
+	private static ItemStack createPotion(int color) {
 
 		StatusEffectInstance NIGHT_VISION = new StatusEffectInstance(StatusEffects.NIGHT_VISION, 2400);
 		StatusEffectInstance MINING_FATIGUE = new StatusEffectInstance(StatusEffects.MINING_FATIGUE, 2400);
@@ -265,7 +254,7 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 
 
 			if(itemStack.isOf(Items.POTION)){
-				itemStack =potion(itemStack.getComponents().get(DataComponentTypes.POTION_CONTENTS).getColor());
+				itemStack = createPotion(itemStack.getComponents().get(DataComponentTypes.POTION_CONTENTS).getColor());
 
 			};
 
@@ -296,7 +285,27 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 
 				if(itemStack.isOf(Items.GOLDEN_AXE))
 					itemStack = Tools.GOLD_AXE.getDefaultStack();
+
+				int clickTimes = C2SClickTimesPacket.getClickTimes(player);
+				MetalAxe metalAxe = (MetalAxe)itemStack.getItem();
+				rightClickLogicForAdditionalAttribute(metalAxe.maxPlayerDurabilityBoost(metalAxe.material, player), clickTimes, itemStack);
+
+
+
+
 			}
+
+
+
+			if(itemStack.isIn(ModItemTags.DAGGERS)){
+				int clickTimes = C2SClickTimesPacket.getClickTimes(player);
+				MetalDagger metalDagger = (MetalDagger)itemStack.getItem();
+				rightClickLogicForAdditionalAttribute(metalDagger.maxPlayerDurabilityBoost(metalDagger.material, player), clickTimes, itemStack);
+			}
+
+
+
+
 
 			if(itemStack.isIn(ModItemTags.HOES)){
 				if(itemStack.isOf(Items.IRON_HOE))
@@ -304,6 +313,16 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 
 				if(itemStack.isOf(Items.GOLDEN_HOE))
 					itemStack = Tools.GOLD_HOE.getDefaultStack();
+
+				int clickTimes = C2SClickTimesPacket.getClickTimes(player);
+				MetalHoe metalHoe = (MetalHoe)itemStack.getItem();
+				rightClickLogicForAdditionalAttribute(metalHoe.maxPlayerDurabilityBoost(metalHoe.material, player), clickTimes, itemStack);
+
+
+
+
+
+
 			}
 
 			if(itemStack.isIn(ModItemTags.SHOVELS)){
@@ -312,6 +331,13 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 
 				if(itemStack.isOf(Items.GOLDEN_SHOVEL))
 					itemStack = Tools.GOLD_SHOVEL.getDefaultStack();
+				int clickTimes = C2SClickTimesPacket.getClickTimes(player);
+				MetalShovel metalShovel = (MetalShovel)itemStack.getItem();
+				rightClickLogicForAdditionalAttribute(metalShovel.maxPlayerDurabilityBoost(metalShovel.material, player), clickTimes, itemStack);
+
+
+
+
 			}
 
 			if(itemStack.isIn(ModItemTags.SWORDS)){
@@ -320,6 +346,9 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 
 				if(itemStack.isOf(Items.GOLDEN_SWORD))
 					itemStack = Tools.GOLD_SWORD.getDefaultStack();
+				int clickTimes = C2SClickTimesPacket.getClickTimes(player);
+				MetalSword metalSword = (MetalSword) itemStack.getItem();
+				rightClickLogicForAdditionalAttribute(metalSword.maxPlayerDurabilityBoost(metalSword.material, player), clickTimes, itemStack);
 			}
 
 			if (itemStack.isIn(ModItemTags.PICKAXES)) {
@@ -334,38 +363,43 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 
 				}
 				int clickTimes = C2SClickTimesPacket.getClickTimes(player);
-
 				MetalPickAxe metalPickAxe = (MetalPickAxe) itemStack.getItem();
-				int maxDurabilityBoost = Math.min(metalPickAxe.maxPlayerDurabilityBoost(player),4);
-
-				int function = clickTimes % (maxDurabilityBoost+1);
-
-				//7200经验,可供强化3次
-				//右键0次,输出0%(3+1)=0等级
-				//右键1次,输出1%(3+1)=1等级
-				//右键2次,输出2%(3+1)=2等级
-				//右键3次,输出3%(3+1)=3等级
-				//右键4次,输出4%(3+1)=0等级
-
-
-
-
-
-
-
-				NbtCompound nbt = new NbtCompound();
-				nbt.putInt("DurabilityLevel", function);
-				itemStack.set(DataComponentTypes.CUSTOM_DATA, NbtComponent.of(nbt));
-				int maxDamage = (int) (itemStack.getMaxDamage() * (1 + 0.5f * function));
-				itemStack.set(DataComponentTypes.MAX_DAMAGE, maxDamage);
+				rightClickLogicForAdditionalAttribute(metalPickAxe.maxPlayerDurabilityBoost(metalPickAxe.material, player), clickTimes, itemStack);
 
 			}
 
+			if (itemStack.isIn(ModItemTags.HAMMERS)) {
 
+
+				int clickTimes = C2SClickTimesPacket.getClickTimes(player);
+				MetalHammer metalHammer = (MetalHammer) itemStack.getItem();
+				rightClickLogicForAdditionalAttribute(metalHammer.maxPlayerDurabilityBoost(metalHammer.material, player), clickTimes, itemStack);
+
+			}
 
 			resultInventory.setStack(0, itemStack);
 			handler.setPreviousTrackedSlot(0, itemStack);
 			serverPlayerEntity.networkHandler.sendPacket(new ScreenHandlerSlotUpdateS2CPacket(handler.syncId, handler.nextRevision(), 0, itemStack));
 		}
+	}
+
+	@Unique
+	private static void rightClickLogicForAdditionalAttribute(int metalSword, int clickTimes, ItemStack itemStack) {
+		int maxDurabilityBoost = Math.min(metalSword, 4);
+
+		int function = clickTimes % (maxDurabilityBoost + 1);
+
+		//7200经验,可供强化3次
+		//右键0次,输出0%(3+1)=0等级
+		//右键1次,输出1%(3+1)=1等级
+		//右键2次,输出2%(3+1)=2等级
+		//右键3次,输出3%(3+1)=3等级
+		//右键4次,输出4%(3+1)=0等级
+
+		NbtCompound nbt = new NbtCompound();
+		nbt.putInt("DurabilityLevel", function);
+		itemStack.set(DataComponentTypes.CUSTOM_DATA, NbtComponent.of(nbt));
+		int maxDamage = (int) (itemStack.getMaxDamage() * (1 + 0.5f * function));
+		itemStack.set(DataComponentTypes.MAX_DAMAGE, maxDamage);
 	}
 }

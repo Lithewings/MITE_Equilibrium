@@ -38,8 +38,17 @@ public class AdamantiumHoe extends MetalHoe{
 
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+        super.appendTooltip(stack,context,tooltip,type);
         tooltip.add(Text.translatable("item.miteequilibrium.adamantium_hoe.tooltip1").formatted(Formatting.GRAY));
         tooltip.add(Text.translatable("item.miteequilibrium.adamantium_hoe.tooltip2").formatted(Formatting.AQUA));
 
     }
+
+
+
+
+
+
+
+
 }

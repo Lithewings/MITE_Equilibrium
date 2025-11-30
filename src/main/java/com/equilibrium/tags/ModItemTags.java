@@ -29,6 +29,7 @@ public class ModItemTags {
     public static final TagKey<Item> HOES = of("hoe");
     public static final TagKey<Item> SHOVELS = of("shovel");
     public static final TagKey<Item> DAGGERS = of("dagger");
+    public static final TagKey<Item> HAMMERS = of("hammer");
 
     public static final TagKey<Item> REMOVEITEM = of("remove_item");
 

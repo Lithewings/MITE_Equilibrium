@@ -69,6 +69,13 @@ public class Tools {
 
 
 
+    public static final Item COPPER_HAMMER = createMetalHammerItem(ModToolMaterials.COPPER_HAMMER,6,3f);
+    public static final Item SILVER_HAMMER = createSilverHammerItem(ModToolMaterials.SILVER_HAMMER,6,3f);
+    public static final Item GOLD_HAMMER = createMetalHammerItem(ModToolMaterials.GOLD_HAMMER,6,3f);
+    public static final Item IRON_HAMMER = createMetalHammerItem(ModToolMaterials.IRON_HAMMER,7,3f);
+    public static final Item MITHRIL_HAMMER = createMetalHammerItem(ModToolMaterials.MITHRIL_HAMMER,8,3f);
+    public static final Item ADAMANTIUM_HAMMER =createMetalHammerItem(ModToolMaterials.ADAMANTIUM_HAMMER,9,4f);
+
 
 
 
@@ -166,10 +173,30 @@ public class Tools {
         );
     }
 
+    public static Item createMetalHammerItem(ToolMaterial material, int finalDamage,float finalDamageSpeed){
 
+        return new MetalHammer(material,new Item.Settings().
+                attributeModifiers(MiningToolItem.createAttributeModifiers(material,-1+finalDamage,-4+finalDamageSpeed))
+        );
+    }
+
+    public static Item createSilverHammerItem(ToolMaterial material, int finalDamage,float finalDamageSpeed){
+
+        return new SilverHammer(material,new Item.Settings().
+                attributeModifiers(MiningToolItem.createAttributeModifiers(material,-1+finalDamage,-4+finalDamageSpeed))
+        );
+    }
 
 
     public static void registerModItemTools() {
+
+
+        Registry.register(Registries.ITEM, Identifier.of("miteequilibrium","adamantium_hammer"),ADAMANTIUM_HAMMER);
+        Registry.register(Registries.ITEM, Identifier.of("miteequilibrium","copper_hammer"),COPPER_HAMMER);
+        Registry.register(Registries.ITEM, Identifier.of("miteequilibrium","silver_hammer"),SILVER_HAMMER);
+        Registry.register(Registries.ITEM, Identifier.of("miteequilibrium","gold_hammer"),GOLD_HAMMER);
+        Registry.register(Registries.ITEM, Identifier.of("miteequilibrium","iron_hammer"),IRON_HAMMER);
+        Registry.register(Registries.ITEM, Identifier.of("miteequilibrium","mithril_hammer"), MITHRIL_HAMMER);
 
         Registry.register(Registries.ITEM, Identifier.of("miteequilibrium","adamantium_axe"), ADAMANTIUM_AXE);
         Registry.register(Registries.ITEM, Identifier.of("miteequilibrium","mithril_axe"), MITHRIL_AXE);

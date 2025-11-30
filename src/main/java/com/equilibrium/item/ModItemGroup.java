@@ -118,6 +118,12 @@ public class ModItemGroup {
                                 entries.add(Tools.MITHRIL_DAGGER);
                                 entries.add(Tools.SILVER_DAGGER);
 
+                                entries.add(Tools.COPPER_HAMMER);
+                                entries.add(Tools.SILVER_HAMMER);
+                                entries.add(Tools.IRON_HAMMER);
+                                entries.add(Tools.MITHRIL_HAMMER);
+                                entries.add(Tools.ADAMANTIUM_HAMMER);
+                                entries.add(Tools.GOLD_HAMMER);
 
                                 entries.add(Metal.ADAMANTIUM_RAW);
                                 entries.add(Metal.MITHRIL_RAW);

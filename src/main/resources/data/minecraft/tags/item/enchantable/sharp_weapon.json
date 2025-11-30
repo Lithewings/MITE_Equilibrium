@@ -20,7 +20,14 @@
     "miteequilibrium:mithril_dagger",
     "miteequilibrium:iron_dagger",
     "miteequilibrium:copper_dagger",
-    "miteequilibrium:adamantium_dagger"
+    "miteequilibrium:adamantium_dagger",
 
+
+    "miteequilibrium:copper_hammer",
+    "miteequilibrium:gold_hammer",
+    "miteequilibrium:silver_hammer",
+    "miteequilibrium:mithril_hammer",
+    "miteequilibrium:iron_hammer",
+    "miteequilibrium:adamantium_hammer"
   ]
 }
