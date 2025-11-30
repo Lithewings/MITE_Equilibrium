@@ -8,7 +8,7 @@
   "mod.first_day.helloWorld": "在你的附近寻找箱子,取出其中的物品",
   "mod_death_text": "不必冒险，你有无限次重来的机会，这个世界永远等待着你",
 
-  "mod.selectWorld.seedInfo":"让随机数决定这些",
+  "mod.selectWorld.seedInfo":"让随机数来决定这一切吧",
   "mod.options.difficulty.easy.info": "敌对生物会生成但造成较少伤害。饥饿条耗尽时会消耗生命值。",
   "mod.options.difficulty.normal.info": "敌对生物会生成并造成标准伤害。饥饿条耗尽时会消耗生命值。",
   "mod.options.difficulty.hard.info": "敌对生物会生成并造成更多伤害。饥饿条耗尽时会消耗生命值。",
@@ -18,7 +18,7 @@
 
   "item.miteequilibrium.beef_soup": "牛肉汤",
   "item.miteequilibrium.vegetable_soup": "蔬菜汤",
-  "item.miteequilibrium.bowl_water": "一碗水",
+  "item.miteequilibrium.bowl_water": "水碗",
 
   "item.miteequilibrium.onion": "洋葱",
 
@@ -198,8 +198,8 @@
 
 
 
-  "item.miteequilibrium.copper_coin": "铜制硬币",
-  "item.miteequilibrium.iron_coin": "铁制硬币",
+  "item.miteequilibrium.copper_coin": "铜币",
+  "item.miteequilibrium.iron_coin": "铁币",
 
 
 
@@ -214,31 +214,31 @@
   "teleport.overworld": "你将被传送至主世界",
   "teleport.underworld": "你将被传送至地下世界",
   "teleport.nether": "你将被传送至下界",
-  "block.miteequilibrium.flint_crafting_table": "燧石合成台",
-  "block.miteequilibrium.copper_crafting_table": "铜/银合成台",
-  "block.miteequilibrium.iron_crafting_table": "铁合成台",
-  "block.miteequilibrium.diamond_crafting_table": "钻石合成台",
-  "block.miteequilibrium.netherite_crafting_table": "下界合金合成台",
-  "container.flint_crafting": "燧石合成台",
-  "container.copper_crafting": "铜/银合成台",
-  "container.iron_crafting": "铁合成台",
-  "container.diamond_crafting": "钻石合成台",
-  "container.netherite_crafting": "下界合金合成台",
-  "aliveandwell.crafttable.info1": "The workbench is not graded enough to synthesize！！！",
-  "aliveandwell.crafttable.info2": "This item could not be synthesized 32 days ago！！！",
-  "aliveandwell.crafttable.info3": "This item is disabled！！！",
+  "block.miteequilibrium.flint_crafting_table": "燧石工作台",
+  "block.miteequilibrium.copper_crafting_table": "铜/银工作台",
+  "block.miteequilibrium.iron_crafting_table": "铁工作台",
+  "block.miteequilibrium.diamond_crafting_table": "钻石工作台",
+  "block.miteequilibrium.netherite_crafting_table": "下界合金工作台",
+  "container.flint_crafting": "燧石工作台",
+  "container.copper_crafting": "铜/银工作台",
+  "container.iron_crafting": "铁工作台",
+  "container.diamond_crafting": "钻石工作台",
+  "container.netherite_crafting": "下界合金工作台",
+  "aliveandwell.crafttable.info1": "该工作台等级不足",
+  "aliveandwell.crafttable.info2": "该物品无法在第32天前合成",
+  "aliveandwell.crafttable.info3": "该物品已被禁用",
   "block.miteequilibrium.clay_furnace": "粘土熔炉",
   "block.miteequilibrium.obsidian_furnace": "黑曜石熔炉",
   "block.miteequilibrium.netherrack_furnace": "下界岩熔炉",
   "container.clay_furnace": "粘土熔炉",
   "container.netherrack_furnace": "下界岩熔炉",
   "container.obsidian_furnace": "黑曜石熔炉",
-  "crafttime.join_info": "Crafttable and Dnchantment tablecan be synthesized on low-level workbench.",
+  "crafttime.join_info": "工作台及附魔台只能在更低级的工作台上合成",
   "crafttime.group": "合成耗时",
   "effect.miteequilibrium.phytonutrient": "营养不良",
 
 
   "enchantment.miteequilibrium.speed": "速度",
-  "item.effect.miteequilibrium.sub_night_vision": "夜视药水（冷萃）",
+  "item.effect.miteequilibrium.sub_night_vision": "冷萃的夜视药水",
   "item.miteequilibrium.test": "Test"
 }
