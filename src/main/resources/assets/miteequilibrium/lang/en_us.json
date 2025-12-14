@@ -93,6 +93,19 @@
   "You will transport to overworld": "This portal will transport you to the Overworld",
   "You will transport to underworld": "This portal will transport you to the Underworld",
 
+
+
+
+  "item.miteequilibrium.copper_hammer": "Copper Hammer",
+  "item.miteequilibrium.silver_hammer": "Silver Hammer",
+  "item.miteequilibrium.gold_hammer": "Gold Hammer",
+  "item.miteequilibrium.mithril_hammer": "Mithril Hammer",
+  "item.miteequilibrium.adamantium_hammer": "Adamantium Hammer",
+  "item.miteequilibrium.iron_hammer": "Iron Hammer",
+
+
+
+
   "block.miteequilibrium.adamantium_block": "Block of Adamantium",
   "block.miteequilibrium.ancient_metal_block": "Block of Ancient Metal",
   "block.miteequilibrium.copper_block": "Block of Copper",
@@ -112,6 +125,8 @@
 
   "item.miteequilibrium.ancient_metal": "Ancient Metal Ingot",
   "item.miteequilibrium.ancient_metal_nugget": "Ancient Metal Nugget",
+
+
 
   "item.miteequilibrium.copper": "Copper Ingot",
   "item.miteequilibrium.copper_axe": "Copper Axe",

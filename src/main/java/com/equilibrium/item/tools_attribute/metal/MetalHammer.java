@@ -4,11 +4,14 @@ import com.equilibrium.event.CraftingMetalPickAxeCallback;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.AttributeModifierSlot;
+import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.component.type.ToolComponent;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolItem;
 import net.minecraft.item.ToolMaterial;
@@ -16,20 +19,53 @@ import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.List;
 
-public class MetalSword extends ToolItem implements AdditionalAttribute {
-    public MetalSword(ToolMaterial toolMaterial, Settings settings) {
+public class MetalHammer extends ToolItem implements AdditionalAttribute{
+    //只能附魔效率和武器类型附魔(节肢杀手亡灵杀手锋利等)
+
+    public MetalHammer(ToolMaterial toolMaterial, Settings settings) {
         super(toolMaterial, settings.component(DataComponentTypes.TOOL, createToolComponent()));
     }
 
+    //加速采集方块类型,比如镐子可以加速采集石头,锤子也可以
+
     private static ToolComponent createToolComponent() {
         return new ToolComponent(
-                List.of(ToolComponent.Rule.ofAlwaysDropping(List.of(Blocks.COBWEB), 15.0F), ToolComponent.Rule.of(BlockTags.SWORD_EFFICIENT, 1.5F)), 1.0F, 0
+                List.of(ToolComponent.Rule.ofAlwaysDropping(BlockTags.PICKAXE_MINEABLE, 0.5F)), 1.0F, 0
         );
+    }
+
+
+    @Override
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+        AdditionalAttribute.super.appendTooltip(stack,context,tooltip,type);
+        tooltip.add(Text.literal("重锤:对骷髅类生物造成1.5倍伤害").formatted(Formatting.GRAY));
+    }
+
+
+
+
+
+    public static AttributeModifiersComponent createAttributeModifiers(ToolMaterial material, int baseAttackDamage, float attackSpeed) {
+        return AttributeModifiersComponent.builder()
+                .add(
+                        EntityAttributes.GENERIC_ATTACK_DAMAGE,
+                        new EntityAttributeModifier(
+                                BASE_ATTACK_DAMAGE_MODIFIER_ID, (double)((float)baseAttackDamage + material.getAttackDamage()), EntityAttributeModifier.Operation.ADD_VALUE
+                        ),
+                        AttributeModifierSlot.MAINHAND
+                )
+                .add(
+                        EntityAttributes.GENERIC_ATTACK_SPEED,
+                        new EntityAttributeModifier(BASE_ATTACK_SPEED_MODIFIER_ID, (double)attackSpeed, EntityAttributeModifier.Operation.ADD_VALUE),
+                        AttributeModifierSlot.MAINHAND
+                )
+                .build();
     }
 
     @Override
@@ -42,21 +78,21 @@ public class MetalSword extends ToolItem implements AdditionalAttribute {
         return true;
     }
 
+
+
+
+
+
     @Override
     public void postDamageEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        stack.damage(50, attacker, EquipmentSlot.MAINHAND);
+
+        stack.damage(100, attacker, EquipmentSlot.MAINHAND);
     }
 
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
         return super.finishUsing(stack, world, user);
     }
-
-    @Override
-    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type) {
-        AdditionalAttribute.super.appendTooltip(stack,context,tooltip,type);
-    }
-
     // 从 CUSTOM_DATA 获取耐久等级
     @Override
     public int getDurabilityLevel(ItemStack stack) {
@@ -93,6 +129,7 @@ public class MetalSword extends ToolItem implements AdditionalAttribute {
         return AdditionalAttribute.super.maxPlayerDurabilityBoost(toolMaterial,player);
     }
 
+
     @Override
     public void onCraftByPlayer(ItemStack stack, World world, PlayerEntity player) {
         ActionResult result = CraftingMetalPickAxeCallback.EVENT.invoker().interact(world,player);
@@ -106,4 +143,5 @@ public class MetalSword extends ToolItem implements AdditionalAttribute {
         }
 
     }
+
 }

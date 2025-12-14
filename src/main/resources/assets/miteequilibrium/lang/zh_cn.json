@@ -92,6 +92,18 @@
   "You will transport to nether": "该传送门会将你传送至下界",
   "You will transport to overworld": "该传送门会将你传送至主世界",
   "You will transport to underworld": "该传送门会将你传送至地下世界",
+
+
+
+  "item.miteequilibrium.copper_hammer": "铜锤",
+  "item.miteequilibrium.silver_hammer": "银锤",
+  "item.miteequilibrium.gold_hammer": "金锤",
+  "item.miteequilibrium.mithril_hammer": "秘银锤",
+  "item.miteequilibrium.adamantium_hammer": "艾德曼锤",
+  "item.miteequilibrium.iron_hammer": "铁锤",
+
+
+
   "block.miteequilibrium.adamantium_block": "艾德曼块",
   "block.miteequilibrium.ancient_metal_block": "远古金属块",
   "block.miteequilibrium.copper_block": "铜块",

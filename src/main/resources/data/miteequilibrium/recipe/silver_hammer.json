@@ -10,9 +10,9 @@
     }
   },
   "pattern": [
-    "XX",
-    " Y",
-    " Y"
+    "XXX",
+    "XYX",
+    " Y "
   ],
   "result": {
     "count": 1,

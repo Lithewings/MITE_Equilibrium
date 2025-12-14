@@ -75,6 +75,7 @@ import static com.equilibrium.item.tools_attribute.ExtraDamageFromExperienceLeve
 import static com.equilibrium.util.IsMinable.getBlockHarvertLevel;
 import static com.equilibrium.util.IsMinable.getItemHarvertLevel;
 import static java.lang.Math.max;
+import static net.minecraft.registry.tag.EntityTypeTags.SKELETONS;
 import static net.minecraft.registry.tag.EntityTypeTags.UNDEAD;
 import static net.minecraft.util.math.MathHelper.nextBetween;
 
@@ -134,6 +135,13 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         }
         if((this.getMainHandStack().isOf(Tools.SILVER_SWORD) ) && target.getType().isIn(UNDEAD)) {
             otherBonus=2F;
+        }
+        if((this.getMainHandStack().isOf(Tools.SILVER_HAMMER) ) && target.getType().isIn(UNDEAD)) {
+            otherBonus=2F;
+        }
+        //锤子独立乘区
+        if((this.getMainHandStack().isIn(ModItemTags.HAMMERS) ) && target.getType().isIn(SKELETONS)) {
+            otherBonus*=1.5F;
         }
 
         //非独立乘区
@@ -461,6 +469,9 @@ public abstract class PlayerEntityMixin extends LivingEntity {
             f = f * 4;
         }
 
+        if (stack.isSuitableFor(block)||(stack.isIn(ModItemTags.HAMMERS)&&block.isIn(ModBlockTags.ORE))) {
+            f = f * 4;
+        }
 
         this.itemHarvest = getItemHarvertLevel(stack);
         this.blockHarvest = getBlockHarvertLevel(block);

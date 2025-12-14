@@ -3,19 +3,19 @@
   "category": "equipment",
   "key": {
     "X": {
-      "item": "miteequilibrium:silver"
+      "item": "minecraft:iron_ingot"
     },
     "Y": {
       "item": "minecraft:stick"
     }
   },
   "pattern": [
-    "XX",
-    " Y",
-    " Y"
+    "XXX",
+    "XYX",
+    " Y "
   ],
   "result": {
     "count": 1,
-    "id": "miteequilibrium:silver_hammer"
+    "id": "miteequilibrium:iron_hammer"
   }
 }

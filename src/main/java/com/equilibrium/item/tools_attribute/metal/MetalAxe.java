@@ -1,5 +1,6 @@
 package com.equilibrium.item.tools_attribute.metal;
 
+import com.equilibrium.event.CraftingMetalPickAxeCallback;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.advancement.criterion.Criteria;
@@ -11,11 +12,14 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -28,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class MetalAxe extends ToolItem {
+public class MetalAxe extends ToolItem implements AdditionalAttribute{
     protected static final Map<Block, Block> STRIPPED_BLOCKS = new ImmutableMap.Builder<Block, Block>()
             .put(Blocks.OAK_WOOD, Blocks.STRIPPED_OAK_WOOD)
             .put(Blocks.OAK_LOG, Blocks.STRIPPED_OAK_LOG)
@@ -127,11 +131,20 @@ public class MetalAxe extends ToolItem {
             }
         }
     }
+    @Override
+    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type) {
+        AdditionalAttribute.super.appendTooltip(stack,context,tooltip,type);
+    }
 
     private Optional<BlockState> getStrippedState(BlockState state) {
         return Optional.ofNullable((Block)STRIPPED_BLOCKS.get(state.getBlock()))
                 .map(block -> block.getDefaultState().with(PillarBlock.AXIS, (Direction.Axis)state.get(PillarBlock.AXIS)));
     }
+
+
+
+
+
 
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
@@ -141,4 +154,59 @@ public class MetalAxe extends ToolItem {
     public void postDamageEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         stack.damage(300, attacker, EquipmentSlot.MAINHAND);
     }
+
+
+    // 从 CUSTOM_DATA 获取耐久等级
+    @Override
+    public int getDurabilityLevel(ItemStack stack) {
+        return AdditionalAttribute.super.getDurabilityLevel(stack);
+    }
+    @Override
+    // 设置耐久等级到 CUSTOM_DATA
+    public void setDurabilityLevel(ItemStack stack, int level) {
+        AdditionalAttribute.super.setDurabilityLevel(stack, level);
+    }
+
+    // 可选：在创建新工具时初始化耐久等级
+    @Override
+    public ItemStack getDefaultStack() {
+        ItemStack stack = super.getDefaultStack();
+        // 为新创建的工具设置默认耐久等级
+        if (getDurabilityLevel(stack) == 0) {
+            setDurabilityLevel(stack, 0);
+        }
+        return stack;
+    }
+
+    @Override
+    public boolean canCraftByPlayer(ToolMaterial toolMaterial,PlayerEntity player,int durabilityLevel){
+        return AdditionalAttribute.super.canCraftByPlayer(toolMaterial, player,durabilityLevel);
+    }
+
+    @Override
+    public int xpCost(ToolMaterial toolMaterial, int durabilityLevel) {
+        return AdditionalAttribute.super.xpCost(toolMaterial, durabilityLevel);
+    }
+    @Override
+    public int maxPlayerDurabilityBoost(ToolMaterial toolMaterial,PlayerEntity player){
+        return AdditionalAttribute.super.maxPlayerDurabilityBoost(toolMaterial,player);
+    }
+
+
+    @Override
+    public void onCraftByPlayer(ItemStack stack, World world, PlayerEntity player) {
+        ActionResult result = CraftingMetalPickAxeCallback.EVENT.invoker().interact(world,player);
+        if(!player.getWorld().isClient())
+            player.addExperience(-xpCost(this.material,getDurabilityLevel(stack)));
+//        if(getDurabilityLevel()==1)
+//        player.sendMessage(Text.of("This DurabilityLevel is :"+getDurabilityLevel(stack)));
+
+        if(result == ActionResult.FAIL) {
+            return;
+        }
+
+    }
+
+
+
 }
