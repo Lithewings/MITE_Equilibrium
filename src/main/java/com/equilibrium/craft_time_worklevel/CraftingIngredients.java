@@ -12,6 +12,7 @@ public class CraftingIngredients {
     public static Map<Block, Integer> TABLE_LEVELS = Map.of(
             BlockInit.FLINT_CRAFTING_TABLE, 1,
             BlockInit.COPPER_CRAFTING_TABLE, 2,
+            BlockInit.SILVER_CRAFTING_TABLE, 2,
             BlockInit.IRON_CRAFTING_TABLE, 3,
             BlockInit.DIAMOND_CRAFTING_TABLE, 4,
             BlockInit.NETHERITE_CRAFTING_TABLE, 5

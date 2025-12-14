@@ -43,6 +43,7 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
 
         addDrop(BlockInit.FLINT_CRAFTING_TABLE);
         addDrop(BlockInit.COPPER_CRAFTING_TABLE);
+        addDrop(BlockInit.SILVER_CRAFTING_TABLE);
         addDrop(BlockInit.DIAMOND_CRAFTING_TABLE);
         addDrop(BlockInit.IRON_CRAFTING_TABLE);
         addDrop(BlockInit.NETHERITE_CRAFTING_TABLE);

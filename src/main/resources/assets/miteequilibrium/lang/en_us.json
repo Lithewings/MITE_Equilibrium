@@ -199,18 +199,20 @@
 
   "block.miteequilibrium.flint_crafting_table": "Flint Crafting Table",
   "block.miteequilibrium.copper_crafting_table": "Copper Crafting Table",
+  "block.miteequilibrium.silver_crafting_table": "Silver Crafting Table",
   "block.miteequilibrium.iron_crafting_table": "Iron Crafting Table",
   "block.miteequilibrium.diamond_crafting_table": "Diamond Crafting Table",
   "block.miteequilibrium.netherite_crafting_table": "Netherite Crafting Table",
   "container.flint_crafting": "Flint Crafting Table",
   "container.copper_crafting": "Copper Crafting Table",
+  "container.silver_crafting": "Silver Crafting Table",
   "container.iron_crafting": "Iron Crafting Table",
   "container.diamond_crafting": "Diamond Crafting Table",
   "container.netherite_crafting": "Netherite Crafting Table",
 
-  "aliveandwell.crafttable.info1": "The workbench is not graded enough to synthesize！！！",
-  "aliveandwell.crafttable.info2": "This item could not be synthesized 32 days ago！！！",
-  "aliveandwell.crafttable.info3": "This item is disabled！！！",
+  "aliveandwell.crafttable.info1": "The workbench is not graded enough to synthesize!!!",
+  "aliveandwell.crafttable.info2": "This item could not be synthesized 32 days ago!!!",
+  "aliveandwell.crafttable.info3": "This item is disabled!!!",
 
   "block.miteequilibrium.clay_furnace": "Clay Furnace",
   "block.miteequilibrium.obsidian_furnace": "Obsidian Furnace",
@@ -221,5 +223,5 @@
   "crafttime.join_info": "Crafttable and Dnchantment tablecan be synthesized on low-level workbench.",
   "crafttime.group": "Craft Time",
   "effect.miteequilibrium.phytonutrient": "Malnutrition",
-  "item.effect.miteequilibrium.sub_night_vision": "Nightvision Potion(cold brew)"
+  "item.effect.miteequilibrium.sub_night_vision": "Cold Brew Nightvision Potion"
 }

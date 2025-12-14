@@ -20,6 +20,7 @@ public class TheCraftingTableBlock extends CraftingTableBlock {
     public static  Text TITLE3 = Text.translatable("container.iron_crafting");
     public static  Text TITLE4 = Text.translatable("container.diamond_crafting");
     public static  Text TITLE5 = Text.translatable("container.netherite_crafting");
+    public static  Text TITLE6 = Text.translatable("container.silver_crafting");
 
     public TheCraftingTableBlock(Settings settings) {
         super(settings);
@@ -36,6 +37,10 @@ public class TheCraftingTableBlock extends CraftingTableBlock {
             return new SimpleNamedScreenHandlerFactory((syncId, inventory, player) -> {
                 return new CraftingScreenHandler(syncId, inventory, ScreenHandlerContext.create(world, pos));
             }, TITLE2);
+        }else if(block == BlockInit.SILVER_CRAFTING_TABLE){
+            return new SimpleNamedScreenHandlerFactory((syncId, inventory, player) -> {
+                return new CraftingScreenHandler(syncId, inventory, ScreenHandlerContext.create(world, pos));
+            }, TITLE6);
         }else if(block == BlockInit.IRON_CRAFTING_TABLE){
             return new SimpleNamedScreenHandlerFactory((syncId, inventory, player) -> {
                 return new CraftingScreenHandler(syncId, inventory, ScreenHandlerContext.create(world, pos));

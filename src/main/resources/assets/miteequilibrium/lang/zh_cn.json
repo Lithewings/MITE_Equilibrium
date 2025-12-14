@@ -203,12 +203,14 @@
   "teleport.underworld": "你将被传送至地下世界",
   "teleport.nether": "你将被传送至下界",
   "block.miteequilibrium.flint_crafting_table": "燧石工作台",
-  "block.miteequilibrium.copper_crafting_table": "铜/银工作台",
+  "block.miteequilibrium.copper_crafting_table": "铜工作台",
+  "block.miteequilibrium.silver_crafting_table": "银工作台",
   "block.miteequilibrium.iron_crafting_table": "铁工作台",
   "block.miteequilibrium.diamond_crafting_table": "钻石工作台",
   "block.miteequilibrium.netherite_crafting_table": "下界合金工作台",
   "container.flint_crafting": "燧石工作台",
-  "container.copper_crafting": "铜/银工作台",
+  "container.copper_crafting": "铜工作台",
+  "container.silver_crafting": "银工作台",
   "container.iron_crafting": "铁工作台",
   "container.diamond_crafting": "钻石工作台",
   "container.netherite_crafting": "下界合金工作台",
@@ -227,6 +229,6 @@
 
 
   "enchantment.miteequilibrium.speed": "速度",
-  "item.effect.miteequilibrium.sub_night_vision": "冷萃的夜视药水",
+  "item.effect.miteequilibrium.sub_night_vision": "冷萃夜视药水",
   "item.miteequilibrium.test": "Test"
 }

@@ -17,6 +17,7 @@ public class CreativeGroup {
                 .entries((context, entries) -> {
                     entries.add(BlockInit.FLINT_CRAFTING_TABLE);
                     entries.add(BlockInit.COPPER_CRAFTING_TABLE);
+                    entries.add(BlockInit.SILVER_CRAFTING_TABLE);
                     entries.add(BlockInit.IRON_CRAFTING_TABLE);
                     entries.add(BlockInit.DIAMOND_CRAFTING_TABLE);
                     entries.add(BlockInit.NETHERITE_CRAFTING_TABLE);
