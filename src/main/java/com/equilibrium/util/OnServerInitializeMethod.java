@@ -2,21 +2,18 @@ package com.equilibrium.util;
 
 import com.equilibrium.persistent_state.StateSaverAndLoader;
 import com.mojang.brigadier.context.CommandContext;
-import net.minecraft.client.gui.screen.world.WorldCreator;
-import net.minecraft.client.gui.widget.CyclingButtonWidget;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.screen.ScreenTexts;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.Vec3d;
@@ -81,10 +78,13 @@ public class OnServerInitializeMethod {
 
 
     public static TypedActionResult<ItemStack> onUseCrystalItem(ItemStack itemStack , PlayerEntity player, World world, int experience){
-
         // 播放玻璃破碎的声音
         player.playSound(SoundEvents.BLOCK_GLASS_BREAK, 1.0F, 1.0F);
-        //经验球获取的声音
+        onUseItemEffect(itemStack, player, world, experience);
+        return TypedActionResult.success(itemStack);
+
+    }
+    private static void onUseItemEffect(ItemStack itemStack, PlayerEntity player, World world, int experience) {
         player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F, 1.0F);
         // 返回成功，表示已处理
 
@@ -102,24 +102,30 @@ public class OnServerInitializeMethod {
         // 创建物品材质的破碎粒子
         ItemStackParticleEffect particleEffect = new ItemStackParticleEffect(ParticleTypes.ITEM, itemStack);
 
-        // 生成青金石物品的破碎粒子
+        // 生成物品的破碎粒子
         for (int i = 0; i < 10; i++) {
             double xOffset = (Math.random() - 0.5) * 0.85;  // 随机偏移
             double yOffset = (Math.random() - 0.5) * 0.85;
             double zOffset = (Math.random() - 0.5) * 0.85;
 
-            // 使用 `ITEM` 粒子类型生成青金石物品的破碎效果
+            // 使用 `ITEM` 粒子类型生成物品的破碎效果
             world.addParticle(particleEffect,
                     particlePos.x + xOffset, particlePos.y + yOffset, particlePos.z + zOffset,
                     0, 0, 0);  // 可根据需要调整粒子速度
         }
-        //消耗一个晶体
+        //消耗一个物品
         itemStack.setCount(itemStack.getCount()-1);
+    }
+
+    public static TypedActionResult<ItemStack> onUseHayBlockItem(ItemStack itemStack , PlayerEntity player, World world, int experience){
+        // 播放干草块破碎的声音
+        player.playSound(SoundEvents.BLOCK_GRASS_BREAK, 1.0F, 1.0F);
+        //物品使用效果(物品-1)
+        onUseItemEffect(itemStack, player, world, experience);
+        player.getInventory().offerOrDrop(new ItemStack(Items.WHEAT,9));
         return TypedActionResult.success(itemStack);
 
     }
-
-
 
 
 

@@ -38,8 +38,8 @@ public class SilverHammer extends MetalHammer {
     @Override
     public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type) {
         super.appendTooltip(stack,context,tooltip,type);
-        tooltip.add(Text.literal("对亡灵生物造成2倍伤害").formatted(Formatting.AQUA));
-        tooltip.add(Text.literal("对亡灵生物给予最后一击后,获得5秒的再生II").formatted(Formatting.AQUA));
+        tooltip.add(Text.translatable("item.miteequilibrium.silver.tooltip1").formatted(Formatting.AQUA));
+        tooltip.add(Text.translatable("item.miteequilibrium.silver.tooltip2").formatted(Formatting.AQUA));
 
     }
     @Override

@@ -51,7 +51,7 @@ public abstract class StriderEntityMixin extends AnimalEntity implements ItemSte
         } else if(this.isSaddled() && player.getMainHandStack().isEmpty()) {
             this.removeAllPassengers();
             this.saddledComponent.setSaddled(false);
-            player.getInventory().insertStack(player.getInventory().selectedSlot,Items.SADDLE.getDefaultStack());
+            player.getInventory().offerOrDrop(Items.SADDLE.getDefaultStack());
             return ActionResult.success(this.getWorld().isClient);
         }
 

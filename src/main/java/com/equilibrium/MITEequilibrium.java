@@ -84,6 +84,7 @@ import static com.equilibrium.tags.ModItemTags.registerModItemTags;
 
 
 import static com.equilibrium.util.OnServerInitializeMethod.onUseCrystalItem;
+import static com.equilibrium.util.OnServerInitializeMethod.onUseHayBlockItem;
 
 
 public class MITEequilibrium implements ModInitializer {
@@ -384,10 +385,16 @@ public class MITEequilibrium implements ModInitializer {
                 tickCount = 0; // 重置 tick 计数器
             }
         });
-        //使用物品监听器
+        //使用物品监听器,能不在这里写就不要在这里写,用物品自带的onUse方法
+
         UseItemCallback.EVENT.register((player, world, hand) -> {
             // 获取玩家手中的物品
             ItemStack itemStack = player.getStackInHand(hand);
+
+            if(itemStack.isOf(Items.HAY_BLOCK)){
+                if(player.experienceLevel>=75)
+                    return onUseHayBlockItem(itemStack, player, world, 0);
+            }
 
             // 判断是否为青金石等晶体
             if(player.experienceLevel<=35) {

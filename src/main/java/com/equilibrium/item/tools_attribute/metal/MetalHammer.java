@@ -44,7 +44,7 @@ public class MetalHammer extends ToolItem implements AdditionalAttribute{
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         AdditionalAttribute.super.appendTooltip(stack,context,tooltip,type);
-        tooltip.add(Text.literal("重锤:对骷髅类生物造成1.5倍伤害").formatted(Formatting.GRAY));
+        tooltip.add(Text.translatable("item.miteequilibrium.hammer.tooltip").formatted(Formatting.GRAY));
     }
 
 

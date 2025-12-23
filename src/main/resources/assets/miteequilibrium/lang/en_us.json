@@ -98,6 +98,18 @@
 
   "item.miteequilibrium.copper_hammer": "Copper Hammer",
   "item.miteequilibrium.silver_hammer": "Silver Hammer",
+
+
+  "item.miteequilibrium.silver.tooltip1": "Deals double damage to undead mobs.",
+  "item.miteequilibrium.silver.tooltip2": "Grants 5 seconds of Regeneration II after landing the killing blow on an undead mob.",
+  "item.miteequilibrium.hammer.tooltip": "Heavy Hammer: Deals 1.5x damage to skeletons.",
+  "item.miteequilibrium.dagger_tooltip": "Slaughter: Deals 1.5x damage to passive mobs.",
+
+
+
+
+
+
   "item.miteequilibrium.gold_hammer": "Gold Hammer",
   "item.miteequilibrium.mithril_hammer": "Mithril Hammer",
   "item.miteequilibrium.adamantium_hammer": "Adamantium Hammer",

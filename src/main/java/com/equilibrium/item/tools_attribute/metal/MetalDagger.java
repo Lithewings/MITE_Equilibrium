@@ -43,6 +43,7 @@ public class MetalDagger extends ToolItem implements AdditionalAttribute{
     @Override
     public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type) {
         AdditionalAttribute.super.appendTooltip(stack,context,tooltip,type);
+        tooltip.add(Text.translatable("item.miteequilibrium.dagger_tooltip").formatted(Formatting.GRAY));
         //see:PlayerEntityMixin.attackStart(Entity target)
     }
 

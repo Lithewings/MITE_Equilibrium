@@ -62,7 +62,7 @@ public class BaseCoinItem extends Item {
         //消耗一个晶体
         itemStack.setCount(itemStack.getCount()-1);
         //向玩家返还物品
-        player.getInventory().insertStack(convertItem.getDefaultStack());
+        player.getInventory().offerOrDrop(convertItem.getDefaultStack());
         return TypedActionResult.success(itemStack);
     }
 

@@ -34,7 +34,7 @@ public class WaterBowl extends Item {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
         itemStack.setCount(itemStack.getCount() - 1);
-        user.getInventory().insertStack(Items.BOWL.getDefaultStack());
+        user.getInventory().offerOrDrop(Items.BOWL.getDefaultStack());
         return TypedActionResult.success(itemStack,world.isClient);
 
     }
