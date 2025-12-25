@@ -163,6 +163,7 @@ public abstract class CowEntityMixin extends AnimalEntity {
         if(isIllness()){
             player.sendMessage(Text.of("The cow can not be milked or fed due to the illness."));
             cir.setReturnValue(ActionResult.SUCCESS);
+            return;
         }
 
         ItemStack itemStack = player.getStackInHand(hand);
