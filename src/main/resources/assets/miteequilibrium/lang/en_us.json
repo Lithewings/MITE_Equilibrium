@@ -12,8 +12,12 @@
   "item.miteequilibrium.manure": "Manure",
 
   "item.miteequilibrium.bowl_water": "Bowl of Water",
-
+  "item.miteequilibrium.bowl_milk": "Bowl of Milk",
   "block.miteequilibrium.emerald_enchanting_table": "Emerald Enchanting Table",
+
+  "item.miteequilibrium.cheese": "Cheese",
+  "item.miteequilibrium.mashed_potato": "Mashed Potato",
+
 
   "mod.selectWorld.seedInfo": "Let the random number decide this",
   "mod.options.difficulty.easy.info": "Hostile mobs spawn but deal less damage. Hunger bar depletes and drains all health.",

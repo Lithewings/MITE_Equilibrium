@@ -108,6 +108,7 @@
     "render.OpenToLanScreenMixin",
     "render.WorldCreatorMixin",
     "render.WorldRendererMixin",
+    "render.entity_renderer.CowEntityRendererMixin",
     "tables.AnvilScreenHandlerMixin",
     "world.EditGameRulesScreenMixin"
   ]

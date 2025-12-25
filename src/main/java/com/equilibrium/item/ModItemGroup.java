@@ -153,9 +153,14 @@ public class ModItemGroup {
                                 entries.add(FoodItems.WATER_BOWL);
                                 entries.add(FoodItems.VEGETABLE_SOUP);
                                 entries.add(FoodItems.BEEF_SOUP);
+                                entries.add(FoodItems.MASHED_POTATO);
+                                entries.add(FoodItems.MILK_BOWL);
+                                entries.add(FoodItems.CHEESE);
                                 entries.add(FoodItems.ONION);
+
                                 entries.add(ModBlocks.EMERALD_ENCHANTING_TABLE);
                                 entries.add(ModItems.MANURE);
+
                             }
                     ).build());
 

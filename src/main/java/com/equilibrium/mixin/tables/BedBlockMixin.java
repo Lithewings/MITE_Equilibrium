@@ -1,19 +1,13 @@
 package com.equilibrium.mixin.tables;
 
-import com.equilibrium.util.ServerInfoRecorder;
 import com.equilibrium.util.WorldMoonPhasesSelector;
 import net.minecraft.block.BedBlock;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalFacingBlock;
-import net.minecraft.block.enums.BedPart;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.WorldSavePath;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -25,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Objects;
 
-import static com.equilibrium.entity.goal.AStarPathfinder.findPath;
+import static com.equilibrium.util.AStarPathfinder.findPath;
 
 @Mixin(BedBlock.class)
 public abstract class BedBlockMixin extends HorizontalFacingBlock implements BlockEntityProvider {

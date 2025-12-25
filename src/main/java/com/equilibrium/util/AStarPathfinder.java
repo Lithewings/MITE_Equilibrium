@@ -1,11 +1,10 @@
-package com.equilibrium.entity.goal;
+package com.equilibrium.util;
 
 import java.util.*;
 
 import com.equilibrium.tags.ModBlockTags;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.DoorBlock;
-import net.minecraft.block.FenceGateBlock;
+import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.state.property.Properties;
 import net.minecraft.world.World;
@@ -120,6 +119,95 @@ public class AStarPathfinder {
         return null;
     }
 
+//    public static List<BlockPos> findPathStrictlyForTwoMeterAnimals(World world, BlockPos start, BlockPos goal) {
+//        // 最小堆(优先队列)，按 fCost 从小到大排序
+//        PriorityQueue<Node> openSet = new PriorityQueue<>(Comparator.comparingDouble(Node::fCost));
+//        // 存所有访问或创建过的节点，方便查找
+//        Map<BlockPos, Node> allNodes = new HashMap<>();
+//        // 闭集，存已经确定不再优化的节点坐标
+//        Set<BlockPos> closedSet = new HashSet<>();
+//
+//        // 起点节点
+//        Node startNode = new Node(start);
+//        startNode.gCost = 0;
+//        startNode.hCost = heuristic(start, goal);
+//        allNodes.put(start, startNode);
+//        openSet.add(startNode);
+//
+//
+//
+//
+//        while (!openSet.isEmpty()) {
+//            // 取出 fCost 最小的节点
+//            Node current = openSet.poll();
+//            if (current == null) break;
+//
+//            // 如果已经到达目标点(或足够接近)，就可以重构路径返回
+//            if (current.pos.equals(goal)) {
+//                return reconstructPath(current);
+//            }
+//
+//            boolean isJumping = false;
+//            if (current.parent != null && current.pos.getY() > current.parent.pos.getY()) {
+//                isJumping = true;
+//            }
+//
+//
+//            closedSet.add(current.pos);
+//
+//
+//            for (BlockPos neighborPos : getNeighbors(current.pos)) {
+//
+//                // --- 2) 判断是否超出最大搜索范围 ---
+//                // 采用曼哈顿距离判断与起点的距离
+//                if (heuristic(start, neighborPos) > MAX_RANGE) {
+//                    continue;
+//                }
+//
+//                // 若相邻方块不可通过，则跳过
+//                if(!isPassableIfEntityWithTwoMeterCanPass(world,neighborPos))
+//                    continue;
+//
+//
+//
+//                // 若已在闭集，跳过
+//                if (closedSet.contains(neighborPos)) {
+//                    continue;
+//                }
+//
+//                // gCost: 到邻居节点的花费 = 当前节点的gCost + 1(或其他权值)
+//                double tentativeG = current.gCost + 1;
+//
+//                // 取出邻居对应的Node，如果没有则创建
+//                Node neighborNode = allNodes.get(neighborPos);
+//                if (neighborNode == null) {
+//                    neighborNode = new Node(neighborPos);
+//                    allNodes.put(neighborPos, neighborNode);
+//                }
+//
+//                // 如果这条路径更优，或者邻居还没进过openSet，就更新
+//                if (tentativeG < neighborNode.gCost) {
+//
+//
+//
+//                    neighborNode.gCost = tentativeG;
+//                    neighborNode.hCost = heuristic(neighborPos, goal);
+//                    neighborNode.parent = current;
+//
+//
+//                    // 如果还不在 openSet，则加入
+//                    if (!openSet.contains(neighborNode)) {
+//                        openSet.add(neighborNode);
+//                    }
+//                }
+//            }
+//
+//
+//        }
+//        // openSet 为空都没找到路径，返回null
+//        return null;
+//    }
+
     /**
      * 启发式函数(Heuristic)，这里用三维曼哈顿距离
      */
@@ -142,6 +230,9 @@ public class AStarPathfinder {
         neighbors.add(pos.west());
         return neighbors;
     }
+
+
+
 
     /**
      * 判断方块是否可通过。此处仅示例判断"是空气"。
@@ -166,8 +257,6 @@ public class AStarPathfinder {
         }
         return false;
     }
-
-
 
     /**
      * 从终点节点逐级向父节点回溯，构建整条路径(从起点 -> 终点)。

@@ -10,6 +10,7 @@ import com.equilibrium.event.CraftingMetalPickAxeCallback;
 import com.equilibrium.item.*;
 import com.equilibrium.network.C2SClickTimesPacket;
 import com.equilibrium.network.C2STriggerContentChangePacket;
+import com.equilibrium.network.S2CCowIllnessTextureBooleanPacket;
 import com.equilibrium.persistent_state.StateSaverAndLoader;
 import com.equilibrium.util.XpHashMap;
 import com.equilibrium.util.OnServerInitializeMethod;
@@ -449,7 +450,8 @@ public class MITEequilibrium implements ModInitializer {
         //网络服务
         C2SClickTimesPacket.register();
         C2STriggerContentChangePacket.register();
-
+        //网络服务:客户端接收
+        S2CCowIllnessTextureBooleanPacket.register();
 
 
 
