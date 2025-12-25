@@ -28,7 +28,7 @@ public class RegisterEnchantments {
     public static final RegistryKey<Enchantment> SPEED= of("speed");
 
 
-
+    public static final RegistryKey<Enchantment> EXTEND= of("extend");
 
 
     private static void register(Registerable<Enchantment> registry, RegistryKey<Enchantment> key, Enchantment.Builder builder) {

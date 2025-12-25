@@ -1,46 +1,31 @@
 package com.equilibrium.mixin.player;
 
 import com.equilibrium.persistent_state.StateSaverAndLoader;
-import com.equilibrium.util.ServerInfoRecorder;
 import com.mojang.authlib.GameProfile;
 import com.mojang.datafixers.util.Either;
 import net.minecraft.advancement.criterion.Criteria;
+import net.minecraft.block.BedBlock;
 import net.minecraft.block.HorizontalFacingBlock;
-import net.minecraft.entity.EntityStatuses;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.PacketCallbacks;
-import net.minecraft.network.packet.s2c.play.DeathMessageS2CPacket;
-import net.minecraft.scoreboard.AbstractTeam;
-import net.minecraft.scoreboard.ScoreAccess;
-import net.minecraft.scoreboard.ScoreboardCriterion;
-import net.minecraft.screen.ScreenTexts;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.stat.Stats;
-import net.minecraft.text.HoverEvent;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.Unit;
 import net.minecraft.util.math.*;
-import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
-import java.util.Optional;
-
-import static net.minecraft.world.World.OVERWORLD;
 
 @Mixin(ServerPlayerEntity.class)
 public abstract class ServerPlayerEntityMixin extends PlayerEntity {
@@ -102,4 +87,49 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
 
 
 
+    @Shadow
+    public abstract void setSpawnPoint(RegistryKey<World> dimension, @Nullable BlockPos pos, float angle, boolean forced, boolean sendMessage);
+
+
+
+
+    @Inject(method = "trySleep",at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayerEntity;setSpawnPoint(Lnet/minecraft/registry/RegistryKey;Lnet/minecraft/util/math/BlockPos;FZZ)V"), cancellable = true)
+    public void trySleep(BlockPos pos, CallbackInfoReturnable<Either<SleepFailureReason, Unit>> cir) {
+        cir.cancel();
+        BedBlock block = (BedBlock)this.getWorld().getBlockState(pos).getBlock();
+        if(!block.getColor().getName().equals("white"))
+            //白色床不设置出生点
+            this.setSpawnPoint(this.getWorld().getRegistryKey(), pos, this.getYaw(), false, true);
+
+
+        if (this.getWorld().isDay()) {
+            cir.setReturnValue(Either.left(PlayerEntity.SleepFailureReason.NOT_POSSIBLE_NOW));
+        } else {
+            if (!this.isCreative()) {
+                double d = 8.0;
+                double e = 5.0;
+                Vec3d vec3d = Vec3d.ofBottomCenter(pos);
+                List<HostileEntity> list = this.getWorld()
+                        .getEntitiesByClass(
+                                HostileEntity.class,
+                                new Box(vec3d.getX() - 8.0, vec3d.getY() - 5.0, vec3d.getZ() - 8.0, vec3d.getX() + 8.0, vec3d.getY() + 5.0, vec3d.getZ() + 8.0),
+                                entity -> entity.isAngryAt(this)
+                        );
+                if (!list.isEmpty()) {
+                    cir.setReturnValue(Either.left(PlayerEntity.SleepFailureReason.NOT_SAFE));
+                }
+            }
+
+            Either<PlayerEntity.SleepFailureReason, Unit> either = super.trySleep(pos).ifRight(unit -> {
+                this.incrementStat(Stats.SLEEP_IN_BED);
+                Criteria.SLEPT_IN_BED.trigger((ServerPlayerEntity)(Object) this);
+            });
+            if (!this.getServerWorld().isSleepingEnabled()) {
+                this.sendMessage(Text.translatable("sleep.not_possible"), true);
+            }
+
+            ((ServerWorld)this.getWorld()).updateSleepingPlayers();
+            cir.setReturnValue(either);
+        }
+    }
 }

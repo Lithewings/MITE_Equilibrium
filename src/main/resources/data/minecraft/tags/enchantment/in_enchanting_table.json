@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "miteequilibrium:reaching",
-    "miteequilibrium:speed"
+    "miteequilibrium:speed",
+    "miteequilibrium:extend"
   ]
 }

@@ -63,7 +63,7 @@ public abstract class CowEntityMixin extends AnimalEntity {
     private int milkCoolDown =0;
 
     @Unique
-    private int checkEnvironmentIsSuitableTime = 100;
+    private int checkEnvironmentIsSuitableTime = 6000;
     @Unique
     private int grassBlockLackTimes;
     @Unique
@@ -230,7 +230,7 @@ public abstract class CowEntityMixin extends AnimalEntity {
             this.checkEnvironmentIsSuitableTime--;
             if (checkEnvironmentIsSuitableTime <= 0) {
                 checkEnvironment();
-                checkEnvironmentIsSuitableTime = 100;
+                checkEnvironmentIsSuitableTime = 6000;
             }
             this.milkCoolDown--;
             if(milkCoolDown<=0)

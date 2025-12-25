@@ -137,7 +137,7 @@
 
 
 
-  "enchantment.miteequilibrium.reaching": "触及",
+
 
 
   "item.miteequilibrium.adamantium_nugget": "艾德曼粒",
@@ -260,6 +260,10 @@
 
 
   "enchantment.miteequilibrium.speed": "速度",
+  "enchantment.miteequilibrium.extend": "延展",
+  "enchantment.miteequilibrium.reaching": "触及",
+
+
   "item.effect.miteequilibrium.sub_night_vision": "冷萃的夜视药水",
   "item.miteequilibrium.test": "Test"
 }
