@@ -39,6 +39,17 @@ public class ColorAdjuster {
 
         return newRed | newGreen | newBlue;
     }
+
+    public static String getRGB(int color){
+        int red = (color >> 16) & 0xFF;
+        int green = (color >> 8) & 0xFF;
+        int blue = color & 0xFF;
+        return "red: "+red+"green: "+green+"blue: "+blue+" = "+String.format("#%06X", color);
+    }
+    public static int setRGB(int red,int green,int blue){
+
+        return  (red << 16) | (green << 8) | blue;
+    }
 }
 
 

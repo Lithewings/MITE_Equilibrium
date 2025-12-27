@@ -1,5 +1,6 @@
 package com.equilibrium.persistent_state;
 
+import com.equilibrium.util.MapNbtSerializer;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.MinecraftServer;
@@ -7,7 +8,10 @@ import net.minecraft.world.PersistentState;
 import net.minecraft.world.PersistentStateManager;
 import net.minecraft.world.World;
 
+import java.io.IOException;
+
 import static com.equilibrium.MITEequilibrium.MOD_ID;
+import static com.equilibrium.network.S2CStockChangeGrassColorPacket.BLOCK_POS_INTEGER_CONCURRENT_HASH_MAP;
 
 public class StateSaverAndLoader extends PersistentState {
     //这里创建你要保存的变量
@@ -23,7 +27,45 @@ public class StateSaverAndLoader extends PersistentState {
     public int playerDeathTimes = 0 ;
 
 
-//    //世界难度,默认普通
+
+
+
+    //map存储缓冲器1
+    public NbtCompound mapNbt1;
+
+    public void saveMapNbtToBuffer1() {
+        this.mapNbt1 = MapNbtSerializer.toNbt(
+                BLOCK_POS_INTEGER_CONCURRENT_HASH_MAP,
+                (dos, pos) -> {
+                    try {
+                        dos.writeInt(pos.getX());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    try {
+                        dos.writeInt(pos.getY());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    try {
+                        dos.writeInt(pos.getZ());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                },
+                (dos, value) -> {
+                    try {
+                        dos.writeInt(value);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+        );
+    }
+
+
+
+    //    //世界难度,默认普通
 //    public int difficultyLevel = 1 ;
 //
 //
@@ -34,10 +76,14 @@ public class StateSaverAndLoader extends PersistentState {
 
     @Override
     public NbtCompound writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-        ;
+
+
         nbt.putBoolean("isPickAxeCrafted", isPickAxeCrafted);
         nbt.putBoolean("onFirstDay", onFirstInTheWorld);
         nbt.putInt("playerDeathTimes", playerDeathTimes);
+
+
+        nbt.put("concurrent_hashmap_for_polluted_grass_block",mapNbt1);
 //        nbt.putInt("difficultyLevel", difficultyLevel);
 //        nbt.putBoolean("keepHardcore", keepHardcore);
 
@@ -53,6 +99,7 @@ public class StateSaverAndLoader extends PersistentState {
         stateSaverAndLoader.isPickAxeCrafted = tag.getBoolean("isPickAxeCrafted");
         stateSaverAndLoader.onFirstInTheWorld = tag.getBoolean("onFirstDay");
         stateSaverAndLoader.playerDeathTimes = tag.getInt("playerDeathTimes");
+        stateSaverAndLoader.mapNbt1=tag.getCompound("concurrent_hashmap_for_polluted_grass_block");
 //        stateSaverAndLoader.difficultyLevel = tag.getInt("difficultyLevel");
 //        stateSaverAndLoader.keepHardcore = tag.getBoolean("keepHardcore");
 
@@ -71,6 +118,7 @@ public class StateSaverAndLoader extends PersistentState {
                 state.isPickAxeCrafted = nbt.getBoolean("isPickAxeCrafted");
                 state.onFirstInTheWorld =nbt.getBoolean("onFirstDay");
                 state.playerDeathTimes=nbt.getInt("playerDeathTimes");
+                state.mapNbt1 = nbt.getCompound("concurrent_hashmap_for_polluted_grass_block");
 //                state.difficultyLevel=nbt.getInt("difficultyLevel");
 
                 return state;

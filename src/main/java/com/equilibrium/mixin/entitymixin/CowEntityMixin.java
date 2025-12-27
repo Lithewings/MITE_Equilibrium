@@ -1,8 +1,10 @@
 package com.equilibrium.mixin.entitymixin;
 
 import com.equilibrium.MITEequilibrium;
+import com.equilibrium.entity.ProduceManure;
 import com.equilibrium.entity.goal.AdvanceEscapeDangerGoal;
 import com.equilibrium.entity.goal.BreakGrassGoal;
+import com.equilibrium.entity.goal.FleeEntityGoalBesidesPlayer;
 import com.equilibrium.item.food.FoodItems;
 import com.equilibrium.network.S2CCowIllnessTextureBooleanPacket;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -10,19 +12,20 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
+
+import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.CowEntity;
-import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
 import net.minecraft.item.Items;
-import net.minecraft.loot.LootTable;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -34,7 +37,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -44,24 +46,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import static com.equilibrium.util.AStarForAnimals.findSimplePath;
 
-@Mixin(CowEntity.class)
-public abstract class CowEntityMixin extends AnimalEntity {
-    @org.jetbrains.annotations.Nullable @Shadow public abstract PassiveEntity createChild(ServerWorld par1, PassiveEntity par2);
 
-    @Shadow protected abstract void playStepSound(BlockPos pos, BlockState state);
+@Mixin(CowEntity.class)
+public abstract class CowEntityMixin extends AnimalEntity implements ProduceManure {
 
     protected CowEntityMixin(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
     }
 
-
-
     @Unique
     private int milkCoolDown =0;
-
     @Unique
     private int checkEnvironmentIsSuitableTime = 6000;
     @Unique
@@ -75,6 +71,14 @@ public abstract class CowEntityMixin extends AnimalEntity {
     @Unique
     private boolean lastIllnessState = false;
 
+
+    @Inject(method = "createCowAttributes",at = @At("HEAD"),cancellable = true)
+    private static void createCowAttributes(CallbackInfoReturnable<DefaultAttributeContainer.Builder> cir) {
+        cir.setReturnValue(MobEntity.createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2F));
+    }
+
+
+
     @Override
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
@@ -84,6 +88,23 @@ public abstract class CowEntityMixin extends AnimalEntity {
         nbt.putInt("grassLackTimes", this.grassLackTimes);
         nbt.putInt("waterLackTimes", this.waterLackTimes);
         nbt.putInt("milkCoolDown", this.milkCoolDown);
+    }
+
+    @Override
+    public void tickMovement() {
+        super.tickMovement();
+        produceManure((CowEntity)(Object)this);
+    }
+
+    @Unique
+    public int itemLayTime = this.random.nextInt(6000) + 18000;
+
+    @Override
+    public void produceManure(AnimalEntity entity) {
+        if (--this.itemLayTime <= 0) {
+            ProduceManure.super.produceManure(entity);
+            this.itemLayTime = this.random.nextInt(6000) + 18000;
+        }
     }
 
     @Override
@@ -147,6 +168,9 @@ public abstract class CowEntityMixin extends AnimalEntity {
             this.setPose(EntityPose.DYING);
         }
     }
+
+
+
     @Inject(method = "interactMob",at = @At("HEAD"), cancellable = true)
     public void interactMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         cir.cancel();
@@ -442,13 +466,14 @@ public abstract class CowEntityMixin extends AnimalEntity {
         ci.cancel();
         this.goalSelector.add(0, new SwimGoal(this));
         this.goalSelector.add(1, new AdvanceEscapeDangerGoal(this, 2.25));
-        this.goalSelector.add(2, new AnimalMateGoal(this, 1.0));
-        this.goalSelector.add(3, new TemptGoal(this, 1.25, stack -> stack.isIn(ItemTags.COW_FOOD), false));
-        this.goalSelector.add(4, new FollowParentGoal(this, 1.25));
-        this.goalSelector.add(5, new WanderAroundFarGoal(this, 1.0));
+        this.goalSelector.add(4, new FleeEntityGoalBesidesPlayer(this, PlayerEntity.class, 3.0F, 1.4, 1.8));
+        this.goalSelector.add(3, new AnimalMateGoal(this, 1.0));
+        this.goalSelector.add(2, new TemptGoal(this, 1.6, stack -> stack.isIn(ItemTags.COW_FOOD), false));
+        this.goalSelector.add(5, new FollowParentGoal(this, 1.25));
+        this.goalSelector.add(6, new WanderAroundFarGoal(this, 1.0));
         this.goalSelector.add(10, new BreakGrassGoal((CowEntity)(Object)this));
-        this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 6.0F));
-        this.goalSelector.add(7, new LookAroundGoal(this));
+        this.goalSelector.add(7, new LookAtEntityGoal(this, PlayerEntity.class, 6.0F));
+        this.goalSelector.add(8, new LookAroundGoal(this));
     }
     @Unique
     @Override

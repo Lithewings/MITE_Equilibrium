@@ -11,7 +11,9 @@ import com.equilibrium.item.*;
 import com.equilibrium.network.C2SClickTimesPacket;
 import com.equilibrium.network.C2STriggerContentChangePacket;
 import com.equilibrium.network.S2CCowIllnessTextureBooleanPacket;
+import com.equilibrium.network.S2CStockChangeGrassColorPacket;
 import com.equilibrium.persistent_state.StateSaverAndLoader;
+import com.equilibrium.util.MapNbtSerializer;
 import com.equilibrium.util.XpHashMap;
 import com.equilibrium.util.OnServerInitializeMethod;
 import com.mojang.brigadier.CommandDispatcher;
@@ -26,6 +28,7 @@ import net.minecraft.GameVersion;
 import net.minecraft.SaveVersion;
 import net.minecraft.SharedConstants;
 import net.minecraft.command.CommandRegistryAccess;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -36,9 +39,11 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.state.property.IntProperty;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import org.slf4j.Logger;
@@ -50,11 +55,15 @@ import com.equilibrium.craft_time_register.BlockEnityRegistry;
 import com.equilibrium.util.CreativeGroup;
 import com.equilibrium.craft_time_worklevel.CraftingIngredients;
 import com.equilibrium.craft_time_worklevel.FurnaceIngredients;
+import org.spongepowered.asm.mixin.Unique;
 
 
+import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -81,9 +90,11 @@ import static com.equilibrium.structure_generator.ModPlacementGenerator.*;
 import static com.equilibrium.status.registerStatusEffect.registerStatusEffects;
 import static com.equilibrium.structure_generator.StructureRegister.registerStructure;
 import static com.equilibrium.tags.ModBlockTags.registerModBlockTags;
+import static com.equilibrium.tags.ModEntityTags.registerModEntityTags;
 import static com.equilibrium.tags.ModItemTags.registerModItemTags;
 
 
+import static com.equilibrium.util.MapNbtSerializer.fromNbt;
 import static com.equilibrium.util.OnServerInitializeMethod.onUseCrystalItem;
 import static com.equilibrium.util.OnServerInitializeMethod.onUseHayBlockItem;
 
@@ -95,8 +106,8 @@ public class MITEequilibrium implements ModInitializer {
 
 
 
-
-
+    //服务器状态
+    public static StateSaverAndLoader serverState;
 
 
 
@@ -110,6 +121,7 @@ public class MITEequilibrium implements ModInitializer {
 
     public static final BooleanProperty FERTILIZED = BooleanProperty.of("fertilized");
 
+    public static final IntProperty GRASSBLOCK_POLLUTED = IntProperty.of("grassblock_polluted",0,7);
 
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
@@ -184,7 +196,7 @@ public class MITEequilibrium implements ModInitializer {
 
             @Override
             public String getName() {
-                return "MITE:Equilibrium Beta v1.0.7_1";
+                return "MITE:Equilibrium Beta v1.0.7_2";
             }
 
             @Override
@@ -226,11 +238,28 @@ public class MITEequilibrium implements ModInitializer {
 
             //锁定游戏难度
             server.setDifficultyLocked(true);
-
-
-
-
-
+            //读取服务器持久状态数据
+            serverState = StateSaverAndLoader.getServerState(server);
+            //之前的土地污染map被存在了nbt里,现在把它取出来
+            //读取土地污染map
+            S2CStockChangeGrassColorPacket.BLOCK_POS_INTEGER_CONCURRENT_HASH_MAP = MapNbtSerializer.fromNbt(
+                   serverState.mapNbt1,
+                    dis -> {
+                        try {
+                            return new BlockPos(dis.readInt(), dis.readInt(), dis.readInt());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    },
+                    dis -> {
+                        try {
+                            return dis.readInt();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    },
+                    ConcurrentHashMap::new
+            );
 
 
 
@@ -259,8 +288,18 @@ public class MITEequilibrium implements ModInitializer {
         });
 
 
+
         // 注册服务器 tick 事件
         ServerTickEvents.START_SERVER_TICK.register(server -> {
+
+
+            //更新服务器状态,在这里修改的所有数据都会被保存
+            if (tickCount % (TICK_INTERVAL / 10) == 0) {
+                //保存土地污染map,这个map被网络包定义的一个static的map共享,现在把它读取到nbt然后保存,不需要传参因为可以断定要传送的数据位置
+                serverState.saveMapNbtToBuffer1();
+            }
+
+
             // 每隔 TICK_INTERVAL 次 tick 触发一次检查
             tickCount++;
             //获取时间,得到月相,决定是否触发月相事件
@@ -274,8 +313,8 @@ public class MITEequilibrium implements ModInitializer {
 
             if (isNoPlayersInTheOverWorld) {
                 if (serverOverWorld.getGameRules().getInt(GameRules.RANDOM_TICK_SPEED) != 3) {
-                    for (PlayerEntity player : server.getPlayerManager().getPlayerList())
-                        player.sendMessage(Text.of("由于主世界没有玩家,随机刻速度已回调至默认值"), true);
+//                    for (PlayerEntity player : server.getPlayerManager().getPlayerList())
+//                        player.sendMessage(Text.of("由于主世界没有玩家,随机刻速度已回调至默认值"), true);
                     //有可能目前是蓝月,但玩家在地底世界,所以会陷入这里恢复默认,但蓝月那边又改成5,这样反复执行了这段代码
                     RandomTickModifier(serverOverWorld, 3);
                 }
@@ -291,8 +330,8 @@ public class MITEequilibrium implements ModInitializer {
                 boolean shouldRandomTickIncrease = (moonType.equals("blueMoon") || (moonType.equals("harvestMoon")) || (moonType.equals("haloMoon")));
                 if (!shouldRandomTickIncrease) {
                     if (serverOverWorld.getGameRules().getInt(GameRules.RANDOM_TICK_SPEED) != 3) {
-                        for (PlayerEntity player : server.getPlayerManager().getPlayerList())
-                            player.sendMessage(Text.of("由于处在普通月相,随机刻已回调至默认值"), true);
+//                        for (PlayerEntity player : server.getPlayerManager().getPlayerList())
+//                            player.sendMessage(Text.of("由于处在普通月相,随机刻已回调至默认值"), true);
                         RandomTickModifier(serverOverWorld, 3);
                     }
                 }
@@ -348,8 +387,8 @@ public class MITEequilibrium implements ModInitializer {
                         }
                     } else {
                         if (serverOverWorld.getGameRules().getInt(GameRules.RANDOM_TICK_SPEED) != 3) {
-                            for (PlayerEntity player : server.getPlayerManager().getPlayerList())
-                                player.sendMessage(Text.of("由于第一天的蓝月并没有随机刻增益,随机刻应该修改为3"), true);
+//                            for (PlayerEntity player : server.getPlayerManager().getPlayerList())
+//                                player.sendMessage(Text.of("由于第一天的蓝月并没有随机刻增益,随机刻应该修改为3"), true);
                             RandomTickModifier(serverOverWorld, 3);
                         }
                     }
@@ -452,7 +491,7 @@ public class MITEequilibrium implements ModInitializer {
         C2STriggerContentChangePacket.register();
         //网络服务:客户端接收
         S2CCowIllnessTextureBooleanPacket.register();
-
+        S2CStockChangeGrassColorPacket.register();
 
 
         //玩家食用食品监听器
@@ -535,6 +574,7 @@ public class MITEequilibrium implements ModInitializer {
         //创建标签
         registerModBlockTags();
         registerModItemTags();
+        registerModEntityTags();
         //注册(药水)效果
         registerStatusEffects();
 

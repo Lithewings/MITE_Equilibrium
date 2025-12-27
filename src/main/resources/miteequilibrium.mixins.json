@@ -4,13 +4,10 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "BiomeMixin",
-    "BlocksMixin",
     "EntitySpawner",
-    "GrassColorsMixin",
     "ItemMixin",
     "MiningToolItemMixin",
     "MITEequilibriumMixin",
-    "recipeModifier",
     "ThreadCheck",
     "crafttime.ScreenHandlerMixin",
     "crop.BoneMealItemMixin",
@@ -24,6 +21,7 @@
     "entitymixin.BlazeEntityMixin",
     "entitymixin.CatEntityMixin",
     "entitymixin.CowEntityMixin",
+    "entitymixin.CowEntityMixin2",
     "entitymixin.EndCrystalEntityMixin",
     "entitymixin.EnderDragonEntityMixin",
     "entitymixin.EnderManEntity",
@@ -79,6 +77,7 @@
     "tool.ShovelItemMixin",
     "tool.ToolMaterialDurabilityMixin",
     "vanilla_blocksmixin.BlocksMixin",
+    "vanilla_blocksmixin.GrassBlockMixin",
     "vanilla_itemsmixin.AbstractCauldronBlockMixin",
     "vanilla_itemsmixin.BucketItemMixin",
     "vanilla_itemsmixin.FluidBlockMixin",
@@ -91,7 +90,6 @@
     "defaultRequire": 1
   },
   "client": [
-    "BlockModelRendererMixin",
     "color_light.LightmapTextureManagerMixin",
     "crafttime.MixinClientPlayerEntity",
     "crafttime.MixinCraftingScreen",
@@ -110,6 +108,7 @@
     "render.WorldRendererMixin",
     "render.entity_renderer.CowEntityRendererMixin",
     "tables.AnvilScreenHandlerMixin",
+    "vanilla_blocksmixin.GrassBlockColorWithBiomeMixin",
     "world.EditGameRulesScreenMixin"
   ]
 }

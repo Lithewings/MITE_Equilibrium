@@ -17,13 +17,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(CatEntity.class)
+
 public abstract class CatEntityMixin extends TameableEntity implements VariantHolder<RegistryEntry<CatVariant>> {
     protected CatEntityMixin(EntityType<? extends TameableEntity> entityType, World world) {
         super(entityType, world);
     }
-
-
-
 
     @Inject(method = "mobTick",at = @At("HEAD"))
     public void mobTick(CallbackInfo ci) {
