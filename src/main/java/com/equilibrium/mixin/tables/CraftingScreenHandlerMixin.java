@@ -287,9 +287,10 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 					itemStack = Tools.GOLD_AXE.getDefaultStack();
 
 				int clickTimes = C2SClickTimesPacket.getClickTimes(player);
-				MetalAxe metalAxe = (MetalAxe)itemStack.getItem();
-				rightClickLogicForAdditionalAttribute(metalAxe.maxPlayerDurabilityBoost(metalAxe.material, player), clickTimes, itemStack);
-
+				if(!itemStack.isOf(Tools.FLINT_AXE)) {
+					MetalAxe metalAxe = (MetalAxe) itemStack.getItem();
+					rightClickLogicForAdditionalAttribute(metalAxe.maxPlayerDurabilityBoost(metalAxe.material, player), clickTimes, itemStack);
+				}
 
 
 
@@ -299,8 +300,10 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 
 			if(itemStack.isIn(ModItemTags.DAGGERS)){
 				int clickTimes = C2SClickTimesPacket.getClickTimes(player);
-				MetalDagger metalDagger = (MetalDagger)itemStack.getItem();
-				rightClickLogicForAdditionalAttribute(metalDagger.maxPlayerDurabilityBoost(metalDagger.material, player), clickTimes, itemStack);
+				if(!itemStack.isOf(Tools.FLINT_KNIFE)) {
+					MetalDagger metalDagger = (MetalDagger) itemStack.getItem();
+					rightClickLogicForAdditionalAttribute(metalDagger.maxPlayerDurabilityBoost(metalDagger.material, player), clickTimes, itemStack);
+				}
 			}
 
 
@@ -326,29 +329,30 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 			}
 
 			if(itemStack.isIn(ModItemTags.SHOVELS)){
-				if(itemStack.isOf(Items.IRON_SHOVEL))
-					itemStack = Tools.IRON_SHOVEL.getDefaultStack();
+				if(!itemStack.isOf(Tools.FLINT_SHOVEL) && !itemStack.isOf(Items.WOODEN_SHOVEL)) {
+					if (itemStack.isOf(Items.IRON_SHOVEL))
+						itemStack = Tools.IRON_SHOVEL.getDefaultStack();
 
-				if(itemStack.isOf(Items.GOLDEN_SHOVEL))
-					itemStack = Tools.GOLD_SHOVEL.getDefaultStack();
-				int clickTimes = C2SClickTimesPacket.getClickTimes(player);
-				MetalShovel metalShovel = (MetalShovel)itemStack.getItem();
-				rightClickLogicForAdditionalAttribute(metalShovel.maxPlayerDurabilityBoost(metalShovel.material, player), clickTimes, itemStack);
+					if (itemStack.isOf(Items.GOLDEN_SHOVEL))
+						itemStack = Tools.GOLD_SHOVEL.getDefaultStack();
+					int clickTimes = C2SClickTimesPacket.getClickTimes(player);
+					MetalShovel metalShovel = (MetalShovel) itemStack.getItem();
+					rightClickLogicForAdditionalAttribute(metalShovel.maxPlayerDurabilityBoost(metalShovel.material, player), clickTimes, itemStack);
 
-
+				}
 
 
 			}
 
-			if(itemStack.isIn(ModItemTags.SWORDS)){
-				if(itemStack.isOf(Items.IRON_SWORD))
-					itemStack = Tools.IRON_SWORD.getDefaultStack();
+			if(itemStack.isIn(ModItemTags.SWORDS)) {
+					if (itemStack.isOf(Items.IRON_SWORD))
+						itemStack = Tools.IRON_SWORD.getDefaultStack();
 
-				if(itemStack.isOf(Items.GOLDEN_SWORD))
-					itemStack = Tools.GOLD_SWORD.getDefaultStack();
-				int clickTimes = C2SClickTimesPacket.getClickTimes(player);
-				MetalSword metalSword = (MetalSword) itemStack.getItem();
-				rightClickLogicForAdditionalAttribute(metalSword.maxPlayerDurabilityBoost(metalSword.material, player), clickTimes, itemStack);
+					if (itemStack.isOf(Items.GOLDEN_SWORD))
+						itemStack = Tools.GOLD_SWORD.getDefaultStack();
+					int clickTimes = C2SClickTimesPacket.getClickTimes(player);
+					MetalSword metalSword = (MetalSword) itemStack.getItem();
+					rightClickLogicForAdditionalAttribute(metalSword.maxPlayerDurabilityBoost(metalSword.material, player), clickTimes, itemStack);
 			}
 
 			if (itemStack.isIn(ModItemTags.PICKAXES)) {

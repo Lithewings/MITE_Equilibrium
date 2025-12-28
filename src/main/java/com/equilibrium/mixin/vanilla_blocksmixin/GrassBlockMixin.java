@@ -93,13 +93,13 @@ public abstract class GrassBlockMixin extends SpreadableBlock implements Fertili
         }
 
     }
-    @Override
-    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        if(player instanceof ServerPlayerEntity serverPlayerEntityplayer)
-            serverPlayerEntityplayer.sendMessage(Text.of("The GrassBlock Pollute Level is : "+state.get(GRASSBLOCK_POLLUTED)));
-
-        return ActionResult.PASS;
-    }
+//    @Override
+//    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
+//        if(player instanceof ServerPlayerEntity serverPlayerEntityplayer)
+//            serverPlayerEntityplayer.sendMessage(Text.of("The GrassBlock Pollute Level is : "+state.get(GRASSBLOCK_POLLUTED)));
+//
+//        return ActionResult.PASS;
+//    }
     @Override
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
        super.onStateReplaced(state,world,pos,newState,moved);
