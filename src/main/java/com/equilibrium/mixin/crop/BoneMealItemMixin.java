@@ -1,5 +1,6 @@
 package com.equilibrium.mixin.crop;
 
+import com.equilibrium.event.MoonPhaseEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Fertilizable;
@@ -14,7 +15,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldEvents;
 import net.minecraft.world.event.GameEvent;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -22,19 +25,35 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.Random;
 
 
+import static com.equilibrium.MITEequilibrium.CROP_IS_ILLNESS;
 import static com.equilibrium.MITEequilibrium.FERTILIZED;
+import static com.equilibrium.event.MoonPhaseEvent.CROP_BLOCK_POS;
 import static net.minecraft.item.BoneMealItem.useOnFertilizable;
 import static net.minecraft.item.BoneMealItem.useOnGround;
 
 @Mixin(BoneMealItem.class)
 public class BoneMealItemMixin {
 
-    @Inject(method = "useOnFertilizable",at=@At("HEAD"), cancellable = true)
+    @Shadow
+    @Final
+    public static int field_30851;
+
+    @Inject(method = "useOnFertilizable", at = @At("HEAD"), cancellable = true)
     private static void useOnFertilizable1(ItemStack stack, World world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-        if(world.random.nextInt(8)!=0) {
+        if (world.getBlockState(pos).contains(CROP_IS_ILLNESS) && world.getBlockState(pos).get(CROP_IS_ILLNESS) && world instanceof ServerWorld serverWorld) {
+            world.setBlockState(pos, world.getBlockState(pos).with(CROP_IS_ILLNESS, false));
+            MoonPhaseEvent.CROP_BLOCK_POS.put(pos,false);
+            MoonPhaseEvent.updateCropBlockPos(serverWorld);
+            stack.decrement(1);
+            cir.setReturnValue(true);
+        } else if (world.random.nextInt(8) != 0) {
             cir.setReturnValue(true);
             stack.decrement(1);
         }
+//        if(world.random.nextInt(8)!=0) {
+//            cir.setReturnValue(true);
+//            stack.decrement(1);
+//        }
     }
 //    @Inject(method = "useOnBlock",at= @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemUsageContext;getPlayer()Lnet/minecraft/entity/player/PlayerEntity;",ordinal = 0), cancellable = true)
 //    private void useOnBlock(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir) {

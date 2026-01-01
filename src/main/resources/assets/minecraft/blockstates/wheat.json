@@ -1,0 +1,62 @@
+{
+  "replace": true,
+  "variants": {
+    "age=0,crop_illness=false": {
+      "model": "minecraft:block/wheat_stage0"
+    },
+    "age=1,crop_illness=false": {
+      "model": "minecraft:block/wheat_stage1"
+    },
+    "age=2,crop_illness=false": {
+      "model": "minecraft:block/wheat_stage2"
+    },
+    "age=3,crop_illness=false": {
+      "model": "minecraft:block/wheat_stage3"
+    },
+    "age=4,crop_illness=false": {
+      "model": "minecraft:block/wheat_stage4"
+    },
+    "age=5,crop_illness=false": {
+      "model": "minecraft:block/wheat_stage5"
+    },
+    "age=6,crop_illness=false": {
+      "model": "minecraft:block/wheat_stage6"
+    },
+    "age=7,crop_illness=false": {
+      "model": "minecraft:block/wheat_stage7"
+    },
+
+    "age=0,crop_illness=true": {
+      "model": "miteequilibrium:block/wheat_blighted_stage0"
+    },
+    "age=1,crop_illness=true": {
+      "model": "miteequilibrium:block/wheat_blighted_stage1"
+    },
+    "age=2,crop_illness=true": {
+      "model": "miteequilibrium:block/wheat_blighted_stage2"
+    },
+    "age=3,crop_illness=true": {
+      "model": "miteequilibrium:block/wheat_blighted_stage3"
+    },
+    "age=4,crop_illness=true": {
+      "model": "miteequilibrium:block/wheat_blighted_stage4"
+    },
+    "age=5,crop_illness=true": {
+      "model": "miteequilibrium:block/wheat_blighted_stage5"
+    },
+    "age=6,crop_illness=true": {
+      "model": "miteequilibrium:block/wheat_blighted_stage6"
+    },
+    "age=7,crop_illness=true": {
+      "model": "miteequilibrium:block/wheat_blighted_stage7"
+    }
+
+
+
+
+
+
+
+
+  }
+}

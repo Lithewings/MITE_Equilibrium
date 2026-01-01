@@ -1,5 +1,6 @@
 package com.equilibrium.persistent_state;
 
+import com.equilibrium.event.MoonPhaseEvent;
 import com.equilibrium.util.MapNbtSerializer;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
@@ -33,6 +34,10 @@ public class StateSaverAndLoader extends PersistentState {
     //map存储缓冲器1
     public NbtCompound mapNbt1;
 
+
+    public NbtCompound mapNbt2;
+
+
     public void saveMapNbtToBuffer1() {
         this.mapNbt1 = MapNbtSerializer.toNbt(
                 BLOCK_POS_INTEGER_CONCURRENT_HASH_MAP,
@@ -63,6 +68,36 @@ public class StateSaverAndLoader extends PersistentState {
         );
     }
 
+    public void saveMapNbtToBuffer2() {
+        this.mapNbt2 = MapNbtSerializer.toNbt(
+                MoonPhaseEvent.CROP_BLOCK_POS,
+                (dos, pos) -> {
+                    try {
+                        dos.writeInt(pos.getX());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    try {
+                        dos.writeInt(pos.getY());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    try {
+                        dos.writeInt(pos.getZ());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                },
+                (dos, value) -> {
+                    try {
+                        dos.writeBoolean(value);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+        );
+    }
+
 
 
     //    //世界难度,默认普通
@@ -84,6 +119,7 @@ public class StateSaverAndLoader extends PersistentState {
 
 
         nbt.put("concurrent_hashmap_for_polluted_grass_block",mapNbt1);
+        nbt.put("concurrent_hashmap_for_illness_crop",mapNbt2);
 //        nbt.putInt("difficultyLevel", difficultyLevel);
 //        nbt.putBoolean("keepHardcore", keepHardcore);
 
@@ -100,7 +136,9 @@ public class StateSaverAndLoader extends PersistentState {
         stateSaverAndLoader.onFirstInTheWorld = tag.getBoolean("onFirstDay");
         stateSaverAndLoader.playerDeathTimes = tag.getInt("playerDeathTimes");
         stateSaverAndLoader.mapNbt1=tag.getCompound("concurrent_hashmap_for_polluted_grass_block");
-//        stateSaverAndLoader.difficultyLevel = tag.getInt("difficultyLevel");
+        stateSaverAndLoader.mapNbt2=tag.getCompound("concurrent_hashmap_for_illness_crop");
+
+        //        stateSaverAndLoader.difficultyLevel = tag.getInt("difficultyLevel");
 //        stateSaverAndLoader.keepHardcore = tag.getBoolean("keepHardcore");
 
 
@@ -119,7 +157,10 @@ public class StateSaverAndLoader extends PersistentState {
                 state.onFirstInTheWorld =nbt.getBoolean("onFirstDay");
                 state.playerDeathTimes=nbt.getInt("playerDeathTimes");
                 state.mapNbt1 = nbt.getCompound("concurrent_hashmap_for_polluted_grass_block");
-//                state.difficultyLevel=nbt.getInt("difficultyLevel");
+                state.mapNbt2 = nbt.getCompound("concurrent_hashmap_for_illness_crop");
+
+
+                //                state.difficultyLevel=nbt.getInt("difficultyLevel");
 
                 return state;
             },

@@ -1,5 +1,6 @@
 package com.equilibrium.entity.mob;
 
+import com.equilibrium.entity.goal.BreakTorchGoal;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
@@ -68,6 +69,7 @@ public class InvisibleStalkerEntity extends ZombieEntity {
         this.targetSelector.add(1, new RevengeGoal(this).setGroupRevenge(ZombifiedPiglinEntity.class));
         this.targetSelector.add(2, new ActiveTargetGoal(this, PlayerEntity.class, true));
         this.targetSelector.add(3, new ActiveTargetGoal(this, IronGolemEntity.class, true));
+        this.targetSelector.add(4, new BreakTorchGoal(this));
 
     }
     private BlockPos findGroundPosition(World world, BlockPos start) {

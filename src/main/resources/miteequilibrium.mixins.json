@@ -109,7 +109,10 @@
     "render.OpenToLanScreenMixin",
     "render.WorldCreatorMixin",
     "render.WorldRendererMixin",
+    "render.entity_renderer.ChickenEntityRendererMixin",
     "render.entity_renderer.CowEntityRendererMixin",
+    "render.entity_renderer.PigEntityRendererMixin",
+    "render.entity_renderer.SheepEntityRendererMixin",
     "tables.AnvilScreenHandlerMixin",
     "vanilla_blocksmixin.GrassBlockColorWithBiomeMixin",
     "world.EditGameRulesScreenMixin"

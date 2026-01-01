@@ -91,7 +91,7 @@ public abstract class BedBlockMixin extends HorizontalFacingBlock implements Blo
             cir.setReturnValue(ActionResult.SUCCESS);
             return;
         }
-        if(Objects.equals(WorldMoonPhasesSelector.getMoonType(), "bloodMoon")) {
+        if(Objects.equals(WorldMoonPhasesSelector.calculateMoonType(world), "bloodMoon")) {
             player.sendMessage(Text.of("血月让你无法休息"), true);
             cir.setReturnValue(ActionResult.SUCCESS);
             return;
@@ -113,10 +113,10 @@ public abstract class BedBlockMixin extends HorizontalFacingBlock implements Blo
                 }
                 else{
                     //足够安全后,检查时间
-                    if(world.getTimeOfDay() % 24000L<15500 && !Objects.equals(WorldMoonPhasesSelector.getMoonType(), "fullMoon")){
+                    if(world.getTimeOfDay() % 24000L<15500 && !Objects.equals(WorldMoonPhasesSelector.calculateMoonType(world), "fullMoon")){
                     player.sendMessage(Text.of("你并没有困意"), true);
                     cir.setReturnValue(ActionResult.SUCCESS);
-                    } else if (Objects.equals(WorldMoonPhasesSelector.getMoonType(), "fullMoon")) {
+                    } else if (Objects.equals(WorldMoonPhasesSelector.calculateMoonType(world), "fullMoon")) {
                         player.sendMessage(Text.of("满月让你感到失眠"),true);
                         cir.setReturnValue(ActionResult.SUCCESS);
                     }

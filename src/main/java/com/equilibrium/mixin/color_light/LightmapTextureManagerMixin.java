@@ -157,16 +157,11 @@ public abstract class LightmapTextureManagerMixin {
                         //方块底色,可以用来表现月光
 
                         //获取月相
-                        String moonType = WorldMoonPhasesSelector.getMoonType();
-                        //可能出现同步问题,如果这一行没能抢过实时渲染的线程,那就自己发送时间自己算
-                        if(moonType==null){
-                            LOGGER.info("moonType is null");
-                            WorldMoonPhasesSelector.setMoonType(clientWorld.getTimeOfDay());
-                        }
+                        String moonType = WorldMoonPhasesSelector.calculateMoonType(clientWorld);
+
+
                         //夜视增益
                         //新建集合
-
-
                         //100级时获得最大增益值
                         float nightVision = Math.clamp((this.client.player.experienceLevel)*0.01F,0,1);
 

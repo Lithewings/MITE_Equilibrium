@@ -7,10 +7,11 @@ import com.equilibrium.craft_time_register.UseBlock;
 import com.equilibrium.entity.goal.BreakBlockGoal;
 import com.equilibrium.event.BreakBlockEvent;
 import com.equilibrium.event.CraftingMetalPickAxeCallback;
+import com.equilibrium.event.MoonPhaseEvent;
 import com.equilibrium.item.*;
 import com.equilibrium.network.C2SClickTimesPacket;
 import com.equilibrium.network.C2STriggerContentChangePacket;
-import com.equilibrium.network.S2CCowIllnessTextureBooleanPacket;
+import com.equilibrium.network.S2CIllnessTextureBooleanPacket;
 import com.equilibrium.network.S2CStockChangeGrassColorPacket;
 import com.equilibrium.persistent_state.StateSaverAndLoader;
 import com.equilibrium.util.MapNbtSerializer;
@@ -28,7 +29,6 @@ import net.minecraft.GameVersion;
 import net.minecraft.SaveVersion;
 import net.minecraft.SharedConstants;
 import net.minecraft.command.CommandRegistryAccess;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -55,12 +55,10 @@ import com.equilibrium.craft_time_register.BlockEnityRegistry;
 import com.equilibrium.util.CreativeGroup;
 import com.equilibrium.craft_time_worklevel.CraftingIngredients;
 import com.equilibrium.craft_time_worklevel.FurnaceIngredients;
-import org.spongepowered.asm.mixin.Unique;
 
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
@@ -94,7 +92,6 @@ import static com.equilibrium.tags.ModEntityTags.registerModEntityTags;
 import static com.equilibrium.tags.ModItemTags.registerModItemTags;
 
 
-import static com.equilibrium.util.MapNbtSerializer.fromNbt;
 import static com.equilibrium.util.OnServerInitializeMethod.onUseCrystalItem;
 import static com.equilibrium.util.OnServerInitializeMethod.onUseHayBlockItem;
 
@@ -122,6 +119,11 @@ public class MITEequilibrium implements ModInitializer {
     public static final BooleanProperty FERTILIZED = BooleanProperty.of("fertilized");
 
     public static final IntProperty GRASSBLOCK_POLLUTED = IntProperty.of("grassblock_polluted",0,7);
+
+    public static final BooleanProperty CROP_IS_ILLNESS = BooleanProperty.of("crop_illness");
+
+
+
 
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
@@ -240,6 +242,27 @@ public class MITEequilibrium implements ModInitializer {
             server.setDifficultyLocked(true);
             //读取服务器持久状态数据
             serverState = StateSaverAndLoader.getServerState(server);
+
+
+            MoonPhaseEvent.CROP_BLOCK_POS = MapNbtSerializer.fromNbt(
+                    serverState.mapNbt2,
+                    dis -> {
+                        try {
+                            return new BlockPos(dis.readInt(), dis.readInt(), dis.readInt());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    },
+                    dis -> {
+                        try {
+                            return dis.readBoolean();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    },
+                    ConcurrentHashMap::new);
+
+
             //之前的土地污染map被存在了nbt里,现在把它取出来
             //读取土地污染map
             S2CStockChangeGrassColorPacket.BLOCK_POS_INTEGER_CONCURRENT_HASH_MAP = MapNbtSerializer.fromNbt(
@@ -297,6 +320,8 @@ public class MITEequilibrium implements ModInitializer {
             if (tickCount % (TICK_INTERVAL / 10) == 0) {
                 //保存土地污染map,这个map被网络包定义的一个static的map共享,现在把它读取到nbt然后保存,不需要传参因为可以断定要传送的数据位置
                 serverState.saveMapNbtToBuffer1();
+                //保存生病农作物的map
+                serverState.saveMapNbtToBuffer2();
             }
 
 
@@ -341,12 +366,20 @@ public class MITEequilibrium implements ModInitializer {
                     if (serverOverWorld.getTimeOfDay() % 100 == 0) {
                         //执行间隔事件
                         spawnMobNearPlayer(serverOverWorld);
+
                     }
                     if (serverOverWorld.getTimeOfDay() % random.nextInt(50, 64) == 0) {
                         //执行间隔事件
                         controlWeather(serverOverWorld);
 //                        this.sendMessage(Text.of("雷电事件"));
                     }
+                    if (serverOverWorld.getTimeOfDay() % 256 == 0) {
+                        //施加作物疾病
+                        applyIllnessForCrop(serverOverWorld);
+
+                    }
+
+
                 }
 
 
@@ -490,7 +523,7 @@ public class MITEequilibrium implements ModInitializer {
         C2SClickTimesPacket.register();
         C2STriggerContentChangePacket.register();
         //网络服务:客户端接收
-        S2CCowIllnessTextureBooleanPacket.register();
+        S2CIllnessTextureBooleanPacket.register();
         S2CStockChangeGrassColorPacket.register();
 
 

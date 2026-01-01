@@ -1,4 +1,5 @@
 {
+  "replace": true,
   "variants": {
     "moisture=0,fertilized=true": {
       "model": "miteequilibrium:block/farmland_dry_fertilized"

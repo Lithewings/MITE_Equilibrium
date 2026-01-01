@@ -1,15 +1,11 @@
 package com.equilibrium.mixin.entitymixin;
 
 import com.equilibrium.entity.goal.AdvanceActiveTargetGoal;
-import com.equilibrium.entity.goal.AttackPassiveEntitiesGoal;
 import com.equilibrium.entity.goal.BreakBlockGoal;
 import com.equilibrium.entity.goal.LookAtTargetGoal;
-import com.mojang.serialization.Decoder;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -18,10 +14,8 @@ import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.entity.mob.ZombifiedPiglinEntity;
 import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -37,11 +31,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
-import static com.equilibrium.util.WorldMoonPhasesSelector.setAndGetMoonType;
+import static com.equilibrium.util.WorldMoonPhasesSelector.calculateMoonType;
 import static com.equilibrium.util.XpHashMap.getXpForLevel;
 
 @Mixin(ZombieEntity.class)
@@ -109,7 +101,7 @@ public abstract class ZombieEntityMixin extends HostileEntity {
 
     @Inject(method = "tick", at = @At(value = "TAIL"))
     public void tick(CallbackInfo ci) {
-        if (Objects.equals(setAndGetMoonType(this.getWorld()), "bloodMoon") && !this.hasStatusEffect(StatusEffects.STRENGTH)) {
+        if (Objects.equals(calculateMoonType(this.getWorld()), "bloodMoon") && !this.hasStatusEffect(StatusEffects.STRENGTH)) {
             this.addStatusEffect(statusEffectInstance);
         }
     }

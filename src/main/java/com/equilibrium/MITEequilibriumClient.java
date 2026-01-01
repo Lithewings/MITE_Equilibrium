@@ -5,7 +5,6 @@ import com.equilibrium.block.ModBlocks;
 import com.equilibrium.block.enchanting_table.*;
 import com.equilibrium.client.render.entity.renderer.*;
 import com.equilibrium.item.Armors;
-import com.equilibrium.network.S2CCowIllnessTextureBooleanPacket;
 import com.equilibrium.util.MyCommands;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;

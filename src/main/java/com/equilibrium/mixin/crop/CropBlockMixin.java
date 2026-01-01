@@ -1,27 +1,37 @@
 package com.equilibrium.mixin.crop;
 
 import com.equilibrium.MITEequilibrium;
+import com.equilibrium.event.MoonPhaseEvent;
 import com.equilibrium.util.ServerInfoRecorder;
 import net.minecraft.block.*;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
+import net.minecraft.state.property.Properties;
+import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import org.spongepowered.asm.mixin.Final;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.Collections;
-import java.util.List;
-
-import static com.equilibrium.MITEequilibrium.FERTILIZED;
-import static com.equilibrium.MITEequilibrium.MOD_ID;
+import static com.equilibrium.MITEequilibrium.*;
+import static com.equilibrium.event.MoonPhaseEvent.CROP_BLOCK_POS;
 
 @Mixin(CropBlock.class)
 public abstract class CropBlockMixin extends PlantBlock implements Fertilizable {
@@ -41,18 +51,121 @@ public abstract class CropBlockMixin extends PlantBlock implements Fertilizable 
         return 7;
     }
 
+    @Shadow
+    protected int getGrowthAmount(World world) {
+        return MathHelper.nextInt(world.random, 2, 5);
+    }
 
+    @Inject(method = "applyGrowth",at = @At("HEAD"), cancellable = true)
+    public void applyGrowth(World world, BlockPos pos, BlockState state, CallbackInfo ci) {
+        ci.cancel();
+
+
+        if(world instanceof ServerWorld serverWorld){
+            MoonPhaseEvent.updateCropBlockPos(serverWorld);
+        }
+
+
+
+        int i = this.getAge(state) + this.getGrowthAmount(world);
+        int j = this.getMaxAge();
+        if (i > j) {
+            i = j;
+        }
+        world.setBlockState(pos, this.withAge(i).with(CROP_IS_ILLNESS,CROP_BLOCK_POS.getOrDefault(pos,false)), Block.NOTIFY_LISTENERS);
+    }
+
+
+    @Override
+    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
+        if(world instanceof ServerWorld serverWorld){
+            MoonPhaseEvent.updateCropBlockPos(serverWorld);
+        }
+
+
+
+
+        if(state.contains(CROP_IS_ILLNESS) && player instanceof ServerPlayerEntity serverPlayerEntity){
+            serverPlayerEntity.sendMessage(Text.of("illness?"+ state.get(CROP_IS_ILLNESS)));
+        }
+
+
+        if(player.getMainHandStack().isOf(Items.STICK)){
+            CROP_BLOCK_POS.put(pos,true);
+            world.setBlockState(pos,state.with(CROP_IS_ILLNESS,true));
+        }
+
+        return super.onUse(state, world, pos, player, hit);
+    }
+
+    @Unique
     private int lastRandomTickDay;
 
     @Inject(method = "<init>",at = @At(value = "TAIL"))
     public void CropBlock(Settings settings, CallbackInfo ci) {
         //初始化种植日期
         lastRandomTickDay =ServerInfoRecorder.getDay();
+
     }
+    @Shadow
+    public static final IntProperty AGE = Properties.AGE_7;
+    @Shadow
+    protected IntProperty getAgeProperty() {
+        return AGE;
+    }
+
+    @Inject(method = "appendProperties",at = @At(value = "TAIL"))
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder, CallbackInfo ci) {
+        builder.add(CROP_IS_ILLNESS);
+    }
+
+
+    @Override
+    protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+        super.onStateReplaced(state, world, pos, newState, moved);
+        if(world instanceof ServerWorld serverWorld){
+            MoonPhaseEvent.updateCropBlockPos(serverWorld);
+        }
+
+
+        if(state.isAir()){
+            world.setBlockState(pos, Blocks.AIR.getDefaultState());
+            CROP_BLOCK_POS.remove(pos);
+        }
+    }
+
+    @Override
+    public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
+        if(world instanceof ServerWorld serverWorld){
+            MoonPhaseEvent.updateCropBlockPos(serverWorld);
+        }
+
+
+
+
+
+
+        //将其坐标和生病情况记录在公共集合中
+        if(world instanceof ServerWorld) {
+            CROP_BLOCK_POS.put(pos, false);
+            world.setBlockState(pos, state.with(CROP_IS_ILLNESS, false));
+        }
+    }
+
+
+
 
     @Inject(method = "randomTick",at = @At(value = "HEAD"),cancellable = true)
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
         ci.cancel();
+        if(world instanceof ServerWorld serverWorld){
+            MoonPhaseEvent.updateCropBlockPos(serverWorld);
+        }
+        if(!world.isSkyVisible(pos)){
+            if(world.getRandom().nextInt(64)==0)
+                world.breakBlock(pos,true);
+        }
+
         //成功进行了一轮随机刻,记录当前日期
         int thisRandomTickDay = ServerInfoRecorder.getDay();
         //12天必然成长一个阶段

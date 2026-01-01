@@ -1,10 +1,10 @@
 package com.equilibrium.event;
 
-import com.equilibrium.MITEequilibrium;
 import com.equilibrium.util.WorldMoonPhasesSelector;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.CropBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
@@ -19,29 +19,84 @@ import net.minecraft.entity.mob.SkeletonEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.command.PlaySoundCommand;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
 import net.minecraft.util.TypeFilter;
 import net.minecraft.util.math.*;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.minecraft.world.level.ServerWorldProperties;
 import net.minecraft.world.poi.PointOfInterestStorage;
 import net.minecraft.world.poi.PointOfInterestTypes;
 
+import static com.equilibrium.MITEequilibrium.CROP_IS_ILLNESS;
+import static net.minecraft.block.CropBlock.AGE;
+
 public class MoonPhaseEvent {
+
+
+
+    public static Map<BlockPos,Boolean> CROP_BLOCK_POS =new ConcurrentHashMap<>();
+
+
+    public static void updateCropBlockPos(ServerWorld world){
+        //更新集合,删除非空元素
+        for(BlockPos cropPos : CROP_BLOCK_POS.keySet()){
+            if(world.getBlockState(cropPos).isAir()) {
+                MoonPhaseEvent.CROP_BLOCK_POS.remove(cropPos);
+                world.setBlockState(cropPos, Blocks.AIR.getDefaultState());
+                continue;
+            }
+            //更新,删除非法状态
+            if(!world.getBlockState(cropPos).contains(CROP_IS_ILLNESS)) {
+                MoonPhaseEvent.CROP_BLOCK_POS.remove(cropPos);
+                world.setBlockState(cropPos, Blocks.AIR.getDefaultState());
+                continue;
+            }
+            //现在剩下的是要更新状态的作物
+
+            //更新疾病状态
+            world.setBlockState(cropPos,world.getBlockState(cropPos).with(CROP_IS_ILLNESS, CROP_BLOCK_POS.get(cropPos)));
+
+
+
+        }
+    }
+    //批量施加生病逻辑
+    public static void applyIllnessForCrop(ServerWorld world){
+        updateCropBlockPos(world);
+        for(BlockPos cropPos : CROP_BLOCK_POS.keySet()){
+            //若没有生病,使其生病
+            if(cropPos!=null && world.getBlockState(cropPos).contains(CROP_IS_ILLNESS)&& !world.getBlockState(cropPos).get(CROP_IS_ILLNESS)) {
+                if(world.getRandom().nextInt(128)==0){
+                    world.setBlockState(cropPos, world.getBlockState(cropPos).with(CROP_IS_ILLNESS, true));
+                    CROP_BLOCK_POS.put(cropPos,true);
+                }
+            }
+            //如果检查是生病的作物,应该如何做? :打碎
+            else if(cropPos!=null && world.getBlockState(cropPos).contains(CROP_IS_ILLNESS) && world.getBlockState(cropPos).get(CROP_IS_ILLNESS)) {
+                if(world.getRandom().nextInt(1024)==0){
+                    world.breakBlock(cropPos,true);
+                    MoonPhaseEvent.CROP_BLOCK_POS.remove(cropPos);
+                }
+            }
+
+
+        }
+        updateCropBlockPos(world);
+    }
+
+
+
+
+
+
     private static final EntityType<?>[] ANIMAL_TYPES = new EntityType[]{
             EntityType.PIG,
             EntityType.COW,
@@ -57,7 +112,7 @@ public class MoonPhaseEvent {
     private static String moonType;
 
     public static String getMoonType(World world) {
-        moonType = WorldMoonPhasesSelector.setAndGetMoonType(world);
+        moonType = WorldMoonPhasesSelector.calculateMoonType(world);
         if (moonType != null)
             return moonType;
         else {

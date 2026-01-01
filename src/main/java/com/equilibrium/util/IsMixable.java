@@ -5,8 +5,8 @@ import com.equilibrium.tags.ModItemTags;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 
-public class IsMinable {
-    public static int getBlockHarvertLevel(BlockState block){
+public class IsMixable {
+    public static int getBlockHarvestLevel(BlockState block){
         if(block.isIn(ModBlockTags.HARVEST_ONE)){
             return 1;
         } else if (block.isIn(ModBlockTags.HARVEST_TWO)) {
@@ -20,7 +20,7 @@ public class IsMinable {
         }else
             return 0;
     }
-    public static int getItemHarvertLevel(ItemStack stack){
+    public static int getItemHarvestLevel(ItemStack stack){
         if(stack.isIn(ModItemTags.HARVEST_ONE)){
             return 1;
         } else if (stack.isIn(ModItemTags.HARVEST_TWO)) {

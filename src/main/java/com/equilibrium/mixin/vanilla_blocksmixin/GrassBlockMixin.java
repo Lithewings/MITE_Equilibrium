@@ -5,30 +5,15 @@ import com.equilibrium.tags.ModEntityTags;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.server.network.DebugInfoSender;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
-import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 import net.minecraft.world.chunk.light.ChunkLightProvider;
-import net.minecraft.world.explosion.Explosion;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -37,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static com.equilibrium.MITEequilibrium.*;
 import static com.equilibrium.network.S2CStockChangeGrassColorPacket.BLOCK_POS_INTEGER_CONCURRENT_HASH_MAP;
-import static com.equilibrium.util.WorldMoonPhasesSelector.setAndGetMoonType;
+import static com.equilibrium.util.WorldMoonPhasesSelector.calculateMoonType;
 
 @Mixin(GrassBlock.class)
 public abstract class GrassBlockMixin extends SpreadableBlock implements Fertilizable {
@@ -125,7 +110,7 @@ public abstract class GrassBlockMixin extends SpreadableBlock implements Fertili
         if(!this.getDefaultState().contains(GRASSBLOCK_POLLUTED))
             return;
         boolean isStock = entity.getType().isIn(ModEntityTags.STOCKS);
-        boolean b1 = (setAndGetMoonType(world).equals("bloodMoon"));
+        boolean b1 = (calculateMoonType(world).equals("bloodMoon"));
         boolean b2 = world.isSkyVisible(pos.up());
         boolean b3 = entity.getType().isIn(ModEntityTags.STOCKS);
         if(isStock && entity.getRandom().nextInt(128)==0 && b1 && b2 && b3){

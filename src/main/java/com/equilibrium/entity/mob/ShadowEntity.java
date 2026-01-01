@@ -1,5 +1,7 @@
 package com.equilibrium.entity.mob;
 
+import com.equilibrium.entity.goal.BreakGrassGoal;
+import com.equilibrium.entity.goal.BreakTorchGoal;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
@@ -53,10 +55,11 @@ public class ShadowEntity extends ZombieEntity {
     protected void initThisCustomGoals() {
         this.goalSelector.add(2, new ZombieAttackGoal(this, 1.0, false));
         this.goalSelector.add(7, new WanderAroundFarGoal(this, 1.0));
+        this.goalSelector.add(0, new SwimGoal(this));
         this.targetSelector.add(1, new RevengeGoal(this).setGroupRevenge(ZombifiedPiglinEntity.class));
         this.targetSelector.add(2, new ActiveTargetGoal(this, PlayerEntity.class, true));
         this.targetSelector.add(3, new ActiveTargetGoal(this, IronGolemEntity.class, true));
-
+        this.targetSelector.add(4, new BreakTorchGoal(this));
     }
 
 

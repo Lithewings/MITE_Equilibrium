@@ -1,6 +1,5 @@
 package com.equilibrium.mixin.player;
 
-import com.equilibrium.MITEequilibriumClient;
 import com.equilibrium.item.Armors;
 import com.equilibrium.item.Tools;
 import com.equilibrium.persistent_state.StateSaverAndLoader;
@@ -8,23 +7,15 @@ import com.equilibrium.status.registerStatusEffect;
 import com.equilibrium.tags.ModBlockTags;
 import com.equilibrium.tags.ModItemTags;
 import com.equilibrium.util.*;
-import com.mojang.datafixers.util.Either;
 import net.minecraft.block.BlockState;
-import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.EnchantmentEffectComponentTypes;
 import net.minecraft.component.type.FoodComponent;
-import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.*;
-import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.boss.dragon.EnderDragonEntity;
-import net.minecraft.entity.boss.dragon.EnderDragonPart;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffectUtil;
 import net.minecraft.entity.effect.StatusEffects;
@@ -37,21 +28,11 @@ import net.minecraft.entity.projectile.FishingBobberEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.Potions;
 import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.stat.Stat;
-import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.TypeFilter;
-import net.minecraft.util.Unit;
-import net.minecraft.util.math.*;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -64,16 +45,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Predicate;
-
-
-
 
 import static com.equilibrium.item.tools_attribute.ExtraDamageFromExperienceLevel.getDamageLevel;
-import static com.equilibrium.util.IsMinable.getBlockHarvertLevel;
-import static com.equilibrium.util.IsMinable.getItemHarvertLevel;
+import static com.equilibrium.util.IsMixable.getBlockHarvestLevel;
+import static com.equilibrium.util.IsMixable.getItemHarvestLevel;
 import static java.lang.Math.max;
 import static net.minecraft.registry.tag.EntityTypeTags.SKELETONS;
 import static net.minecraft.registry.tag.EntityTypeTags.UNDEAD;
@@ -473,8 +448,8 @@ public abstract class PlayerEntityMixin extends LivingEntity {
             f = f * 4;
         }
 
-        this.itemHarvest = getItemHarvertLevel(stack);
-        this.blockHarvest = getBlockHarvertLevel(block);
+        this.itemHarvest = getItemHarvestLevel(stack);
+        this.blockHarvest = getBlockHarvestLevel(block);
         if (this.itemHarvest >= this.blockHarvest) {
 
             cir.setReturnValue(f * (0.040F) * (this.experienceLevel<35?1 + this.experienceLevel * 0.1F :1.35F + this.experienceLevel * 0.1F));

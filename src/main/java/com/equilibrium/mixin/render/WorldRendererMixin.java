@@ -33,8 +33,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Objects;
 
-import static com.equilibrium.util.WorldMoonPhasesSelector.getMoonType;
-import static com.equilibrium.util.WorldMoonPhasesSelector.setMoonType;
+import static com.equilibrium.event.MoonPhaseEvent.getMoonType;
+
 
 @Mixin(WorldRenderer.class)
 public abstract class WorldRendererMixin {
@@ -208,12 +208,8 @@ public abstract class WorldRendererMixin {
                     bufferBuilder2.vertex(matrix4f3, -k, 100.0F, k).texture(0.0F, 1.0F);
                     BufferRenderer.drawWithGlobalProgram(bufferBuilder2.end());
 
-                    //获取世界时间
-                    long time = this.world.getTimeOfDay();
-//                    LOGGER.info("The time is "+time);
-                    //发送时间,获取月相
-                    setMoonType(time);
-                    String moonType =getMoonType();
+//获取月相
+                    String moonType =getMoonType(this.world);
 //                    LOGGER.info(moonType);
 
                     //非特殊材质的月相时:
@@ -241,7 +237,6 @@ public abstract class WorldRendererMixin {
                         //尺寸大小
                         k=160.0F;
                         RenderSystem.setShaderTexture(0,BLOOD_MOON);
-                        setMoonType(time);
 
                         //用来确定行和列
                         int s = 0;
@@ -274,7 +269,7 @@ public abstract class WorldRendererMixin {
                         //尺寸大小
                         k=160.0F;
                         RenderSystem.setShaderTexture(0,BLUE_MOON);
-                        setMoonType(time);
+
 
                         //用来确定行和列
                         int s = 0;
@@ -303,7 +298,6 @@ public abstract class WorldRendererMixin {
                         //尺寸大小
                         k=160.0F;
                         RenderSystem.setShaderTexture(0,HARVEST_MOON);
-                        setMoonType(time);
 
                         //用来确定行和列
                         int s = 0;
@@ -332,7 +326,7 @@ public abstract class WorldRendererMixin {
                         //尺寸大小
                         k=80.0F;
                         RenderSystem.setShaderTexture(0,HALO_MOON);
-                        setMoonType(time);
+
 
                         //用来确定行和列
                         int s = 0;

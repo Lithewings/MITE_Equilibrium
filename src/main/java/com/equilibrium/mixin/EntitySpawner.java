@@ -1,24 +1,17 @@
 package com.equilibrium.mixin;
 
 import com.equilibrium.util.WorldMoonPhasesSelector;
-import com.google.common.collect.Lists;
 import net.minecraft.server.world.*;
-import net.minecraft.text.Text;
-import net.minecraft.util.Util;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.profiler.Profiler;
 import net.minecraft.world.*;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkManager;
-import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.chunk.WorldChunk;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
@@ -87,7 +80,7 @@ public abstract class EntitySpawner extends ChunkManager {
                 worldChunk2.increaseInhabitedTime(m);
                 if (bl && (this.spawnMonsters || this.spawnAnimals) && this.world.getWorldBorder().contains(chunkPos)) {
                     //蓝月不刷怪
-                    if(Objects.equals(WorldMoonPhasesSelector.setAndGetMoonType(this.world), "blueMoon"))
+                    if(Objects.equals(WorldMoonPhasesSelector.calculateMoonType(this.world), "blueMoon"))
                         SpawnHelper.spawn(this.world, worldChunk2, info, this.spawnAnimals, false, bl2);
                     else
                         SpawnHelper.spawn(this.world, worldChunk2, info, false, this.spawnMonsters, bl2);
