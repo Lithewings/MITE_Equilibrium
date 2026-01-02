@@ -23,6 +23,8 @@ import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
 import static com.equilibrium.MITEequilibrium.FERTILIZED;
+import static com.equilibrium.event.CropIllnessEvent.CROP_BLOCK_POS;
+import static com.equilibrium.event.CropIllnessEvent.updateCropBlockPos;
 
 public class ManureItem extends Item {
     public static final int field_30851 = 3;
@@ -87,8 +89,18 @@ public class ManureItem extends Item {
 
         BlockState blockState = world.getBlockState(pos);
         if (blockState.getBlock() instanceof Fertilizable fertilizable && fertilizable.isFertilizable(world, pos, blockState)) {
-            if (world instanceof ServerWorld) {
-                if (fertilizable.canGrow(world, world.random, pos, blockState)) {
+            if (world instanceof ServerWorld serverWorld) {
+                if(blockState.getBlock() instanceof CropBlock cropBlock){
+                    //施加加速生长的逻辑
+                    cropBlock.grow((ServerWorld)world, world.random, pos, blockState);
+
+                    //更新状态
+                    updateCropBlockPos(serverWorld);
+                    //维持原先的生病状态
+                    CROP_BLOCK_POS.getOrDefault(pos,false);
+
+                }
+                else if (fertilizable.canGrow(world, world.random, pos, blockState)) {
                     fertilizable.grow((ServerWorld)world, world.random, pos, blockState);
                 }
 

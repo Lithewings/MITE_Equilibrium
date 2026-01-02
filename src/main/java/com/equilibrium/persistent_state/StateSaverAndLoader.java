@@ -12,23 +12,20 @@ import net.minecraft.world.World;
 import java.io.IOException;
 
 import static com.equilibrium.MITEequilibrium.MOD_ID;
+import static com.equilibrium.event.CropIllnessEvent.CROP_BLOCK_POS;
 import static com.equilibrium.network.S2CStockChangeGrassColorPacket.BLOCK_POS_INTEGER_CONCURRENT_HASH_MAP;
 
 public class StateSaverAndLoader extends PersistentState {
     //这里创建你要保存的变量
 
 
-
     //金属镐是否已经被合成
-    public boolean isPickAxeCrafted =false;
+    public boolean isPickAxeCrafted = false;
     //玩家是否是第一次创建世界
-    public boolean onFirstInTheWorld =true;
+    public boolean onFirstInTheWorld = true;
 
     //玩家死亡次数
-    public int playerDeathTimes = 0 ;
-
-
-
+    public int playerDeathTimes = 0;
 
 
     //map存储缓冲器1
@@ -70,7 +67,7 @@ public class StateSaverAndLoader extends PersistentState {
 
     public void saveMapNbtToBuffer2() {
         this.mapNbt2 = MapNbtSerializer.toNbt(
-                MoonPhaseEvent.CROP_BLOCK_POS,
+                CROP_BLOCK_POS,
                 (dos, pos) -> {
                     try {
                         dos.writeInt(pos.getX());
@@ -99,7 +96,6 @@ public class StateSaverAndLoader extends PersistentState {
     }
 
 
-
     //    //世界难度,默认普通
 //    public int difficultyLevel = 1 ;
 //
@@ -118,8 +114,8 @@ public class StateSaverAndLoader extends PersistentState {
         nbt.putInt("playerDeathTimes", playerDeathTimes);
 
 
-        nbt.put("concurrent_hashmap_for_polluted_grass_block",mapNbt1);
-        nbt.put("concurrent_hashmap_for_illness_crop",mapNbt2);
+        nbt.put("concurrent_hashmap_for_polluted_grass_block", mapNbt1);
+        nbt.put("concurrent_hashmap_for_illness_crop", mapNbt2);
 //        nbt.putInt("difficultyLevel", difficultyLevel);
 //        nbt.putBoolean("keepHardcore", keepHardcore);
 
@@ -135,18 +131,15 @@ public class StateSaverAndLoader extends PersistentState {
         stateSaverAndLoader.isPickAxeCrafted = tag.getBoolean("isPickAxeCrafted");
         stateSaverAndLoader.onFirstInTheWorld = tag.getBoolean("onFirstDay");
         stateSaverAndLoader.playerDeathTimes = tag.getInt("playerDeathTimes");
-        stateSaverAndLoader.mapNbt1=tag.getCompound("concurrent_hashmap_for_polluted_grass_block");
-        stateSaverAndLoader.mapNbt2=tag.getCompound("concurrent_hashmap_for_illness_crop");
+        stateSaverAndLoader.mapNbt1 = tag.getCompound("concurrent_hashmap_for_polluted_grass_block");
+        stateSaverAndLoader.mapNbt2 = tag.getCompound("concurrent_hashmap_for_illness_crop");
 
         //        stateSaverAndLoader.difficultyLevel = tag.getInt("difficultyLevel");
 //        stateSaverAndLoader.keepHardcore = tag.getBoolean("keepHardcore");
 
 
-
-
         return stateSaverAndLoader;
     }
-
 
 
     private static Type<StateSaverAndLoader> type = new Type<>(
@@ -154,8 +147,8 @@ public class StateSaverAndLoader extends PersistentState {
             (nbt, lookup) -> {
                 StateSaverAndLoader state = new StateSaverAndLoader();
                 state.isPickAxeCrafted = nbt.getBoolean("isPickAxeCrafted");
-                state.onFirstInTheWorld =nbt.getBoolean("onFirstDay");
-                state.playerDeathTimes=nbt.getInt("playerDeathTimes");
+                state.onFirstInTheWorld = nbt.getBoolean("onFirstDay");
+                state.playerDeathTimes = nbt.getInt("playerDeathTimes");
                 state.mapNbt1 = nbt.getCompound("concurrent_hashmap_for_polluted_grass_block");
                 state.mapNbt2 = nbt.getCompound("concurrent_hashmap_for_illness_crop");
 
@@ -166,11 +159,12 @@ public class StateSaverAndLoader extends PersistentState {
             },
             null
     );
-//这个函数可以传入一个服务器实例,返回这个实例的持久状态类,就是这个类本身,但带有数据
+
+    //这个函数可以传入一个服务器实例,返回这个实例的持久状态类,就是这个类本身,但带有数据
     public static StateSaverAndLoader getServerState(MinecraftServer server) {
         // (注：如需在任意维度生效，请使用 'World.OVERWORLD' ，不要使用 'World.END' 或 'World.NETHER')
         //拿到从服务器的所有nbt数据
-        if(server==null){
+        if (server == null) {
             return new StateSaverAndLoader();
         }
         PersistentStateManager persistentStateManager = server.getWorld(World.OVERWORLD).getPersistentStateManager();
@@ -181,17 +175,8 @@ public class StateSaverAndLoader extends PersistentState {
         //  'getOrCreate' 的后续调用将本地的 'StateSaverAndLoader' NBT 传递给 'StateSaverAndLoader::createFromNbt'。
 
 
-
         //读入所有nbt变量
         StateSaverAndLoader state = persistentStateManager.getOrCreate(type, MOD_ID);
-
-
-
-
-
-
-
-
 
 
         // 若状态未标记为脏(dirty)，当 Minecraft 关闭时， 'writeNbt' 不会被调用，相应地，没有数据会被保存。
@@ -202,12 +187,6 @@ public class StateSaverAndLoader extends PersistentState {
 
         return state;
     }
-
-
-
-
-
-
 
 
 }

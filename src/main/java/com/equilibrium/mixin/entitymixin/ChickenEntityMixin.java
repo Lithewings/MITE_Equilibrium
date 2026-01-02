@@ -14,6 +14,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
@@ -35,7 +36,8 @@ public abstract class ChickenEntityMixin extends AnimalEntity implements Produce
     @Override
     public void tickMovement() {
         super.tickMovement();
-        produceManure(this);
+        if(!environmentChecker.isIllness())
+            produceManure(this);
     }
 
     @Unique
@@ -56,11 +58,11 @@ public abstract class ChickenEntityMixin extends AnimalEntity implements Produce
         this.goalSelector.add(0, new SwimGoal(this));
 
         //讨厌玩家
-        this.goalSelector.add(0, new ConstantFleePlayerGoal(this, 8.0F, 1.2, 1.4));
+        this.goalSelector.add(1, new ConstantFleePlayerGoal(this, 8.0F, 1.6, 1.7));
         this.goalSelector.add(2, new EscapeDangerGoal(this, 2));
 
 
-        this.goalSelector.add(3, new AnimalMateGoal(this, 1.0));
+        this.goalSelector.add(0, new AnimalMateGoal(this, 1.0));
         this.goalSelector.add(4, new TemptGoal(this, 1.6, stack -> stack.isIn(ItemTags.CHICKEN_FOOD), false));
         this.goalSelector.add(5, new FollowParentGoal(this, 1.1));
         this.goalSelector.add(6, new WanderAroundFarGoal(this, 1.0));
@@ -79,8 +81,19 @@ public abstract class ChickenEntityMixin extends AnimalEntity implements Produce
 
     @Override
     public ActionResult interactMob(PlayerEntity player, Hand hand) {
-        super.interactMob(player,hand);
-        return environmentChecker.interactTask(player);
+        if(player.getWorld().isClient()) {
+            return ActionResult.SUCCESS;
+        }
+
+        if(environmentChecker.isIllness()){
+            player.sendMessage(Text.of("The chicken can not be interact due to the illness."));
+            environmentChecker.interactTask(player);
+            //在这里停下
+            return ActionResult.PASS;
+        }
+        environmentChecker.interactTask(player);
+        //后续原版逻辑...
+        return super.interactMob(player,hand);
     }
     @Inject(method = "writeCustomDataToNbt",at = @At("TAIL"))
     public void writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {

@@ -49,7 +49,10 @@ public class EnvironmentChecker {
         this.entity=entity;
         this.environmentCheckInterValTime = environmentCheckInterValTime;
         this.checkEnvironmentIsSuitableTime = this.environmentCheckInterValTime;
+
     }
+
+
 
     public void tickTask() {
         if(this.entity.getWorld() instanceof ServerWorld serverWorld) {
@@ -59,15 +62,10 @@ public class EnvironmentChecker {
         this.checkEnvironment();
     }
 
-    public ActionResult interactTask(PlayerEntity player) {
-        if(player.getWorld().isClient()) {
-            return ActionResult.SUCCESS;
-        }
+    public void interactTask(PlayerEntity player) {
         if(player.isSneaking()){
             this.checkBodyStats(player);
-            return ActionResult.SUCCESS;
         }
-        return ActionResult.PASS;
     }
 
 
@@ -155,7 +153,13 @@ public class EnvironmentChecker {
 
     public void checkEnvironment(){
 
-        this.checkEnvironmentIsSuitableTime--;
+
+
+
+        if(this.entity.isBaby())
+            this.checkEnvironmentIsSuitableTime=this.checkEnvironmentIsSuitableTime-4;
+        else
+            this.checkEnvironmentIsSuitableTime--;
         if (checkEnvironmentIsSuitableTime > 0) {
             return;
         }

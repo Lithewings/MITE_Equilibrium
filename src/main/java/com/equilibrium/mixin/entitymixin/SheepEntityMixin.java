@@ -15,6 +15,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
@@ -35,33 +36,48 @@ public abstract  class SheepEntityMixin extends AnimalEntity implements Shearabl
         super(entityType, world);
     }
 
-    @Shadow
-    private EatGrassGoal eatGrassGoal;
-
-    @Shadow private int eatGrassTimer;
-
 
     @Unique
     private final EnvironmentChecker environmentChecker =new EnvironmentChecker((SheepEntity)(Object)this,6000);
 
 
-
-
-    @Inject(method = "mobTick",at = @At("TAIL"))
+    @Inject(method = "mobTick",at = @At("HEAD"))
     protected void mobTick(CallbackInfo ci) {
         environmentChecker.tickTask();
     }
 
 
 
-    @Inject(method = "interactMob",at = @At("TAIL"), cancellable = true)
+    @Inject(method = "interactMob",at = @At("HEAD"), cancellable = true)
     public void interactMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
-        cir.setReturnValue(environmentChecker.interactTask(player));
+        if(player.getWorld().isClient()) {
+            cir.setReturnValue(ActionResult.SUCCESS);
+            return;
+        }
+
+
+
+
+
+
+        if(environmentChecker.isIllness()){
+            player.sendMessage(Text.of("The sheep can not be interact due to the illness."));
+            environmentChecker.interactTask(player);
+            cir.setReturnValue(ActionResult.PASS);
+            //在这里停下
+            return;
+        }
+        environmentChecker.interactTask(player);
+        //后续原版逻辑...
     }
 
-    @Override
-    public void tickMovement() {
-        super.tickMovement();
+    //如果使用override,会直接重载父类的方法,而原先mixin的重载方法代码段:
+    // if (this.getWorld().isClient) {
+    //			this.eatGrassTimer = Math.max(0, this.eatGrassTimer - 1);
+    //		}
+    //将被忽视
+    @Inject(method = "tickMovement",at = @At("HEAD"))
+    public void tickMovement(CallbackInfo ci) {
         this.produceManure(this);
     }
 
@@ -89,26 +105,27 @@ public abstract  class SheepEntityMixin extends AnimalEntity implements Shearabl
     public void readCustomDataFromNbt(NbtCompound nbt, CallbackInfo ci) {
         environmentChecker.readCustomDataFromNbt(nbt);
     }
+    @Shadow
+    private EatGrassGoal eatGrassGoal;
 
+    @Override
+    public void initGoals() {
+        this.eatGrassGoal = new EatGrassGoal(this);
+        this.goalSelector.add(0, new SwimGoal(this));
+        this.goalSelector.add(0, new AnimalMateGoal(this, 1.0));
 
-    @Inject(method = "initGoals",at = @At("HEAD"), cancellable = true)
-    public void initGoals(CallbackInfo ci) {
-        ci.cancel();
-        this.eatGrassGoal = new EatGrassGoal((SheepEntity)(Object)this);
-        this.goalSelector.add(0, new SwimGoal((SheepEntity)(Object)this));
 
         //讨厌玩家
-        this.goalSelector.add(0, new ConstantFleePlayerGoal(this, 8.0F, 1.2, 1.4));
-        this.goalSelector.add(2, new EscapeDangerGoal(this, 2));
+        this.goalSelector.add(1, new ConstantFleePlayerGoal(this, 8.0F, 1.6, 1.7));
+        this.goalSelector.add(1, new EscapeDangerGoal(this, 2));
 
-        this.goalSelector.add(3, new AnimalMateGoal((SheepEntity)(Object)this, 1.0));
-        this.goalSelector.add(4, new TemptGoal((SheepEntity)(Object)this, 1.6, stack -> stack.isIn(ItemTags.SHEEP_FOOD), false));
-        this.goalSelector.add(5, new FollowParentGoal((SheepEntity)(Object)this, 1.1));
-        this.goalSelector.add(6, this.eatGrassGoal);
-        this.goalSelector.add(7, new WanderAroundFarGoal((SheepEntity)(Object)this, 1.0));
-        this.goalSelector.add(8, new LookAtEntityGoal((SheepEntity)(Object)this, PlayerEntity.class, 6.0F));
-        this.goalSelector.add(9, new LookAroundGoal((SheepEntity)(Object)this));
-        this.goalSelector.add(10, new BreakGrassGoal(this));
+
+        this.goalSelector.add(3, new TemptGoal(this, 1.5, stack -> stack.isIn(ItemTags.SHEEP_FOOD), false));
+        this.goalSelector.add(4, new FollowParentGoal(this, 1.1));
+        this.goalSelector.add(5, this.eatGrassGoal);
+        this.goalSelector.add(6, new WanderAroundFarGoal(this, 1.0));
+        this.goalSelector.add(7, new LookAtEntityGoal(this, PlayerEntity.class, 6.0F));
+        this.goalSelector.add(8, new LookAroundGoal(this));
     }
 
 

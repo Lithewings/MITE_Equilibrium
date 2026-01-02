@@ -31,24 +31,25 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import static com.equilibrium.MITEequilibrium.*;
-import static com.equilibrium.event.MoonPhaseEvent.CROP_BLOCK_POS;
+import static com.equilibrium.event.CropIllnessEvent.CROP_BLOCK_POS;
+import static com.equilibrium.event.CropIllnessEvent.updateCropBlockPos;
+
 
 @Mixin(CropBlock.class)
 public abstract class CropBlockMixin extends PlantBlock implements Fertilizable {
 
 
-    @Shadow public abstract int getAge(BlockState state);
+    @Shadow
+    public abstract int getAge(BlockState state);
 
-    @Shadow public abstract BlockState withAge(int age);
+    @Shadow
+    public abstract BlockState withAge(int age);
 
-    @Shadow public abstract void applyGrowth(World world, BlockPos pos, BlockState state);
+    @Shadow
+    public abstract void applyGrowth(World world, BlockPos pos, BlockState state);
 
     protected CropBlockMixin(Settings settings) {
         super(settings);
-    }
-   @Shadow
-    public int getMaxAge() {
-        return 7;
     }
 
     @Shadow
@@ -56,43 +57,33 @@ public abstract class CropBlockMixin extends PlantBlock implements Fertilizable 
         return MathHelper.nextInt(world.random, 2, 5);
     }
 
-    @Inject(method = "applyGrowth",at = @At("HEAD"), cancellable = true)
+    @Inject(method = "applyGrowth", at = @At("HEAD"), cancellable = true)
     public void applyGrowth(World world, BlockPos pos, BlockState state, CallbackInfo ci) {
         ci.cancel();
-
-
-        if(world instanceof ServerWorld serverWorld){
-            MoonPhaseEvent.updateCropBlockPos(serverWorld);
-        }
-
-
-
+        updateState(world);
         int i = this.getAge(state) + this.getGrowthAmount(world);
-        int j = this.getMaxAge();
+        int j = 7;//7=MaxGge
         if (i > j) {
             i = j;
         }
-        world.setBlockState(pos, this.withAge(i).with(CROP_IS_ILLNESS,CROP_BLOCK_POS.getOrDefault(pos,false)), Block.NOTIFY_LISTENERS);
+        world.setBlockState(pos, this.withAge(i).with(CROP_IS_ILLNESS, CROP_BLOCK_POS.getOrDefault(pos, false)), Block.NOTIFY_LISTENERS);
     }
 
 
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        if(world instanceof ServerWorld serverWorld){
-            MoonPhaseEvent.updateCropBlockPos(serverWorld);
+        updateState(world);
+
+
+        //右键查看状态
+        if (state.contains(CROP_IS_ILLNESS) && player instanceof ServerPlayerEntity serverPlayerEntity && serverPlayerEntity.isSneaking()) {
+            serverPlayerEntity.sendMessage(Text.of("illness?" + state.get(CROP_IS_ILLNESS)));
         }
 
-
-
-
-        if(state.contains(CROP_IS_ILLNESS) && player instanceof ServerPlayerEntity serverPlayerEntity){
-            serverPlayerEntity.sendMessage(Text.of("illness?"+ state.get(CROP_IS_ILLNESS)));
-        }
-
-
-        if(player.getMainHandStack().isOf(Items.STICK)){
-            CROP_BLOCK_POS.put(pos,true);
-            world.setBlockState(pos,state.with(CROP_IS_ILLNESS,true));
+        //测试
+        if (player.getMainHandStack().isOf(Items.STICK)) {
+            CROP_BLOCK_POS.put(pos, true);
+            world.setBlockState(pos, state.with(CROP_IS_ILLNESS, true));
         }
 
         return super.onUse(state, world, pos, player, hit);
@@ -101,20 +92,23 @@ public abstract class CropBlockMixin extends PlantBlock implements Fertilizable 
     @Unique
     private int lastRandomTickDay;
 
-    @Inject(method = "<init>",at = @At(value = "TAIL"))
+    @Inject(method = "<init>", at = @At(value = "TAIL"))
     public void CropBlock(Settings settings, CallbackInfo ci) {
         //初始化种植日期
-        lastRandomTickDay =ServerInfoRecorder.getDay();
+        lastRandomTickDay = ServerInfoRecorder.getDay();
 
     }
+
     @Shadow
     public static final IntProperty AGE = Properties.AGE_7;
+
     @Shadow
     protected IntProperty getAgeProperty() {
         return AGE;
     }
 
-    @Inject(method = "appendProperties",at = @At(value = "TAIL"))
+    @Inject(method = "appendProperties", at = @At(value = "TAIL"))
+    //添加生病状态
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder, CallbackInfo ci) {
         builder.add(CROP_IS_ILLNESS);
     }
@@ -123,12 +117,11 @@ public abstract class CropBlockMixin extends PlantBlock implements Fertilizable 
     @Override
     protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         super.onStateReplaced(state, world, pos, newState, moved);
-        if(world instanceof ServerWorld serverWorld){
-            MoonPhaseEvent.updateCropBlockPos(serverWorld);
-        }
+        updateState(world);
 
 
-        if(state.isAir()){
+        if (state.isAir()) {
+            //在破坏方块的瞬间必须清空状态,因为空气没有illness状态
             world.setBlockState(pos, Blocks.AIR.getDefaultState());
             CROP_BLOCK_POS.remove(pos);
         }
@@ -136,68 +129,63 @@ public abstract class CropBlockMixin extends PlantBlock implements Fertilizable 
 
     @Override
     public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
-        if(world instanceof ServerWorld serverWorld){
-            MoonPhaseEvent.updateCropBlockPos(serverWorld);
-        }
+        updateState(world);
 
 
-
-
-
-
-        //将其坐标和生病情况记录在公共集合中
-        if(world instanceof ServerWorld) {
+        //将其坐标和生病情况记录在公共集合中,必须时刻同步生病状态
+        if (world instanceof ServerWorld) {
             CROP_BLOCK_POS.put(pos, false);
             world.setBlockState(pos, state.with(CROP_IS_ILLNESS, false));
         }
     }
 
+    @Unique
+    private static void updateState(World world) {
+        if (world instanceof ServerWorld serverWorld) {
+            updateCropBlockPos(serverWorld);
+        }
+    }
 
 
-
-    @Inject(method = "randomTick",at = @At(value = "HEAD"),cancellable = true)
+    @Inject(method = "randomTick", at = @At(value = "HEAD"), cancellable = true)
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
         ci.cancel();
-        if(world instanceof ServerWorld serverWorld){
-            MoonPhaseEvent.updateCropBlockPos(serverWorld);
-        }
-        if(!world.isSkyVisible(pos)){
-            if(world.getRandom().nextInt(64)==0)
-                world.breakBlock(pos,true);
+        updateState(world);
+        if (!world.isSkyVisible(pos)) {
+            if (world.getRandom().nextInt(64) == 0)
+                world.breakBlock(pos, true);
         }
 
         //成功进行了一轮随机刻,记录当前日期
         int thisRandomTickDay = ServerInfoRecorder.getDay();
         //12天必然成长一个阶段
-        if(thisRandomTickDay-lastRandomTickDay>=12){
-            this.applyGrowth(world,pos,state);
+        if (thisRandomTickDay - lastRandomTickDay >= 12) {
+            this.applyGrowth(world, pos, state);
             lastRandomTickDay = thisRandomTickDay;
         }
         if (world.getBaseLightLevel(pos, 0) >= 9) {
             int i = this.getAge(state);
-            if (i < this.getMaxAge()) {
+            //MaxAge=7
+            if (i < 7){
                 float f = CropBlock.getAvailableMoisture(this, world, pos);
                 float times = 128;
                 //检查农田是否具有施肥标签
-                if(world.getBlockState(pos.down()).contains(FERTILIZED)) {
+                if (world.getBlockState(pos.down()).contains(FERTILIZED)) {
                     if (world.getBlockState(pos.down()).get(FERTILIZED) == true)
                         //原先的两倍加速
-                        times=64f;
+                        times = 64f;
                     else
-                        times=128;
-                }
-                else
+                        times = 128;
+                } else
                     MITEequilibrium.LOGGER.error("No such Block State called fertilized");
 
 
-                if (random.nextInt((int)(times*25.0F / f) + 1) == 0) {
+                if (random.nextInt((int) (times * 25.0F / f) + 1) == 0) {
                     world.setBlockState(pos, this.withAge(i + 1), Block.NOTIFY_LISTENERS);
                 }
             }
         }
 
 
-
-
-
-}}
+    }
+}

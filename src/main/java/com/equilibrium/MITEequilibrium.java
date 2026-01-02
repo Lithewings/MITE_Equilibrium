@@ -7,6 +7,7 @@ import com.equilibrium.craft_time_register.UseBlock;
 import com.equilibrium.entity.goal.BreakBlockGoal;
 import com.equilibrium.event.BreakBlockEvent;
 import com.equilibrium.event.CraftingMetalPickAxeCallback;
+import com.equilibrium.event.CropIllnessEvent;
 import com.equilibrium.event.MoonPhaseEvent;
 import com.equilibrium.item.*;
 import com.equilibrium.network.C2SClickTimesPacket;
@@ -26,6 +27,7 @@ import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
 import net.minecraft.GameVersion;
+import net.minecraft.MinecraftVersion;
 import net.minecraft.SaveVersion;
 import net.minecraft.SharedConstants;
 import net.minecraft.command.CommandRegistryAccess;
@@ -75,6 +77,8 @@ import static com.equilibrium.entity.ModEntities.registerModEntities;
 
 import static com.equilibrium.entity.mob.ModEntityTypes.modEntityTypeRegister;
 import static com.equilibrium.entity.mob.ModSpawnRestriction.setModSpawnRestriction;
+import static com.equilibrium.event.CropIllnessEvent.applyIllnessForCrop;
+import static com.equilibrium.event.CropIllnessEvent.updateCropBlockPos;
 import static com.equilibrium.event.MoonPhaseEvent.*;
 import static com.equilibrium.event.MoonPhaseEvent.RandomTickModifier;
 import static com.equilibrium.event.sound.SoundEventRegistry.registrySoundEvents;
@@ -102,27 +106,14 @@ public class MITEequilibrium implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
 
-
     //服务器状态
     public static StateSaverAndLoader serverState;
-
-
-
-
-
-
-
-
-//	public static Config config;
-
 
     public static final BooleanProperty FERTILIZED = BooleanProperty.of("fertilized");
 
     public static final IntProperty GRASSBLOCK_POLLUTED = IntProperty.of("grassblock_polluted",0,7);
 
     public static final BooleanProperty CROP_IS_ILLNESS = BooleanProperty.of("crop_illness");
-
-
 
 
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
@@ -137,8 +128,6 @@ public class MITEequilibrium implements ModInitializer {
         }, 240, 240, TimeUnit.SECONDS);  // 30秒后首次运行，以后每隔30秒执行一次
     }
 
-
-
     public static void initXpMap() {
         XpHashMap.setXpForLevel(1, 10);
         XpHashMap.setXpForLevel(2, 50);
@@ -147,14 +136,11 @@ public class MITEequilibrium implements ModInitializer {
         XpHashMap.setXpForLevel(5, 500);
     }
 
-
-
     public static void talkToAllServerPlayer(MinecraftServer server, String context) {
         for (ServerPlayerEntity serverPlayer : server.getPlayerManager().getPlayerList()) {
             serverPlayer.sendMessage(Text.of(context));
         }
     }
-
 
     // 注册命令的标准方式，适配 CommandDispatcher 的签名
     private void registerCommands(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess, CommandManager.RegistrationEnvironment registrationEnvironment) {
@@ -169,41 +155,62 @@ public class MITEequilibrium implements ModInitializer {
     private static final int TICK_INTERVAL = 500; // 每隔500 tick检查一次
     private int tickCount = 0; // 记录当前 tick
 
-    // 判断世界是否进入新的一天
-    private boolean hasNewDayPassed(long worldTime) {
-        return worldTime % 24000L < 1000L; // 假设新的一天发生在世界时间的0到1000tick之间
-    }
-
-    // 新的一天到来时触发的事件
-    private void onNewDay(MinecraftServer server, ServerWorld world, long worldTime) {
-    }
-
-
+//    SharedConstants.gameVersion = new GameVersion() {
+//        @Override
+//        public SaveVersion getSaveVersion() {
+//            return new SaveVersion(108109);
+//        }
+//
+//        @Override
+//        public String getId() {
+//            return "108109";
+//        }
+//
+//        @Override
+//        public String getName() {
+//            return "MITE:Equilibrium Beta v1.0.8";
+//        }
+//
+//        @Override
+//        public int getProtocolVersion() {
+//            return 108109;
+//        }
+//
+//        @Override
+//        public int getResourceVersion(ResourceType type) {
+//            return 34;
+//        }
+//
+//        @Override
+//        public Date getBuildTime() {
+//            return new Date();
+//        }
+//
+//        @Override
+//        public boolean isStable() {
+//            return true;
+//        }
+//    };
     public void onInitialize() {
-
-
-        //原版物品修改
-        DefaultItemComponentEvents.MODIFY.register(new VanillaItemModifier());
-
         SharedConstants.gameVersion = new GameVersion() {
             @Override
             public SaveVersion getSaveVersion() {
-                return new SaveVersion(106);
+                return new SaveVersion(108109,"MITE:Equilibrium Beta");
             }
 
             @Override
             public String getId() {
-                return "MITE:Equilibrium Beta v1.0.6";
+                return "108109";
             }
 
             @Override
             public String getName() {
-                return "MITE:Equilibrium Beta v1.0.7_2";
+                return "MITE:Equilibrium Beta v1.0.8";
             }
 
             @Override
             public int getProtocolVersion() {
-                return 106;
+                return 108109;
             }
 
             @Override
@@ -227,12 +234,9 @@ public class MITEequilibrium implements ModInitializer {
 
 
 
+        //原版物品修改
+        DefaultItemComponentEvents.MODIFY.register(new VanillaItemModifier());
 
-//        BiomeModifications.addFeature(
-//                BiomeSelectors.all(),
-//                GenerationStep.Feature.UNDERGROUND_STRUCTURES, // 生成阶段
-//                MONSTER_ROOM_PLACE // 使用你的 RegistryKey
-//        );
 
 
 
@@ -244,7 +248,7 @@ public class MITEequilibrium implements ModInitializer {
             serverState = StateSaverAndLoader.getServerState(server);
 
 
-            MoonPhaseEvent.CROP_BLOCK_POS = MapNbtSerializer.fromNbt(
+            CropIllnessEvent.CROP_BLOCK_POS = MapNbtSerializer.fromNbt(
                     serverState.mapNbt2,
                     dis -> {
                         try {
@@ -314,6 +318,7 @@ public class MITEequilibrium implements ModInitializer {
 
         // 注册服务器 tick 事件
         ServerTickEvents.START_SERVER_TICK.register(server -> {
+
 
 
             //更新服务器状态,在这里修改的所有数据都会被保存
@@ -430,31 +435,17 @@ public class MITEequilibrium implements ModInitializer {
 
                 }
             }
-            //护甲更新,玩家游戏模式更新
+            //护甲更新,玩家游戏模式更新,作物状态更新
             if (tickCount % (TICK_INTERVAL / 10) == 0) {
                 for (ServerPlayerEntity serverPlayerEntity : server.getPlayerManager().getPlayerList()) {
                     OnServerInitializeMethod.updatePlayerArmor(serverPlayerEntity);
 //					if(serverPlayerEntity.isCreative())
 //						serverPlayerEntity.changeGameMode(GameMode.SURVIVAL);
                 }
+                updateCropBlockPos(serverOverWorld);
             }
 
             if (tickCount >= TICK_INTERVAL) {
-//				// 获取所有世界并检查时间
-//
-//				for (ServerWorld world : server.getWorlds()) {
-//					long worldTime = world.getTimeOfDay();
-//
-//					// 检查是否为主世界
-//					if (world.getRegistryKey() == World.OVERWORLD) {
-//						// 只有在主世界才执行下面的逻辑
-//						// 执行主世界的相关逻辑
-//						if (hasNewDayPassed(worldTime)) {
-//							onNewDay(server, world,worldTime);
-//						}
-//					}
-//				}
-
                 tickCount = 0; // 重置 tick 计数器
             }
         });
@@ -610,14 +601,7 @@ public class MITEequilibrium implements ModInitializer {
         registerModEntityTags();
         //注册(药水)效果
         registerStatusEffects();
-
-
-//		config = new Config();
-//		config.load();
-
         registerScreenHandlers();
-
-
 
         BlockInit.registerBlocks();
         BlockInit.registerBlockItems();

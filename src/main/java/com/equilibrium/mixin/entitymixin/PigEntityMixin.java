@@ -15,6 +15,7 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
@@ -24,6 +25,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PigEntity.class)
 public abstract class PigEntityMixin extends AnimalEntity implements ItemSteerable, Saddleable , ProduceManure {
@@ -35,7 +37,8 @@ public abstract class PigEntityMixin extends AnimalEntity implements ItemSteerab
     @Override
     public void tickMovement() {
         super.tickMovement();
-        produceManure(this);
+        if(!environmentChecker.isIllness())
+            produceManure(this);
     }
 
     @Unique
@@ -59,11 +62,11 @@ public abstract class PigEntityMixin extends AnimalEntity implements ItemSteerab
         this.goalSelector.add(0, new SwimGoal(this));
 
         //讨厌玩家
-        this.goalSelector.add(0, new ConstantFleePlayerGoal(this, 8.0F, 1.2, 1.4));
+        this.goalSelector.add(1, new ConstantFleePlayerGoal(this, 8.0F, 1.6, 1.7));
         this.goalSelector.add(2, new EscapeDangerGoal(this, 2));
 
 
-        this.goalSelector.add(3, new AnimalMateGoal(this, 1.0));
+        this.goalSelector.add(0, new AnimalMateGoal(this, 1.0));
         this.goalSelector.add(4, new TemptGoal(this, 1.6, stack -> stack.isOf(Items.CARROT_ON_A_STICK), false));
         this.goalSelector.add(4, new TemptGoal(this, 1.6, stack -> stack.isIn(ItemTags.PIG_FOOD), false));
         this.goalSelector.add(5, new FollowParentGoal(this, 1.1));
@@ -71,6 +74,7 @@ public abstract class PigEntityMixin extends AnimalEntity implements ItemSteerab
         this.goalSelector.add(7, new LookAtEntityGoal(this, PlayerEntity.class, 6.0F));
         this.goalSelector.add(8, new LookAroundGoal(this));
     }
+
 
     @Unique
     private final EnvironmentChecker environmentChecker = new EnvironmentChecker((PigEntity)(Object)this,6000);
@@ -81,10 +85,22 @@ public abstract class PigEntityMixin extends AnimalEntity implements ItemSteerab
         environmentChecker.tickTask();
     }
 
-    @Override
-    public ActionResult interactMob(PlayerEntity player, Hand hand) {
-        super.interactMob(player,hand);
-        return environmentChecker.interactTask(player);
+    @Inject(method = "interactMob",at = @At("HEAD"), cancellable = true)
+    public void interactMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
+        if(player.getWorld().isClient()) {
+            cir.setReturnValue(ActionResult.SUCCESS);
+            return;
+        }
+
+        if(environmentChecker.isIllness()){
+            player.sendMessage(Text.of("The pig can not be interact due to the illness."));
+            environmentChecker.interactTask(player);
+            cir.setReturnValue(ActionResult.PASS);
+            //在这里停下
+            return;
+        }
+        environmentChecker.interactTask(player);
+        //后续原版逻辑...
     }
     @Inject(method = "writeCustomDataToNbt",at = @At("TAIL"))
     public void writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {

@@ -58,6 +58,7 @@
     "potion.BrewingRecipeRegistryMixin",
     "potion.BrewingStandBlockEntityMixin",
     "potion.PotionContentsComponentMixin",
+    "structure.BonusChestFeatureMixin",
     "structure.CompassItemMixin",
     "structure.RandomSpreadStructurePlacementMixin",
     "structure.strong_hold.ConcentricRingsStructurePlacementMixin",

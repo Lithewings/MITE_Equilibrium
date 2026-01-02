@@ -62,7 +62,8 @@ public abstract class CowEntityMixin extends AnimalEntity implements ProduceManu
     @Override
     public void tickMovement() {
         super.tickMovement();
-        produceManure((CowEntity)(Object)this);
+        if(!environmentChecker.isIllness())
+            produceManure(this);
     }
 
     @Unique
@@ -116,43 +117,58 @@ public abstract class CowEntityMixin extends AnimalEntity implements ProduceManu
 
     @Inject(method = "interactMob",at = @At("HEAD"), cancellable = true)
     public void interactMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
+        //把原版挤奶逻辑cancel掉
         cir.cancel();
-        if(player.getWorld().isClient()) {
+
+        if (player.getWorld().isClient()) {
             cir.setReturnValue(ActionResult.SUCCESS);
             return;
         }
+
         if(environmentChecker.isIllness()){
-            player.sendMessage(Text.of("The cow can not be milked or fed due to the illness."));
-            cir.setReturnValue(ActionResult.SUCCESS);
+            player.sendMessage(Text.of("The cow can not be interact due to the illness."));
+            environmentChecker.interactTask(player);
+            cir.setReturnValue(ActionResult.PASS);
+            //在这里停下
             return;
         }
+
+
+
 
         ItemStack itemStack = player.getStackInHand(hand);
 
-        if(itemStack.isEmpty()) {
-            cir.setReturnValue(ActionResult.FAIL);
+        if(itemStack.isOf(Items.BUCKET)&&this.isBaby()){
+            //原版逻辑
+            player.sendMessage(Text.of("The baby cow can not be milked."));
+            cir.setReturnValue(super.interactMob(player, hand));
+            //在这里停下
+            return;
         }
+
+
         if (this.milkCoolDown<=0 && itemStack.isOf(Items.BUCKET) && !this.isBaby()) {
             player.playSound(SoundEvents.ENTITY_COW_MILK, 1.0F, 1.0F);
             ItemStack itemStack2 = ItemUsage.exchangeStack(itemStack, player, Items.MILK_BUCKET.getDefaultStack());
             player.setStackInHand(hand, itemStack2);
             this.milkCoolDown = 24000;
-            cir.setReturnValue(ActionResult.SUCCESS);
+
 
         }
         else if(this.milkCoolDown>=0 && this.milkCoolDown<18000 && itemStack.isOf(Items.BOWL) &&!this.isBaby()){
             ItemStack itemStack2 = ItemUsage.exchangeStack(itemStack, player, FoodItems.MILK_BOWL.getDefaultStack());
             player.setStackInHand(hand, itemStack2);
             milkCoolDown += 6000;
-            cir.setReturnValue(ActionResult.SUCCESS);
+
 
         } else if (this.milkCoolDown>=0  && itemStack.isOf(Items.BUCKET)||itemStack.isOf(Items.BOWL)) {
             player.sendMessage(Text.of("The cow did not prepare for milking."));
-            cir.setReturnValue(super.interactMob(player,hand));
-        } else{
-            cir.setReturnValue(super.interactMob(player,hand));
+
         }
+
         environmentChecker.interactTask(player);
+        //后续原版逻辑...
+        cir.setReturnValue(super.interactMob(player, hand));
     }
 
 
@@ -173,10 +189,10 @@ public abstract class CowEntityMixin extends AnimalEntity implements ProduceManu
     protected void initGoals(CallbackInfo ci) {
         ci.cancel();
         this.goalSelector.add(0, new SwimGoal(this));
-        this.goalSelector.add(0, new ConstantFleePlayerGoal(this, 8.0F, 1.2, 1.4));
+        this.goalSelector.add(1, new ConstantFleePlayerGoal(this, 8.0F, 1.6, 1.7));
         this.goalSelector.add(2, new EscapeDangerGoal(this, 2));
 
-        this.goalSelector.add(3, new AnimalMateGoal(this, 1.0));
+        this.goalSelector.add(0, new AnimalMateGoal(this, 1.0));
         this.goalSelector.add(4, new TemptGoal(this, 1.6, stack -> stack.isIn(ItemTags.COW_FOOD), false));
         this.goalSelector.add(5, new FollowParentGoal(this, 1.25));
         this.goalSelector.add(6, new WanderAroundFarGoal(this, 1.0));

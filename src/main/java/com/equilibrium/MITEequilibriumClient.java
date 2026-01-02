@@ -20,24 +20,18 @@ import net.minecraft.util.Formatting;
 
 
 import static com.equilibrium.entity.ModEntities.*;
+import static com.equilibrium.util.RenderBeaconBeam.RenderBeaconInit;
 
 
 public class MITEequilibriumClient implements ClientModInitializer {
-
-
 
 
     @Override
     public void onInitializeClient() {
 
 
-
-
-
-
-
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), ModBlocks.ONION_BLOCK);
-
+        RenderBeaconInit();
         ItemTooltipCallback.EVENT.register((stack, context, type, lines) -> {
             // 判断物品是青金石（Lapis Lazuli）或其他物品
             if (stack.getItem() == Items.LAPIS_LAZULI) {
@@ -63,11 +57,6 @@ public class MITEequilibriumClient implements ClientModInitializer {
                 lines.add(Text.literal("Regeneration: Doubles the natural health recovery rate").formatted(Formatting.BLUE));
             }
         });
-
-
-
-
-
 
 
         HandledScreens.register(ModScreenTypes.EMERALD_ENCHANTING_TABLE, ModEnchantmentScreen::new);
