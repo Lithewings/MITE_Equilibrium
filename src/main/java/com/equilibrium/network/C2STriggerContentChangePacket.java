@@ -3,7 +3,6 @@ package com.equilibrium.network;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
@@ -15,10 +14,17 @@ import net.minecraft.util.Identifier;
 import static com.equilibrium.MITEequilibrium.MOD_ID;
 
 public class C2STriggerContentChangePacket {
-    public static final Identifier PACKET_ID = Identifier.of(MOD_ID, "trigger_content_change");
 
-    public static void register() {
-        PayloadTypeRegistry.playC2S().register(TriggerContentChangePayload.ID, TriggerContentChangePayload.CODEC);
+    public static final Identifier TRIGGER_CONTENT_CHANGE_PACKET_ID = Identifier.of(MOD_ID, "trigger_content_change");
+
+    public static void registerOnServer() {
+        PayloadTypeRegistry.playC2S().register(C2STriggerContentChangePacket.TriggerContentChangePayload.ID, C2STriggerContentChangePacket.TriggerContentChangePayload.CODEC);
+        packetReceive();
+    }
+
+
+
+    private static void packetReceive() {
         ServerPlayNetworking.registerGlobalReceiver(TriggerContentChangePayload.ID,
                 (payload, context) -> {
                     ServerPlayerEntity player = context.player();
@@ -27,6 +33,7 @@ public class C2STriggerContentChangePacket {
                     });
                 });
     }
+
 
     private static void triggerContentChange(ServerPlayerEntity player) {
         ScreenHandler screenHandler = player.currentScreenHandler;
@@ -45,7 +52,7 @@ public class C2STriggerContentChangePacket {
     // Payload 定义
     public static class TriggerContentChangePayload implements CustomPayload {
         public static final CustomPayload.Id<TriggerContentChangePayload> ID =
-                new CustomPayload.Id<>(PACKET_ID);
+                new CustomPayload.Id<>(TRIGGER_CONTENT_CHANGE_PACKET_ID);
 
         public TriggerContentChangePayload() {
             // 空构造，不需要数据

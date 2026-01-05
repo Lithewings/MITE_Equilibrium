@@ -12,13 +12,26 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static com.equilibrium.MITEequilibrium.MOD_ID;
 
+
 public class S2CIllnessTextureBooleanPacket {
-    public static final Identifier PACKET_ID = Identifier.of(MOD_ID, "illness_appearance");
+
+    public static final Identifier ILLNESS_APPEARANCE_PAYLOAD_ID = Identifier.of(MOD_ID, "illness_appearance");
 
     public static final Map<Integer, Boolean> SICK_ENTITY = new ConcurrentHashMap<>();
 
-    public static void register() {
-        PayloadTypeRegistry.playS2C().register(IllnessAppearancePayload.ID, IllnessAppearancePayload.CODEC);
+
+
+
+    public static void registerOnClient() {
+        packetReceive();
+    }
+
+    public static void registerOnServer() {
+        PayloadTypeRegistry.playS2C().register(S2CIllnessTextureBooleanPacket.IllnessAppearancePayload.ID, S2CIllnessTextureBooleanPacket.IllnessAppearancePayload.CODEC);
+    }
+
+
+    private static void packetReceive() {
         ClientPlayNetworking.registerGlobalReceiver(IllnessAppearancePayload.ID,
                 (payload, context) -> {
                     context.client().execute(() -> {
@@ -36,10 +49,11 @@ public class S2CIllnessTextureBooleanPacket {
                 });
     }
 
+
     // 定义Payload实现
     public static class IllnessAppearancePayload implements CustomPayload {
         public static final CustomPayload.Id<IllnessAppearancePayload> ID =
-                new CustomPayload.Id<>(PACKET_ID);
+                new CustomPayload.Id<>(ILLNESS_APPEARANCE_PAYLOAD_ID);
 
         int entityId;
         boolean isIllness;
@@ -64,7 +78,7 @@ public class S2CIllnessTextureBooleanPacket {
                         // 解码器
                         (PacketByteBuf buf) -> {
                             int entityId = buf.readVarInt();
-                            boolean isIllness =buf.readBoolean();// 使用 readVarInt 而不是 readInt
+                            boolean isIllness =buf.readBoolean();
                             return new IllnessAppearancePayload(entityId,isIllness);
                         }
                 );

@@ -54,30 +54,21 @@ public class GhoulEntity extends ZombieEntity {
 
     }
 
-    private BlockPos findGroundPosition(World world, BlockPos start) {
-        // 我们从start开始向下搜索，直到世界底部或者找到合适的地面
-        for (int y = start.getY(); start.getY()-y<=32&&y>-64; y--) {
-            BlockPos pos = new BlockPos(start.getX(), y, start.getZ());
-            if(world.isTopSolid(pos,this))
-                return pos.offset(Direction.Axis.Y,1); // 返回这个方块的位置，我们将在其上方生成生物
-        }
-        // 如果没有找到，返回null
-        return null;
-    }
+//    private BlockPos findGroundPosition(World world, BlockPos start) {
+//        // 我们从start开始向下搜索，直到世界底部或者找到合适的地面
+//        for (int y = start.getY(); start.getY()-y<=32&&y>-64; y--) {
+//            BlockPos pos = new BlockPos(start.getX(), y, start.getZ());
+//            if(world.isTopSolid(pos,this))
+//                return pos.offset(Direction.Axis.Y,1); // 返回这个方块的位置，我们将在其上方生成生物
+//        }
+//        // 如果没有找到，返回null
+//        return null;
+//    }
 
     @Override
     public boolean canSpawn(WorldAccess world, SpawnReason spawnReason) {
         if(this.getWorld().getRegistryKey()== World.OVERWORLD && this.getY()>=40)
             return false;
-
-        if(!this.isOnGround()){
-            BlockPos pos = findGroundPosition(this.getWorld(),this.getBlockPos());
-            if(pos!=null)
-                this.setPosition(pos.getX(),pos.getY(),pos.getZ());
-            else
-                return false;
-        }
-
         return super.canSpawn(world, spawnReason);
     }
 

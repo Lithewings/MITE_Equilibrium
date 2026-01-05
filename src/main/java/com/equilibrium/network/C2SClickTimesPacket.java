@@ -8,40 +8,45 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static com.equilibrium.MITEequilibrium.MOD_ID;
 
+
 public class C2SClickTimesPacket {
-    public static final Identifier PACKET_ID = Identifier.of(MOD_ID, "right_click_times");
 
-    private static final Map<UUID, Integer> playerClickTimes = new ConcurrentHashMap<>();
+    public static final Identifier CLICK_TIMES_PAYLOAD_ID = Identifier.of(MOD_ID, "right_click_times");
 
-    public static void register() {
-        PayloadTypeRegistry.playC2S().register(ClickTimesPayload.ID, ClickTimesPayload.CODEC);
+    public static final Map<UUID, Integer> playerClickTimes = new ConcurrentHashMap<>();
+
+
+    public static void registerOnServer() {
+        PayloadTypeRegistry.playC2S().register(C2SClickTimesPacket.ClickTimesPayload.ID, C2SClickTimesPacket.ClickTimesPayload.CODEC);
+        packetReceive();
+    }
+
+
+    private static void packetReceive() {
         ServerPlayNetworking.registerGlobalReceiver(ClickTimesPayload.ID,
                 (payload, context) -> {
                     ServerPlayerEntity player = context.player();
                     UUID playerId = player.getUuid();
                     int timesToAdd = payload.getTimes(); // 获取要增加的次数
-
                     context.server().execute(() -> {
                         playerClickTimes.put(playerId,timesToAdd);
-
                     });
                 });
     }
 
+
     // 定义Payload实现
     public static class ClickTimesPayload implements CustomPayload {
         public static final CustomPayload.Id<ClickTimesPayload> ID =
-                new CustomPayload.Id<>(PACKET_ID);
+                new CustomPayload.Id<>(CLICK_TIMES_PAYLOAD_ID);
 
         private final int times; // 应该是final
 

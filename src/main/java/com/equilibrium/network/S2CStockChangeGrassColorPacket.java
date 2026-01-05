@@ -15,12 +15,24 @@ import static com.equilibrium.MITEequilibrium.MOD_ID;
 
 
 public class S2CStockChangeGrassColorPacket {
-    public static final Identifier PACKET_ID = Identifier.of(MOD_ID, "grass_color");
-    //由服务端和客户端共同维护这个ConcurrentHashMap
-    public static  Map<BlockPos, Integer> BLOCK_POS_INTEGER_CONCURRENT_HASH_MAP = new ConcurrentHashMap<>();
 
-    public static void register() {
-        PayloadTypeRegistry.playS2C().register(GrassColorPayload.ID, GrassColorPayload.CODEC);
+    public static final Identifier STOCK_CHANGE_GRASS_COLOR_PACKET_PACKET_ID = Identifier.of(MOD_ID, "grass_color");
+
+    //由服务端和客户端共同维护这个ConcurrentHashMap
+    public static Map<BlockPos, Integer> BLOCK_POS_INTEGER_CONCURRENT_HASH_MAP = new ConcurrentHashMap<>();
+
+
+    public static void registerOnClient() {
+        //因为这里只有客户端接收,且信任服务端,故只做客户端的Receiver
+        packetReceived();
+    }
+
+
+    public static void registerOnServer() {
+        PayloadTypeRegistry.playS2C().register(S2CStockChangeGrassColorPacket.GrassColorPayload.ID, S2CStockChangeGrassColorPacket.GrassColorPayload.CODEC);
+    }
+
+    private static void packetReceived() {
         ClientPlayNetworking.registerGlobalReceiver(GrassColorPayload.ID,
                 (payload, context) -> {
                     context.client().execute(() -> {
@@ -30,13 +42,14 @@ public class S2CStockChangeGrassColorPacket {
                 });
     }
 
+
     // 定义Payload实现
     public static class GrassColorPayload implements CustomPayload {
         public static final Id<GrassColorPayload> ID =
-                new Id<>(PACKET_ID);
+                new Id<>(STOCK_CHANGE_GRASS_COLOR_PACKET_PACKET_ID);
 
-        private final BlockPos pos;
-        private final int polluteLevel;
+        public final BlockPos pos;
+        public final int polluteLevel;
 
         @Override
         public Id<? extends CustomPayload> getId() {

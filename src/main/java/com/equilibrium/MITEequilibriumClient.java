@@ -5,12 +5,18 @@ import com.equilibrium.block.ModBlocks;
 import com.equilibrium.block.enchanting_table.*;
 import com.equilibrium.client.render.entity.renderer.*;
 import com.equilibrium.item.Armors;
+import com.equilibrium.network.C2SClickTimesPacket;
+import com.equilibrium.network.C2STriggerContentChangePacket;
+import com.equilibrium.network.S2CIllnessTextureBooleanPacket;
+import com.equilibrium.network.S2CStockChangeGrassColorPacket;
 import com.equilibrium.util.MyCommands;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
@@ -20,18 +26,30 @@ import net.minecraft.util.Formatting;
 
 
 import static com.equilibrium.entity.ModEntities.*;
+
+import static com.equilibrium.network.S2CStockChangeGrassColorPacket.BLOCK_POS_INTEGER_CONCURRENT_HASH_MAP;
 import static com.equilibrium.util.RenderBeaconBeam.RenderBeaconInit;
 
 
 public class MITEequilibriumClient implements ClientModInitializer {
 
 
-    @Override
+//    @Override
     public void onInitializeClient() {
 
 
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), ModBlocks.ONION_BLOCK);
         RenderBeaconInit();
+
+
+
+
+
+        //S->C,发包、接收
+        S2CStockChangeGrassColorPacket.registerOnClient();
+        S2CIllnessTextureBooleanPacket.registerOnClient();
+
+
         ItemTooltipCallback.EVENT.register((stack, context, type, lines) -> {
             // 判断物品是青金石（Lapis Lazuli）或其他物品
             if (stack.getItem() == Items.LAPIS_LAZULI) {
@@ -61,7 +79,7 @@ public class MITEequilibriumClient implements ClientModInitializer {
 
         HandledScreens.register(ModScreenTypes.EMERALD_ENCHANTING_TABLE, ModEnchantmentScreen::new);
 
-//        registerScreen();
+
 
         BlockEntityRendererFactories.register(ModBlockEntityTypes.ENCHANTING_TABLE_BLOCK_ENTITY_TYPE, ModEnchantingTableBlockEntityRenderer::new);
         //注册渲染器(渲染器中包含了实体和模型)

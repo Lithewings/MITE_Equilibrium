@@ -24,8 +24,10 @@ import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 import org.slf4j.Logger;
 
+
 import static com.equilibrium.MITEequilibrium.MOD_ID;
-import static com.equilibrium.entity.mob.ModEntityTypes.LONG_DEAD_ENTITY_ENTITY_TYPE;
+import static com.equilibrium.entity.ModEntities.LONG_DEAD;
+
 
 public class ModDungeonFeature extends Feature<DefaultFeatureConfig> {
 
@@ -128,7 +130,7 @@ public class ModDungeonFeature extends Feature<DefaultFeatureConfig> {
 
             this.setBlockStateIf(structureWorldAccess, blockPos, Blocks.SPAWNER.getDefaultState(), predicate);
             if (structureWorldAccess.getBlockEntity(blockPos) instanceof MobSpawnerBlockEntity mobSpawnerBlockEntity) {
-                mobSpawnerBlockEntity.setEntityType(LONG_DEAD_ENTITY_ENTITY_TYPE, random);
+                mobSpawnerBlockEntity.setEntityType(LONG_DEAD, random);
             } else {
                 LOGGER.error("Failed to fetch mob spawner entity at ({}, {}, {})", blockPos.getX(), blockPos.getY(), blockPos.getZ());
             }

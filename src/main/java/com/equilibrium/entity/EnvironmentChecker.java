@@ -12,7 +12,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -53,12 +52,20 @@ public class EnvironmentChecker {
     }
 
 
+    private int tickCount = 100;
 
     public void tickTask() {
+        this.tickCount--;
         if(this.entity.getWorld() instanceof ServerWorld serverWorld) {
             this.initIfNeeded(serverWorld);
             this.renderIllnessSkinIfNeeded(serverWorld);
+            this.ifShouldAlwaysBaby();
+            if(tickCount<=0){
+                updateSkinWithoutLimit(serverWorld);
+                tickCount=100;
+            }
         }
+
         this.checkEnvironment();
     }
 
@@ -83,7 +90,7 @@ public class EnvironmentChecker {
     }
 
     private void updateSkinWithoutLimit(ServerWorld world) {
-        //Init时只有生病时才发包
+        //Init时只有生病时才发包,或周期发包
         if(this.isIllness()) {
             for (ServerPlayerEntity player : world.getPlayers()) {
                 ServerPlayNetworking.send(
@@ -96,9 +103,6 @@ public class EnvironmentChecker {
 
     public void renderIllnessSkinIfNeeded(ServerWorld world) {
         boolean currentIllness = isIllness();
-        if (currentIllness && this.entity instanceof PassiveEntity passiveEntity && passiveEntity.isBaby()){
-            passiveEntity.setBreedingAge(passiveEntity.getBreedingAge()-1);
-        }
         if (currentIllness != this.lastIllnessState) {
             // 状态改变了，发送网络包
             this.updateSkin(world);
@@ -106,6 +110,11 @@ public class EnvironmentChecker {
         }
     }
 
+    private void ifShouldAlwaysBaby() {
+        if (isIllness() && this.entity instanceof PassiveEntity passiveEntity && passiveEntity.isBaby()){
+            passiveEntity.setBreedingAge(passiveEntity.getBreedingAge()-1);
+        }
+    }
 
 
     public void readCustomDataFromNbt(NbtCompound nbt) {

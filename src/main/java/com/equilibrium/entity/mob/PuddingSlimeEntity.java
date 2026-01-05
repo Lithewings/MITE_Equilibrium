@@ -2,23 +2,15 @@ package com.equilibrium.entity.mob;
 
 import com.equilibrium.item.ModItems;
 import net.minecraft.entity.*;
-import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.DamageSources;
-import net.minecraft.entity.damage.DamageType;
 import net.minecraft.entity.damage.DamageTypes;
-import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.SlimeEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ArrowEntity;
-import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.tag.BiomeTags;
-import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -27,8 +19,6 @@ import net.minecraft.util.math.random.ChunkRandom;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.*;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
 
 import static com.equilibrium.util.XpHashMap.getXpForLevel;
 
@@ -256,19 +246,41 @@ public class PuddingSlimeEntity extends BaseSlimeEntity{
         // 如果没有找到，返回null
         return null;
     }
-    @Override
-    public boolean canSpawn(WorldAccess world, SpawnReason spawnReason) {
-        //只在地下世界发现悬空生成的情况,奇怪
-        if(!this.isOnGround()){
-            BlockPos pos = findGroundPosition(this.getWorld(),this.getBlockPos());
-            if(pos!=null && world.getLightLevel(pos)<7) {
-                this.setPosition(pos.getX(), pos.getY(), pos.getZ());
-            }
-            else
-                return false;
-        }
-        return super.canSpawn(world, spawnReason);
+//    @Override
+//    public boolean canSpawn(WorldAccess world, SpawnReason spawnReason) {
+//        //只在地下世界发现悬空生成的情况,奇怪
+//        if(!this.isOnGround()){
+//            BlockPos pos = findGroundPosition(this.getWorld(),this.getBlockPos());
+//            if(pos!=null && world.getLightLevel(pos)<7) {
+//                this.setPosition(pos.getX(), pos.getY(), pos.getZ());
+//            }
+//            else
+//                return false;
+//        }
+//        return super.canSpawn(world, spawnReason);
+//
+//    }
 
+    public static boolean canPuddingSpawn(EntityType<PuddingSlimeEntity> type, WorldAccess world, SpawnReason spawnReason, BlockPos pos, Random random) {
+        if (SpawnReason.isAnySpawner(spawnReason)) {
+            return SlimeEntity.canMobSpawn(type, world, spawnReason, pos, random);
+        }
+        if (world.getDifficulty() != Difficulty.PEACEFUL) {
+            boolean bl;
+            if (spawnReason == SpawnReason.SPAWNER) {
+                return SlimeEntity.canMobSpawn(type, world, spawnReason, pos, random);
+            }
+            if (!(world instanceof StructureWorldAccess)) {
+                return false;
+            }
+            if (pos.getY() > 144) {
+                return SlimeEntity.canMobSpawn(type, world, spawnReason, pos, random);
+            }
+            if (pos.getY() < 0) {
+                return SlimeEntity.canMobSpawn(type, world, spawnReason, pos, random);
+            }
+        }
+        return false;
     }
 
 }

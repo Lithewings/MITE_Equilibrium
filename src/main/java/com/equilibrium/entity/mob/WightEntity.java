@@ -76,14 +76,6 @@ public class WightEntity extends ZombieEntity{
     public boolean canSpawn(WorldAccess world, SpawnReason spawnReason) {
         if (this.getWorld().getRegistryKey() == World.OVERWORLD && this.getY() >= 0)
             return false;
-        if (!this.isOnGround()) {
-            BlockPos pos = findGroundPosition(this.getWorld(), this.getBlockPos());
-            if (pos != null)
-                this.setPosition(pos.getX(), pos.getY(), pos.getZ());
-            else
-                return false;
-
-        }
     return super.canSpawn(world, spawnReason);
 }
 

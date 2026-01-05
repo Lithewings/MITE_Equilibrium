@@ -25,41 +25,39 @@
         "type": "minecraft:spider",
         "maxCount": 1,
         "minCount": 1,
-        "weight": 100
+        "weight": 20
       },
 
       {
         "type": "miteequilibrium:longdead",
         "maxCount": 3,
-        "minCount": 1,
-        "weight": 5
+        "minCount": 2,
+        "weight": 20
       },
-
-
       {
         "type": "miteequilibrium:pudding",
-        "maxCount": 1,
+        "maxCount": 3,
         "minCount": 1,
-        "weight": 10
+        "weight": 20
       },
       {
         "type": "miteequilibrium:invisible_stalker",
         "maxCount": 1,
         "minCount": 1,
-        "weight": 10
+        "weight": 20
       },
       {
         "type": "miteequilibrium:wight",
         "maxCount": 1,
         "minCount": 1,
-        "weight": 10
+        "weight": 20
       },
 
       {
-        "type": "minecraft:zombie",
+        "type": "minecraft:ghoul",
         "maxCount": 1,
         "minCount": 1,
-        "weight": 95
+        "weight": 33
       },
       {
         "type": "minecraft:zombie_villager",
@@ -71,19 +69,13 @@
         "type": "minecraft:skeleton",
         "maxCount": 1,
         "minCount": 1,
-        "weight": 100
+        "weight": 50
       },
       {
         "type": "minecraft:creeper",
         "maxCount": 1,
         "minCount": 1,
-        "weight": 100
-      },
-      {
-        "type": "minecraft:slime",
-        "maxCount": 1,
-        "minCount": 1,
-        "weight": 100
+        "weight": 33
       },
       {
         "type": "minecraft:enderman",
@@ -96,6 +88,12 @@
         "maxCount": 1,
         "minCount": 1,
         "weight": 5
+      },
+      {
+        "type": "miteequilibrium:shadow",
+        "maxCount": 1,
+        "minCount": 1,
+        "weight": 35
       }
     ],
     "underground_water_creature": [

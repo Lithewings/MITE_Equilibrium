@@ -5,10 +5,11 @@ import com.equilibrium.block.ModBlocks;
 import com.equilibrium.craft_time_register.BlockInit;
 import com.equilibrium.craft_time_register.UseBlock;
 import com.equilibrium.entity.goal.BreakBlockGoal;
+import com.equilibrium.entity.mob.BaseSlimeEntity;
+import com.equilibrium.entity.mob.PuddingSlimeEntity;
 import com.equilibrium.event.BreakBlockEvent;
 import com.equilibrium.event.CraftingMetalPickAxeCallback;
 import com.equilibrium.event.CropIllnessEvent;
-import com.equilibrium.event.MoonPhaseEvent;
 import com.equilibrium.item.*;
 import com.equilibrium.network.C2SClickTimesPacket;
 import com.equilibrium.network.C2STriggerContentChangePacket;
@@ -27,10 +28,12 @@ import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
 import net.minecraft.GameVersion;
-import net.minecraft.MinecraftVersion;
 import net.minecraft.SaveVersion;
 import net.minecraft.SharedConstants;
 import net.minecraft.command.CommandRegistryAccess;
+import net.minecraft.entity.SpawnLocationTypes;
+import net.minecraft.entity.SpawnRestriction;
+import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -47,6 +50,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.GameRules;
+import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,11 +76,9 @@ import static com.equilibrium.block.enchanting_table.ModBlockEntityTypes.modBloc
 
 import static com.equilibrium.block.enchanting_table.ModScreenTypes.registerScreenHandlers;
 import static com.equilibrium.enchantments.EnchantmentsCodec.registerAllOfEnchantments;
-import static com.equilibrium.entity.ModEntities.registerModEntities;
 
 
-import static com.equilibrium.entity.mob.ModEntityTypes.modEntityTypeRegister;
-import static com.equilibrium.entity.mob.ModSpawnRestriction.setModSpawnRestriction;
+import static com.equilibrium.entity.ModEntities.*;
 import static com.equilibrium.event.CropIllnessEvent.applyIllnessForCrop;
 import static com.equilibrium.event.CropIllnessEvent.updateCropBlockPos;
 import static com.equilibrium.event.MoonPhaseEvent.*;
@@ -88,6 +90,8 @@ import static com.equilibrium.item.extend_item.CoinItems.registerCoinItems;
 import static com.equilibrium.item.food.FoodItems.registerFoodItems;
 import static com.equilibrium.item.food.ItemComponentModifier.foodComponentModify;
 import static com.equilibrium.item.food.WaterBowl.vanillaBowlItemUse;
+
+
 import static com.equilibrium.structure_generator.ModPlacementGenerator.*;
 import static com.equilibrium.status.registerStatusEffect.registerStatusEffects;
 import static com.equilibrium.structure_generator.StructureRegister.registerStructure;
@@ -117,6 +121,9 @@ public class MITEequilibrium implements ModInitializer {
 
 
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
+
+
 
     public static void init() {
         // 任务在mod加载时初始化,初始化僵尸破坏的方块进度
@@ -155,42 +162,14 @@ public class MITEequilibrium implements ModInitializer {
     private static final int TICK_INTERVAL = 500; // 每隔500 tick检查一次
     private int tickCount = 0; // 记录当前 tick
 
-//    SharedConstants.gameVersion = new GameVersion() {
-//        @Override
-//        public SaveVersion getSaveVersion() {
-//            return new SaveVersion(108109);
-//        }
-//
-//        @Override
-//        public String getId() {
-//            return "108109";
-//        }
-//
-//        @Override
-//        public String getName() {
-//            return "MITE:Equilibrium Beta v1.0.8";
-//        }
-//
-//        @Override
-//        public int getProtocolVersion() {
-//            return 108109;
-//        }
-//
-//        @Override
-//        public int getResourceVersion(ResourceType type) {
-//            return 34;
-//        }
-//
-//        @Override
-//        public Date getBuildTime() {
-//            return new Date();
-//        }
-//
-//        @Override
-//        public boolean isStable() {
-//            return true;
-//        }
-//    };
+
+
+
+
+
+
+
+
     public void onInitialize() {
         SharedConstants.gameVersion = new GameVersion() {
             @Override
@@ -486,46 +465,44 @@ public class MITEequilibrium implements ModInitializer {
         });
 
 
-        //原版物品添加tooltip
-        //不能和数据生成一起使用
 
 
 
-//
-//
-//
-//
-//
-//
-//		});
-        //结构注册
+
+
+//        //结构注册
         registerStructure();
-        //生物类型注册
-        modEntityTypeRegister();
+
+
+
         //食物修改
         foodComponentModify();
+
+
+
+
         //生成限制
-        setModSpawnRestriction();
+        SpawnRestriction.register(LONG_DEAD, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+        SpawnRestriction.register(WIGHT, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+        SpawnRestriction.register(GHOUL, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+        SpawnRestriction.register(SHADOW, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+        SpawnRestriction.register(INVISIBLE_STALKER, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+
+
+
+        SpawnRestriction.register(PUDDING, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, PuddingSlimeEntity::canPuddingSpawn);
+
         //xp映射表
         initXpMap();
 
 
-        //网络服务
-        C2SClickTimesPacket.register();
-        C2STriggerContentChangePacket.register();
-        //网络服务:客户端接收
-        S2CIllnessTextureBooleanPacket.register();
-        S2CStockChangeGrassColorPacket.register();
+        //S->C,发包
+        S2CStockChangeGrassColorPacket.registerOnServer();
+        S2CIllnessTextureBooleanPacket.registerOnServer();
 
-
-        //玩家食用食品监听器
-//		OnPlayerEntityEatEvent.EVENT.register((player)->{
-//			if(!player.getWorld().isClient()) {
-//				player.sendMessage(Text.of("你吃掉了食物!"),true);
-//			}
-//			return ActionResult.SUCCESS;
-//        });
-
+        //C->S,发包、接收
+        C2SClickTimesPacket.registerOnServer();
+        C2STriggerContentChangePacket.registerOnServer();
 
         //合成金属镐监听器
         CraftingMetalPickAxeCallback.EVENT.register((world, player) -> {
@@ -587,12 +564,21 @@ public class MITEequilibrium implements ModInitializer {
         Metal.registerModItemNuggets();
         //粗矿
         registerModItemRaw();
+
+
+
+
         //注册矿物
         registerModOre();
+
+
+
+
+
+
         //注册实体
         registerModEntities();
-        //修改战利品表(已经弃用,用数据包代替)
-//		modifierLootTables();
+
         //注册事件
         PlayerBlockBreakEvents.AFTER.register(new BreakBlockEvent());
         //创建标签
@@ -617,8 +603,12 @@ public class MITEequilibrium implements ModInitializer {
 
         registrySoundEvents();
         modBlockEntityTypesInit();
+
+
+
         LOGGER.info("Hello Fabric world!");
     }
+
 
 
 }

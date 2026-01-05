@@ -14,6 +14,7 @@ public class GameMenuScreenMixin extends Screen {
     @Override
     public void tick() {
         lastInitTime++;
+        super.tick();
     }
 
     @Override
