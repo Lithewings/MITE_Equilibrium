@@ -5,8 +5,6 @@ import com.equilibrium.block.ModBlocks;
 import com.equilibrium.craft_time_register.BlockInit;
 import com.equilibrium.craft_time_register.UseBlock;
 import com.equilibrium.entity.goal.BreakBlockGoal;
-import com.equilibrium.entity.mob.BaseSlimeEntity;
-import com.equilibrium.entity.mob.PuddingSlimeEntity;
 import com.equilibrium.event.BreakBlockEvent;
 import com.equilibrium.event.CraftingMetalPickAxeCallback;
 import com.equilibrium.event.CropIllnessEvent;
@@ -31,14 +29,10 @@ import net.minecraft.GameVersion;
 import net.minecraft.SaveVersion;
 import net.minecraft.SharedConstants;
 import net.minecraft.command.CommandRegistryAccess;
-import net.minecraft.entity.SpawnLocationTypes;
-import net.minecraft.entity.SpawnRestriction;
-import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.resource.ResourceType;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -50,7 +44,6 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.GameRules;
-import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,6 +65,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static com.equilibrium.block.BlocksHardnessList.initModBlocksHardnessHashMap;
+import static com.equilibrium.block.BlocksHardnessList.initVanillaBlocksHardnessHashMap;
 import static com.equilibrium.block.enchanting_table.ModBlockEntityTypes.modBlockEntityTypesInit;
 
 import static com.equilibrium.block.enchanting_table.ModScreenTypes.registerScreenHandlers;
@@ -79,6 +74,7 @@ import static com.equilibrium.enchantments.EnchantmentsCodec.registerAllOfEnchan
 
 
 import static com.equilibrium.entity.ModEntities.*;
+import static com.equilibrium.entity.mob.ModSpawnRestriction.registerModSpawnRestriction;
 import static com.equilibrium.event.CropIllnessEvent.applyIllnessForCrop;
 import static com.equilibrium.event.CropIllnessEvent.updateCropBlockPos;
 import static com.equilibrium.event.MoonPhaseEvent.*;
@@ -87,7 +83,7 @@ import static com.equilibrium.event.sound.SoundEventRegistry.registrySoundEvents
 import static com.equilibrium.item.Armors.registerArmors;
 import static com.equilibrium.item.Metal.registerModItemRaw;
 import static com.equilibrium.item.extend_item.CoinItems.registerCoinItems;
-import static com.equilibrium.item.food.FoodItems.registerFoodItems;
+import static com.equilibrium.item.food.FoodOrFarmItems.registerFoodItems;
 import static com.equilibrium.item.food.ItemComponentModifier.foodComponentModify;
 import static com.equilibrium.item.food.WaterBowl.vanillaBowlItemUse;
 
@@ -104,7 +100,7 @@ import static com.equilibrium.util.OnServerInitializeMethod.onUseCrystalItem;
 import static com.equilibrium.util.OnServerInitializeMethod.onUseHayBlockItem;
 
 
-public class MITEequilibrium implements ModInitializer {
+public class OnServerInitialize implements ModInitializer {
 
     public static final String MOD_ID = "miteequilibrium";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
@@ -143,7 +139,7 @@ public class MITEequilibrium implements ModInitializer {
         XpHashMap.setXpForLevel(5, 500);
     }
 
-    public static void talkToAllServerPlayer(MinecraftServer server, String context) {
+    public static void talkToAllServerPlayer(net.minecraft.server.MinecraftServer server, String context) {
         for (ServerPlayerEntity serverPlayer : server.getPlayerManager().getPlayerList()) {
             serverPlayer.sendMessage(Text.of(context));
         }
@@ -184,7 +180,7 @@ public class MITEequilibrium implements ModInitializer {
 
             @Override
             public String getName() {
-                return "MITE:Equilibrium Beta v1.0.8";
+                return "MITE:Equilibrium Beta v1.0.8_1";
             }
 
             @Override
@@ -357,7 +353,7 @@ public class MITEequilibrium implements ModInitializer {
                         controlWeather(serverOverWorld);
 //                        this.sendMessage(Text.of("雷电事件"));
                     }
-                    if (serverOverWorld.getTimeOfDay() % 256 == 0) {
+                    if (serverOverWorld.getTimeOfDay() % 64 == 0) {
                         //施加作物疾病
                         applyIllnessForCrop(serverOverWorld);
 
@@ -482,15 +478,7 @@ public class MITEequilibrium implements ModInitializer {
 
 
         //生成限制
-        SpawnRestriction.register(LONG_DEAD, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-        SpawnRestriction.register(WIGHT, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-        SpawnRestriction.register(GHOUL, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-        SpawnRestriction.register(SHADOW, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-        SpawnRestriction.register(INVISIBLE_STALKER, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-
-
-
-        SpawnRestriction.register(PUDDING, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, PuddingSlimeEntity::canPuddingSpawn);
+        registerModSpawnRestriction();
 
         //xp映射表
         initXpMap();
@@ -547,7 +535,7 @@ public class MITEequilibrium implements ModInitializer {
         //物品栏添加
         ModItemGroup.registerModItemGroup();
         //模组杂项物品添加
-        ModItems.registerModItems();
+        OtherItems.registerModItems();
         //方块添加测试
         ModBlocks.registerModBlocks();
         //以下开始正式添加物品:
@@ -592,6 +580,9 @@ public class MITEequilibrium implements ModInitializer {
         BlockInit.registerBlocks();
         BlockInit.registerBlockItems();
         BlockInit.registerFuels();
+
+        initVanillaBlocksHardnessHashMap();
+        initModBlocksHardnessHashMap();
 
         BlockEnityRegistry.init();
         CraftingIngredients.init();

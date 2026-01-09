@@ -10,7 +10,7 @@ import net.minecraft.util.Identifier;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.equilibrium.MITEequilibrium.MOD_ID;
+import static com.equilibrium.OnServerInitialize.MOD_ID;
 
 
 public class S2CIllnessTextureBooleanPacket {

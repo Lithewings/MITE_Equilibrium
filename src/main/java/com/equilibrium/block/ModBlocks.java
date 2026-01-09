@@ -13,8 +13,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 
-import static com.equilibrium.MITEequilibrium.MOD_ID;
-import static net.minecraft.block.Blocks.createLightLevelFromLitBlockState;
+import static com.equilibrium.OnServerInitialize.MOD_ID;
 import static net.minecraft.block.Blocks.register;
 
 public class ModBlocks {

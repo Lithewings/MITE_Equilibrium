@@ -52,6 +52,7 @@ import net.minecraft.client.model.ModelTransform;
  * </tr>
  * </table>
  * </div>
+ *
  */
 @Environment(EnvType.CLIENT)
 public class TransparentBipedEntityModel<T extends LivingEntity> extends AnimalModel<T> implements ModelWithArms, ModelWithHead {
@@ -80,7 +81,7 @@ public class TransparentBipedEntityModel<T extends LivingEntity> extends AnimalM
     public float leaningPitch;
 
     public TransparentBipedEntityModel(ModelPart root) {
-        this(root, RenderLayer::getEntityTranslucentCull);
+        this(root, RenderLayer::getEntityNoOutline);
     }
 
     public TransparentBipedEntityModel(ModelPart root, Function<Identifier, RenderLayer> renderLayerFactory) {

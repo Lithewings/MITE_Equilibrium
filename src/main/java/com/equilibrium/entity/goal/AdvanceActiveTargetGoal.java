@@ -1,14 +1,11 @@
 package com.equilibrium.entity.goal;
 
 import java.util.EnumSet;
-import java.util.Set;
 import java.util.function.Predicate;
 
-import com.equilibrium.mixin.entitymixin.ZombieEntityMixin;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.TrackTargetGoal;
-import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.CatEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,10 +14,9 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
-import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import static com.equilibrium.MITEequilibrium.MOD_ID;
+import static com.equilibrium.OnServerInitialize.MOD_ID;
 import static com.equilibrium.event.MoonPhaseEvent.getMoonType;
 
 

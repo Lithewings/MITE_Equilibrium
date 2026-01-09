@@ -19,6 +19,14 @@
   "item.miteequilibrium.mashed_potato": "Mashed Potato",
 
 
+  "entity.miteequilibrium.longdead": "Longdead",
+  "entity.miteequilibrium.wight": "Wight",
+  "entity.miteequilibrium.ghoul": "Ghoul",
+  "entity.miteequilibrium.shadow": "Shadow",
+  "entity.miteequilibrium.invisible_stalker": "Invisible Stalker",
+  "entity.miteequilibrium.pudding": "Pudding",
+  "entity.miteequilibrium.revenant": "Revenant",
+
   "mod.selectWorld.seedInfo": "Let the random number decide this",
   "mod.options.difficulty.easy.info": "Hostile mobs spawn but deal less damage. Hunger bar depletes and drains all health.",
   "mod.options.difficulty.hard.info": "Hostile mobs spawn and deal more damage. Hunger bar depletes and drains all health.",

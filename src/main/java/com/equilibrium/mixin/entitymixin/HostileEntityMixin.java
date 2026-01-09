@@ -1,8 +1,7 @@
 package com.equilibrium.mixin.entitymixin;
 
-import com.equilibrium.MITEequilibrium;
+import com.equilibrium.OnServerInitialize;
 import net.minecraft.entity.*;
-import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.Monster;
@@ -12,7 +11,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 
 import static com.equilibrium.util.XpHashMap.getXpForLevel;
 
@@ -40,7 +38,7 @@ public class HostileEntityMixin extends PathAwareEntity implements Monster {
             }
 
             if (!this.getWorld().isClient && this.hasCustomName()) {
-                MITEequilibrium.LOGGER.info("Named entity {} died: {}", this, this.getDamageTracker().getDeathMessage().getString());
+                OnServerInitialize.LOGGER.info("Named entity {} died: {}", this, this.getDamageTracker().getDeathMessage().getString());
             }
 
             this.dead = true;

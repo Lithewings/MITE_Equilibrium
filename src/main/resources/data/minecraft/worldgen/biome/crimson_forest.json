@@ -80,6 +80,13 @@
     "misc": [],
     "monster": [
       {
+        "type": "miteequilibrium:fire_elemental",
+        "maxCount": 3,
+        "minCount": 1,
+        "weight": 100
+      },
+      {
+
         "type": "minecraft:zombified_piglin",
         "maxCount": 4,
         "minCount": 2,

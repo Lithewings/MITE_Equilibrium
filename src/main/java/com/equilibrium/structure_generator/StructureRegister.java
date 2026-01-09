@@ -12,7 +12,7 @@ import net.minecraft.world.gen.feature.*;
 
 import java.util.function.Predicate;
 
-import static com.equilibrium.MITEequilibrium.MOD_ID;
+import static com.equilibrium.OnServerInitialize.MOD_ID;
 
 public class StructureRegister {
 

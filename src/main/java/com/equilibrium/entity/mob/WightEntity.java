@@ -1,5 +1,6 @@
 package com.equilibrium.entity.mob;
 
+import com.equilibrium.entity.goal.MeleeAttackGoalApplyAttackRange;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
@@ -60,18 +61,8 @@ public class WightEntity extends ZombieEntity{
         this.targetSelector.add(1, new RevengeGoal(this).setGroupRevenge(ZombifiedPiglinEntity.class));
         this.targetSelector.add(2, new ActiveTargetGoal(this, PlayerEntity.class, true));
         this.targetSelector.add(3, new ActiveTargetGoal(this, IronGolemEntity.class, true));
+    }
 
-    }
-    private BlockPos findGroundPosition(World world, BlockPos start) {
-        // 我们从start开始向下搜索，直到世界底部或者找到合适的地面
-        for (int y = start.getY(); start.getY()-y<=32&&y>-64; y--) {
-            BlockPos pos = new BlockPos(start.getX(), y, start.getZ());
-            if(world.isTopSolid(pos,this))
-                return pos.offset(Direction.Axis.Y,1); // 返回这个方块的位置，我们将在其上方生成生物
-        }
-        // 如果没有找到，返回null
-        return null;
-    }
     @Override
     public boolean canSpawn(WorldAccess world, SpawnReason spawnReason) {
         if (this.getWorld().getRegistryKey() == World.OVERWORLD && this.getY() >= 0)

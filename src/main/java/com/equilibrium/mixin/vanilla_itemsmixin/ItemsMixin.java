@@ -1,27 +1,8 @@
 package com.equilibrium.mixin.vanilla_itemsmixin;
 
-import com.equilibrium.item.EnchantedAppleItem;
-import net.minecraft.block.Block;
-import net.minecraft.component.type.FoodComponent;
-import net.minecraft.component.type.FoodComponents;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.Rarity;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.function.UnaryOperator;
-
-import static com.equilibrium.MITEequilibrium.MOD_ID;
 import static net.minecraft.item.Items.register;
 
 @Mixin(Items.class)

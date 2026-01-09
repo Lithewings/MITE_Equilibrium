@@ -11,7 +11,7 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
-import static com.equilibrium.MITEequilibrium.MOD_ID;
+import static com.equilibrium.OnServerInitialize.MOD_ID;
 
 public class C2STriggerContentChangePacket {
 

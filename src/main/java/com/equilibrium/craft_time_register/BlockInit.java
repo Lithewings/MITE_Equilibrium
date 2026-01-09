@@ -1,7 +1,7 @@
 package com.equilibrium.craft_time_register;
 
 
-import com.equilibrium.MITEequilibrium;
+import com.equilibrium.OnServerInitialize;
 
 import com.equilibrium.block.TheCraftingTableBlock;
 
@@ -36,15 +36,15 @@ public class BlockInit {
 
     public static void registerBlocks() {
         //tables
-        Registry.register(Registries.BLOCK, Identifier.of(MITEequilibrium.MOD_ID, "flint_crafting_table"), FLINT_CRAFTING_TABLE);
-        Registry.register(Registries.BLOCK, Identifier.of(MITEequilibrium.MOD_ID, "copper_crafting_table"), COPPER_CRAFTING_TABLE);
-        Registry.register(Registries.BLOCK, Identifier.of(MITEequilibrium.MOD_ID, "iron_crafting_table"), IRON_CRAFTING_TABLE);
-        Registry.register(Registries.BLOCK, Identifier.of(MITEequilibrium.MOD_ID, "diamond_crafting_table"),DIAMOND_CRAFTING_TABLE);
-        Registry.register(Registries.BLOCK, Identifier.of(MITEequilibrium.MOD_ID, "netherite_crafting_table"), NETHERITE_CRAFTING_TABLE);
+        Registry.register(Registries.BLOCK, Identifier.of(OnServerInitialize.MOD_ID, "flint_crafting_table"), FLINT_CRAFTING_TABLE);
+        Registry.register(Registries.BLOCK, Identifier.of(OnServerInitialize.MOD_ID, "copper_crafting_table"), COPPER_CRAFTING_TABLE);
+        Registry.register(Registries.BLOCK, Identifier.of(OnServerInitialize.MOD_ID, "iron_crafting_table"), IRON_CRAFTING_TABLE);
+        Registry.register(Registries.BLOCK, Identifier.of(OnServerInitialize.MOD_ID, "diamond_crafting_table"),DIAMOND_CRAFTING_TABLE);
+        Registry.register(Registries.BLOCK, Identifier.of(OnServerInitialize.MOD_ID, "netherite_crafting_table"), NETHERITE_CRAFTING_TABLE);
 
-        Registry.register(Registries.BLOCK, Identifier.of(MITEequilibrium.MOD_ID, "clay_furnace"), CLAY_FURNACE);
-        Registry.register(Registries.BLOCK, Identifier.of(MITEequilibrium.MOD_ID, "obsidian_furnace"), OBSIDIAN_FURNACE);
-        Registry.register(Registries.BLOCK, Identifier.of(MITEequilibrium.MOD_ID, "netherrack_furnace"), NETHERRACK_FURNACE);
+        Registry.register(Registries.BLOCK, Identifier.of(OnServerInitialize.MOD_ID, "clay_furnace"), CLAY_FURNACE);
+        Registry.register(Registries.BLOCK, Identifier.of(OnServerInitialize.MOD_ID, "obsidian_furnace"), OBSIDIAN_FURNACE);
+        Registry.register(Registries.BLOCK, Identifier.of(OnServerInitialize.MOD_ID, "netherrack_furnace"), NETHERRACK_FURNACE);
 
         allFurnaces.add(CLAY_FURNACE);
         allFurnaces.add(OBSIDIAN_FURNACE);
@@ -53,15 +53,15 @@ public class BlockInit {
 
     public static void registerBlockItems() {
         //tables
-        Registry.register(Registries.ITEM, Identifier.of( MITEequilibrium.MOD_ID, "flint_crafting_table"), new BlockItem(FLINT_CRAFTING_TABLE, new Item.Settings().fireproof()));
-        Registry.register(Registries.ITEM, Identifier.of( MITEequilibrium.MOD_ID, "copper_crafting_table"), new BlockItem(COPPER_CRAFTING_TABLE, new Item.Settings().fireproof()));
-        Registry.register(Registries.ITEM, Identifier.of( MITEequilibrium.MOD_ID, "iron_crafting_table"), new BlockItem(IRON_CRAFTING_TABLE, new Item.Settings().fireproof()));
-        Registry.register(Registries.ITEM, Identifier.of( MITEequilibrium.MOD_ID, "diamond_crafting_table"), new BlockItem(DIAMOND_CRAFTING_TABLE, new Item.Settings().fireproof()));
-        Registry.register(Registries.ITEM, Identifier.of( MITEequilibrium.MOD_ID, "netherite_crafting_table"), new BlockItem(NETHERITE_CRAFTING_TABLE, new Item.Settings().fireproof()));
+        Registry.register(Registries.ITEM, Identifier.of( OnServerInitialize.MOD_ID, "flint_crafting_table"), new BlockItem(FLINT_CRAFTING_TABLE, new Item.Settings().fireproof()));
+        Registry.register(Registries.ITEM, Identifier.of( OnServerInitialize.MOD_ID, "copper_crafting_table"), new BlockItem(COPPER_CRAFTING_TABLE, new Item.Settings().fireproof()));
+        Registry.register(Registries.ITEM, Identifier.of( OnServerInitialize.MOD_ID, "iron_crafting_table"), new BlockItem(IRON_CRAFTING_TABLE, new Item.Settings().fireproof()));
+        Registry.register(Registries.ITEM, Identifier.of( OnServerInitialize.MOD_ID, "diamond_crafting_table"), new BlockItem(DIAMOND_CRAFTING_TABLE, new Item.Settings().fireproof()));
+        Registry.register(Registries.ITEM, Identifier.of( OnServerInitialize.MOD_ID, "netherite_crafting_table"), new BlockItem(NETHERITE_CRAFTING_TABLE, new Item.Settings().fireproof()));
 
-        Registry.register(Registries.ITEM, Identifier.of( MITEequilibrium.MOD_ID, "clay_furnace"), new BlockItem(CLAY_FURNACE, new Item.Settings().maxCount(1).fireproof()));
-        Registry.register(Registries.ITEM, Identifier.of( MITEequilibrium.MOD_ID, "obsidian_furnace"), new BlockItem(OBSIDIAN_FURNACE, new Item.Settings().maxCount(1).fireproof()));
-        Registry.register(Registries.ITEM, Identifier.of( MITEequilibrium.MOD_ID, "netherrack_furnace"), new BlockItem(NETHERRACK_FURNACE, new Item.Settings().maxCount(1).fireproof()));
+        Registry.register(Registries.ITEM, Identifier.of( OnServerInitialize.MOD_ID, "clay_furnace"), new BlockItem(CLAY_FURNACE, new Item.Settings().maxCount(1).fireproof()));
+        Registry.register(Registries.ITEM, Identifier.of( OnServerInitialize.MOD_ID, "obsidian_furnace"), new BlockItem(OBSIDIAN_FURNACE, new Item.Settings().maxCount(1).fireproof()));
+        Registry.register(Registries.ITEM, Identifier.of( OnServerInitialize.MOD_ID, "netherrack_furnace"), new BlockItem(NETHERRACK_FURNACE, new Item.Settings().maxCount(1).fireproof()));
     }
 
     public static void registerFuels() {

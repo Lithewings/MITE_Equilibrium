@@ -155,6 +155,33 @@
     "misc": [],
     "monster": [
       {
+        "type": "miteequilibrium:shadow",
+        "maxCount": 1,
+        "minCount": 1,
+        "weight": 40
+      },
+
+      {
+        "type": "miteequilibrium:wight",
+        "maxCount": 1,
+        "minCount": 1,
+        "weight": 40
+      },
+
+      {
+        "type": "miteequilibrium:revenant",
+        "maxCount": 1,
+        "minCount": 1,
+        "weight": 15
+      },
+
+      {
+        "type": "miteequilibrium:fire_elemental",
+        "maxCount": 3,
+        "minCount": 1,
+        "weight": 40
+      },
+      {
         "type": "minecraft:spider",
         "maxCount": 1,
         "minCount": 1,

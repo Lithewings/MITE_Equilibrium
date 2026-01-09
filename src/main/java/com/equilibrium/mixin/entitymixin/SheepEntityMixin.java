@@ -1,15 +1,13 @@
 package com.equilibrium.mixin.entitymixin;
 
-import com.equilibrium.MITEequilibrium;
+import com.equilibrium.OnServerInitialize;
 import com.equilibrium.entity.EnvironmentChecker;
 import com.equilibrium.entity.ProduceManure;
-import com.equilibrium.entity.goal.BreakGrassGoal;
 import com.equilibrium.entity.goal.ConstantFleePlayerGoal;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -149,7 +147,7 @@ public abstract  class SheepEntityMixin extends AnimalEntity implements Shearabl
             }
 
             if (!this.getWorld().isClient && this.hasCustomName()) {
-                MITEequilibrium.LOGGER.info("Named entity {} died: {}", this, this.getDamageTracker().getDeathMessage().getString());
+                OnServerInitialize.LOGGER.info("Named entity {} died: {}", this, this.getDamageTracker().getDeathMessage().getString());
             }
 
             this.dead = true;

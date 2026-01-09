@@ -78,10 +78,10 @@
     "misc": [],
     "monster": [
       {
-        "type": "minecraft:ghast",
-        "maxCount": 1,
+        "type": "miteequilibrium:fire_elemental",
+        "maxCount": 3,
         "minCount": 1,
-        "weight": 40
+        "weight": 100
       },
       {
         "type": "minecraft:magma_cube",

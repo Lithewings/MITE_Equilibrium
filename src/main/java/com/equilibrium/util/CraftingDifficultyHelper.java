@@ -3,10 +3,8 @@ package com.equilibrium.util;
 import com.equilibrium.block.ModBlocks;
 import com.equilibrium.item.Metal;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ingame.CraftingScreen;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
-import net.minecraft.item.MaceItem;
 import net.minecraft.recipe.CraftingRecipe;
 import net.minecraft.recipe.input.CraftingRecipeInput;
 import net.minecraft.registry.Registries;
@@ -15,8 +13,6 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 
 import java.util.ArrayList;
-
-import static com.equilibrium.MITEequilibrium.LOGGER;
 
 public class CraftingDifficultyHelper {
 

@@ -3,10 +3,9 @@ package com.equilibrium.event.sound;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 
-import static com.equilibrium.MITEequilibrium.MOD_ID;
+import static com.equilibrium.OnServerInitialize.MOD_ID;
 
 public class SoundEventRegistry {
     public static final SoundEvent ENTITY_INVISIBLE_STALKER_AMBIENT1 = register("mob.invisiblestalker.say1");

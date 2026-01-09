@@ -1,6 +1,6 @@
 package com.equilibrium.mixin.entitymixin;
 
-import com.equilibrium.MITEequilibrium;
+import com.equilibrium.OnServerInitialize;
 import com.equilibrium.entity.EnvironmentChecker;
 import com.equilibrium.entity.ProduceManure;
 import com.equilibrium.entity.goal.ConstantFleePlayerGoal;
@@ -124,7 +124,7 @@ public abstract class ChickenEntityMixin extends AnimalEntity implements Produce
             }
 
             if (!this.getWorld().isClient && this.hasCustomName()) {
-                MITEequilibrium.LOGGER.info("Named entity {} died: {}", this, this.getDamageTracker().getDeathMessage().getString());
+                OnServerInitialize.LOGGER.info("Named entity {} died: {}", this, this.getDamageTracker().getDeathMessage().getString());
             }
 
             this.dead = true;

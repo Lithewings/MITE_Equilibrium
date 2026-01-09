@@ -22,7 +22,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
-import static com.equilibrium.MITEequilibrium.FERTILIZED;
+import static com.equilibrium.OnServerInitialize.FERTILIZED;
 import static com.equilibrium.event.CropIllnessEvent.CROP_BLOCK_POS;
 import static com.equilibrium.event.CropIllnessEvent.updateCropBlockPos;
 

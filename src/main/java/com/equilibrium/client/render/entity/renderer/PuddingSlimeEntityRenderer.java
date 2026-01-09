@@ -2,13 +2,9 @@ package com.equilibrium.client.render.entity.renderer;
 
 import com.equilibrium.entity.mob.BaseSlimeEntity;
 import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.SlimeEntityRenderer;
-import net.minecraft.client.render.entity.model.SinglePartEntityModel;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.mob.SlimeEntity;
 import net.minecraft.util.Identifier;
 
-import static com.equilibrium.MITEequilibrium.MOD_ID;
+import static com.equilibrium.OnServerInitialize.MOD_ID;
 
 public class PuddingSlimeEntityRenderer extends BaseSlimeRenderer {
 

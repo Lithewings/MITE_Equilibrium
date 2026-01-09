@@ -14,7 +14,7 @@ public enum ModToolMaterials implements ToolMaterial {
 
     //燧石武器无法附魔
     FLINT_HATCHET(BlockTags.INCORRECT_FOR_WOODEN_TOOL, 360, 2.0F, 0.0F, 0, () -> Ingredient.ofItems(Metal.FLINT)),
-    FLINT_AXE(BlockTags.INCORRECT_FOR_WOODEN_TOOL, 1200, 8.0F, 0.0F, 0, () -> Ingredient.ofItems(Metal.FLINT)),
+    FLINT_AXE(BlockTags.INCORRECT_FOR_WOODEN_TOOL, 1600, 8.0F, 0.0F, 0, () -> Ingredient.ofItems(Metal.FLINT)),
     FLINT_SHOVEL(BlockTags.INCORRECT_FOR_WOODEN_TOOL, 360, 3F, 0.0F, 0, () -> Ingredient.ofItems(Metal.FLINT)),
     FLINT_KNIFE(BlockTags.INCORRECT_FOR_WOODEN_TOOL, 360, 4.0F, 0.0F, 0, () -> Ingredient.ofItems(Items.FLINT)),
 

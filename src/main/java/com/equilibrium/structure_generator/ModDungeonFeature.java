@@ -7,8 +7,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.MobSpawnerBlockEntity;
 import net.minecraft.inventory.LootableInventory;
-import net.minecraft.loot.LootTable;
-import net.minecraft.loot.LootTables;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.BlockTags;
@@ -19,13 +17,12 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
-import net.minecraft.world.gen.feature.DungeonFeature;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 import org.slf4j.Logger;
 
 
-import static com.equilibrium.MITEequilibrium.MOD_ID;
+import static com.equilibrium.OnServerInitialize.MOD_ID;
 import static com.equilibrium.entity.ModEntities.LONG_DEAD;
 
 
@@ -34,7 +31,6 @@ public class ModDungeonFeature extends Feature<DefaultFeatureConfig> {
 
 
     private static final Logger LOGGER = LogUtils.getLogger();
-//    private static final EntityType<LongDeadEntity> longDeadEntityEntityType  = EntityType.Builder.create(LongDeadEntity::new, SpawnGroup.MONSTER).build();
 
     private static final BlockState AIR = Blocks.CAVE_AIR.getDefaultState();
 

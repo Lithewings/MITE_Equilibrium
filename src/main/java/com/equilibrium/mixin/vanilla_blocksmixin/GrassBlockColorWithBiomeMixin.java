@@ -1,11 +1,9 @@
 package com.equilibrium.mixin.vanilla_blocksmixin;
 
-import com.equilibrium.MITEequilibrium;
 import com.equilibrium.network.S2CStockChangeGrassColorPacket;
 import com.equilibrium.util.ColorAdjuster;
 import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
 import net.minecraft.world.BlockRenderView;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.ColorResolver;
@@ -15,10 +13,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import static com.equilibrium.MITEequilibrium.GRASSBLOCK_POLLUTED;
-import static com.equilibrium.network.S2CStockChangeGrassColorPacket.BLOCK_POS_INTEGER_CONCURRENT_HASH_MAP;
-import static com.equilibrium.util.ColorAdjuster.getRGB;
 
 @Mixin(BiomeColors.class)
 public class GrassBlockColorWithBiomeMixin {

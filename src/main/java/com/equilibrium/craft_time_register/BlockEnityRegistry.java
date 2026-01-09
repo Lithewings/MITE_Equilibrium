@@ -1,7 +1,7 @@
 package com.equilibrium.craft_time_register;
 
 
-import com.equilibrium.MITEequilibrium;
+import com.equilibrium.OnServerInitialize;
 
 import com.equilibrium.block.blockentity.TheFurnaceEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
@@ -24,6 +24,6 @@ public class BlockEnityRegistry {
     }
 
     private static <T extends BlockEntity> BlockEntityType<T> register(String name, BlockEntityType<T> type) {
-        return Registry.register(Registries.BLOCK_ENTITY_TYPE, Identifier.of(MITEequilibrium.MOD_ID, name), type);
+        return Registry.register(Registries.BLOCK_ENTITY_TYPE, Identifier.of(OnServerInitialize.MOD_ID, name), type);
     }
 }

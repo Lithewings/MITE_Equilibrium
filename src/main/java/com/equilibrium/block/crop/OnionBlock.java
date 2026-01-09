@@ -1,11 +1,9 @@
 package com.equilibrium.block.crop;
 
-import com.equilibrium.item.ModItems;
-import com.equilibrium.item.food.FoodItems;
+import com.equilibrium.item.food.FoodOrFarmItems;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.item.ItemConvertible;
-import net.minecraft.item.Items;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
@@ -35,7 +33,7 @@ public class OnionBlock extends CropBlock{
 
     @Override
     protected ItemConvertible getSeedsItem() {
-        return FoodItems.ONION;
+        return FoodOrFarmItems.ONION;
     }
 
     @Override

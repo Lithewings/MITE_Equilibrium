@@ -1,13 +1,13 @@
 package com.equilibrium.mixin.crop;
 
-import com.equilibrium.MITEequilibrium;
-import com.equilibrium.event.MoonPhaseEvent;
+import com.equilibrium.OnServerInitialize;
 import com.equilibrium.util.ServerInfoRecorder;
 import net.minecraft.block.*;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
@@ -20,17 +20,19 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import static com.equilibrium.MITEequilibrium.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.equilibrium.OnServerInitialize.*;
 import static com.equilibrium.event.CropIllnessEvent.CROP_BLOCK_POS;
 import static com.equilibrium.event.CropIllnessEvent.updateCropBlockPos;
 
@@ -60,7 +62,7 @@ public abstract class CropBlockMixin extends PlantBlock implements Fertilizable 
     @Inject(method = "applyGrowth", at = @At("HEAD"), cancellable = true)
     public void applyGrowth(World world, BlockPos pos, BlockState state, CallbackInfo ci) {
         ci.cancel();
-        updateState(world);
+        updateState(world,pos);
         int i = this.getAge(state) + this.getGrowthAmount(world);
         int j = 7;//7=MaxGge
         if (i > j) {
@@ -72,7 +74,7 @@ public abstract class CropBlockMixin extends PlantBlock implements Fertilizable 
 
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        updateState(world);
+        updateState(world,pos);
 
 
         //右键查看状态
@@ -113,11 +115,18 @@ public abstract class CropBlockMixin extends PlantBlock implements Fertilizable 
         builder.add(CROP_IS_ILLNESS);
     }
 
+    @Override
+    protected List<ItemStack> getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder) {
+        if(state.get(CROP_IS_ILLNESS)){
+            return List.of();
+        }
+        return super.getDroppedStacks(state,builder);
+    }
 
     @Override
     protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         super.onStateReplaced(state, world, pos, newState, moved);
-        updateState(world);
+        updateState(world,pos);
 
 
         if (state.isAir()) {
@@ -129,7 +138,7 @@ public abstract class CropBlockMixin extends PlantBlock implements Fertilizable 
 
     @Override
     public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
-        updateState(world);
+        updateState(world,pos);
 
 
         //将其坐标和生病情况记录在公共集合中,必须时刻同步生病状态
@@ -140,9 +149,10 @@ public abstract class CropBlockMixin extends PlantBlock implements Fertilizable 
     }
 
     @Unique
-    private static void updateState(World world) {
+    private static void updateState(World world,BlockPos triggerPos) {
+
         if (world instanceof ServerWorld serverWorld) {
-            updateCropBlockPos(serverWorld);
+            updateCropBlockPos(serverWorld,triggerPos);
         }
     }
 
@@ -150,7 +160,7 @@ public abstract class CropBlockMixin extends PlantBlock implements Fertilizable 
     @Inject(method = "randomTick", at = @At(value = "HEAD"), cancellable = true)
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
         ci.cancel();
-        updateState(world);
+        updateState(world,pos);
         if (!world.isSkyVisible(pos)) {
             if (world.getRandom().nextInt(64) == 0)
                 world.breakBlock(pos, true);
@@ -177,7 +187,7 @@ public abstract class CropBlockMixin extends PlantBlock implements Fertilizable 
                     else
                         times = 128;
                 } else
-                    MITEequilibrium.LOGGER.error("No such Block State called fertilized");
+                    OnServerInitialize.LOGGER.error("No such Block State called fertilized");
 
 
                 if (random.nextInt((int) (times * 25.0F / f) + 1) == 0) {

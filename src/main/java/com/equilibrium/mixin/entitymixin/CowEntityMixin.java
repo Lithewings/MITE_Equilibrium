@@ -1,12 +1,12 @@
 package com.equilibrium.mixin.entitymixin;
 
-import com.equilibrium.MITEequilibrium;
+import com.equilibrium.OnServerInitialize;
 import com.equilibrium.entity.EnvironmentChecker;
 import com.equilibrium.entity.ProduceManure;
 import com.equilibrium.entity.goal.BreakGrassGoal;
 import com.equilibrium.entity.goal.ConstantFleePlayerGoal;
 
-import com.equilibrium.item.food.FoodItems;
+import com.equilibrium.item.food.FoodOrFarmItems;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 
@@ -94,7 +94,7 @@ public abstract class CowEntityMixin extends AnimalEntity implements ProduceManu
             }
 
             if (!this.getWorld().isClient && this.hasCustomName()) {
-                MITEequilibrium.LOGGER.info("Named entity {} died: {}", this, this.getDamageTracker().getDeathMessage().getString());
+                OnServerInitialize.LOGGER.info("Named entity {} died: {}", this, this.getDamageTracker().getDeathMessage().getString());
             }
 
             this.dead = true;
@@ -156,7 +156,7 @@ public abstract class CowEntityMixin extends AnimalEntity implements ProduceManu
 
         }
         else if(this.milkCoolDown>=0 && this.milkCoolDown<18000 && itemStack.isOf(Items.BOWL) &&!this.isBaby()){
-            ItemStack itemStack2 = ItemUsage.exchangeStack(itemStack, player, FoodItems.MILK_BOWL.getDefaultStack());
+            ItemStack itemStack2 = ItemUsage.exchangeStack(itemStack, player, FoodOrFarmItems.MILK_BOWL.getDefaultStack());
             player.setStackInHand(hand, itemStack2);
             milkCoolDown += 6000;
 

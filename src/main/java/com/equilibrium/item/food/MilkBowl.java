@@ -22,9 +22,13 @@ public class MilkBowl extends Item {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         if(user.isSneaking()) {
             ItemStack itemStack = user.getStackInHand(hand);
-            itemStack.setCount(itemStack.getCount() - 1);
+            if(itemStack.getCount()==1){
+                itemStack = Items.BOWL.getDefaultStack();
+                return TypedActionResult.success(itemStack,world.isClient);
+            }
             user.getInventory().offerOrDrop(Items.BOWL.getDefaultStack());
-            return TypedActionResult.success(itemStack, world.isClient);
+            itemStack.setCount(itemStack.getCount() - 1);
+            return TypedActionResult.success(itemStack,world.isClient);
         }
         return super.use(world, user, hand);
     }

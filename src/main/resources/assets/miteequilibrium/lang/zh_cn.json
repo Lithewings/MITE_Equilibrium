@@ -28,6 +28,13 @@
 
   "item.miteequilibrium.manure": "肥料",
 
+  "entity.miteequilibrium.longdead": "古尸",
+  "entity.miteequilibrium.wight": "白色食尸鬼",
+  "entity.miteequilibrium.ghoul": "食尸鬼",
+  "entity.miteequilibrium.shadow": "黑色食尸鬼",
+  "entity.miteequilibrium.invisible_stalker": "隐形潜伏者",
+  "entity.miteequilibrium.pudding": "黑色史莱姆",
+  "entity.miteequilibrium.revenant": "亡魂",
 
 
 

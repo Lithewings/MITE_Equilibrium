@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -34,8 +35,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Objects;
 
-import static com.equilibrium.MITEequilibrium.MOD_ID;
-import static com.equilibrium.constant.ConstantString.*;
+import static com.equilibrium.OnServerInitialize.MOD_ID;
 
 
 @Mixin(NetherPortalBlock.class)
@@ -53,7 +53,13 @@ public abstract class NetherPortalBlockMixin extends Block implements Portal{
 
 
 
-
+    @Unique
+    private static final String TRANSPORT_TARGET1="You will transport to overworld";
+    @Unique
+    private static final String TRANSPORT_TARGET2="You will transport to underworld";
+    @Unique
+    private static final String TRANSPORT_TARGET3="You will transport to nether";
+    @Unique
     private static String getTeleportWorld(World world, Entity entity) {
 
         //获取目前的世界类型(访问注册方法)
@@ -135,14 +141,19 @@ public abstract class NetherPortalBlockMixin extends Block implements Portal{
 
 
 
-    private static RegistryKey<World> overworld = World.OVERWORLD;
-    private static RegistryKey<World> nether = World.NETHER;
-    private static RegistryKey<World> underworld = RegistryKey.of(RegistryKeys.WORLD, Identifier.of(MOD_ID, "underworld"));
+
+    @Unique
+    private static final RegistryKey<World> overworld = World.OVERWORLD;
+    @Unique
+    private static final RegistryKey<World> nether = World.NETHER;
+    @Unique
+    private static final RegistryKey<World> underworld = RegistryKey.of(RegistryKeys.WORLD, Identifier.of(MOD_ID, "underworld"));
 
 
 
 
 
+    @Unique
     public TeleportTarget toSpawn(ServerWorld world, Entity entity) {
         RegistryKey<World> registryKey = world.getRegistryKey();
         ServerWorld serverWorld = world.getServer().getWorld(registryKey);

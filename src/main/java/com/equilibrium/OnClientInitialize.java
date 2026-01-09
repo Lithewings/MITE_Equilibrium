@@ -5,8 +5,6 @@ import com.equilibrium.block.ModBlocks;
 import com.equilibrium.block.enchanting_table.*;
 import com.equilibrium.client.render.entity.renderer.*;
 import com.equilibrium.item.Armors;
-import com.equilibrium.network.C2SClickTimesPacket;
-import com.equilibrium.network.C2STriggerContentChangePacket;
 import com.equilibrium.network.S2CIllnessTextureBooleanPacket;
 import com.equilibrium.network.S2CStockChangeGrassColorPacket;
 import com.equilibrium.util.MyCommands;
@@ -14,9 +12,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
-import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
@@ -27,15 +23,18 @@ import net.minecraft.util.Formatting;
 
 import static com.equilibrium.entity.ModEntities.*;
 
-import static com.equilibrium.network.S2CStockChangeGrassColorPacket.BLOCK_POS_INTEGER_CONCURRENT_HASH_MAP;
 import static com.equilibrium.util.RenderBeaconBeam.RenderBeaconInit;
 
 
-public class MITEequilibriumClient implements ClientModInitializer {
+public class OnClientInitialize implements ClientModInitializer {
+
+
 
 
 //    @Override
     public void onInitializeClient() {
+
+
 
 
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), ModBlocks.ONION_BLOCK);
@@ -85,13 +84,15 @@ public class MITEequilibriumClient implements ClientModInitializer {
         //注册渲染器(渲染器中包含了实体和模型)
 
 
-        EntityRendererRegistry.register(INVISIBLE_STALKER, InvisibleStalkerEntityRenderer::new);
+        EntityRendererRegistry.register(INVISIBLE_STALKER, InvisibleStalkerEntityRendererTransparent::new);
         EntityRendererRegistry.register(GHOUL, GhoulEntityRenderer::new);
         EntityRendererRegistry.register(SHADOW, ShadowEntityRenderer::new);
         EntityRendererRegistry.register(WIGHT, WightEntityRenderer::new);
-
+        EntityRendererRegistry.register(REVENANT, RevenantEntityRenderer::new);
         EntityRendererRegistry.register(LONG_DEAD, LongDeadEntityRenderer::new);
         EntityRendererRegistry.register(PUDDING, PuddingSlimeEntityRenderer::new);
+
+        EntityRendererRegistry.register(FIRE_ELEMENTAL, FireElementalEntityRendererTransparent::new);
 
 
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {

@@ -251,9 +251,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
 
     @Inject(method = "jump", at = @At("TAIL"))
-    public void jump(CallbackInfo ci) {
-
-
+    public void jump(CallbackInfo ci)  {
 
 
 
@@ -409,6 +407,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     @Inject(method = "getBlockBreakingSpeed", at = @At("HEAD"), cancellable = true)
     public void getBlockBreakingSpeed(BlockState block, CallbackInfoReturnable<Float> cir) {
         cir.cancel();
+
         this.addExhaustion(0.0005f);
         ItemStack stack = this.getMainHandStack();
         float f = this.inventory.getBlockBreakingSpeed(block);

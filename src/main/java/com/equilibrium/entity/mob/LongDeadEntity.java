@@ -1,25 +1,21 @@
 package com.equilibrium.entity.mob;
 
+import com.equilibrium.entity.goal.MeleeAttackGoalApplyAttackRange;
 import com.equilibrium.item.Armors;
 import com.equilibrium.item.Tools;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.mob.AbstractSkeletonEntity;
 import net.minecraft.entity.mob.CreeperEntity;
-import net.minecraft.entity.mob.SkeletonEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
-import net.minecraft.entity.passive.TurtleEntity;
 import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootTable;
-import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.world.ServerWorld;
@@ -32,7 +28,7 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.*;
 import org.jetbrains.annotations.Nullable;
 
-import static com.equilibrium.MITEequilibrium.MOD_ID;
+import static com.equilibrium.OnServerInitialize.MOD_ID;
 import static com.equilibrium.util.XpHashMap.getXpForLevel;
 
 public class LongDeadEntity extends ModAbstractSkeletonEntity {
@@ -73,38 +69,7 @@ public class LongDeadEntity extends ModAbstractSkeletonEntity {
         super.onDeath(damageSource);
     }
 
-    public BlockPos adjustPosition(WorldView world, BlockPos pos) {
-        BlockPos blockPos = pos.down();
-        return world.getBlockState(blockPos).canPathfindThrough(NavigationType.LAND) ? blockPos : pos;
-    }
 
-    private BlockPos findGroundPosition(World world, BlockPos start) {
-        // 我们从start开始向下搜索，直到世界底部或者找到合适的地面
-        for (int y = start.getY(); start.getY()-y<=32&&y>-64; y--) {
-            BlockPos pos = new BlockPos(start.getX(), y, start.getZ());
-            if(world.isTopSolid(pos,this))
-                return pos.offset(Direction.Axis.Y,1); // 返回这个方块的位置，我们将在其上方生成生物
-        }
-        // 如果没有找到，返回null
-        return null;
-    }
-
-//    @Override
-//    public boolean canSpawn(WorldAccess world, SpawnReason spawnReason) {
-//        //只在地下世界发现悬空生成的情况,奇怪
-//        if(!this.isOnGround()){
-//            BlockPos pos = findGroundPosition(this.getWorld(),this.getBlockPos());
-//            if(pos!=null)
-//                this.setPosition(pos.getX(),pos.getY(),pos.getZ());
-//            else
-//                return false;
-//        }
-//        BlockState state = world.getBlockState(BlockPos.ofFloored(this.getEyePos()));
-//        world.notifyAll();
-//        if(state.getBlock()==Blocks.COBBLESTONE||state.getBlock()==Blocks.MOSSY_COBBLESTONE)
-//            return false;
-//        return super.canSpawn(world, spawnReason);
-//    }
 
     @Override
     protected void initGoals() {
@@ -114,15 +79,14 @@ public class LongDeadEntity extends ModAbstractSkeletonEntity {
         this.goalSelector.add(5, new WanderAroundFarGoal(this, 1.0));
         this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
 
+
+
+
+
         this.targetSelector.add(1, new RevengeGoal(this));
         this.targetSelector.add(2, new ActiveTargetGoal(this, PlayerEntity.class, true));
         this.targetSelector.add(3, new ActiveTargetGoal(this, IronGolemEntity.class, true));
 
-    }
-
-    @Override
-    public void tick() {
-        super.tick();
     }
 
 

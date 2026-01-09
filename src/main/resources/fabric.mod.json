@@ -16,10 +16,10 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"com.equilibrium.MITEequilibrium"
+			"com.equilibrium.OnServerInitialize"
 		],
 		"client":[
-			"com.equilibrium.MITEequilibriumClient"
+			"com.equilibrium.OnClientInitialize"
 		],
 		"fabric-datagen": [
 			"com.equilibrium.MITEequilibriumDataGenerator"

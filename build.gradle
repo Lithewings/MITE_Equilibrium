@@ -3,7 +3,7 @@ plugins {
 	id 'maven-publish'
 }
 
-version = "Beta-1.0.8"
+version = "Beta-1.0.8_1"
 group = project.maven_group
 
 base {
@@ -19,6 +19,12 @@ repositories {
 }
 loom {
 	accessWidenerPath = file("src/main/resources/name.accesswidener")
+	runs {
+		client {
+			// 设置固定玩家名和UUID
+			programArgs("--username", "Lithewings")
+		}
+	}
 }
 
 fabricApi {

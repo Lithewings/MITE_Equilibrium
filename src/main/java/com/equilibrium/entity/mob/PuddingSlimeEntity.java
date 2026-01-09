@@ -1,6 +1,6 @@
 package com.equilibrium.entity.mob;
 
-import com.equilibrium.item.ModItems;
+import com.equilibrium.item.OtherItems;
 import net.minecraft.entity.*;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageTypes;
@@ -10,12 +10,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.tag.BiomeTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.*;
-import net.minecraft.util.math.random.ChunkRandom;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.*;
 import org.jetbrains.annotations.Nullable;
@@ -29,7 +27,7 @@ public class PuddingSlimeEntity extends BaseSlimeEntity{
     private boolean onGroundLastTick;
     @Override
     protected ParticleEffect getParticles() {
-        return new ItemStackParticleEffect(ParticleTypes.ITEM, ModItems.PUDDING_SLIME_BALL.getDefaultStack());
+        return new ItemStackParticleEffect(ParticleTypes.ITEM, OtherItems.PUDDING_SLIME_BALL.getDefaultStack());
     }
 
 

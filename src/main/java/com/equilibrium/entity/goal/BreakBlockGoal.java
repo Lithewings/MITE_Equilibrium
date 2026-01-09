@@ -1,6 +1,6 @@
 package com.equilibrium.entity.goal;
 
-import com.equilibrium.MITEequilibrium;
+import com.equilibrium.OnServerInitialize;
 import com.equilibrium.tags.ModBlockTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -21,8 +21,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldEvents;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
@@ -96,7 +94,7 @@ public class BreakBlockGoal extends Goal {
 
     public static BlockPos getPosFacing(Entity entity, boolean isBackward) {
         if (entity == null) {
-            MITEequilibrium.LOGGER.error("EntityHelper/getPosFacing;entity==null");
+            OnServerInitialize.LOGGER.error("EntityHelper/getPosFacing;entity==null");
             return BlockPos.ORIGIN;
         }
         var entityPos = entity.getBlockPos();
@@ -259,7 +257,7 @@ public class BreakBlockGoal extends Goal {
                 }
             }
         } catch (StackOverflowError error) {
-            MITEequilibrium.LOGGER.error("WorldHelper/checkBlockGravity(): StackOverflowError");
+            OnServerInitialize.LOGGER.error("WorldHelper/checkBlockGravity(): StackOverflowError");
         }
     }
 

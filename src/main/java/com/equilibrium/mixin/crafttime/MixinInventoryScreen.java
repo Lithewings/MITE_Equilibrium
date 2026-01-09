@@ -1,7 +1,7 @@
 package com.equilibrium.mixin.crafttime;
 
 import com.equilibrium.ITimeCraftPlayer;
-import com.equilibrium.MITEequilibrium;
+import com.equilibrium.OnServerInitialize;
 import com.equilibrium.util.CraftingDifficultyHelper;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawContext;
@@ -43,7 +43,7 @@ public abstract class MixinInventoryScreen extends AbstractInventoryScreen<Playe
 	public void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
 		if (keyCode != GLFW.GLFW_KEY_LEFT_SHIFT && this.shouldCloseOnEsc()) {
 			//一旦中途退出,就失去所有进度渲染
-			MITEequilibrium.LOGGER.info("end crafting");
+			OnServerInitialize.LOGGER.info("end crafting");
 			player.craftTime$setCraftTime(0);
 			this.close();
 		}

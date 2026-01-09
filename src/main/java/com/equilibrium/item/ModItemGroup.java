@@ -1,10 +1,10 @@
 package com.equilibrium.item;
 
-import com.equilibrium.MITEequilibrium;
+import com.equilibrium.OnServerInitialize;
 
 import com.equilibrium.block.ModBlocks;
 import com.equilibrium.item.extend_item.CoinItems;
-import com.equilibrium.item.food.FoodItems;
+import com.equilibrium.item.food.FoodOrFarmItems;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -16,14 +16,14 @@ import net.minecraft.util.Identifier;
 
 public class ModItemGroup {
     //自定义物品栏
-    public static final ItemGroup modGroup = Registry.register(Registries.ITEM_GROUP, Identifier.of(MITEequilibrium.MOD_ID,"testgroup"),
+    public static final ItemGroup modGroup = Registry.register(Registries.ITEM_GROUP, Identifier.of(OnServerInitialize.MOD_ID,"testgroup"),
             //注册名小写
             FabricItemGroup.builder().displayName(Text.translatable("itemgroup.testgroup"))
                     //itemgroup.testgroup是不加翻译前的物品栏名字
-                    .icon(()->new ItemStack(ModItems.test)).entries((displayContext, entries) ->
+                    .icon(()->new ItemStack(OtherItems.test)).entries((displayContext, entries) ->
                     //这里开始添加物品
                             {
-                                entries.add(ModItems.test);
+                                entries.add(OtherItems.test);
                                 entries.add(Items.BOOK);//可以加原版物品
                                 entries.add(ModBlocks.EXAMPLE_BLOCK);
 
@@ -31,7 +31,7 @@ public class ModItemGroup {
                     ).build());
 
     //工具栏
-    public static final ItemGroup modTools = Registry.register(Registries.ITEM_GROUP, Identifier.of(MITEequilibrium.MOD_ID,"toolsgroup"),
+    public static final ItemGroup modTools = Registry.register(Registries.ITEM_GROUP, Identifier.of(OnServerInitialize.MOD_ID,"toolsgroup"),
             FabricItemGroup.builder().displayName(Text.of("Metal Craft"))
                     .icon(()->new ItemStack(Tools.ADAMANTIUM_AXE)).entries((displayContext, entries) ->
                             {
@@ -39,7 +39,7 @@ public class ModItemGroup {
                     ).build());
 
     //金属栏
-    public static final ItemGroup modIngots = Registry.register(Registries.ITEM_GROUP, Identifier.of(MITEequilibrium.MOD_ID,"metalgroup"),
+    public static final ItemGroup modIngots = Registry.register(Registries.ITEM_GROUP, Identifier.of(OnServerInitialize.MOD_ID,"metalgroup"),
             FabricItemGroup.builder().displayName(Text.of("Mod Craft"))
                     .icon(()->new ItemStack(Metal.adamantium)).entries((displayContext, entries) ->
                             {
@@ -148,18 +148,18 @@ public class ModItemGroup {
                                 entries.add(Armors.ANCIENT_METAL_CHAINMAIL_CHEST_PLATE);
                                 entries.add(Armors.ANCIENT_METAL_CHAINMAIL_HELMET);
 
-                                entries.add(ModItems.PUDDING_SLIME_BALL);
-                                entries.add(FoodItems.PUMPKIN_SOUP);
-                                entries.add(FoodItems.WATER_BOWL);
-                                entries.add(FoodItems.VEGETABLE_SOUP);
-                                entries.add(FoodItems.BEEF_SOUP);
-                                entries.add(FoodItems.MASHED_POTATO);
-                                entries.add(FoodItems.MILK_BOWL);
-                                entries.add(FoodItems.CHEESE);
-                                entries.add(FoodItems.ONION);
+                                entries.add(OtherItems.PUDDING_SLIME_BALL);
+                                entries.add(FoodOrFarmItems.PUMPKIN_SOUP);
+                                entries.add(FoodOrFarmItems.WATER_BOWL);
+                                entries.add(FoodOrFarmItems.VEGETABLE_SOUP);
+                                entries.add(FoodOrFarmItems.BEEF_SOUP);
+                                entries.add(FoodOrFarmItems.MASHED_POTATO);
+                                entries.add(FoodOrFarmItems.MILK_BOWL);
+                                entries.add(FoodOrFarmItems.CHEESE);
+                                entries.add(FoodOrFarmItems.ONION);
 
                                 entries.add(ModBlocks.EMERALD_ENCHANTING_TABLE);
-                                entries.add(ModItems.MANURE);
+                                entries.add(FoodOrFarmItems.MANURE);
 
                             }
                     ).build());

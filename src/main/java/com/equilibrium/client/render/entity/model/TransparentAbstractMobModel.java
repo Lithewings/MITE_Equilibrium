@@ -7,8 +7,8 @@ import net.minecraft.client.render.entity.model.CrossbowPosing;
 import net.minecraft.entity.mob.HostileEntity;
 
 @Environment(EnvType.CLIENT)
-public abstract class TransparentAbstractZombieModel<T extends HostileEntity> extends TransparentBipedEntityModel<T> {
-    protected TransparentAbstractZombieModel(ModelPart modelPart) {
+public abstract class TransparentAbstractMobModel<T extends HostileEntity> extends TransparentBipedEntityModel<T> {
+    protected TransparentAbstractMobModel(ModelPart modelPart) {
         super(modelPart);
     }
 

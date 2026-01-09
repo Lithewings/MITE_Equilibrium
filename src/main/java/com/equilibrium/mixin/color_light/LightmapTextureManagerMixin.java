@@ -1,7 +1,6 @@
 package com.equilibrium.mixin.color_light;
 
 import com.equilibrium.util.MoonlightController;
-import com.equilibrium.util.ServerInfoRecorder;
 import com.equilibrium.util.WorldMoonPhasesSelector;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
@@ -12,22 +11,19 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import org.joml.Vector3f;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Objects;
 
-import static com.equilibrium.MITEequilibrium.LOGGER;
 import static net.minecraft.client.render.LightmapTextureManager.getBrightness;
 
 @Mixin(LightmapTextureManager.class)
@@ -55,19 +51,23 @@ public abstract class LightmapTextureManagerMixin {
     @Final
     private  MinecraftClient client;
 
+    @Unique
     private float getDarkness(LivingEntity entity, float factor, float delta) {
         float f = 0.45F * factor;
         return Math.max(0.0F, MathHelper.cos(((float)entity.age - delta) * (float) Math.PI * 0.025F) * f);
     }
+    @Unique
     private float getDarknessFactor(float delta) {
         StatusEffectInstance statusEffectInstance = this.client.player.getStatusEffect(StatusEffects.DARKNESS);
         return statusEffectInstance != null ? statusEffectInstance.getFadeFactor(this.client.player, delta) : 0.0F;
     }
 
 
+    @Unique
     private static void clamp(Vector3f vec) {
         vec.set(MathHelper.clamp(vec.x, 0.0F, 1.0F), MathHelper.clamp(vec.y, 0.0F, 1.0F), MathHelper.clamp(vec.z, 0.0F, 1.0F));
     }
+    @Unique
     private float easeOutQuart(float x) {
         float f = 1.0F - x;
         return 1.0F - f * f * f * f;

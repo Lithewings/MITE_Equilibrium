@@ -1,6 +1,5 @@
 package com.equilibrium.persistent_state;
 
-import com.equilibrium.event.MoonPhaseEvent;
 import com.equilibrium.util.MapNbtSerializer;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
@@ -11,7 +10,7 @@ import net.minecraft.world.World;
 
 import java.io.IOException;
 
-import static com.equilibrium.MITEequilibrium.MOD_ID;
+import static com.equilibrium.OnServerInitialize.MOD_ID;
 import static com.equilibrium.event.CropIllnessEvent.CROP_BLOCK_POS;
 import static com.equilibrium.network.S2CStockChangeGrassColorPacket.BLOCK_POS_INTEGER_CONCURRENT_HASH_MAP;
 

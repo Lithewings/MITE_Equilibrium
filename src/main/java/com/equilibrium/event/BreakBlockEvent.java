@@ -1,4 +1,5 @@
 package com.equilibrium.event;
+
 import com.equilibrium.item.Metal;
 import com.equilibrium.tags.ModBlockTags;
 import com.equilibrium.util.BlockToItemConverter;
@@ -21,9 +22,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 
+import static com.equilibrium.block.BlocksHardnessList.BLOCKS_HARDNESS_HASHMAP;
+import static com.equilibrium.block.BlocksHardnessList.getStandardBlockName;
 
 
-public class BreakBlockEvent implements PlayerBlockBreakEvents.After{
+public class BreakBlockEvent implements PlayerBlockBreakEvents.After {
     BlockToItemConverter blockToItemConverter = new BlockToItemConverter();
 
     /**
@@ -37,93 +40,38 @@ public class BreakBlockEvent implements PlayerBlockBreakEvents.After{
      */
 
 
-
-   public static int guarantee = 0;
-   //最多12次沙砾必然不掉落自身,全服务器共享进度,重启时归零
-
-
+    public static int guarantee = 0;
+    //最多12次沙砾必然不掉落自身,全服务器共享进度,重启时归零
 
 
     @Override
     public void afterBlockBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity) {
+        ItemStack itemStack = player.getMainHandStack();
 
+        itemStack.damage(BLOCKS_HARDNESS_HASHMAP.get(getStandardBlockName(state.getBlock())), player, EquipmentSlot.MAINHAND);
+        //提前结束
+        if (
+            !
+            (
+            (state.isIn(BlockTags.LEAVES))||
+            (state.getBlock() == Blocks.GRAVEL)||
+            (state.isIn(ModBlockTags.ORE))
+            )
 
-
-
-
-        ItemStack itemStack =player.getMainHandStack();
-
-//        player.sendMessage(Text.of("Block Harvest Level is :"+IsMinable.getBlockHarvertLevel(state)));
-//        player.sendMessage(Text.of("Item Harvest Level is :"+IsMinable.getItemHarvertLevel(itemStack)));
-//        player.sendMessage(Text.of(""+state.getBlock().toString()));
-//
-//        if(IsMinable.getBlockHarvertLevel(state)<=IsMinable.getItemHarvertLevel(itemStack))
-//            player.sendMessage(Text.of("Is Minable"));
-//        else{
-//            player.sendMessage(Text.of("Not Minable"));
-//        }
-
-
-        if(state.isIn(ModBlockTags.LOG_120)){
-            itemStack.damage(120,player, EquipmentSlot.MAINHAND);
-//            player.sendMessage(Text.of("-120"));
-        }
-        else
-        if(state.isIn(ModBlockTags.STONE_LIKE_240)){
-            itemStack.damage(240,player, EquipmentSlot.MAINHAND);
-//            player.sendMessage(Text.of("-240"));
-        }
-        else
-        if(state.isIn(ModBlockTags.STONE_LIKE_360)){
-            itemStack.damage(360,player, EquipmentSlot.MAINHAND);
-//            player.sendMessage(Text.of("-360"));
-        }
-        else
-        if(state.isIn(ModBlockTags.STONE_LIKE_480)){
-            itemStack.damage(480,player, EquipmentSlot.MAINHAND);
-//            player.sendMessage(Text.of("-480"));
-        }
-
-        //240 360 480其余没有列出的,但是确实比较硬的物品,而且在三者子集里容易冲突
-        else
-        if(state.isIn(BlockTags.NEEDS_STONE_TOOL)) {
-            itemStack.damage(120, player, EquipmentSlot.MAINHAND);
-//            player.sendMessage(Text.of("-120"));
-        }
-        else
-        if(state.isIn(BlockTags.NEEDS_IRON_TOOL)) {
-            itemStack.damage(180, player, EquipmentSlot.MAINHAND);
-//            player.sendMessage(Text.of("-180"));
-        }
-        else
-        if(state.isIn(BlockTags.NEEDS_DIAMOND_TOOL)) {
-            itemStack.damage(240, player, EquipmentSlot.MAINHAND);
-//            player.sendMessage(Text.of("-240"));
-        }
-        //这些都是玩家空手即可采集的方块
-        else
-        if(state.isIn(ModBlockTags.NORMAL_30)){
-            itemStack.damage(30,player, EquipmentSlot.MAINHAND);
-//        player.sendMessage(Text.of("-30"));
-        }
-        else
-        if(state.isIn(ModBlockTags.NORMAL_60)){
-            itemStack.damage(60,player, EquipmentSlot.MAINHAND);
-//            player.sendMessage(Text.of("-60"));
-        }
-
-        Random random =new Random();
+        )
+            return;
+        Random random = new Random();
         //时运附魔等级
-        int furtuneLevel=EnchantmentHelper.getLevel(world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getEntry(Enchantments.FORTUNE).get(),itemStack);
+        int furtuneLevel = EnchantmentHelper.getLevel(world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getEntry(Enchantments.FORTUNE).get(), itemStack);
         //精准采集等级
-        int slikTouch=EnchantmentHelper.getLevel(world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getEntry(Enchantments.SILK_TOUCH).get(),itemStack);
+        int slikTouch = EnchantmentHelper.getLevel(world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getEntry(Enchantments.SILK_TOUCH).get(), itemStack);
 
         if (state.isIn(BlockTags.LEAVES)) {
             ItemEntity itemDrop;
 
 
-            int randomNumber = random.nextInt(100-furtuneLevel*30);
-            if(randomNumber<=5) {
+            int randomNumber = random.nextInt(100 - furtuneLevel * 30);
+            if (randomNumber <= 5) {
                 itemDrop = new ItemEntity(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
                         new ItemStack(Items.STICK));
                 world.spawnEntity(itemDrop);
@@ -133,95 +81,83 @@ public class BreakBlockEvent implements PlayerBlockBreakEvents.After{
         if (state.getBlock() == Blocks.GRAVEL) {
 
 
-
-            if (slikTouch==1){
-                world.spawnEntity(new ItemEntity(world, pos.getX()+0.5, pos.getY(), pos.getZ()+0.5,
+            if (slikTouch == 1) {
+                world.spawnEntity(new ItemEntity(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
                         new ItemStack(Items.GRAVEL)));
                 return;
             }
 
             int randomNumber1 = random.nextInt(100);
-            if(randomNumber1<75-furtuneLevel*15 && guarantee<12){
+            if (randomNumber1 < 75 - furtuneLevel * 15 && guarantee < 12) {
                 guarantee++;
-                world.spawnEntity(new ItemEntity(world, pos.getX()+0.5, pos.getY(), pos.getZ()+0.5,
+                world.spawnEntity(new ItemEntity(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
                         new ItemStack(Items.GRAVEL)));
                 return;
+            } else {
+                guarantee = 0;
             }
-            else {
-                guarantee=0;
-            }
-
 
 
             double randomNumber2 = random.nextDouble(1000);
 
 
             ItemEntity itemDrop;
-            if(randomNumber2==0){
+            if (randomNumber2 == 0) {
                 //0,就1个,0.1%
-                itemDrop = new ItemEntity( world, pos.getX()+0.5, pos.getY(), pos.getZ()+0.5,
+                itemDrop = new ItemEntity(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
                         new ItemStack(Items.REDSTONE));
                 world.spawnEntity(itemDrop);
 
-            } else if(randomNumber2<=80) {
+            } else if (randomNumber2 <= 80) {
                 //1-80,共80个 8%
-                itemDrop = new ItemEntity( world, pos.getX()+0.5, pos.getY(), pos.getZ()+0.5,
+                itemDrop = new ItemEntity(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
                         new ItemStack(Metal.silver_nugget));
                 world.spawnEntity(itemDrop);
 
             } else if (randomNumber2 <= 240) {
                 //80-240,共160个 16%
-                itemDrop = new ItemEntity( world, pos.getX()+0.5, pos.getY(), pos.getZ()+0.5,
+                itemDrop = new ItemEntity(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
                         new ItemStack(Items.FLINT));
                 world.spawnEntity(itemDrop);
 
             } else if (randomNumber2 <= 460) {
                 //250-460,共220个 22%
-                itemDrop = new ItemEntity( world, pos.getX()+0.5, pos.getY(), pos.getZ()+0.5,
+                itemDrop = new ItemEntity(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
                         new ItemStack(Metal.copper_nugget));
                 world.spawnEntity(itemDrop);
 
-            }else{
+            } else {
                 //460-999,共540个 54%
-                itemDrop = new ItemEntity(world, pos.getX()+0.5, pos.getY(), pos.getZ()+0.5,
+                itemDrop = new ItemEntity(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
                         new ItemStack(Metal.FLINT));
                 world.spawnEntity(itemDrop);
             }
         }
-        if (state.isIn(ModBlockTags.ORE)){
+        if (state.isIn(ModBlockTags.ORE)) {
             //掉落个数,比如红石就应该多次掉落
             int dropTime = 1;
             //获取矿石掉落物
             Item item = blockToItemConverter.convertBlockToItem(state.getBlock());
-            if(item==Items.LAPIS_LAZULI || item==Items.REDSTONE || item==Items.GOLD_NUGGET)
+            if (item == Items.LAPIS_LAZULI || item == Items.REDSTONE || item == Items.GOLD_NUGGET)
                 //4~7次掉落
-                dropTime= 4+ random.nextInt(4);
+                dropTime = 4 + random.nextInt(4);
 
 
-            if(random.nextInt(10)>=(10-furtuneLevel)) {
+            if (random.nextInt(10) >= (10 - furtuneLevel)) {
                 //若时运为3,则表示随机的数字 0 1 2 3 4 5 6 7 8 9 中大于等于7的概率,即0.3
                 //时运触发时,相当于本次产出翻倍
                 dropTime *= 2;
             }
             //掉落1次还是4次
-            for(int i =0 ;i<dropTime;i++){
-                world.spawnEntity(new ItemEntity(world, pos.getX()+0.5, pos.getY(), pos.getZ()+0.5,
+            for (int i = 0; i < dropTime; i++) {
+                world.spawnEntity(new ItemEntity(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
                         new ItemStack(item)));
 
 
-                }
             }
-
-
-
-
-
         }
-
-
-
-
     }
+}
 
 
 

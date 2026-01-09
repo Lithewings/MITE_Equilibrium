@@ -1,14 +1,7 @@
 package com.equilibrium.item.food;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.AbstractCauldronBlock;
-import net.minecraft.block.CauldronBlock;
-import net.minecraft.block.LeveledCauldronBlock;
-import net.minecraft.component.type.FoodComponent;
-import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
-import net.minecraft.potion.Potions;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -22,9 +15,6 @@ import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 
-import java.util.List;
-import java.util.Optional;
-
 public class WaterBowl extends Item {
     public WaterBowl(Settings settings) {
         super(settings);
@@ -33,8 +23,12 @@ public class WaterBowl extends Item {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
-        itemStack.setCount(itemStack.getCount() - 1);
+        if(itemStack.getCount()==1){
+            itemStack = Items.BOWL.getDefaultStack();
+            return TypedActionResult.success(itemStack,world.isClient);
+        }
         user.getInventory().offerOrDrop(Items.BOWL.getDefaultStack());
+        itemStack.setCount(itemStack.getCount() - 1);
         return TypedActionResult.success(itemStack,world.isClient);
 
     }
@@ -57,9 +51,9 @@ public class WaterBowl extends Item {
                     //减一
                     itemStack.setCount(itemStack.getCount() - 1);
                     //加一
-                    user.getInventory().insertStack(FoodItems.WATER_BOWL.getDefaultStack());
+                    user.getInventory().insertStack(FoodOrFarmItems.WATER_BOWL.getDefaultStack());
                     //只是增加一次使用次数而已
-                    user.incrementStat(Stats.USED.getOrCreateStat(FoodItems.WATER_BOWL));
+                    user.incrementStat(Stats.USED.getOrCreateStat(FoodOrFarmItems.WATER_BOWL));
                     return TypedActionResult.success(itemStack, world.isClient());
                 }
             }

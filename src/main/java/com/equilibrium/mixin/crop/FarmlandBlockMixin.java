@@ -1,19 +1,13 @@
 package com.equilibrium.mixin.crop;
 
-import com.equilibrium.item.ModItems;
-import net.minecraft.block.AbstractBlock;
+import com.equilibrium.item.food.FoodOrFarmItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FarmlandBlock;
-import net.minecraft.client.render.model.BlockStatesLoader;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.IntProperty;
-import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -22,13 +16,11 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static com.equilibrium.MITEequilibrium.FERTILIZED;
-import static net.minecraft.block.FarmlandBlock.MOISTURE;
+import static com.equilibrium.OnServerInitialize.FERTILIZED;
 
 
 @Mixin(FarmlandBlock.class)
@@ -69,7 +61,7 @@ public abstract class FarmlandBlockMixin extends Block {
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         ItemStack itemStack = player.getStackInHand(Hand.MAIN_HAND);
-        if (itemStack.isOf(ModItems.MANURE)) {
+        if (itemStack.isOf(FoodOrFarmItems.MANURE)) {
             if (!world.isClient) {
                 // 设置施肥状态为 true
 

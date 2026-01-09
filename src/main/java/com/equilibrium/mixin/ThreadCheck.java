@@ -1,6 +1,5 @@
 package com.equilibrium.mixin;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.TripwireHookBlock;
 import net.minecraft.util.math.BlockPos;
@@ -8,8 +7,6 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-
-import static com.equilibrium.MITEequilibrium.LOGGER;
 
 @Mixin(TripwireHookBlock.class)
 public class ThreadCheck {

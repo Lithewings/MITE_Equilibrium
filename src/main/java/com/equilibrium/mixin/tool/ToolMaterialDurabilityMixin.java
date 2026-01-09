@@ -1,14 +1,8 @@
 package com.equilibrium.mixin.tool;
 
-import com.google.common.base.Suppliers;
 import net.minecraft.block.Block;
-import net.minecraft.client.session.telemetry.TelemetrySender;
-import net.minecraft.item.Items;
-import net.minecraft.item.ToolItem;
 import net.minecraft.item.ToolMaterials;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.registry.tag.TagKey;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,8 +13,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Objects;
 import java.util.function.Supplier;
-
-import static com.equilibrium.MITEequilibrium.LOGGER;
 
 @Mixin(ToolMaterials.class)
 public abstract class ToolMaterialDurabilityMixin {

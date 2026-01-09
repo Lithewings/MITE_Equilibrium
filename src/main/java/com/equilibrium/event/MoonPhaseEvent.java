@@ -1,10 +1,8 @@
 package com.equilibrium.event;
 
 import com.equilibrium.util.WorldMoonPhasesSelector;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.CropBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
@@ -29,14 +27,10 @@ import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 import net.minecraft.world.level.ServerWorldProperties;
 import net.minecraft.world.poi.PointOfInterestStorage;
 import net.minecraft.world.poi.PointOfInterestTypes;
-
-import static com.equilibrium.MITEequilibrium.CROP_IS_ILLNESS;
-import static net.minecraft.block.CropBlock.AGE;
 
 public class MoonPhaseEvent {
 

@@ -1,10 +1,8 @@
 package com.equilibrium.item;
 
-import com.equilibrium.MITEequilibrium;
-import com.equilibrium.block.ModBlocks;
+import com.equilibrium.OnServerInitialize;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
-import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -70,7 +68,7 @@ public class ModArmorMaterials {
             float knockbackResistance,
             Supplier<Ingredient> repairIngredient
     ) {
-        List<ArmorMaterial.Layer> list = List.of(new ArmorMaterial.Layer(Identifier.of(MITEequilibrium.MOD_ID,id)));
+        List<ArmorMaterial.Layer> list = List.of(new ArmorMaterial.Layer(Identifier.of(OnServerInitialize.MOD_ID,id)));
         return register(id, defense, enchantability, equipSound, toughness, knockbackResistance, repairIngredient, list);
     }
 

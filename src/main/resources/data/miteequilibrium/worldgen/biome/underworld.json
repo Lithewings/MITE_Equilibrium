@@ -54,7 +54,7 @@
       },
 
       {
-        "type": "minecraft:ghoul",
+        "type": "miteequilibrium:ghoul",
         "maxCount": 1,
         "minCount": 1,
         "weight": 33

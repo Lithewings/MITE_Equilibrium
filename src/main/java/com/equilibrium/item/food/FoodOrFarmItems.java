@@ -10,10 +10,10 @@ import net.minecraft.util.Identifier;
 import java.util.List;
 import java.util.Optional;
 
-import static com.equilibrium.MITEequilibrium.MOD_ID;
-import static com.equilibrium.block.ModBlocks.ONION_BLOCK;
+import static com.equilibrium.OnServerInitialize.MOD_ID;
 
-public class FoodItems {
+
+public class FoodOrFarmItems {
 
     public static final Item CHEESE= new Cheese(new Item.Settings().food(Cheese.CHEESE).maxCount(32));
     public static final Item MASHED_POTATO= new Cheese(new Item.Settings().food(MashedPotato.MASHED_POTATO).maxCount(16));
@@ -23,6 +23,7 @@ public class FoodItems {
     public static final Item BEEF_SOUP= new BeefSoup(new Item.Settings().food(BeefSoup.BEEF_SOUP).maxCount(16));
     public static final Item VEGETABLE_SOUP = new BeefSoup(new Item.Settings().food(VegetableSoup.VEGETABLE_SOUP).maxCount(16));
     public static final Item ONION = new AliasedBlockItem(ModBlocks.ONION_BLOCK,new Item.Settings().food(new FoodComponent(1,1f,false,1.6F,Optional.empty(), List.of())).maxCount(32));
+    public static final Item MANURE = new ManureItem(new Item.Settings().maxCount(32));
 
     public static void registerFoodItems() {
         Registry.register(Registries.ITEM, Identifier.of(MOD_ID,"pumpkin_soup"), PUMPKIN_SOUP);
@@ -33,6 +34,7 @@ public class FoodItems {
         Registry.register(Registries.ITEM, Identifier.of(MOD_ID,"onion"), ONION);
         Registry.register(Registries.ITEM, Identifier.of(MOD_ID,"cheese"), CHEESE);
         Registry.register(Registries.ITEM, Identifier.of(MOD_ID,"mashed_potato"), MASHED_POTATO);
+        Registry.register(Registries.ITEM, Identifier.of(MOD_ID,"manure"), MANURE);
     }
 
 }

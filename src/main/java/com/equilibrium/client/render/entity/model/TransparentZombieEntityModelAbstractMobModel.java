@@ -6,8 +6,8 @@ import net.minecraft.client.model.ModelPart;
 import net.minecraft.entity.mob.ZombieEntity;
 
 @Environment(EnvType.CLIENT)
-public class TransparentZombieEntityModelAbstractZombieModel<T extends ZombieEntity> extends TransparentAbstractZombieModel<T> {
-    public TransparentZombieEntityModelAbstractZombieModel(ModelPart modelPart) {
+public class TransparentZombieEntityModelAbstractMobModel<T extends ZombieEntity> extends TransparentAbstractMobModel<T> {
+    public TransparentZombieEntityModelAbstractMobModel(ModelPart modelPart) {
         super(modelPart);
     }
 

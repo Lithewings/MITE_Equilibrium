@@ -5,7 +5,7 @@ import net.minecraft.client.render.entity.ZombieEntityRenderer;
 import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.util.Identifier;
 
-import static com.equilibrium.MITEequilibrium.MOD_ID;
+import static com.equilibrium.OnServerInitialize.MOD_ID;
 
 public class ShadowEntityRenderer extends ZombieEntityRenderer {
     //影子潜伏者(在最黑的位置生成,破坏火把)
