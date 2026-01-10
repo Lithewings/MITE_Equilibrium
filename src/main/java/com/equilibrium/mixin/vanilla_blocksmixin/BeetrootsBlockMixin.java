@@ -18,10 +18,8 @@ public class BeetrootsBlockMixin extends CropBlock {
         super(settings);
     }
 
-    @Inject(method = "appendProperties",at = @At("HEAD"), cancellable = true)
+    @Inject(method = "appendProperties",at = @At("TAIL"))
     public void appendProperties(StateManager.Builder<Block, BlockState> builder, CallbackInfo ci) {
-        ci.cancel();
-        builder.add(AGE);
         builder.add(CROP_IS_ILLNESS);
     }
 }
