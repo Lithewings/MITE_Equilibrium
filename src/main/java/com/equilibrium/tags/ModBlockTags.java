@@ -10,18 +10,18 @@ public class ModBlockTags {
 
     public static final TagKey<Block> SHOULD_BE_SOFT = of("should_be_soft");
 
-    public static final TagKey<Block> STONE_LIKE_240 = of("stone_like_240");
-    public static final TagKey<Block> STONE_LIKE_360 = of("stone_like_360");
-    public static final TagKey<Block> STONE_LIKE_480 = of("stone_like_480");
-
-    public static final TagKey<Block> LOG_120 = of("log_like_120");
-
-    public static final TagKey<Block> NORMAL_60 = of("normal_60");
-
-    public static final TagKey<Block> NORMAL_30 = of("normal_30");
-
+//    public static final TagKey<Block> STONE_LIKE_240 = of("stone_like_240");
+//    public static final TagKey<Block> STONE_LIKE_360 = of("stone_like_360");
+//    public static final TagKey<Block> STONE_LIKE_480 = of("stone_like_480");
+//
+//    public static final TagKey<Block> LOG_120 = of("log_like_120");
+//
+//    public static final TagKey<Block> NORMAL_60 = of("normal_60");
+//
+//    public static final TagKey<Block> NORMAL_30 = of("normal_30");
+//
     //稿子加速挖掘
-    public static final TagKey<Block> NEED_PICKAXE = of("block_need_pickaxe.json");
+    public static final TagKey<Block> NEED_PICKAXE = of("block_need_pickaxe");
 
     //玻璃方块
     public static final TagKey<Block> GLASS_MADE = of("glass_made");

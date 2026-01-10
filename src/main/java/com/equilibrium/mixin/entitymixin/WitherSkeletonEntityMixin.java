@@ -10,6 +10,7 @@ import net.minecraft.registry.tag.EntityTypeTags;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 
+import static com.equilibrium.entity.utilForEntity.forPlayerIsEnchantedItemCauseDamage;
 import static com.equilibrium.util.XpHashMap.getXpForLevel;
 
 @Mixin(WitherSkeletonEntity.class)
@@ -25,18 +26,15 @@ public class WitherSkeletonEntityMixin extends HostileEntity {
 
 
 
+
     @Override
     public boolean isInvulnerableTo(DamageSource damageSource) {
-        boolean originCondition =  this.isRemoved()
-                || this.isInvulnerable() && !damageSource.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY) && !damageSource.isSourceCreativePlayer()
-                || damageSource.isIn(DamageTypeTags.IS_FIRE) && this.isFireImmune()
-                || damageSource.isIn(DamageTypeTags.IS_FALL) && this.getType().isIn(EntityTypeTags.FALL_DAMAGE_IMMUNE);
-
-
-        if (damageSource.getAttacker() instanceof PlayerEntity player && player.getMainHandStack().getEnchantments().isEmpty())
+        boolean b1 = forPlayerIsEnchantedItemCauseDamage(damageSource);
+        //检查附魔
+        if(!b1)
             return true;
-        else {
-            return originCondition;
-        }
+
+        return super.isInvulnerableTo(damageSource);
     }
+
 }

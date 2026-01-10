@@ -18,25 +18,25 @@ public class CropIllnessEvent {
     public static void updateCropBlockPos(ServerWorld world, BlockPos triggerPos){
         //更新集合,删除非空元素
         for(BlockPos cropPos : CROP_BLOCK_POS.keySet()){
-            if (updateOld(world, cropPos)) continue;
+            updateOld(world, cropPos);
             //更新邻居
             updateCropNeighborhood(world,triggerPos);
 
         }
     }
 
-    private static boolean updateOld(ServerWorld world, BlockPos cropPos) {
+    private static void updateOld(ServerWorld world, BlockPos cropPos) {
         if(world.getBlockState(cropPos).isAir()) {
             CROP_BLOCK_POS.remove(cropPos);
             world.setBlockState(cropPos, Blocks.AIR.getDefaultState());
-            return true;
+            return;
         }
         //更新,删除非法状态
         if(!world.getBlockState(cropPos).contains(CROP_IS_ILLNESS)) {
             CROP_BLOCK_POS.remove(cropPos);
             //这句代码只是触发更新
             world.setBlockState(cropPos, world.getBlockState(cropPos));
-            return true;
+            return;
         }
         //现在剩下的是要更新状态的作物
 
@@ -50,7 +50,6 @@ public class CropIllnessEvent {
                 CROP_BLOCK_POS.remove(cropPos);
             }
         }
-        return false;
     }
 
     public static void updateCropBlockPos(ServerWorld world){
@@ -78,12 +77,10 @@ public class CropIllnessEvent {
     public static void applyIllnessForCrop(ServerWorld world,BlockPos triggerPos){
         updateCropBlockPos(world,triggerPos);
         applyIllnessOnOld(world);
-        updateCropBlockPos(world,triggerPos);
     }
     public static void applyIllnessForCrop(ServerWorld world){
         updateCropBlockPos(world);
         applyIllnessOnOld(world);
-        updateCropBlockPos(world);
     }
 
     private static void applyIllnessOnOld(ServerWorld world) {

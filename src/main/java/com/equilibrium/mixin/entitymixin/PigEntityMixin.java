@@ -21,6 +21,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -29,6 +30,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PigEntity.class)
 public abstract class PigEntityMixin extends AnimalEntity implements ItemSteerable, Saddleable , ProduceManure {
+    @Shadow public abstract boolean isSaddled();
+
     protected PigEntityMixin(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
     }
@@ -142,6 +145,9 @@ public abstract class PigEntityMixin extends AnimalEntity implements ItemSteerab
                     this.emitGameEvent(GameEvent.ENTITY_DIE);
                     if(!environmentChecker.isIllness())
                         this.drop(serverWorld, damageSource);
+                    else if(this.isSaddled()){
+                        this.getWorld().spawnEntity(new ItemEntity(this.getWorld(),this.getX(),this.getY(),this.getZ(),Items.SADDLE.getDefaultStack()));
+                    }
                     this.onKilledBy(livingEntity);
                 }
 

@@ -19,6 +19,7 @@ import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.passive.TurtleEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.thrown.SnowballEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
@@ -32,6 +33,7 @@ import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
+import static com.equilibrium.entity.utilForEntity.forPlayerIsEnchantedItemCauseDamage;
 import static com.equilibrium.event.sound.SoundEventRegistry.*;
 import static com.equilibrium.util.XpHashMap.getXpForLevel;
 import static net.minecraft.entity.effect.StatusEffects.*;
@@ -52,15 +54,15 @@ public class InvisibleStalkerEntity extends ZombieEntity {
     }
 
     //免疫非附魔武器伤害(除此之外,还有黑色史莱姆、凋零骷髅、烈焰人免疫非附魔武器伤害)
+
     @Override
-    public boolean damage(DamageSource source, float amount) {
-        if( source.isOf(DamageTypes.PLAYER_ATTACK)) {
-            PlayerEntity player = (PlayerEntity)  source.getAttacker();
-            ItemStack weapon = player.getMainHandStack();
-            if (!weapon.hasEnchantments())
-                return false;
-        }
-        return super.damage(source, amount);
+    public boolean isInvulnerableTo(DamageSource damageSource) {
+        boolean b1 = forPlayerIsEnchantedItemCauseDamage(damageSource);
+        //检查附魔
+        if(!b1)
+            return true;
+
+        return super.isInvulnerableTo(damageSource);
     }
 
     protected void initThisCustomGoals() {

@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.equilibrium.OnServerInitialize.*;
-import static com.equilibrium.event.CropIllnessEvent.CROP_BLOCK_POS;
+import static com.equilibrium.event.CropIllnessEvent.*;
 import static com.equilibrium.event.CropIllnessEvent.updateCropBlockPos;
 
 

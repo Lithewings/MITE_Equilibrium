@@ -3,6 +3,7 @@ package com.equilibrium.item.food;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.registry.tag.FluidTags;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
@@ -22,6 +23,10 @@ public class WaterBowl extends Item {
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+        if(user.isOnFire()){
+            user.extinguish();
+            world.playSoundAtBlockCenter(user.getBlockPos(),SoundEvents.BLOCK_FIRE_EXTINGUISH,SoundCategory.PLAYERS,1f,1f,false);
+        }
         ItemStack itemStack = user.getStackInHand(hand);
         if(itemStack.getCount()==1){
             itemStack = Items.BOWL.getDefaultStack();

@@ -6,6 +6,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.mob.SlimeEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.thrown.SnowballEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleEffect;
@@ -18,6 +19,7 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.*;
 import org.jetbrains.annotations.Nullable;
 
+import static com.equilibrium.entity.utilForEntity.forPlayerIsEnchantedItemCauseDamage;
 import static com.equilibrium.util.XpHashMap.getXpForLevel;
 
 public class PuddingSlimeEntity extends BaseSlimeEntity{
@@ -80,7 +82,15 @@ public class PuddingSlimeEntity extends BaseSlimeEntity{
         this.setPosition(d, e, f);
     }
 
+    @Override
+    public boolean isInvulnerableTo(DamageSource damageSource) {
+        boolean b1 = forPlayerIsEnchantedItemCauseDamage(damageSource);
+        //检查附魔
+        if(!b1)
+            return true;
 
+        return super.isInvulnerableTo(damageSource);
+    }
 
     @Override
     public boolean damage(DamageSource source, float amount) {

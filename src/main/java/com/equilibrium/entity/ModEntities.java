@@ -107,7 +107,7 @@ public class ModEntities {
                 .add(EntityAttributes.ZOMBIE_SPAWN_REINFORCEMENTS));
 
         FabricDefaultAttributeRegistry.register(FIRE_ELEMENTAL, HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 35.0)
+                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 16.0)
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.23F)
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.0)
                 .add(EntityAttributes.GENERIC_ARMOR, 0.0)
