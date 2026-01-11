@@ -1,6 +1,4 @@
-package com.equilibrium;
-
-import net.minecraft.item.ItemStack;
+package com.equilibrium.block;
 
 public interface ITimeCraftPlayer {
 
@@ -20,6 +18,6 @@ public interface ITimeCraftPlayer {
 	
 	void craftTime$startCraftWithNewPeriod(float craft_period);
 
-	boolean craftTime$tick(ItemStack resultStack);
+	boolean craftTime$craftTickIsFinished();
 
 }

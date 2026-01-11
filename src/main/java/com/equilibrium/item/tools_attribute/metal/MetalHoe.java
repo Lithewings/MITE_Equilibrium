@@ -168,7 +168,7 @@ public class MetalHoe extends ToolItem implements AdditionalAttribute{
         return AdditionalAttribute.super.xpCost(toolMaterial, durabilityLevel);
     }
     @Override
-    public int maxPlayerDurabilityBoost(ToolMaterial toolMaterial,PlayerEntity player){
+    public double maxPlayerDurabilityBoost(ToolMaterial toolMaterial, PlayerEntity player){
         return AdditionalAttribute.super.maxPlayerDurabilityBoost(toolMaterial,player);
     }
 

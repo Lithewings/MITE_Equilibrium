@@ -1,6 +1,5 @@
 package com.equilibrium.item.tools_attribute.metal;
 
-import com.equilibrium.event.CraftingMetalPickAxeCallback;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.NbtComponent;
 import net.minecraft.entity.player.PlayerEntity;
@@ -9,9 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
-import net.minecraft.world.World;
 
 import java.util.List;
 import java.util.Map;
@@ -47,15 +44,15 @@ public interface AdditionalAttribute {
 
 
 
-    static int getTotalExperience(PlayerEntity player) {
-        int level = player.experienceLevel;
-        float progress = player.experienceProgress;
+    static double getTotalExperience(PlayerEntity player) {
+        double level = player.experienceLevel;
+        double progress = player.experienceProgress;
 
         // 从0级到当前等级所需的累计经验: 5 × level × (level + 1)
-        int cumulativeExperience = 5 * level * (level + 1);
+        double cumulativeExperience = 5 * level * (level + 1);
 
         // 当前等级内已获得的经验: progress × 10 × (level + 1)
-        int currentLevelExperience = (int)(progress * 10 * (level + 1));
+        double currentLevelExperience = (int)(progress * 10 * (level + 1));
 
         // 总经验 = 累计等级经验 + 当前等级内经验
         return 10 + cumulativeExperience + currentLevelExperience;
@@ -74,9 +71,9 @@ public interface AdditionalAttribute {
     }
 
 
-    default int maxPlayerDurabilityBoost(ToolMaterial toolMaterial, PlayerEntity player){
-        int i =getTotalExperience(player);
-        int j =  xpCost(toolMaterial,1);
+    default double maxPlayerDurabilityBoost(ToolMaterial toolMaterial, PlayerEntity player){
+        double i =getTotalExperience(player);
+        double j=  xpCost(toolMaterial,1);
         return i/j;
     }
 

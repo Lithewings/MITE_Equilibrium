@@ -1,6 +1,7 @@
 package com.equilibrium.mixin.tables;
 
 
+import com.equilibrium.block.ModBlocksRegistry2;
 import com.equilibrium.item.Tools;
 import com.equilibrium.item.extend_item.CoinItems;
 import com.equilibrium.item.tools_attribute.metal.*;
@@ -39,7 +40,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.*;
 
-import static com.equilibrium.craft_time_worklevel.CraftingIngredients.TABLE_LEVELS;
 
 
 @Mixin(CraftingScreenHandler.class)
@@ -59,7 +59,14 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 
 
 
-
+	@Unique
+	private static final Map<Block, Integer> TABLE_LEVELS = Map.of(
+			ModBlocksRegistry2.FLINT_CRAFTING_TABLE, 1,
+			ModBlocksRegistry2.COPPER_CRAFTING_TABLE, 2,
+			ModBlocksRegistry2.IRON_CRAFTING_TABLE, 3,
+			ModBlocksRegistry2.DIAMOND_CRAFTING_TABLE, 4,
+			ModBlocksRegistry2.NETHERITE_CRAFTING_TABLE, 5
+	);
 
 
 	public CraftingScreenHandlerMixin(ScreenHandlerType<?> screenHandlerType, int i) {
@@ -388,10 +395,10 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 	}
 
 	@Unique
-	private static void rightClickLogicForAdditionalAttribute(int metalSword, int clickTimes, ItemStack itemStack) {
-		int maxDurabilityBoost = Math.min(metalSword, 4);
+	private static void rightClickLogicForAdditionalAttribute(double metalSword, int clickTimes, ItemStack itemStack) {
+		double maxDurabilityBoost = Math.min(metalSword, 4);
 
-		int function = clickTimes % (maxDurabilityBoost + 1);
+		int function = (int) (clickTimes % (maxDurabilityBoost + 1));
 
 		//7200经验,可供强化3次
 		//右键0次,输出0%(3+1)=0等级

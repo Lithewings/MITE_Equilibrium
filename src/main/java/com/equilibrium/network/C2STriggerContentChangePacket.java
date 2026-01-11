@@ -3,10 +3,13 @@ package com.equilibrium.network;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.screen.CraftingScreenHandler;
+import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
@@ -42,6 +45,13 @@ public class C2STriggerContentChangePacket {
 
             // 方法2：直接调用 onContentChanged
             craftingHandler.onContentChanged(craftingHandler.input);
+
+//            System.out.println("已触发合成台内容变化事件");
+        }
+        if (screenHandler instanceof PlayerScreenHandler playerScreenHandler) {
+
+            // 方法2：直接调用 onContentChanged
+            playerScreenHandler.onContentChanged(null);
 
 //            System.out.println("已触发合成台内容变化事件");
         }

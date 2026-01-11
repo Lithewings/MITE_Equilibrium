@@ -1,4 +1,4 @@
-package com.equilibrium.block.crop;
+package com.equilibrium.block.crop_blocks;
 
 import com.equilibrium.item.food.FoodOrFarmItems;
 import com.mojang.serialization.MapCodec;

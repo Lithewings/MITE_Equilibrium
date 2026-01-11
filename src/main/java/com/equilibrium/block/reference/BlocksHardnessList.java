@@ -1,4 +1,4 @@
-package com.equilibrium.block;
+package com.equilibrium.block.reference;
 
 import net.minecraft.block.Block;
 import net.minecraft.registry.Registries;
@@ -1082,8 +1082,8 @@ public class BlocksHardnessList {
     }
 
     public static void initModBlocksHardnessHashMap(){
-        BLOCKS_HARDNESS_HASHMAP.put("ONION_BLOCK", 0);
-        BLOCKS_HARDNESS_HASHMAP.put("EMERALD_ENCHANTING_TABLE", 240);
+        BLOCKS_HARDNESS_HASHMAP.put("ONION", 0);
+        BLOCKS_HARDNESS_HASHMAP.put("EMERALD_ENCHANTING_TABLE", 0);
         BLOCKS_HARDNESS_HASHMAP.put("ADAMANTIUM_ORE", 960);
         BLOCKS_HARDNESS_HASHMAP.put("ADAMANTIUM_BLOCK", 1200);
         BLOCKS_HARDNESS_HASHMAP.put("ANCIENT_METAL_BLOCK", 640);
@@ -1095,6 +1095,14 @@ public class BlocksHardnessList {
         BLOCKS_HARDNESS_HASHMAP.put("SILVER_BLOCK", 480);
         BLOCKS_HARDNESS_HASHMAP.put("GOLD_ORE", 240);
         BLOCKS_HARDNESS_HASHMAP.put("GOLD_BLOCK", 480);
+        BLOCKS_HARDNESS_HASHMAP.put("FLINT_CRAFTING_TABLE", 0);
+        BLOCKS_HARDNESS_HASHMAP.put("COPPER_CRAFTING_TABLE", 0);
+        BLOCKS_HARDNESS_HASHMAP.put("IRON_CRAFTING_TABLE", 0);
+        BLOCKS_HARDNESS_HASHMAP.put("DIAMOND_CRAFTING_TABLE", 0);
+        BLOCKS_HARDNESS_HASHMAP.put("NETHERITE_CRAFTING_TABLE", 0);
+        BLOCKS_HARDNESS_HASHMAP.put("CLAY_FURNACE", 0);
+        BLOCKS_HARDNESS_HASHMAP.put("OBSIDIAN_FURNACE", 0);
+        BLOCKS_HARDNESS_HASHMAP.put("NETHERRACK_FURNACE", 0);
     }
 
 

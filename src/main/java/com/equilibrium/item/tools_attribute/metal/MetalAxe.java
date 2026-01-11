@@ -5,7 +5,6 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.*;
-import net.minecraft.component.ComponentType;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.ToolComponent;
 import net.minecraft.entity.EquipmentSlot;
@@ -19,7 +18,6 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -188,7 +186,7 @@ public class MetalAxe extends ToolItem implements AdditionalAttribute{
         return AdditionalAttribute.super.xpCost(toolMaterial, durabilityLevel);
     }
     @Override
-    public int maxPlayerDurabilityBoost(ToolMaterial toolMaterial,PlayerEntity player){
+    public double maxPlayerDurabilityBoost(ToolMaterial toolMaterial, PlayerEntity player){
         return AdditionalAttribute.super.maxPlayerDurabilityBoost(toolMaterial,player);
     }
 

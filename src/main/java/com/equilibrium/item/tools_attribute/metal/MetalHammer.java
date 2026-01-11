@@ -2,7 +2,6 @@ package com.equilibrium.item.tools_attribute.metal;
 
 import com.equilibrium.event.CraftingMetalPickAxeCallback;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
@@ -125,7 +124,7 @@ public class MetalHammer extends ToolItem implements AdditionalAttribute{
         return AdditionalAttribute.super.xpCost(toolMaterial, durabilityLevel);
     }
     @Override
-    public int maxPlayerDurabilityBoost(ToolMaterial toolMaterial,PlayerEntity player){
+    public double maxPlayerDurabilityBoost(ToolMaterial toolMaterial, PlayerEntity player){
         return AdditionalAttribute.super.maxPlayerDurabilityBoost(toolMaterial,player);
     }
 

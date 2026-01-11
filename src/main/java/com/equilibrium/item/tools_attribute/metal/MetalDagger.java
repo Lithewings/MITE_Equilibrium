@@ -1,7 +1,6 @@
 package com.equilibrium.item.tools_attribute.metal;
 
 import com.equilibrium.event.CraftingMetalPickAxeCallback;
-import com.equilibrium.item.tools_attribute.ModToolMaterials;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.component.DataComponentTypes;
@@ -12,7 +11,6 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -125,7 +123,7 @@ public class MetalDagger extends ToolItem implements AdditionalAttribute{
         return AdditionalAttribute.super.xpCost(toolMaterial, durabilityLevel);
     }
     @Override
-    public int maxPlayerDurabilityBoost(ToolMaterial toolMaterial,PlayerEntity player){
+    public double maxPlayerDurabilityBoost(ToolMaterial toolMaterial, PlayerEntity player){
         return AdditionalAttribute.super.maxPlayerDurabilityBoost(toolMaterial,player);
     }
 

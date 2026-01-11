@@ -1,15 +1,14 @@
 package com.equilibrium.mixin.crafttime;
 
-import com.equilibrium.ITimeCraftPlayer;
+import com.equilibrium.block.ITimeCraftPlayer;
 import com.equilibrium.OnServerInitialize;
 import com.equilibrium.util.CraftingDifficultyHelper;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
+import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
@@ -17,13 +16,14 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.ArrayList;
+import static com.equilibrium.network.C2STriggerContentChangePacket.sendTrigger;
 
 @Mixin(InventoryScreen.class)
 public abstract class MixinInventoryScreen extends AbstractInventoryScreen<PlayerScreenHandler> {
@@ -43,7 +43,7 @@ public abstract class MixinInventoryScreen extends AbstractInventoryScreen<Playe
 	public void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
 		if (keyCode != GLFW.GLFW_KEY_LEFT_SHIFT && this.shouldCloseOnEsc()) {
 			//一旦中途退出,就失去所有进度渲染
-			OnServerInitialize.LOGGER.info("end crafting");
+//			OnServerInitialize.LOGGER.info("end crafting");
 			player.craftTime$setCraftTime(0);
 			this.close();
 		}
@@ -57,9 +57,11 @@ public abstract class MixinInventoryScreen extends AbstractInventoryScreen<Playe
 		RenderSystem.setShaderTexture(0,CRAFT_OVERLAY_TEXTURE);
 		int i = this.x;
 		int j = this.y;
+
+		//可能存在溢出渲染问题, 用Math.min(l + 1,18)限制,其中的18是宽度
 		if (player.craftTime$isCrafting() && player.craftTime$getCraftPeriod() > 0) {
 			int l = (int) ((player.craftTime$getCraftTime() * 17.0F / player.craftTime$getCraftPeriod()));
-			context.drawTexture(CRAFT_OVERLAY_TEXTURE, i + 134, j + 29, 0, 0, l + 1, 14, 18, 15);
+			context.drawTexture(CRAFT_OVERLAY_TEXTURE, i + 134, j + 29, 0, 0, Math.min(l + 1,18), 14, 18, 15);
 		}
 	}
 
@@ -69,26 +71,26 @@ public abstract class MixinInventoryScreen extends AbstractInventoryScreen<Playe
             this.player = (ITimeCraftPlayer) this.client.player;
         }
 
-        ItemStack resultStack = this.handler.getSlot(0).getStack();
-
-		boolean finished = player.craftTime$tick(resultStack);
-		//可以在这里定义金苹果合成消耗经验的逻辑
-
-		//problem:when mouse cursor has stack,this is not stop
-		if (finished) {
-			ArrayList<Item> old_recipe = CraftingDifficultyHelper.getItemFromMatrix(this.handler, false);
-
-			super.onMouseClick(this.handler.getSlot(0), 0, 0, SlotActionType.THROW);
-
-			ArrayList<Item> new_recipe = CraftingDifficultyHelper.getItemFromMatrix(this.handler, false);
-
-			if (old_recipe.equals(new_recipe) ) {
-				player.craftTime$setCraftPeriod(CraftingDifficultyHelper.getCraftingDifficultyFromMatrix(this.handler, false, this));
-			}else {
-				player.craftTime$stopCraft();
+		//输入不为空时,才考虑试图合成
+        if(!this.handler.getCraftingInput().isEmpty()){
+			//获得合成难度
+			player.craftTime$setCraftPeriod(CraftingDifficultyHelper.getCraftingDifficultyFromMatrix(this.handler, false, this));
+			//进行一次craftTick,若合成结束返回true
+			if(this.player.craftTime$craftTickIsFinished()){
+				//模拟无限制时秒出合成物品的一次操作
+				super.onMouseClick(this.handler.getSlot(0), 0, 0, SlotActionType.THROW);
+				//在ScreenHandlerMixin中自动将鼠标stack下的物品放入玩家物品栏中
+			}
+			//刷新一次合成结果栏
+			if(this.handler.getSlot(0).getStack().isEmpty()){
+				sendTrigger();
 			}
 		}
+		else player.craftTime$stopCraft();
+
 	}
+	@Shadow
+	private final RecipeBookWidget recipeBook = new RecipeBookWidget();
 
 	@Inject(method = "onMouseClick", at = @At("HEAD"), cancellable = true)
 	public void timecraft$onMouseClick(Slot slot, int invSlot, int clickData, SlotActionType actionType,
@@ -96,14 +98,14 @@ public abstract class MixinInventoryScreen extends AbstractInventoryScreen<Playe
 		if (slot != null) {
 			invSlot = slot.id;
 		}
-		if (invSlot > 0 && invSlot < 5) {
-			player.craftTime$stopCraft();
-		}
 		if (invSlot == 0) {
-			if (!player.craftTime$isCrafting()) {
+			//没有进行合成且输入输出不会空时,才考虑合成
+			if (!player.craftTime$isCrafting()  && !this.handler.getCraftingInput().isEmpty() && !this.handler.getSlot(0).getStack().isEmpty() ) {
 				player.craftTime$startCraftWithNewPeriod(CraftingDifficultyHelper.getCraftingDifficultyFromMatrix(this.handler, false,this));
 			}
+			//阻止直接从输出栏拿物品
 			info.cancel();
 		}
+		this.recipeBook.slotClicked(slot);
 	}
 }

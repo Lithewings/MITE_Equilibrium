@@ -1,11 +1,11 @@
-package com.equilibrium.craft_time_register;
+package com.equilibrium.block;
 
 
 import com.equilibrium.OnServerInitialize;
 
-import com.equilibrium.block.TheCraftingTableBlock;
+import com.equilibrium.block.crafting_table.TheCraftingTableBlock;
 
-import com.equilibrium.block.TheFurnace;
+import com.equilibrium.block.furnace_and_its_entity.TheFurnace;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.minecraft.block.*;
 import net.minecraft.item.BlockItem;
@@ -16,14 +16,11 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.ToIntFunction;
 
-public class BlockInit {
+public class ModBlocksRegistry2 {
 
     //tables
-    public static final List<Block> allFurnaces = new ArrayList<>();
     public static Block FLINT_CRAFTING_TABLE = new TheCraftingTableBlock((AbstractBlock.Settings.create().strength(0.2F).sounds(BlockSoundGroup.WOOD)));//燧石工作台
     public static Block COPPER_CRAFTING_TABLE = new TheCraftingTableBlock((AbstractBlock.Settings.create().strength(0.2F).sounds(BlockSoundGroup.WOOD)));//铜工作台
     public static Block IRON_CRAFTING_TABLE = new TheCraftingTableBlock((AbstractBlock.Settings.create().strength(0.2F).sounds(BlockSoundGroup.WOOD)));//铁工作台
@@ -46,9 +43,6 @@ public class BlockInit {
         Registry.register(Registries.BLOCK, Identifier.of(OnServerInitialize.MOD_ID, "obsidian_furnace"), OBSIDIAN_FURNACE);
         Registry.register(Registries.BLOCK, Identifier.of(OnServerInitialize.MOD_ID, "netherrack_furnace"), NETHERRACK_FURNACE);
 
-        allFurnaces.add(CLAY_FURNACE);
-        allFurnaces.add(OBSIDIAN_FURNACE);
-        allFurnaces.add(NETHERRACK_FURNACE);
     }
 
     public static void registerBlockItems() {
@@ -72,9 +66,6 @@ public class BlockInit {
         FuelRegistry.INSTANCE.add(NETHERITE_CRAFTING_TABLE, 300);
     }
 
-    public static List<Block> getFurnaces() {
-        return allFurnaces;
-    }
 
     private static ToIntFunction<BlockState> createLightLevelFromBlockState(int litLevel) {
         return (blockState) -> (Boolean)blockState.get(Properties.LIT) ? litLevel : 0;

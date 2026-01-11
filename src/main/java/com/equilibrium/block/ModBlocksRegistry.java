@@ -1,7 +1,7 @@
 package com.equilibrium.block;
 
 
-import com.equilibrium.block.crop.OnionBlock;
+import com.equilibrium.block.crop_blocks.OnionBlock;
 import com.equilibrium.block.enchanting_table.EmeraldEnchantingTableBlock;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.NoteBlockInstrument;
@@ -16,7 +16,7 @@ import net.minecraft.util.Identifier;
 import static com.equilibrium.OnServerInitialize.MOD_ID;
 import static net.minecraft.block.Blocks.register;
 
-public class ModBlocks {
+public class ModBlocksRegistry {
 
 
 

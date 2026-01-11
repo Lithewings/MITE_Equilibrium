@@ -14,16 +14,14 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 
-import static com.equilibrium.block.BlocksHardnessList.BLOCKS_HARDNESS_HASHMAP;
-import static com.equilibrium.block.BlocksHardnessList.getStandardBlockName;
+import static com.equilibrium.block.reference.BlocksHardnessList.BLOCKS_HARDNESS_HASHMAP;
+import static com.equilibrium.block.reference.BlocksHardnessList.getStandardBlockName;
 
 
 public class BreakBlockEvent implements PlayerBlockBreakEvents.After {
@@ -41,6 +39,17 @@ public class BreakBlockEvent implements PlayerBlockBreakEvents.After {
 
 
     public static int guarantee = 0;
+
+    /**
+     * Called after a block is successfully broken.
+     *
+     * @param world       the world where the block was broken
+     * @param player      the player who broke the block
+     * @param pos         the position where the block was broken
+     * @param state       the block state <strong>before</strong> the block was broken
+     * @param blockEntity the block entity of the broken block, can be {@code null}
+     */
+
     //最多12次沙砾必然不掉落自身,全服务器共享进度,重启时归零
 
 
@@ -48,7 +57,7 @@ public class BreakBlockEvent implements PlayerBlockBreakEvents.After {
     public void afterBlockBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity) {
         ItemStack itemStack = player.getMainHandStack();
 
-        itemStack.damage(BLOCKS_HARDNESS_HASHMAP.get(getStandardBlockName(state.getBlock())), player, EquipmentSlot.MAINHAND);
+        itemStack.damage(BLOCKS_HARDNESS_HASHMAP.getOrDefault(getStandardBlockName(state.getBlock()),0), player, EquipmentSlot.MAINHAND);
         //提前结束
         if (
             !

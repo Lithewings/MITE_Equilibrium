@@ -1,14 +1,17 @@
 package com.equilibrium.mixin.crafttime;
 
-import com.equilibrium.ITimeCraftPlayer;
-import com.equilibrium.event.sound.SoundEventRegistry;
+import com.equilibrium.block.ITimeCraftPlayer;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.sound.SoundEvents;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -76,17 +79,13 @@ public class MixinClientPlayerEntity extends AbstractClientPlayerEntity implemen
 //			MinecraftClient.getInstance().getSoundManager().play(new CraftingTickableSound(Random.create(),this, this.getBlockPos()));
 //		}
 	}
-	
-	@Override
-	public boolean craftTime$tick(ItemStack resultStack) {
 
+	@Override
+	public boolean craftTime$craftTickIsFinished() {
 		if (this.craftTime$isCrafting()) {
-			if(resultStack.isEmpty()){
-				return false;
-			}
 			if (this.craftTime$getCraftTime() < this.craftTime$getCraftPeriod()) {
 				this.craft_time += getCraftingSpeed(this);
-			}else if (this.craftTime$getCraftTime() >= this.craftTime$getCraftPeriod()) {
+			} else if (this.craftTime$getCraftTime() >= this.craftTime$getCraftPeriod()) {
 				//合成结束播放声音
 				this.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 0.1F, 1f);
 				this.craftTime$startCraftWithNewPeriod(craft_period);

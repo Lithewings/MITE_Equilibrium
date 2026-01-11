@@ -1,6 +1,6 @@
 package com.equilibrium.util;
 
-import com.equilibrium.block.ModBlocks;
+import com.equilibrium.block.ModBlocksRegistry;
 import com.equilibrium.item.Metal;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.item.Item;
@@ -103,7 +103,7 @@ public class CraftingDifficultyHelper {
 		if(item== Metal.mithril_nugget){
 			return 25600F/9F;
 		}
-		if(item== ModBlocks.MITHRIL_BLOCK.asItem()){
+		if(item== ModBlocksRegistry.MITHRIL_BLOCK.asItem()){
 			return 25600F*9F;
 		}
 
@@ -114,7 +114,7 @@ public class CraftingDifficultyHelper {
 		if(item== Metal.silver_nugget){
 			return 1600F/9F;
 		}
-		if(item== ModBlocks.SILVER_BLOCK.asItem()){
+		if(item== ModBlocksRegistry.SILVER_BLOCK.asItem()){
 			return 1600F*9F;
 		}
 		if(item== Metal.copper){
@@ -123,7 +123,7 @@ public class CraftingDifficultyHelper {
 		if(item== Metal.copper_nugget){
 			return 1600F/9F;
 		}
-		if(item== ModBlocks.COPPER_BLOCK.asItem()){
+		if(item== ModBlocksRegistry.COPPER_BLOCK.asItem()){
 			return 1600F*9F;
 		}
 
@@ -142,7 +142,7 @@ public class CraftingDifficultyHelper {
 		if(item==Metal.adamantium_nugget){
 			return 25600*4F/9f;
 		}
-		if(item== ModBlocks.ADAMANTIUM_BLOCK.asItem()){
+		if(item== ModBlocksRegistry.ADAMANTIUM_BLOCK.asItem()){
 			return 25600*4F*9F;
 		}
 

@@ -43,35 +43,8 @@ public class ScreenHandlerMixin {
                     int j = button == 0 ? 1 : slot3.getStack().getCount();
                     ItemStack itemStack = slot3.takeStackRange(j, Integer.MAX_VALUE, player);
 
-                    String nameItem = Registries.ITEM.getId(itemStack.getItem()).toString();
-                //给特定物品添加标签：不会消失
-                if (nameItem.contains("netherite_scrap") ||nameItem.contains("blaze_rod") ||nameItem.contains("elytra")) {
-                    if (nameItem.contains("minecraft:")) {
-                        NbtComponent data = (NbtComponent)itemStack.get(DataComponentTypes.CUSTOM_DATA);
-                        if (data != null) {
-                            NbtCompound value = data.copyNbt();
-                            if (!value.contains("aliveandwell")){
-                                setNbt(itemStack);
-                            }
-                        }else {
-                            setNbt(itemStack);
-                        }
-                    }
-                }
-                if(nameItem.contains("argent_energy") ||nameItem.contains("argent_block")){
-                    if(nameItem.contains("doom:")) {
-                        NbtComponent data = (NbtComponent)itemStack.get(DataComponentTypes.CUSTOM_DATA);
-                        if (data != null) {
-                            NbtCompound value = data.copyNbt();
-                            if (!value.contains("aliveandwell")){
-                                setNbt(itemStack);
-                            }
-                        }else {
-                            setNbt(itemStack);
-                        }
-                    }
-                }
 
+                    //合成时将物品放回玩家背包
                     if (player.getInventory().insertStack(itemStack)){
                         player.getInventory().insertStack(itemStack);
                     }else {
@@ -81,22 +54,5 @@ public class ScreenHandlerMixin {
                 }
             }
         }
-    }
-
-    @Unique
-    public void setNbt(ItemStack itemStack) {
-        NbtComponent data = (NbtComponent)itemStack.get(DataComponentTypes.CUSTOM_DATA);
-        NbtCompound nbt;
-
-        if (data != null) {
-            nbt = data.copyNbt();
-        }else {
-            nbt = new NbtCompound();
-        }
-
-        nbt.putString("aliveandwell","aliveandwell");
-        NbtComponent nbtComponent = NbtComponent.of(nbt);
-
-        itemStack.set(DataComponentTypes.CUSTOM_DATA, nbtComponent);
     }
 }

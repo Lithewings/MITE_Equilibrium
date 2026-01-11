@@ -1,7 +1,6 @@
 package com.equilibrium.item.tools_attribute.metal;
 
 import com.equilibrium.event.CraftingMetalPickAxeCallback;
-import net.minecraft.block.BlockState;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.ToolComponent;
 import net.minecraft.entity.EquipmentSlot;
@@ -14,7 +13,6 @@ import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -93,7 +91,7 @@ public class MetalPickAxe extends ToolItem implements AdditionalAttribute {
         return AdditionalAttribute.super.xpCost(toolMaterial, durabilityLevel);
     }
     @Override
-    public int maxPlayerDurabilityBoost(ToolMaterial toolMaterial,PlayerEntity player){
+    public double maxPlayerDurabilityBoost(ToolMaterial toolMaterial, PlayerEntity player){
         return AdditionalAttribute.super.maxPlayerDurabilityBoost(toolMaterial,player);
     }
 

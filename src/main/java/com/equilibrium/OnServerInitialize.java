@@ -1,9 +1,8 @@
 package com.equilibrium;
 
-import com.equilibrium.block.ModBlocks;
+import com.equilibrium.block.ModBlocksRegistry;
 
-import com.equilibrium.craft_time_register.BlockInit;
-import com.equilibrium.craft_time_register.UseBlock;
+import com.equilibrium.block.ModBlocksRegistry2;
 import com.equilibrium.entity.goal.BreakBlockGoal;
 import com.equilibrium.event.BreakBlockEvent;
 import com.equilibrium.event.CraftingMetalPickAxeCallback;
@@ -23,17 +22,18 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
+import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
 import net.minecraft.GameVersion;
 import net.minecraft.SaveVersion;
 import net.minecraft.SharedConstants;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.command.CommandRegistryAccess;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.resource.ResourceType;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -44,31 +44,24 @@ import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.GameRules;
-import net.minecraft.world.World;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-import com.equilibrium.craft_time_register.BlockEnityRegistry;
+import com.equilibrium.block.furnace_and_its_entity.FurnaceEntityRegistry;
 
 import com.equilibrium.util.CreativeGroup;
-import com.equilibrium.craft_time_worklevel.CraftingIngredients;
-import com.equilibrium.craft_time_worklevel.FurnaceIngredients;
 
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.Objects;
-import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import static com.equilibrium.block.BlocksHardnessList.initModBlocksHardnessHashMap;
-import static com.equilibrium.block.BlocksHardnessList.initVanillaBlocksHardnessHashMap;
+import static com.equilibrium.block.reference.BlocksHardnessList.initModBlocksHardnessHashMap;
+import static com.equilibrium.block.reference.BlocksHardnessList.initVanillaBlocksHardnessHashMap;
 import static com.equilibrium.block.enchanting_table.ModBlockEntityTypes.modBlockEntityTypesInit;
 
 import static com.equilibrium.block.enchanting_table.ModScreenTypes.registerScreenHandlers;
@@ -80,7 +73,6 @@ import static com.equilibrium.entity.mob.ModSpawnRestriction.registerModSpawnRes
 import static com.equilibrium.event.CropIllnessEvent.applyIllnessForCrop;
 import static com.equilibrium.event.CropIllnessEvent.updateCropBlockPos;
 import static com.equilibrium.event.MoonPhaseEvent.*;
-import static com.equilibrium.event.MoonPhaseEvent.RandomTickModifier;
 import static com.equilibrium.event.sound.SoundEventRegistry.registrySoundEvents;
 import static com.equilibrium.item.Armors.registerArmors;
 import static com.equilibrium.item.Metal.registerModItemRaw;
@@ -363,8 +355,18 @@ public class OnServerInitialize implements ModInitializer {
         });
 
 
-
-
+        //移除原版工作台方块,创造模式除外
+        UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
+            Block block = world.getBlockState(hitResult.getBlockPos()).getBlock();
+            if (!player.getWorld().isClient){
+                if(!player.isCreative()){
+                    if(block == Blocks.CRAFTING_TABLE){
+                        world.removeBlock(hitResult.getBlockPos(),true);
+                    }
+                }
+            }
+            return ActionResult.PASS;
+        });
 
 
 
@@ -439,7 +441,7 @@ public class OnServerInitialize implements ModInitializer {
         //模组杂项物品添加
         OtherItems.registerModItems();
         //方块添加测试
-        ModBlocks.registerModBlocks();
+        ModBlocksRegistry.registerModBlocks();
         //以下开始正式添加物品:
 
         //食物
@@ -479,20 +481,17 @@ public class OnServerInitialize implements ModInitializer {
         registerStatusEffects();
         registerScreenHandlers();
 
-        BlockInit.registerBlocks();
-        BlockInit.registerBlockItems();
-        BlockInit.registerFuels();
+        ModBlocksRegistry2.registerBlocks();
+        ModBlocksRegistry2.registerBlockItems();
+        ModBlocksRegistry2.registerFuels();
 
         initVanillaBlocksHardnessHashMap();
         initModBlocksHardnessHashMap();
 
-        BlockEnityRegistry.init();
-        CraftingIngredients.init();
-        FurnaceIngredients.initFuel();
-        FurnaceIngredients.initItem();
+        FurnaceEntityRegistry.init();
 
         CreativeGroup.addGroup();
-        UseBlock.init();
+
 
         registrySoundEvents();
         modBlockEntityTypesInit();

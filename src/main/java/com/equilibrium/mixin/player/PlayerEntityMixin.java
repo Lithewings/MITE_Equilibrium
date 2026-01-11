@@ -27,6 +27,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.projectile.FishingBobberEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.loot.LootTable;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.tag.FluidTags;
@@ -177,8 +178,8 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
     @Inject(method = "canHarvest", at = @At(value = "HEAD"), cancellable = true)
     public void canHarvest(BlockState state, CallbackInfoReturnable<Boolean> cir) {
-        cir.cancel();
         cir.setReturnValue(true);
+
     }
 
 
@@ -254,7 +255,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     public void jump(CallbackInfo ci)  {
 
 
-
+//        this.getInventory().getMainHandStack().damage(null,this,EquipmentSlot.MAINHAND);
 
 //
 //        if(!this.getWorld().isClient) {
@@ -528,6 +529,9 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
     @Shadow public abstract void jump();
 
+
+    @Shadow public abstract boolean canHarvest(BlockState state);
+
     @Unique
     private double lastSleepTime = 0;
 
@@ -560,7 +564,6 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         }
 
     }
-
 
 
 

@@ -1,7 +1,7 @@
 package com.equilibrium;
 
 
-import com.equilibrium.block.ModBlocks;
+import com.equilibrium.block.ModBlocksRegistry;
 import com.equilibrium.block.enchanting_table.*;
 import com.equilibrium.client.render.entity.renderer.*;
 import com.equilibrium.item.Armors;
@@ -37,7 +37,7 @@ public class OnClientInitialize implements ClientModInitializer {
 
 
 
-        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), ModBlocks.ONION_BLOCK);
+        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), ModBlocksRegistry.ONION_BLOCK);
         RenderBeaconInit();
 
 

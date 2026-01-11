@@ -2,7 +2,7 @@ package com.equilibrium.item;
 
 import com.equilibrium.OnServerInitialize;
 
-import com.equilibrium.block.ModBlocks;
+import com.equilibrium.block.ModBlocksRegistry;
 import com.equilibrium.item.extend_item.CoinItems;
 import com.equilibrium.item.food.FoodOrFarmItems;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
@@ -25,7 +25,7 @@ public class ModItemGroup {
                             {
                                 entries.add(OtherItems.test);
                                 entries.add(Items.BOOK);//可以加原版物品
-                                entries.add(ModBlocks.EXAMPLE_BLOCK);
+                                entries.add(ModBlocksRegistry.EXAMPLE_BLOCK);
 
                             }
                     ).build());
@@ -58,18 +58,18 @@ public class ModItemGroup {
                                 entries.add(Metal.silver_nugget);
                                 entries.add(Metal.mithril_nugget);
 
-                                entries.add(ModBlocks.SILVER_BLOCK);
-                                entries.add(ModBlocks.COPPER_BLOCK);
-                                entries.add(ModBlocks.ADAMANTIUM_BLOCK);
-                                entries.add(ModBlocks.ANCIENT_METAL_BLOCK);
-                                entries.add(ModBlocks.MITHRIL_BLOCK);
-                                entries.add(ModBlocks.GOLD_BLOCK);
+                                entries.add(ModBlocksRegistry.SILVER_BLOCK);
+                                entries.add(ModBlocksRegistry.COPPER_BLOCK);
+                                entries.add(ModBlocksRegistry.ADAMANTIUM_BLOCK);
+                                entries.add(ModBlocksRegistry.ANCIENT_METAL_BLOCK);
+                                entries.add(ModBlocksRegistry.MITHRIL_BLOCK);
+                                entries.add(ModBlocksRegistry.GOLD_BLOCK);
 
-                                entries.add(ModBlocks.GOLD_ORE);
-                                entries.add(ModBlocks.ADAMANTIUM_ORE);
-                                entries.add(ModBlocks.COPPER_ORE);
-                                entries.add(ModBlocks.MITHRIL_ORE);
-                                entries.add(ModBlocks.SILVER_ORE);
+                                entries.add(ModBlocksRegistry.GOLD_ORE);
+                                entries.add(ModBlocksRegistry.ADAMANTIUM_ORE);
+                                entries.add(ModBlocksRegistry.COPPER_ORE);
+                                entries.add(ModBlocksRegistry.MITHRIL_ORE);
+                                entries.add(ModBlocksRegistry.SILVER_ORE);
 
                                 entries.add(Tools.FLINT_HATCHET);
                                 entries.add(Tools.FLINT_AXE);
@@ -158,7 +158,7 @@ public class ModItemGroup {
                                 entries.add(FoodOrFarmItems.CHEESE);
                                 entries.add(FoodOrFarmItems.ONION);
 
-                                entries.add(ModBlocks.EMERALD_ENCHANTING_TABLE);
+                                entries.add(ModBlocksRegistry.EMERALD_ENCHANTING_TABLE);
                                 entries.add(FoodOrFarmItems.MANURE);
 
                             }

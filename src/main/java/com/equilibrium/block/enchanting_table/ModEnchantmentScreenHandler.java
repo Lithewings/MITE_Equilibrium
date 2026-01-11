@@ -1,9 +1,8 @@
 package com.equilibrium.block.enchanting_table;
 
-import com.equilibrium.block.ModBlocks;
+import com.equilibrium.block.ModBlocksRegistry;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.advancement.criterion.Criteria;
-import net.minecraft.block.Blocks;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -256,7 +255,7 @@ public class ModEnchantmentScreenHandler extends ScreenHandler {
 
     @Override
     public boolean canUse(PlayerEntity player) {
-        return canUse(this.context, player, ModBlocks.EMERALD_ENCHANTING_TABLE);
+        return canUse(this.context, player, ModBlocksRegistry.EMERALD_ENCHANTING_TABLE);
     }
 
     @Override

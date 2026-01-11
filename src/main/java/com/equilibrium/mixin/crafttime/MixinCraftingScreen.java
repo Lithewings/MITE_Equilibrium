@@ -1,6 +1,6 @@
 package com.equilibrium.mixin.crafttime;
 
-import com.equilibrium.ITimeCraftPlayer;
+import com.equilibrium.block.ITimeCraftPlayer;
 import com.equilibrium.network.C2SClickTimesPacket;
 import com.equilibrium.network.C2STriggerContentChangePacket;
 import com.equilibrium.util.CraftingDifficultyHelper;
@@ -8,6 +8,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.CraftingScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -25,6 +26,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
+
+import static com.equilibrium.network.C2STriggerContentChangePacket.sendTrigger;
 
 @Mixin(CraftingScreen.class)
 public abstract class MixinCraftingScreen extends HandledScreen<CraftingScreenHandler> {
@@ -86,47 +89,75 @@ public abstract class MixinCraftingScreen extends HandledScreen<CraftingScreenHa
 
 	}
 
-
-
 	@Inject(method = "handledScreenTick", at = @At("TAIL"))
 	public void timecraft$tick(CallbackInfo info) {
 
-		assert this.client != null;
-		this.player = (ITimeCraftPlayer) this.client.player;
-		ItemStack resultStack = this.handler.getSlot(0).getStack();
-//		if(resultStack==ItemStack.EMPTY)
-//			//恢复默认值
-//			this.toolDurabilityLevel =0;
 
-		boolean finished = player.craftTime$tick(resultStack);
+		if (this.client != null) {
+			this.player = (ITimeCraftPlayer) this.client.player;
+		}
 
-//		if (resultStack.getItem() instanceof MetalPickAxe metalPickAxe) {
-//			nbt.putInt("DurabilityLevel", toolDurabilityLevel);
-//			resultStack.set(DataComponentTypes.CUSTOM_DATA,NbtComponent.of(nbt));
-//
-//		}
-
-
-		if (finished) {
-			C2SClickTimesPacket.sendClickTimes(0);
-			super.onMouseClick(this.handler.getSlot(0), 0, 0, SlotActionType.THROW);
-//			this.getScreenHandler().result.setStack(0,resultStack);
-
-			ArrayList<Item> old_recipe = CraftingDifficultyHelper.getItemFromMatrix(this.handler, true);
-
-			//---------------------------------------------------------
-
-
-			ArrayList<Item> new_recipe = CraftingDifficultyHelper.getItemFromMatrix(this.handler, true);
-
-			if (old_recipe.equals(new_recipe) )
-				player.craftTime$setCraftPeriod(CraftingDifficultyHelper.getCraftingDifficultyFromMatrix(this.handler, true,this));
-			else {
-				player.craftTime$stopCraft();
-
+		//输入不为空时,才考虑试图合成
+		if(!this.handler.input.isEmpty()){
+			//获得合成难度
+			player.craftTime$setCraftPeriod(CraftingDifficultyHelper.getCraftingDifficultyFromMatrix(this.handler, false, this));
+			//进行一次craftTick,若合成结束返回true
+			if(this.player.craftTime$craftTickIsFinished()){
+				//模拟无限制时秒出合成物品的一次操作
+				super.onMouseClick(this.handler.getSlot(0), 0, 0, SlotActionType.THROW);
+				//在ScreenHandlerMixin中自动将鼠标stack下的物品放入玩家物品栏中
+			}
+			//刷新一次合成结果栏
+			if(this.handler.getSlot(0).getStack().isEmpty()){
+				sendTrigger();
 			}
 		}
+		else player.craftTime$stopCraft();
+
+
+
+
 	}
+
+//	@Inject(method = "handledScreenTick", at = @At("TAIL"))
+//	public void timecraft$tick(CallbackInfo info) {
+//
+//		assert this.client != null;
+//		this.player = (ITimeCraftPlayer) this.client.player;
+//		ItemStack resultStack = this.handler.getSlot(0).getStack();
+////		if(resultStack==ItemStack.EMPTY)
+////			//恢复默认值
+////			this.toolDurabilityLevel =0;
+//
+//		boolean finished = player.craftTime$craftTick(resultStack);
+//
+////		if (resultStack.getItem() instanceof MetalPickAxe metalPickAxe) {
+////			nbt.putInt("DurabilityLevel", toolDurabilityLevel);
+////			resultStack.set(DataComponentTypes.CUSTOM_DATA,NbtComponent.of(nbt));
+////
+////		}
+//
+//
+//		if (finished) {
+//			C2SClickTimesPacket.sendClickTimes(0);
+//			super.onMouseClick(this.handler.getSlot(0), 0, 0, SlotActionType.THROW);
+////			this.getScreenHandler().result.setStack(0,resultStack);
+//
+//			ArrayList<Item> old_recipe = CraftingDifficultyHelper.getItemFromMatrix(this.handler, true);
+//
+//			//---------------------------------------------------------
+//
+//
+//			ArrayList<Item> new_recipe = CraftingDifficultyHelper.getItemFromMatrix(this.handler, true);
+//
+//			if (old_recipe.equals(new_recipe) )
+//				player.craftTime$setCraftPeriod(CraftingDifficultyHelper.getCraftingDifficultyFromMatrix(this.handler, true,this));
+//			else {
+//				player.craftTime$stopCraft();
+//
+//			}
+//		}
+//	}
 
 //	@Inject(method = "mouseClicked", at = @At("TAIL"), cancellable = true)
 //	public void mouseClicked(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
@@ -142,13 +173,27 @@ public abstract class MixinCraftingScreen extends HandledScreen<CraftingScreenHa
 
 
 
+	@Unique
 	int time = 0;
+
+	@Shadow
+	private final RecipeBookWidget recipeBook = new RecipeBookWidget();
+
+
+	@Shadow public abstract void render(DrawContext context, int mouseX, int mouseY, float delta);
 
 	@Inject(method = "onMouseClick", at = @At("HEAD"), cancellable = true)
 	public void timecraft$onMouseClick(Slot slot, int invSlot, int clickData, SlotActionType actionType,
 			CallbackInfo ci) {
 
-		//slot = null时,会触发invSlot=-999index越界错,说明鼠标点击的位置没有slot可用
+
+
+		if (slot != null) {
+			invSlot = slot.id;
+		}else{
+			//slot = null时,会触发invSlot=-999index越界错,说明鼠标点击的位置没有slot可用,这里需要额外处理,因为涉及发包
+			return;
+		}
 
 		if(invSlot == 0 && clickData==1){
 			//右键只会改变配方,不会合成
@@ -161,25 +206,18 @@ public abstract class MixinCraftingScreen extends HandledScreen<CraftingScreenHa
 			player.craftTime$setCrafting(false);
 			ci.cancel();
 		}
-
-
-
-		if (slot != null) {
-			invSlot = slot.id;
-		}
 		if (invSlot > 0 && invSlot < 10) {
 			player.craftTime$setCraftTime(0);
 			player.craftTime$setCrafting(false);
 		}
 		if (invSlot == 0 &&  clickData==0) {
-			if (!player.craftTime$isCrafting() ) {
-				player.craftTime$startCraftWithNewPeriod(CraftingDifficultyHelper.getCraftingDifficultyFromMatrix(this.handler, true,this));
-
-
+			//没有进行合成且输入输出不会空时,才考虑合成
+			if (!player.craftTime$isCrafting()  && !this.handler.input.isEmpty() && !this.handler.getSlot(0).getStack().isEmpty() ) {
+				player.craftTime$startCraftWithNewPeriod(CraftingDifficultyHelper.getCraftingDifficultyFromMatrix(this.handler, false,this));
 			}
-
+			//阻止直接从输出栏拿物品
 			ci.cancel();
 		}
-
+		this.recipeBook.slotClicked(slot);
 	}
 }

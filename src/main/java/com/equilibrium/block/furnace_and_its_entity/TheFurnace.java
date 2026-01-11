@@ -1,9 +1,4 @@
-package com.equilibrium.block;
-
-
-import com.equilibrium.block.blockentity.TheFurnaceEntity;
-
-import com.equilibrium.craft_time_register.BlockEnityRegistry;
+package com.equilibrium.block.furnace_and_its_entity;
 
 
 import com.mojang.serialization.MapCodec;
@@ -145,7 +140,7 @@ public class TheFurnace extends BlockWithEntity {
 
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return validateTicker(world, type, BlockEnityRegistry.THE_FURNACE);
+        return validateTicker(world, type, FurnaceEntityRegistry.THE_FURNACE);
     }
 
     private void openScreen(World world, BlockPos blockPos, PlayerEntity playerEntity) {
