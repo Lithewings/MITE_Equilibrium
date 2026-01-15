@@ -31,6 +31,7 @@ import net.minecraft.loot.LootTable;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.tag.FluidTags;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
@@ -167,19 +168,9 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
 
 
-
-    @Unique
-    public int getPhytonutrient() {
-        return (int) this.phytonutrient;
-    }
-
-
-
-
     @Inject(method = "canHarvest", at = @At(value = "HEAD"), cancellable = true)
     public void canHarvest(BlockState state, CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(true);
-
     }
 
 
@@ -201,6 +192,9 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         }
         if (stack.isIn(ModItemTags.PHYTONUTRIENT_LEVEL1)){
             this.phytonutrient+=6000;
+//            if(!this.getWorld().isClient){
+//                this.sendMessage(Text.of("食用了一个+6000植物营养素的食物,目前的植物营养素的值为: "+this.phytonutrient));
+//            }
         }
         if (stack.isIn(ModItemTags.PHYTONUTRIENT_LEVEL2)){
             this.phytonutrient+=48000;
@@ -253,41 +247,6 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
     @Inject(method = "jump", at = @At("TAIL"))
     public void jump(CallbackInfo ci)  {
-
-
-//        this.getInventory().getMainHandStack().damage(null,this,EquipmentSlot.MAINHAND);
-
-//
-//        if(!this.getWorld().isClient) {
-//            this.sendMessage(Text.of("饱食度为" + this.getHungerManager().getFoodLevel()));
-//            this.sendMessage(Text.of("营养值为" + this.getHungerManager().getSaturationLevel()));
-//            this.sendMessage(Text.of("植物营养素为" + this.phytonutrient));
-//
-//        }
-
-
-//        ItemStack stack = new ItemStack(Items.POTION, 1);
-//        stack.set(DataComponentTypes.POTION_CONTENTS,new PotionContentsComponent(
-//                Optional.empty(), Optional.of(114514), List.of(NIGHT_VISION,MINING_FATIGUE))
-//
-//        );
-//        stack.set(DataComponentTypes.ITEM_NAME,Text.translatable("item.effect.miteequilibrium.sub_night_vision"))
-//        ;
-//        this.getInventory().insertStack(stack);
-
-
-
-
-
-//        if(!this.getWorld().isClient)
-//            this.sendMessage(Text.of(String.valueOf(this.regerationFactor)));
-
-//        this.sendMessage(Text.of(this.getWorld().getDifficulty().getName()));
-        //202501230630 完成了测试,直接把不可合成的药水名字换成迅捷药水之类的即可,不过最好用translate的那种
-//        this.getMainHandStack().set(POTION_CONTENTS, new PotionContentsComponent(Optional.empty(),Optional.empty(),List.of(new StatusEffectInstance(SPEED, 20, 0, true, true))));
-//        this.getMainHandStack().set(ITEM_NAME,Text.of("dd"));
-//        if(this.getMainHandStack().isIn(ModItemTags.CRAFT_TABLE))
-//            this.sendMessage(Text.of("是合成台物品"));
     }
 
 

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "miteequilibrium:bowl_milk"
+    },
+    {
+      "item": "miteequilibrium:bowl_milk"
+    },
+    {
+      "item": "miteequilibrium:bowl_milk"
+    },
+    {
+      "item": "miteequilibrium:bowl_milk"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "miteequilibrium:cheese"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "parent": "miteequilibrium:adventure/get_iron_pickaxe",
+  "criteria": {
+    "get_emerald": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:emerald"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "adventure.get_emerald"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:emerald"
+    },
+    "title":
+      "绿宝石!"
+
+  },
+  "requirements": [
+    [
+      "get_emerald"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -27,6 +27,12 @@ public class VanillaItemModifier implements DefaultItemComponentEvents.ModifyCal
         context.modify(Items.PUMPKIN_SEEDS, builder -> {
             builder.add(DataComponentTypes.MAX_STACK_SIZE, 64);
         });
+        context.modify(Items.FISHING_ROD, builder -> {
+            builder.add(DataComponentTypes.MAX_DAMAGE, 16);
+        });
+        context.modify(Items.WOODEN_SHOVEL, builder -> {
+            builder.add(DataComponentTypes.MAX_DAMAGE, 240);
+        });
 
     }
 }

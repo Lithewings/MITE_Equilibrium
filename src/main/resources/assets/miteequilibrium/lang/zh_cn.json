@@ -23,7 +23,7 @@
   "item.miteequilibrium.cheese": "奶酪",
   "item.miteequilibrium.mashed_potato": "土豆泥",
 
-
+  "item.miteequilibrium.salad": "沙拉",
   "item.miteequilibrium.onion": "洋葱",
 
   "item.miteequilibrium.manure": "肥料",
@@ -58,9 +58,12 @@
 
   "adventure.get_copper": "获得你的第一颗铜粒，并收集总计27颗以铸造一把铜镐。奖励：20点经验值。",
 
-  "adventure.get_diamond": "打造一把秘银镐，用它采集钻石，为制作附魔台做好准备。",
+  "adventure.get_diamond": "搜刮各处的战利品箱子，收集钻石，为制作附魔台做好准备。",
 
+  "adventure.get_emerald": "搜刮各处的战利品箱子，亦或是采下绿宝石矿，收集绿宝石,为制作附魔台做好准备。",
   "adventure.get_enchantment_table": "用它制作附魔武器，现在你可以对烈焰人造成有效伤害了。",
+
+  "adventure.get_emerald_enchantment_table": "用它制作最基础的附魔武器，也可以用它来附魔出附魔金苹果。",
 
   "adventure.get_flint_craft_table": "继续收集燧石，打造一把燧石小刀来制作燧石工作台",
 

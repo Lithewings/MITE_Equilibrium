@@ -1,0 +1,40 @@
+{
+  "parent": "miteequilibrium:adventure/get_emerald",
+  "criteria": {
+    "get_emerald_enchantment_table": {
+      "conditions": {
+        "items": [
+          {
+            "items": "miteequilibrium:emerald_enchanting_table"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+
+
+    "description": {
+      "translate": "adventure.get_emerald_enchantment_table"
+    },
+
+
+
+
+
+
+    "icon": {
+      "count": 1,
+      "id": "minecraft:enchanting_table"
+    },
+    "title": "初级附魔师"
+  },
+  "requirements": [
+    [
+      "get_emerald_enchantment_table"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

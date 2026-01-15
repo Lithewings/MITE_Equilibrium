@@ -7,12 +7,17 @@ import com.equilibrium.client.render.entity.renderer.*;
 import com.equilibrium.item.Armors;
 import com.equilibrium.network.S2CIllnessTextureBooleanPacket;
 import com.equilibrium.network.S2CStockChangeGrassColorPacket;
+import com.equilibrium.util.AdvancementRemover;
 import com.equilibrium.util.MyCommands;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
@@ -47,7 +52,6 @@ public class OnClientInitialize implements ClientModInitializer {
         //S->C,发包、接收
         S2CStockChangeGrassColorPacket.registerOnClient();
         S2CIllnessTextureBooleanPacket.registerOnClient();
-
 
         ItemTooltipCallback.EVENT.register((stack, context, type, lines) -> {
             // 判断物品是青金石（Lapis Lazuli）或其他物品

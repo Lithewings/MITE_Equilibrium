@@ -13,9 +13,7 @@ import com.equilibrium.network.C2STriggerContentChangePacket;
 import com.equilibrium.network.S2CIllnessTextureBooleanPacket;
 import com.equilibrium.network.S2CStockChangeGrassColorPacket;
 import com.equilibrium.persistent_state.StateSaverAndLoader;
-import com.equilibrium.util.MapNbtSerializer;
-import com.equilibrium.util.XpHashMap;
-import com.equilibrium.util.OnServerInitializeMethod;
+import com.equilibrium.util.*;
 import com.mojang.brigadier.CommandDispatcher;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
@@ -25,15 +23,21 @@ import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.GameVersion;
 import net.minecraft.SaveVersion;
 import net.minecraft.SharedConstants;
+import net.minecraft.advancement.AdvancementEntry;
+import net.minecraft.advancement.AdvancementManager;
+import net.minecraft.advancement.PlacedAdvancement;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.network.packet.s2c.play.AdvancementUpdateS2CPacket;
 import net.minecraft.resource.ResourceType;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -42,6 +46,7 @@ import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
 import org.slf4j.Logger;
@@ -50,11 +55,9 @@ import org.slf4j.LoggerFactory;
 
 import com.equilibrium.block.furnace_and_its_entity.FurnaceEntityRegistry;
 
-import com.equilibrium.util.CreativeGroup;
-
 
 import java.io.IOException;
-import java.util.Date;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -75,10 +78,11 @@ import static com.equilibrium.event.CropIllnessEvent.updateCropBlockPos;
 import static com.equilibrium.event.MoonPhaseEvent.*;
 import static com.equilibrium.event.sound.SoundEventRegistry.registrySoundEvents;
 import static com.equilibrium.item.Armors.registerArmors;
+import static com.equilibrium.item.Metal.copper;
 import static com.equilibrium.item.Metal.registerModItemRaw;
 import static com.equilibrium.item.extend_item.CoinItems.registerCoinItems;
 import static com.equilibrium.item.food.FoodOrFarmItems.registerFoodItems;
-import static com.equilibrium.item.food.ItemComponentModifier.foodComponentModify;
+import static com.equilibrium.item.ItemComponentModifier.foodComponentModify;
 import static com.equilibrium.item.food.WaterBowl.vanillaBowlItemUse;
 
 
@@ -101,7 +105,7 @@ public class OnServerInitialize implements ModInitializer {
 
 
     //服务器状态
-    public static StateSaverAndLoader serverState;
+    public StateSaverAndLoader serverState;
 
     public static final BooleanProperty FERTILIZED = BooleanProperty.of("fertilized");
 
@@ -133,7 +137,7 @@ public class OnServerInitialize implements ModInitializer {
         XpHashMap.setXpForLevel(5, 500);
     }
 
-    public static void talkToAllServerPlayer(net.minecraft.server.MinecraftServer server, String context) {
+    public static void talkToAllServerPlayer(MinecraftServer server, String context) {
         for (ServerPlayerEntity serverPlayer : server.getPlayerManager().getPlayerList()) {
             serverPlayer.sendMessage(Text.of(context));
         }
@@ -159,8 +163,12 @@ public class OnServerInitialize implements ModInitializer {
 
 
 
-
     public void onInitialize() {
+
+
+
+
+
         SharedConstants.gameVersion = new GameVersion() {
             @Override
             public SaveVersion getSaveVersion() {
@@ -174,7 +182,7 @@ public class OnServerInitialize implements ModInitializer {
 
             @Override
             public String getName() {
-                return "MITE:Equilibrium Beta v1.0.8_2";
+                return "MITE:Equilibrium Beta v1.0.8_3";
             }
 
             @Override
@@ -207,12 +215,20 @@ public class OnServerInitialize implements ModInitializer {
         DefaultItemComponentEvents.MODIFY.register(new VanillaItemModifier());
 
 
-
-
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
+
+            //成就删除
+            AdvancementRemover.removeAllMinecraftAdvancements(server.getAdvancementLoader().getManager());
+
 
             //锁定游戏难度
             server.setDifficultyLocked(true);
+
+
+
+
+
+
             //读取服务器持久状态数据
             serverState = StateSaverAndLoader.getServerState(server);
 
@@ -238,8 +254,9 @@ public class OnServerInitialize implements ModInitializer {
 
             //之前的土地污染map被存在了nbt里,现在把它取出来
             //读取土地污染map
+
             S2CStockChangeGrassColorPacket.BLOCK_POS_INTEGER_CONCURRENT_HASH_MAP = MapNbtSerializer.fromNbt(
-                   serverState.mapNbt1,
+                    serverState.mapNbt1,
                     dis -> {
                         try {
                             return new BlockPos(dis.readInt(), dis.readInt(), dis.readInt());
@@ -256,9 +273,6 @@ public class OnServerInitialize implements ModInitializer {
                     },
                     ConcurrentHashMap::new
             );
-
-
-
 
 
 
@@ -288,7 +302,7 @@ public class OnServerInitialize implements ModInitializer {
         // 注册服务器 tick 事件
         ServerTickEvents.START_SERVER_TICK.register(server -> {
 
-
+            serverState = StateSaverAndLoader.getServerState(server);
 
             //更新服务器状态,在这里修改的所有数据都会被保存
             if (tickCount % (TICK_INTERVAL / 10) == 0) {

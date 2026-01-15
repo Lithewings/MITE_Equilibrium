@@ -97,8 +97,8 @@ public abstract class MixinCraftingScreen extends HandledScreen<CraftingScreenHa
 			this.player = (ITimeCraftPlayer) this.client.player;
 		}
 
-		//输入不为空时,才考虑试图合成
-		if(!this.handler.input.isEmpty()){
+		//输入输出不为空时,才考虑试图合成
+		if(!this.handler.input.isEmpty() && !this.handler.getSlot(0).getStack().isEmpty()){
 			//获得合成难度
 			player.craftTime$setCraftPeriod(CraftingDifficultyHelper.getCraftingDifficultyFromMatrix(this.handler, false, this));
 			//进行一次craftTick,若合成结束返回true

@@ -25,19 +25,7 @@ import static com.equilibrium.block.reference.BlocksHardnessList.getStandardBloc
 
 
 public class BreakBlockEvent implements PlayerBlockBreakEvents.After {
-    BlockToItemConverter blockToItemConverter = new BlockToItemConverter();
-
-    /**
-     * Called after a block is successfully broken.
-     *
-     * @param world       the world where the block was broken
-     * @param player      the player who broke the block
-     * @param pos         the position where the block was broken
-     * @param state       the block state <strong>before</strong> the block was broken
-     * @param blockEntity the block entity of the broken block, can be {@code null}
-     */
-
-
+    public static BlockToItemConverter blockToItemConverter = new BlockToItemConverter();
     public static int guarantee = 0;
 
     /**
@@ -51,7 +39,6 @@ public class BreakBlockEvent implements PlayerBlockBreakEvents.After {
      */
 
     //最多12次沙砾必然不掉落自身,全服务器共享进度,重启时归零
-
 
     @Override
     public void afterBlockBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity) {
@@ -80,7 +67,7 @@ public class BreakBlockEvent implements PlayerBlockBreakEvents.After {
 
 
             int randomNumber = random.nextInt(100 - furtuneLevel * 30);
-            if (randomNumber <= 5) {
+            if (randomNumber <= 10) {
                 itemDrop = new ItemEntity(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
                         new ItemStack(Items.STICK));
                 world.spawnEntity(itemDrop);
@@ -99,15 +86,16 @@ public class BreakBlockEvent implements PlayerBlockBreakEvents.After {
             int randomNumber1 = random.nextInt(100);
             if (randomNumber1 < 75 - furtuneLevel * 15 && guarantee < 12) {
                 guarantee++;
-                world.spawnEntity(new ItemEntity(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
-                        new ItemStack(Items.GRAVEL)));
+                //不再掉落自身
+//                world.spawnEntity(new ItemEntity(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
+//                        new ItemStack(Items.GRAVEL)));
                 return;
             } else {
                 guarantee = 0;
             }
 
 
-            double randomNumber2 = random.nextDouble(1000);
+            int randomNumber2 = random.nextInt(1000);
 
 
             ItemEntity itemDrop;
@@ -117,26 +105,26 @@ public class BreakBlockEvent implements PlayerBlockBreakEvents.After {
                         new ItemStack(Items.REDSTONE));
                 world.spawnEntity(itemDrop);
 
-            } else if (randomNumber2 <= 80) {
-                //1-80,共80个 8%
+            } else if (randomNumber2 <= 100) {
+                //1-100,共100个 10%
                 itemDrop = new ItemEntity(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
                         new ItemStack(Metal.silver_nugget));
                 world.spawnEntity(itemDrop);
 
             } else if (randomNumber2 <= 240) {
-                //80-240,共160个 16%
+                //101-240,共140个 14%
                 itemDrop = new ItemEntity(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
                         new ItemStack(Items.FLINT));
                 world.spawnEntity(itemDrop);
 
-            } else if (randomNumber2 <= 460) {
-                //250-460,共220个 22%
+            } else if (randomNumber2 <= 400) {
+                //241-400,共160个 16%
                 itemDrop = new ItemEntity(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
                         new ItemStack(Metal.copper_nugget));
                 world.spawnEntity(itemDrop);
 
             } else {
-                //460-999,共540个 54%
+                //401-999,共599个 59.9%
                 itemDrop = new ItemEntity(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
                         new ItemStack(Metal.FLINT));
                 world.spawnEntity(itemDrop);

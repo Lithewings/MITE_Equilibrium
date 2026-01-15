@@ -16,6 +16,7 @@
   "block.miteequilibrium.emerald_enchanting_table": "Emerald Enchanting Table",
 
   "item.miteequilibrium.cheese": "Cheese",
+  "item.miteequilibrium.salad": "Salad",
   "item.miteequilibrium.mashed_potato": "Mashed Potato",
 
 
@@ -50,8 +51,10 @@
 
   "adventure.get_adamantium_pickaxe": "Craft an Adamantium Pickaxe at the Netherite Workbench. It is the only tool capable of destroying the Ender Crystal.",
   "adventure.get_copper": "Obtain your first Copper Nugget, then collect 27 in total to craft a Copper Pickaxe. Reward: 20 XP.",
-  "adventure.get_diamond": "Craft a Mithril Pickaxe to mine Diamond Ore and prepare for creating an Enchanting Table.",
+  "adventure.get_diamond": "Loot chests from various locations, collect diamonds, and prepare for crafting an enchanting table.",
+  "adventure.get_emerald": "Loot chests from various locations, or mine emerald ore, collect emeralds to prepare for crafting an enchanting table.",
 
+  "adventure.get_emerald_enchantment_table": "Use it to enchant basic weapons, or to create enchanted golden apples.",
   "adventure.get_enchantment_table": "Craft enchanted weapons with it - you can now able to deal damage to Blazes.",
 
   "adventure.get_flint_craft_table": "Continue gathering flint and craft a Flint Knife to create the Flint Craft Table",

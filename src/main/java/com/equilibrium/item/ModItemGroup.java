@@ -157,9 +157,11 @@ public class ModItemGroup {
                                 entries.add(FoodOrFarmItems.MILK_BOWL);
                                 entries.add(FoodOrFarmItems.CHEESE);
                                 entries.add(FoodOrFarmItems.ONION);
+                                entries.add(FoodOrFarmItems.SALAD);
 
                                 entries.add(ModBlocksRegistry.EMERALD_ENCHANTING_TABLE);
                                 entries.add(FoodOrFarmItems.MANURE);
+
 
                             }
                     ).build());

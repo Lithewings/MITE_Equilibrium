@@ -1,5 +1,5 @@
 accessWidener v1 named
-
+accessible method net/minecraft/advancement/AdvancementManager remove (Lnet/minecraft/advancement/PlacedAdvancement;)V
 accessible method net/minecraft/block/Block setDefaultState (Lnet/minecraft/block/BlockState;)V
 accessible field net/minecraft/entity/mob/MobEntity goalSelector Lnet/minecraft/entity/ai/goal/GoalSelector;
 accessible field net/minecraft/screen/CraftingScreenHandler result Lnet/minecraft/inventory/CraftingResultInventory;
