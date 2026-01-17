@@ -5,7 +5,7 @@ import com.equilibrium.tags.ModItemTags;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 
-public class IsMixable {
+public class ableToMine {
     public static int getBlockHarvestLevel(BlockState block){
         if(block.isIn(ModBlockTags.HARVEST_ONE)){
             return 1;

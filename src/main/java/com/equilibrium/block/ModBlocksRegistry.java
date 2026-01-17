@@ -88,44 +88,44 @@ public class ModBlocksRegistry {
 
 
         Registry.register(Registries.BLOCK, Identifier.of(MOD_ID, "emerald_enchanting_table"), EMERALD_ENCHANTING_TABLE);
-        Registry.register(Registries.ITEM, Identifier.of(MOD_ID, "emerald_enchanting_table"), new BlockItem(EMERALD_ENCHANTING_TABLE, new Item.Settings()));
+        Registry.register(Registries.ITEM, Identifier.of(MOD_ID, "emerald_enchanting_table"), new BlockItem(EMERALD_ENCHANTING_TABLE, new Item.Settings().maxCount(16)));
 
 
         Registry.register(Registries.BLOCK, Identifier.of("miteequilibrium", "example_block"), EXAMPLE_BLOCK);
-        Registry.register(Registries.ITEM, Identifier.of("miteequilibrium", "example_block"), new BlockItem(EXAMPLE_BLOCK, new Item.Settings()));
+        Registry.register(Registries.ITEM, Identifier.of("miteequilibrium", "example_block"), new BlockItem(EXAMPLE_BLOCK, new Item.Settings().maxCount(16)));
 
         Registry.register(Registries.BLOCK, Identifier.of("miteequilibrium", "adamantium_ore"), ADAMANTIUM_ORE);
-        Registry.register(Registries.ITEM, Identifier.of("miteequilibrium", "adamantium_ore"), new BlockItem(ADAMANTIUM_ORE, new Item.Settings()));
+        Registry.register(Registries.ITEM, Identifier.of("miteequilibrium", "adamantium_ore"), new BlockItem(ADAMANTIUM_ORE, new Item.Settings().maxCount(16)));
 
         Registry.register(Registries.BLOCK, Identifier.of("miteequilibrium", "adamantium_block"), ADAMANTIUM_BLOCK);
-        Registry.register(Registries.ITEM, Identifier.of("miteequilibrium", "adamantium_block"), new BlockItem(ADAMANTIUM_BLOCK, new Item.Settings()));
+        Registry.register(Registries.ITEM, Identifier.of("miteequilibrium", "adamantium_block"), new BlockItem(ADAMANTIUM_BLOCK, new Item.Settings().maxCount(16)));
 
         Registry.register(Registries.BLOCK, Identifier.of("miteequilibrium", "ancient_metal_block"), ANCIENT_METAL_BLOCK);
-        Registry.register(Registries.ITEM, Identifier.of("miteequilibrium", "ancient_metal_block"), new BlockItem(ANCIENT_METAL_BLOCK, new Item.Settings()));
+        Registry.register(Registries.ITEM, Identifier.of("miteequilibrium", "ancient_metal_block"), new BlockItem(ANCIENT_METAL_BLOCK, new Item.Settings().maxCount(16)));
 
         Registry.register(Registries.BLOCK, Identifier.of("miteequilibrium", "copper_ore"), COPPER_ORE);
-        Registry.register(Registries.ITEM, Identifier.of("miteequilibrium", "copper_ore"), new BlockItem(COPPER_ORE, new Item.Settings()));
+        Registry.register(Registries.ITEM, Identifier.of("miteequilibrium", "copper_ore"), new BlockItem(COPPER_ORE, new Item.Settings().maxCount(16)));
 
         Registry.register(Registries.BLOCK, Identifier.of("miteequilibrium", "copper_block"), COPPER_BLOCK);
-        Registry.register(Registries.ITEM, Identifier.of("miteequilibrium", "copper_block"), new BlockItem(COPPER_BLOCK, new Item.Settings()));
+        Registry.register(Registries.ITEM, Identifier.of("miteequilibrium", "copper_block"), new BlockItem(COPPER_BLOCK, new Item.Settings().maxCount(16)));
 
         Registry.register(Registries.BLOCK, Identifier.of("miteequilibrium", "mithril_ore"), MITHRIL_ORE);
-        Registry.register(Registries.ITEM, Identifier.of("miteequilibrium", "mithril_ore"), new BlockItem(MITHRIL_ORE, new Item.Settings()));
+        Registry.register(Registries.ITEM, Identifier.of("miteequilibrium", "mithril_ore"), new BlockItem(MITHRIL_ORE, new Item.Settings().maxCount(16)));
 
         Registry.register(Registries.BLOCK, Identifier.of("miteequilibrium", "mithril_block"), MITHRIL_BLOCK);
-        Registry.register(Registries.ITEM, Identifier.of("miteequilibrium", "mithril_block"), new BlockItem(MITHRIL_BLOCK, new Item.Settings()));
+        Registry.register(Registries.ITEM, Identifier.of("miteequilibrium", "mithril_block"), new BlockItem(MITHRIL_BLOCK, new Item.Settings().maxCount(16)));
 
         Registry.register(Registries.BLOCK, Identifier.of("miteequilibrium", "silver_ore"), SILVER_ORE);
-        Registry.register(Registries.ITEM, Identifier.of("miteequilibrium", "silver_ore"), new BlockItem(SILVER_ORE, new Item.Settings()));
+        Registry.register(Registries.ITEM, Identifier.of("miteequilibrium", "silver_ore"), new BlockItem(SILVER_ORE, new Item.Settings().maxCount(16)));
 
         Registry.register(Registries.BLOCK, Identifier.of("miteequilibrium", "silver_block"), SILVER_BLOCK);
-        Registry.register(Registries.ITEM, Identifier.of("miteequilibrium", "silver_block"), new BlockItem(SILVER_BLOCK, new Item.Settings()));
+        Registry.register(Registries.ITEM, Identifier.of("miteequilibrium", "silver_block"), new BlockItem(SILVER_BLOCK, new Item.Settings().maxCount(16)));
 
         Registry.register(Registries.BLOCK, Identifier.of("miteequilibrium", "gold_ore"), GOLD_ORE);
-        Registry.register(Registries.ITEM, Identifier.of("miteequilibrium", "gold_ore"), new BlockItem(GOLD_ORE, new Item.Settings()));
+        Registry.register(Registries.ITEM, Identifier.of("miteequilibrium", "gold_ore"), new BlockItem(GOLD_ORE, new Item.Settings().maxCount(16)));
 
         Registry.register(Registries.BLOCK, Identifier.of("miteequilibrium", "gold_block"), GOLD_BLOCK);
-        Registry.register(Registries.ITEM, Identifier.of("miteequilibrium", "gold_block"), new BlockItem(GOLD_BLOCK, new Item.Settings()));
+        Registry.register(Registries.ITEM, Identifier.of("miteequilibrium", "gold_block"), new BlockItem(GOLD_BLOCK, new Item.Settings().maxCount(16)));
 
 
 

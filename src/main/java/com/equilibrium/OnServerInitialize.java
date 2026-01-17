@@ -68,7 +68,7 @@ import static com.equilibrium.block.reference.BlocksHardnessList.initVanillaBloc
 import static com.equilibrium.block.enchanting_table.ModBlockEntityTypes.modBlockEntityTypesInit;
 
 import static com.equilibrium.block.enchanting_table.ModScreenTypes.registerScreenHandlers;
-import static com.equilibrium.enchantments.EnchantmentsCodec.registerAllOfEnchantments;
+
 
 
 import static com.equilibrium.entity.ModEntities.*;
@@ -86,6 +86,7 @@ import static com.equilibrium.item.ItemComponentModifier.foodComponentModify;
 import static com.equilibrium.item.food.WaterBowl.vanillaBowlItemUse;
 
 
+import static com.equilibrium.item.reference.ItemMaxStackSize.itemMaxStackSizeInit;
 import static com.equilibrium.structure_generator.ModPlacementGenerator.*;
 import static com.equilibrium.status.registerStatusEffect.registerStatusEffects;
 import static com.equilibrium.structure_generator.StructureRegister.registerStructure;
@@ -444,8 +445,8 @@ public class OnServerInitialize implements ModInitializer {
         });
         //命令注册
         CommandRegistrationCallback.EVENT.register(this::registerCommands);
-        //附魔注册(记得把数据驱动部分也做好)
-        registerAllOfEnchantments();
+
+
         //僵尸破坏方块进度列表
         init();
         //护甲添加
@@ -501,6 +502,7 @@ public class OnServerInitialize implements ModInitializer {
 
         initVanillaBlocksHardnessHashMap();
         initModBlocksHardnessHashMap();
+
 
         FurnaceEntityRegistry.init();
 

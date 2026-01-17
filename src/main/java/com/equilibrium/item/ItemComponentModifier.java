@@ -39,7 +39,7 @@ public class ItemComponentModifier {
             Items.MELON_SLICE, createFood(1, 0F,ItemStack.EMPTY,List.of()),
             Items.BAKED_POTATO, createFood(2, 6F,ItemStack.EMPTY,List.of()),
 
-            Items.WHEAT_SEEDS, createFood(0, 1F,ItemStack.EMPTY,List.of(new FoodComponent.StatusEffectEntry(new StatusEffectInstance(StatusEffects.HUNGER, 600,3),0.1F))),
+            Items.WHEAT_SEEDS, createFood(0, 1F,ItemStack.EMPTY,List.of(new FoodComponent.StatusEffectEntry(new StatusEffectInstance(StatusEffects.HUNGER, 600,3),0.05F))),
 
             Items.PUMPKIN_SEEDS,createFood(3, 3F,ItemStack.EMPTY,List.of()),
             Items.MELON_SEEDS,createFood(0, 1F,ItemStack.EMPTY,List.of()),

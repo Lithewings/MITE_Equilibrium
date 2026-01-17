@@ -27,11 +27,9 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.projectile.FishingBobberEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.loot.LootTable;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.tag.FluidTags;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
@@ -49,8 +47,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 
 import static com.equilibrium.item.tools_attribute.ExtraDamageFromExperienceLevel.getDamageLevel;
-import static com.equilibrium.util.IsMixable.getBlockHarvestLevel;
-import static com.equilibrium.util.IsMixable.getItemHarvestLevel;
+import static com.equilibrium.util.ItemsToTxtExporter.exportAllItemsToTxt;
+import static com.equilibrium.util.ableToMine.getBlockHarvestLevel;
+import static com.equilibrium.util.ableToMine.getItemHarvestLevel;
 import static java.lang.Math.max;
 import static net.minecraft.registry.tag.EntityTypeTags.SKELETONS;
 import static net.minecraft.registry.tag.EntityTypeTags.UNDEAD;

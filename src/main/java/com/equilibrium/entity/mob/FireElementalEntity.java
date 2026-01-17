@@ -248,16 +248,9 @@ public class FireElementalEntity extends HostileEntity {
 
     @Override
     public boolean isInvulnerableTo(DamageSource damageSource) {
-        //雪球一般可以正常造成伤害
-        if(damageSource.getSource() instanceof SnowballEntity){
-            return super.isInvulnerableTo(damageSource);
-        }
-        boolean b1 = forPlayerIsEnchantedItemCauseDamage(damageSource);
-        //检查附魔
-        if(!b1)
-            return true;
-
-        return super.isInvulnerableTo(damageSource);
+        return damageSource.getSource() instanceof PlayerEntity
+                ? !forPlayerIsEnchantedItemCauseDamage(damageSource)
+                : super.isInvulnerableTo(damageSource);
     }
 
     int count = 0;

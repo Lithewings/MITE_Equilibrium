@@ -2,6 +2,7 @@ package com.equilibrium.mixin.render;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.sun.jna.platform.win32.WinBase;
 import net.minecraft.block.enums.CameraSubmersionType;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.ShaderProgram;
@@ -27,6 +28,7 @@ import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -72,6 +74,7 @@ public abstract class WorldRendererMixin {
 
     @Shadow public abstract void renderSky(Matrix4f matrix4f, Matrix4f projectionMatrix, float tickDelta, Camera camera, boolean thickFog, Runnable fogCallback);
 
+    @Unique
     private void renderEndSkyMixin(MatrixStack matrices) {
         RenderSystem.enableBlend();
         RenderSystem.depthMask(false);
@@ -114,6 +117,7 @@ public abstract class WorldRendererMixin {
         RenderSystem.depthMask(true);
         RenderSystem.disableBlend();
     }
+    @Unique
     private boolean hasBlindnessOrDarknessMixin(Camera camera) {
         return !(camera.getFocusedEntity() instanceof LivingEntity livingEntity)
                 ? false
@@ -161,28 +165,49 @@ public abstract class WorldRendererMixin {
                     this.lightSkyBuffer.draw(matrixStack.peek().getPositionMatrix(), projectionMatrix, shaderProgram);
                     VertexBuffer.unbind();
                     RenderSystem.enableBlend();
+                    // 获取日出/日落雾色数组（原有代码）
                     float[] fs = this.world.getDimensionEffects().getFogColorOverride(this.world.getSkyAngle(tickDelta), tickDelta);
-                    if (fs != null) {
+
+                    // 1. 计算渐变系数（核心：雨强/维度决定渐变程度）
+                    float rainGradient = this.world.getRainGradient(tickDelta); // 0=无雨，1=大雨
+                    //非主世界不渲染朝霞晚霞光环
+                    //朝霞晚霞雾气颜色在DimensionEffectsMixin中定义
+                    boolean isOverworld = client.world.getRegistryKey()== World.OVERWORLD;
+
+
+                    float fadeFactor = isOverworld ? (1.0F - rainGradient) : 0.0F;
+                    // 限制渐变系数在0~1之间，避免负数
+                    fadeFactor = MathHelper.clamp(fadeFactor, 0.0F, 1.0F);
+
+                    // 2. 只有当有雾色、渐变系数>0.01时才渲染（避免极淡的残留）
+                    if (fs != null && fadeFactor > 0.01F) {
                         RenderSystem.setShader(GameRenderer::getPositionColorProgram);
                         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
                         matrixStack.push();
                         matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90.0F));
+
                         float i = MathHelper.sin(this.world.getSkyAngleRadians(tickDelta)) < 0.0F ? 180.0F : 0.0F;
                         matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(i));
                         matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(90.0F));
-                        float j = fs[0];
-                        float k = fs[1];
-                        float l = fs[2];
+
+                        // 3. 应用渐变系数到颜色和透明度（核心：让颜色/透明度随雨强渐变）
+                        float j = fs[0] * fadeFactor; // 红色通道 × 渐变系数
+                        float k = fs[1] * fadeFactor; // 绿色通道 × 渐变系数
+                        float l = fs[2] * fadeFactor; // 蓝色通道 × 渐变系数
+                        float alpha = fs[3] * fadeFactor; // 透明度 × 渐变系数
+
                         Matrix4f matrix4f2 = matrixStack.peek().getPositionMatrix();
                         BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.DrawMode.TRIANGLE_FAN, VertexFormats.POSITION_COLOR);
-                        bufferBuilder.vertex(matrix4f2, 0.0F, 100.0F, 0.0F).color(j, k, l, fs[3]);
+                        // 中心点：颜色和透明度都乘渐变系数
+                        bufferBuilder.vertex(matrix4f2, 0.0F, 100.0F, 0.0F).color(j, k, l, alpha);
                         int m = 16;
 
                         for (int n = 0; n <= 16; n++) {
                             float o = (float)n * (float) (Math.PI * 2) / 16.0F;
                             float p = MathHelper.sin(o);
                             float q = MathHelper.cos(o);
-                            bufferBuilder.vertex(matrix4f2, p * 120.0F, q * 120.0F, -q * 40.0F * fs[3]).color(fs[0], fs[1], fs[2], 0.0F);
+                            // 外围顶点：颜色乘渐变系数，透明度固定为0（保持渐变效果）
+                            bufferBuilder.vertex(matrix4f2, p * 120.0F, q * 120.0F, -q * 40.0F * alpha).color(fs[0]*fadeFactor, fs[1]*fadeFactor, fs[2]*fadeFactor, 0.0F);
                         }
 
                         BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());

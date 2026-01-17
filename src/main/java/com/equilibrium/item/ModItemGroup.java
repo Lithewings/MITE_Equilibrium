@@ -16,19 +16,19 @@ import net.minecraft.util.Identifier;
 
 public class ModItemGroup {
     //自定义物品栏
-    public static final ItemGroup modGroup = Registry.register(Registries.ITEM_GROUP, Identifier.of(OnServerInitialize.MOD_ID,"testgroup"),
-            //注册名小写
-            FabricItemGroup.builder().displayName(Text.translatable("itemgroup.testgroup"))
-                    //itemgroup.testgroup是不加翻译前的物品栏名字
-                    .icon(()->new ItemStack(OtherItems.test)).entries((displayContext, entries) ->
-                    //这里开始添加物品
-                            {
-                                entries.add(OtherItems.test);
-                                entries.add(Items.BOOK);//可以加原版物品
-                                entries.add(ModBlocksRegistry.EXAMPLE_BLOCK);
-
-                            }
-                    ).build());
+//    public static final ItemGroup modGroup = Registry.register(Registries.ITEM_GROUP, Identifier.of(OnServerInitialize.MOD_ID,"testgroup"),
+//            //注册名小写
+//            FabricItemGroup.builder().displayName(Text.translatable("itemgroup.testgroup"))
+//                    //itemgroup.testgroup是不加翻译前的物品栏名字
+//                    .icon(()->new ItemStack(OtherItems.test)).entries((displayContext, entries) ->
+//                    //这里开始添加物品
+//                            {
+//                                entries.add(OtherItems.test);
+//                                entries.add(Items.BOOK);//可以加原版物品
+//                                entries.add(ModBlocksRegistry.EXAMPLE_BLOCK);
+//
+//                            }
+//                    ).build());
 
     //工具栏
     public static final ItemGroup modTools = Registry.register(Registries.ITEM_GROUP, Identifier.of(OnServerInitialize.MOD_ID,"toolsgroup"),

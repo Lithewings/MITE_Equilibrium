@@ -79,7 +79,13 @@ public abstract class CropBlockMixin extends PlantBlock implements Fertilizable 
 
         //右键查看状态
         if (state.contains(CROP_IS_ILLNESS) && player instanceof ServerPlayerEntity serverPlayerEntity && serverPlayerEntity.isSneaking()) {
-            serverPlayerEntity.sendMessage(Text.of("illness?" + state.get(CROP_IS_ILLNESS)));
+            serverPlayerEntity.sendMessage(state.getBlock().getName());
+            serverPlayerEntity.sendMessage(Text.of("Illness: " + state.get(CROP_IS_ILLNESS)));
+            serverPlayerEntity.sendMessage(Text.of("Phase: " + state.get(AGE)+"/"+"7"));
+
+
+
+
         }
 
         //测试

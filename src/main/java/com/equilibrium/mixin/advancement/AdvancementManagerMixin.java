@@ -44,7 +44,7 @@ public abstract class AdvancementManagerMixin {
     //只是移除了日志
 
 
-    @Inject(method = "remove",at = @At(value = "INVOKE", target = "Lorg/slf4j/Logger;info(Ljava/lang/String;Ljava/lang/Object;)V"), cancellable = true)
+    @Inject(method = "remove",at = @At(value = "INVOKE", target = "Lnet/minecraft/advancement/PlacedAdvancement;getAdvancementEntry()Lnet/minecraft/advancement/AdvancementEntry;"), cancellable = true)
     private void remove(PlacedAdvancement advancement, CallbackInfo ci) {
         //        LOGGER.info("Forgot about advancement {}", advancement.getAdvancementEntry());
         ci.cancel();

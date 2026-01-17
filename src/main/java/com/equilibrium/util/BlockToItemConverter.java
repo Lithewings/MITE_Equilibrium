@@ -12,10 +12,10 @@ import java.util.Map;
 
 public class BlockToItemConverter {
     // 创建一个Map来存储Block和对应的Item,用于矿石掉落
-    private Map<Block, Item> blockItemMap;
+    private final Map<Block, Item> blockItemMap = new HashMap<>();
 
     public BlockToItemConverter() {
-        blockItemMap = new HashMap<>();
+
         // 向Map中添加Blocks和对应的Items
         blockItemMap.put(Blocks.IRON_ORE, Items.RAW_IRON);
         blockItemMap.put(Blocks.DEEPSLATE_IRON_ORE, Items.RAW_IRON);
