@@ -15,7 +15,9 @@ import com.equilibrium.network.S2CStockChangeGrassColorPacket;
 import com.equilibrium.persistent_state.StateSaverAndLoader;
 import com.equilibrium.util.*;
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -31,8 +33,10 @@ import net.minecraft.advancement.AdvancementEntry;
 import net.minecraft.advancement.AdvancementManager;
 import net.minecraft.advancement.PlacedAdvancement;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.command.CommandRegistryAccess;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.s2c.play.AdvancementUpdateS2CPacket;
@@ -63,6 +67,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static com.equilibrium.GlobalModConfig.initConfig;
 import static com.equilibrium.block.reference.BlocksHardnessList.initModBlocksHardnessHashMap;
 import static com.equilibrium.block.reference.BlocksHardnessList.initVanillaBlocksHardnessHashMap;
 import static com.equilibrium.block.enchanting_table.ModBlockEntityTypes.modBlockEntityTypesInit;
@@ -70,7 +75,7 @@ import static com.equilibrium.block.enchanting_table.ModBlockEntityTypes.modBloc
 import static com.equilibrium.block.enchanting_table.ModScreenTypes.registerScreenHandlers;
 
 
-
+import static com.equilibrium.entity.EnvironmentChecker.getSquaredDistance;
 import static com.equilibrium.entity.ModEntities.*;
 import static com.equilibrium.entity.mob.ModSpawnRestriction.registerModSpawnRestriction;
 import static com.equilibrium.event.CropIllnessEvent.applyIllnessForCrop;
@@ -95,8 +100,11 @@ import static com.equilibrium.tags.ModEntityTags.registerModEntityTags;
 import static com.equilibrium.tags.ModItemTags.registerModItemTags;
 
 
+import static com.equilibrium.util.AStarCanGoToAndReturn.findSimplePath;
+import static com.equilibrium.util.CraftingDifficultyHelper.initCraftingDifficulties;
 import static com.equilibrium.util.OnServerInitializeMethod.onUseCrystalItem;
 import static com.equilibrium.util.OnServerInitializeMethod.onUseHayBlockItem;
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
 
 
 public class OnServerInitialize implements ModInitializer {
@@ -110,14 +118,12 @@ public class OnServerInitialize implements ModInitializer {
 
     public static final BooleanProperty FERTILIZED = BooleanProperty.of("fertilized");
 
-    public static final IntProperty GRASSBLOCK_POLLUTED = IntProperty.of("grassblock_polluted",0,7);
+    public static final IntProperty GRASSBLOCK_POLLUTED = IntProperty.of("grassblock_polluted", 0, 7);
 
     public static final BooleanProperty CROP_IS_ILLNESS = BooleanProperty.of("crop_illness");
 
 
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-
-
 
 
     public static void init() {
@@ -152,28 +158,99 @@ public class OnServerInitialize implements ModInitializer {
                                 (OnServerInitializeMethod::isPickAxeCrafted)
 
         );
+        // 注册 A星算法 命令
+        dispatcher.register(CommandManager.literal("aStarFindPathCanGoToAndReturnForGettingGrass")
+                .executes(context -> {
+                    // 以生物为中心，搜索16格范围内的方块
+                    int searchRadius = 16;
+
+                    if (context.getSource().getEntity() instanceof LivingEntity entity && context.getSource().getWorld() instanceof ServerWorld world) {
+                        int x = context.getSource().getEntity().getBlockPos().getX();
+                        int y = entity.getBlockPos().getY();
+                        int z = entity.getBlockPos().getZ();
+
+
+                        ArrayList<BlockPos> posArrayList = new ArrayList<>();
+
+                        // 从左上角到右下角顺序搜索
+                        for (int dx = -searchRadius; dx <= searchRadius; dx++) {
+                            for (int dz = -searchRadius; dz <= searchRadius; dz++) {
+                                for (int dy = -4; dy <= 4; dy++) {
+                                    // 计算当前搜索位置的世界坐标
+                                    int worldX = x + dx;
+                                    int worldY = y + dy;
+                                    int worldZ = z + dz;
+
+                                    // 获取方块
+                                    BlockPos pos = new BlockPos(worldX, worldY, worldZ);
+                                    BlockState blockState = world.getBlockState(pos);
+
+                                    if (blockState.isOf(Blocks.SHORT_GRASS) || blockState.isOf(Blocks.TALL_GRASS)) {
+                                        posArrayList.add(pos);
+                                    }
+                                }
+
+                            }
+                        }
+
+                        if (!posArrayList.isEmpty()) {
+                            //排序,先从最近的找起
+                            posArrayList.sort((pos1, pos2) -> {
+                                double dist1 = getSquaredDistance(pos1, x, y, z);
+                                double dist2 = getSquaredDistance(pos2, x, y, z);
+                                return Double.compare(dist1, dist2);
+                            });
+
+                            for (BlockPos pos : posArrayList) {
+                                //找到通往草的路径
+
+
+                                List<BlockPos> list = findSimplePath(entity.getWorld(), entity.getBlockPos(), pos);
+                                if (list != null) {
+                                    //导航到草附近
+                                    for (BlockPos blockPos : list) {
+                                        if (blockPos == list.getFirst()) {
+                                            world.setBlockState(blockPos, Blocks.RED_WOOL.getDefaultState());
+                                        } else if (blockPos == list.getLast()) {
+
+                                        } else
+                                            world.setBlockState(blockPos, Blocks.WHITE_WOOL.getDefaultState());
+
+                                        new Thread(() -> {
+                                            try {
+                                                Thread.sleep(3000); // 10秒 = 10000毫秒
+                                                // 延迟结束后，在服务器主线程执行方块操作
+                                                world.getServer().execute(() -> {
+                                                    world.setBlockState(blockPos, Blocks.AIR.getDefaultState());
+                                                });
+                                            } catch (InterruptedException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }).start();
+                                    }
+                                    break;
+                                }
+
+                            }
+                        }
+                    }
+
+                    return 1;
+                }));
     }
+
 
     private static final int TICK_INTERVAL = 500; // 每隔500 tick检查一次
     private int tickCount = 0; // 记录当前 tick
 
 
-
-
-
-
-
-
     public void onInitialize() {
-
-
-
 
 
         SharedConstants.gameVersion = new GameVersion() {
             @Override
             public SaveVersion getSaveVersion() {
-                return new SaveVersion(108109,"MITE:Equilibrium Beta");
+                return new SaveVersion(108109, "MITE:Equilibrium Beta");
             }
 
             @Override
@@ -183,7 +260,7 @@ public class OnServerInitialize implements ModInitializer {
 
             @Override
             public String getName() {
-                return "MITE:Equilibrium Beta v1.0.8_3";
+                return "MITE:Equilibrium Beta v1.0.8_4";
             }
 
             @Override
@@ -208,8 +285,8 @@ public class OnServerInitialize implements ModInitializer {
         };
 
 
-
-
+        // 初始化全局配置（总JSON文件）
+        initConfig();
 
 
         //原版物品修改
@@ -224,10 +301,6 @@ public class OnServerInitialize implements ModInitializer {
 
             //锁定游戏难度
             server.setDifficultyLocked(true);
-
-
-
-
 
 
             //读取服务器持久状态数据
@@ -276,7 +349,6 @@ public class OnServerInitialize implements ModInitializer {
             );
 
 
-
 //			StateSaverAndLoader serverState = StateSaverAndLoader.getServerState(server);
 //			int level = serverState.difficultyLevel;
 //			//极限模式下不生效
@@ -297,7 +369,6 @@ public class OnServerInitialize implements ModInitializer {
 
 
         });
-
 
 
         // 注册服务器 tick 事件
@@ -339,13 +410,13 @@ public class OnServerInitialize implements ModInitializer {
             // 获取玩家手中的物品
             ItemStack itemStack = player.getStackInHand(hand);
 
-            if(itemStack.isOf(Items.HAY_BLOCK)){
-                if(player.experienceLevel>=75)
+            if (itemStack.isOf(Items.HAY_BLOCK)) {
+                if (player.experienceLevel >= 75)
                     return onUseHayBlockItem(itemStack, player, world, 0);
             }
 
             // 判断是否为青金石等晶体
-            if(player.experienceLevel<=35) {
+            if (player.experienceLevel <= 35) {
                 if (itemStack.getItem() == Items.REDSTONE) {
                     return onUseCrystalItem(itemStack, player, world, 10);
                 }
@@ -363,7 +434,7 @@ public class OnServerInitialize implements ModInitializer {
                 }
             }
             if (itemStack.getItem() == Items.BOWL) {
-                return vanillaBowlItemUse(world,player,hand,itemStack);
+                return vanillaBowlItemUse(world, player, hand, itemStack);
             }
             // 其他物品时不做处理
             return TypedActionResult.pass(itemStack);
@@ -373,10 +444,10 @@ public class OnServerInitialize implements ModInitializer {
         //移除原版工作台方块,创造模式除外
         UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
             Block block = world.getBlockState(hitResult.getBlockPos()).getBlock();
-            if (!player.getWorld().isClient){
-                if(!player.isCreative()){
-                    if(block == Blocks.CRAFTING_TABLE){
-                        world.removeBlock(hitResult.getBlockPos(),true);
+            if (!player.getWorld().isClient) {
+                if (!player.isCreative()) {
+                    if (block == Blocks.CRAFTING_TABLE) {
+                        world.removeBlock(hitResult.getBlockPos(), true);
                     }
                 }
             }
@@ -384,16 +455,12 @@ public class OnServerInitialize implements ModInitializer {
         });
 
 
-
 //        //结构注册
         registerStructure();
 
 
-
         //食物修改
         foodComponentModify();
-
-
 
 
         //生成限制
@@ -473,14 +540,8 @@ public class OnServerInitialize implements ModInitializer {
         registerModItemRaw();
 
 
-
-
         //注册矿物
         registerModOre();
-
-
-
-
 
 
         //注册实体
@@ -502,7 +563,7 @@ public class OnServerInitialize implements ModInitializer {
 
         initVanillaBlocksHardnessHashMap();
         initModBlocksHardnessHashMap();
-
+        initCraftingDifficulties();
 
         FurnaceEntityRegistry.init();
 
@@ -513,11 +574,8 @@ public class OnServerInitialize implements ModInitializer {
         modBlockEntityTypesInit();
 
 
-
         LOGGER.info("Hello Fabric world!");
     }
-
-
 
 
 }

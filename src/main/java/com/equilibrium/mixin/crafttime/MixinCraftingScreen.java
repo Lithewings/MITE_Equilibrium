@@ -48,7 +48,7 @@ public abstract class MixinCraftingScreen extends HandledScreen<CraftingScreenHa
 	@Override
 	//在合成台界面,对按下的键盘指令做出反应
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-		if (keyCode != GLFW.GLFW_KEY_LEFT_SHIFT && this.shouldCloseOnEsc()) {
+		if (keyCode == GLFW.GLFW_KEY_E && this.shouldCloseOnEsc()) {
 			//一旦中途退出,就失去所有进度渲染
 			player.craftTime$setCraftTime(0);
 			C2SClickTimesPacket.sendClickTimes(0);

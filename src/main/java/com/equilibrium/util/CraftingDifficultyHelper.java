@@ -2,6 +2,7 @@ package com.equilibrium.util;
 
 import com.equilibrium.block.ModBlocksRegistry;
 import com.equilibrium.item.Metal;
+import com.equilibrium.item.food.FoodOrFarmItems;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
@@ -13,6 +14,8 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CraftingDifficultyHelper {
 
@@ -48,8 +51,15 @@ public class CraftingDifficultyHelper {
 			Item item = s.getStack().getItem();
 			if (item == Items.AIR)
 				continue;
+			//存在任意以下物品时
+			if(ITEM_DIFFICULTY_CONSTANT.containsKey(item)) {
+				//直接应用常量合成难度
+				item_difficulty = ITEM_DIFFICULTY_CONSTANT.getOrDefault(item, 20F);
+				break;
+			}
 			item_difficulty += getDifficulty(item);
 		}
+
 		int totalDifficulty1 = (int) item_difficulty;
 		int totalDifficulty2 = (int) item_difficulty;
 
@@ -59,92 +69,64 @@ public class CraftingDifficultyHelper {
 
 		return totalDifficulty1*totalDifficulty2;
 	}
-	
-	public static ArrayList<Item> getItemFromMatrix(AbstractRecipeScreenHandler<CraftingRecipeInput, CraftingRecipe> handler, boolean is_craft_table) {
-		ArrayList<Item> items = new ArrayList<Item>();
-		int index = is_craft_table ? 10 : 5;
-		for (int i = 1; i < index; i++) {
-			items.add(handler.getSlot(i).getStack().getItem());
-		}
-		return items;
+
+
+	private static final Map<Item, Float> ITEM_DIFFICULTY_CONSTANT = new HashMap<>();
+
+	private static final Map<Item, Float> ITEM_DIFFICULTY = new HashMap<>();
+
+	public static void initCraftingDifficulties(){
+		// 初始化哈希表
+		// 金胡萝卜相关
+		ITEM_DIFFICULTY.put(Items.GOLDEN_CARROT, 3200f * 9);
+
+		// 铁相关
+		ITEM_DIFFICULTY.put(Items.IRON_BLOCK, 3200f * 9);
+		ITEM_DIFFICULTY.put(Items.IRON_INGOT, 3200f);
+		ITEM_DIFFICULTY.put(Items.IRON_NUGGET, 3200f / 9f);
+
+		// 金相关
+		ITEM_DIFFICULTY.put(Items.GOLD_INGOT, 1600f);
+		ITEM_DIFFICULTY.put(Items.GOLD_BLOCK, 1600f * 9);
+		ITEM_DIFFICULTY.put(Items.GOLD_NUGGET, 1600f / 9f);
+
+		// 秘银相关
+		ITEM_DIFFICULTY.put(Metal.mithril, 25600f);
+		ITEM_DIFFICULTY.put(Metal.mithril_nugget, 25600f / 9f);
+		ITEM_DIFFICULTY.put(ModBlocksRegistry.MITHRIL_BLOCK.asItem(), 25600f * 9f);
+
+		// 银相关
+		ITEM_DIFFICULTY.put(Metal.silver, 1600f);
+		ITEM_DIFFICULTY.put(Metal.silver_nugget, 1600f / 9f);
+		ITEM_DIFFICULTY.put(ModBlocksRegistry.SILVER_BLOCK.asItem(), 1600f * 9f);
+
+		// 铜相关
+		ITEM_DIFFICULTY.put(Metal.copper, 1600f);
+		ITEM_DIFFICULTY.put(Metal.copper_nugget, 1600f / 9f);
+		ITEM_DIFFICULTY.put(ModBlocksRegistry.COPPER_BLOCK.asItem(), 1600f * 9f);
+
+		// 钻石相关
+		ITEM_DIFFICULTY.put(Items.DIAMOND, 25600f);
+		ITEM_DIFFICULTY.put(Items.NETHERITE_INGOT, 25600f * 4f);
+
+		// 艾德曼合金相关
+		ITEM_DIFFICULTY.put(Metal.adamantium, 25600f * 4f);
+		ITEM_DIFFICULTY.put(Metal.adamantium_nugget, 25600f * 4f / 9f);
+		ITEM_DIFFICULTY.put(ModBlocksRegistry.ADAMANTIUM_BLOCK.asItem(), 25600f * 4f * 9f);
+
+
+		ITEM_DIFFICULTY_CONSTANT.put(FoodOrFarmItems.MILK_BOWL, 3200f);
+		ITEM_DIFFICULTY_CONSTANT.put(Items.MILK_BUCKET, 3200f * 4);
+
+
 	}
 
+
 	public static float getDifficulty(Item item) {
-		String name =  Registries.ITEM.getId(item).toString();
-
-		//金胡萝卜合成冷萃夜视药水时使用
-		if(item==Items.GOLDEN_CARROT){
-			return 3200f*9;
-		}
-		if(item==Items.IRON_BLOCK){
-			return 3200f*9;
-		}
-		if(item==Items.IRON_INGOT){
-			return 3200F;
-		}
-		if(item==Items.IRON_NUGGET){
-			return (3200f/9f);
-		}
-
-		if(item==Items.GOLD_INGOT){
-			return 1600F;
-		}
-		if(item==Items.GOLD_BLOCK){
-			return 1600F*9;
-		}
-		if(item==Items.GOLD_NUGGET){
-			return 1600F/9f;
-		}
 
 
-		if(item== Metal.mithril){
-			return 25600F;
-		}
-		if(item== Metal.mithril_nugget){
-			return 25600F/9F;
-		}
-		if(item== ModBlocksRegistry.MITHRIL_BLOCK.asItem()){
-			return 25600F*9F;
-		}
 
-
-		if(item== Metal.silver){
-			return 1600F;
-		}
-		if(item== Metal.silver_nugget){
-			return 1600F/9F;
-		}
-		if(item== ModBlocksRegistry.SILVER_BLOCK.asItem()){
-			return 1600F*9F;
-		}
-		if(item== Metal.copper){
-			return 1600F;
-		}
-		if(item== Metal.copper_nugget){
-			return 1600F/9F;
-		}
-		if(item== ModBlocksRegistry.COPPER_BLOCK.asItem()){
-			return 1600F*9F;
-		}
-
-
-		if(item==Items.DIAMOND){
-			return 25600F;
-		}
-		if(item==Items.NETHERITE_INGOT){
-			return 25600*4F;
-		}
-
-
-		if(item==Metal.adamantium){
-			return 25600*4F;
-		}
-		if(item==Metal.adamantium_nugget){
-			return 25600*4F/9f;
-		}
-		if(item== ModBlocksRegistry.ADAMANTIUM_BLOCK.asItem()){
-			return 25600*4F*9F;
-		}
+		return ITEM_DIFFICULTY.getOrDefault(item,20F);
 
 
 
@@ -153,6 +135,5 @@ public class CraftingDifficultyHelper {
 //			return CommonConfig.craftItemTimeMap.get(name);
 //		}
 
-		return 20F;
 	}
 }

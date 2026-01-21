@@ -41,7 +41,7 @@ public abstract class MixinInventoryScreen extends AbstractInventoryScreen<Playe
 	@Inject(method = "keyPressed", at = @At("HEAD"))
 	//在合成台界面,对按下的键盘指令做出反应
 	public void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
-		if (keyCode != GLFW.GLFW_KEY_LEFT_SHIFT && this.shouldCloseOnEsc()) {
+		if (keyCode == GLFW.GLFW_KEY_E && this.shouldCloseOnEsc() ) {
 			//一旦中途退出,就失去所有进度渲染
 //			OnServerInitialize.LOGGER.info("end crafting");
 			player.craftTime$setCraftTime(0);

@@ -54,7 +54,7 @@ public abstract class GrassBlockMixin extends SpreadableBlock implements Fertili
 
         int polluteLevel = world.getBlockState(pos).get(GRASSBLOCK_POLLUTED);
         //数值更新
-        if (world.getRandom().nextInt(2) == 0 && polluteLevel >= 1) {
+        if (world.getRandom().nextInt(64) == 0 && polluteLevel >= 1) {
             //随机刻选中时,发包更新状态
             int finalPolluteLevel = Math.clamp(polluteLevel - 1, 0, 7);
             world.setBlockState(pos, state.with(GRASSBLOCK_POLLUTED, finalPolluteLevel), Block.NOTIFY_ALL);
@@ -119,7 +119,7 @@ public abstract class GrassBlockMixin extends SpreadableBlock implements Fertili
 //            world.spawnEntity(new ItemEntity(world,pos.getX(),pos.getY()+1,pos.getZ(),Items.WITHER_ROSE.getDefaultStack()));
         }
         if (isStock && entity.getRandom().nextInt(128)==0) {
-            int polluteLevel = 0;
+            int polluteLevel = state.get(GRASSBLOCK_POLLUTED);
             world.setBlockState(pos, state.with(GRASSBLOCK_POLLUTED, Math.clamp(polluteLevel+1,0,7)), Block.NOTIFY_ALL);
             //告诉客户端渲染草地被污染的等级
             ServerToClientUpdateGrassBlockState(world, pos, polluteLevel);

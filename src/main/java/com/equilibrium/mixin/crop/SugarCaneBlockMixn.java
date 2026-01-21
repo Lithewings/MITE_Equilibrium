@@ -18,7 +18,7 @@ public class SugarCaneBlockMixn extends Block {
     }
     @Inject(method = "randomTick",at = @At("HEAD"),cancellable = true)
     protected void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
-        if(random.nextInt(128)!=0)
+        if(random.nextInt(128/16)!=0)
             ci.cancel();
     }
 }

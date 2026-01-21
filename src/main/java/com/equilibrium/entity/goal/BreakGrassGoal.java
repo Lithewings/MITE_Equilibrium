@@ -21,7 +21,7 @@ public class BreakGrassGoal extends Goal {
     @Override
     public boolean canStart() {
         World world = this.getEntity().getWorld();
-        return this.getEntity().getRandom().nextInt(128)==1 &&
+        return this.getEntity().getRandom().nextInt(512)==1 &&
                 world.getBlockState(this.getEntity().getBlockPos()).isOf(Blocks.SHORT_GRASS)||world.getBlockState(this.getEntity().getBlockPos()).isOf(Blocks.TALL_GRASS);
     }
 

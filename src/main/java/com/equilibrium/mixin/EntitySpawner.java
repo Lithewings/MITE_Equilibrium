@@ -33,33 +33,15 @@ public abstract class EntitySpawner extends ChunkManager {
     @Shadow
     private long lastMobSpawningTime;
     @Shadow
-    private boolean spawnMonsters = true;
+    private boolean spawnMonsters;
     @Shadow
-    private boolean spawnAnimals = true;
+    private boolean spawnAnimals;
     @Shadow
     @Final
     private ChunkTicketManager ticketManager;
     @Shadow
     private SpawnHelper.Info spawnInfo;
 
-
-    @Shadow
-    private ChunkHolder getChunkHolder(long pos) {
-        return this.chunkLoadingManager.getChunkHolder(pos);
-    }
-
-    @Shadow
-    private void ifChunkLoaded(long pos, Consumer<WorldChunk> chunkConsumer) {
-        ChunkHolder chunkHolder = this.getChunkHolder(pos);
-        if (chunkHolder != null) {
-            ((OptionalChunk) chunkHolder.getAccessibleFuture().getNow(ChunkHolder.UNLOADED_WORLD_CHUNK)).ifPresent(chunkConsumer);
-        }
-    }
-
-
-    @Shadow public abstract World getWorld();
-
-    Random random = new Random();
 
 
 
@@ -68,9 +50,10 @@ public abstract class EntitySpawner extends ChunkManager {
     @Inject(method = "tickChunks", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Util;shuffle(Ljava/util/List;Lnet/minecraft/util/math/random/Random;)V", shift = At.Shift.AFTER), locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true)
     private void tickChunks(CallbackInfo ci, long l, long m, Profiler profiler, List<ServerChunkManager.ChunkWithHolder> list, int i, SpawnHelper.Info info, boolean bl) {
         ci.cancel();
-
-        int j = 16 * this.world.getGameRules().getInt(GameRules.RANDOM_TICK_SPEED);
-
+        //随机刻问题定位:chunk刻被加速了16倍率,现在所有randomTick也加速了16倍,20260118
+        //请把所有作物生长速度减慢到原来的1/16
+//        int j = 16 * this.world.getGameRules().getInt(GameRules.RANDOM_TICK_SPEED);
+        int j = this.world.getGameRules().getInt(GameRules.RANDOM_TICK_SPEED);
         boolean bl2 = this.world.getLevelProperties().getTime() % 400L == 0L;
 
         for (ServerChunkManager.ChunkWithHolder chunkWithHolder : list) {

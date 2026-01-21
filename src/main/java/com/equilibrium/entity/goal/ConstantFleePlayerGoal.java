@@ -50,7 +50,8 @@ public class ConstantFleePlayerGoal extends Goal {
                 EntityType.COW,SoundEvents.ENTITY_COW_HURT,
                 EntityType.CHICKEN,SoundEvents.ENTITY_CHICKEN_HURT,
                 EntityType.PIG,SoundEvents.ENTITY_PIG_HURT,
-                EntityType.SHEEP,SoundEvents.ENTITY_SHEEP_HURT
+                EntityType.SHEEP,SoundEvents.ENTITY_SHEEP_HURT,
+                EntityType.MOOSHROOM,SoundEvents.ENTITY_COW_HURT
         );
     }
 
@@ -100,7 +101,7 @@ public class ConstantFleePlayerGoal extends Goal {
 
 
                     // 计算阈值
-                    double threshold = 0.1;
+                    double threshold = this.mob.getWorld().getTimeOfDay()/24000L >=16? 0.17f:0.1f;
 
                     return currentSpeed > threshold;
                 }
@@ -188,8 +189,8 @@ public class ConstantFleePlayerGoal extends Goal {
         this.panicTicks = 0;
         this.isPanicking = true;
 
-        // 播放恐慌音效
-        this.mob.playSound(soundEventMap.getOrDefault(this.mob.getType(),null), 1.0F, 1.0F);
+        // 播放恐慌音效,空位用蝙蝠声占位
+        this.mob.playSound(soundEventMap.getOrDefault(this.mob.getType(),SoundEvents.ENTITY_BAT_AMBIENT), 1.0F, 1.0F);
     }
 
 

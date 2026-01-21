@@ -94,7 +94,7 @@ public class MyCommands {
 //        );
 
         // 注册 A星算法 命令
-        dispatcher.register(ClientCommandManager.literal("findPath")
+        dispatcher.register(ClientCommandManager.literal("AStarFindPath")
                 .then(argument("x1", IntegerArgumentType.integer())
                         .then(argument("y1", IntegerArgumentType.integer())
                                 .then(argument("z1", IntegerArgumentType.integer())
@@ -127,7 +127,7 @@ public class MyCommands {
 
 
         // 注册 A星算法 命令
-        dispatcher.register(ClientCommandManager.literal("AStarFindPath")
+        dispatcher.register(ClientCommandManager.literal("AStarFindPathCanGoTo")
                 .then(argument("x1", IntegerArgumentType.integer())
                         .then(argument("y1", IntegerArgumentType.integer())
                                 .then(argument("z1", IntegerArgumentType.integer())
@@ -155,7 +155,36 @@ public class MyCommands {
                                                                     }
                                                                     return 1;
                                                                 }))))))));
+        dispatcher.register(ClientCommandManager.literal("AStarFindPathCanGoToAndReturn")
+                .then(argument("x1", IntegerArgumentType.integer())
+                        .then(argument("y1", IntegerArgumentType.integer())
+                                .then(argument("z1", IntegerArgumentType.integer())
+                                        .then(argument("x2", IntegerArgumentType.integer())
+                                                .then(argument("y2", IntegerArgumentType.integer())
+                                                        .then(argument("z2", IntegerArgumentType.integer())
+                                                                .executes(context -> {
+                                                                    int x1 = IntegerArgumentType.getInteger(context, "x1");
+                                                                    int y1 = IntegerArgumentType.getInteger(context, "y1");
+                                                                    int z1 = IntegerArgumentType.getInteger(context, "z1");
+
+                                                                    int x2 = IntegerArgumentType.getInteger(context, "x2");
+                                                                    int y2 = IntegerArgumentType.getInteger(context, "y2");
+                                                                    int z2 = IntegerArgumentType.getInteger(context, "z2");
+                                                                    BlockPos start = new BlockPos(x1,y1,z1);
+                                                                    BlockPos goal = new BlockPos(x2,y2,z2);
+                                                                    List<BlockPos> path = AStarCanGoToAndReturn.findSimplePath(context.getSource().getWorld(),start,goal);
+
+                                                                    if (path!=null) {
+                                                                        // 找到可通行路径 => 屋顶到床连通 => 房屋不封闭
+                                                                        context.getSource().getPlayer().sendMessage(Text.of("找到路径"));
+                                                                    } else {
+                                                                        // 未找到路径 => 屋顶与床被阻隔 => 房屋真正封闭
+                                                                        context.getSource().getPlayer().sendMessage(Text.of("没有找到路径"));
+                                                                    }
+                                                                    return 1;
+                                                                }))))))));
     }
+
 
 }
 

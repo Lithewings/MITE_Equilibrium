@@ -43,14 +43,14 @@ public abstract class StemBlockMixin extends PlantBlock implements Fertilizable 
             float f = CropBlock.getAvailableMoisture(this, world, pos);
 
 
-            float times = 128;
+            float times = 128/16f;
             //检查农田是否具有施肥标签
             if(world.getBlockState(pos.down()).contains(FERTILIZED)) {
                 if (world.getBlockState(pos.down()).get(FERTILIZED) == true)
                     //原先的两倍加速
-                    times=64f;
+                    times=64f/16f;
                 else
-                    times=128;
+                    times=128/16f;
             }
             else
                 OnServerInitialize.LOGGER.error("No such Block State called fertilized");

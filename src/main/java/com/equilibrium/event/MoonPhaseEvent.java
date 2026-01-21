@@ -3,10 +3,7 @@ package com.equilibrium.event;
 import com.equilibrium.util.WorldMoonPhasesSelector;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LightningEntity;
+import net.minecraft.entity.*;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -175,13 +172,12 @@ public class MoonPhaseEvent {
         return serverOverWorld;
     }
 
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
     
     
     
@@ -421,7 +417,7 @@ public class MoonPhaseEvent {
                 // Check if the position is valid for spawning an animal
                 if (world.isAir(spawnPos.up()) && world.isAir(spawnPos.up(2))) {
                     EntityType<?> animalType = ANIMAL_TYPES[random.nextInt(ANIMAL_TYPES.length)];
-                    MobEntity animal = (MobEntity) animalType.create(world);
+                    MobEntity animal = (MobEntity) animalType.create(world,null,spawnPos,SpawnReason.NATURAL,true,false);
                     if (animal != null) {
                         animal.refreshPositionAndAngles(spawnPos.getX() + 0.5, spawnPos.getY() + 1, spawnPos.getZ() + 0.5, random.nextFloat() * 360.0F, 0.0F);
                         world.spawnEntity(animal);

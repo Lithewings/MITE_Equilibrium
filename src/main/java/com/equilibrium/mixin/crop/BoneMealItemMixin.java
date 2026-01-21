@@ -1,5 +1,7 @@
 package com.equilibrium.mixin.crop;
 
+import net.minecraft.block.Blocks;
+import net.minecraft.block.GrassBlock;
 import net.minecraft.item.BoneMealItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
@@ -33,10 +35,14 @@ public class BoneMealItemMixin {
             updateCropBlockPos(serverWorld);
             stack.decrement(1);
             cir.setReturnValue(true);
-        } else if (world.random.nextInt(8) != 0) {
+        } else if(world.getBlockState(pos).isOf(Blocks.GRASS_BLOCK)) {
+            return;
+        }
+        else if (world.random.nextInt(8) != 0) {
             cir.setReturnValue(true);
             stack.decrement(1);
         }
+
     }
 
 

@@ -184,20 +184,20 @@ public abstract class CropBlockMixin extends PlantBlock implements Fertilizable 
             //MaxAge=7
             if (i < 7){
                 float f = CropBlock.getAvailableMoisture(this, world, pos);
-                float times = 128;
+                float times = 128/4f;
                 //检查农田是否具有施肥标签
                 if (world.getBlockState(pos.down()).contains(FERTILIZED)) {
                     if (world.getBlockState(pos.down()).get(FERTILIZED) == true)
                         //原先的两倍加速
-                        times = 64f;
+                        times = 64f/4f;
                     else
-                        times = 128;
+                        times = 128/4f;
                 } else
                     OnServerInitialize.LOGGER.error("No such Block State called fertilized");
 
 
                 if (random.nextInt((int) (times * 25.0F / f) + 1) == 0) {
-                    world.setBlockState(pos, this.withAge(i + 1), Block.NOTIFY_LISTENERS);
+                    world.setBlockState(pos, this.withAge(i + 1).with(CROP_IS_ILLNESS, CROP_BLOCK_POS.getOrDefault(pos, false)), Block.NOTIFY_LISTENERS);
                 }
             }
         }

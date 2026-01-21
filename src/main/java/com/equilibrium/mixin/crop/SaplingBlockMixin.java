@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class SaplingBlockMixin {
     @Inject(method = "randomTick",at=@At(value = "HEAD"), cancellable = true)
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
-        if(random.nextInt(256)!=0)
+        if(random.nextInt(256/16)!=0)
             ci.cancel();
     }
 }

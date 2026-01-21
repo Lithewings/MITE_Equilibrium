@@ -12,10 +12,16 @@ public class AStarCanGoToAndReturn {
     // 最大搜索范围
     private static final int MAX_RANGE = 32;
 
-    /**
-     * 简化版寻路算法，只考虑最基本的情况
-     */
+
     public static List<BlockPos> findSimplePath(World world, BlockPos start, BlockPos goal) {
+
+        BlockState blockState = world.getBlockState(start);
+        //生物导航时不能在墙里,也就是说不能贴着墙,也不能在墙里窒息
+        if(blockState.isIn(BlockTags.WALLS )|| blockState.isIn(BlockTags.FENCES) || blockState.isIn(BlockTags.FENCE_GATES)){
+            return null;
+        }
+
+
         // 优先队列，按总代价排序
         PriorityQueue<Node> openSet = new PriorityQueue<>(Comparator.comparingDouble(Node::fCost));
         Map<BlockPos, Node> allNodes = new HashMap<>();
@@ -152,6 +158,7 @@ public class AStarCanGoToAndReturn {
                 && !blockStateDown.isIn(BlockTags.WALLS)
                 && !blockStateDown.isIn(BlockTags.FENCES)
                 && !blockStateDown.isIn(BlockTags.FENCE_GATES)
+
 
         ){
             return true;
