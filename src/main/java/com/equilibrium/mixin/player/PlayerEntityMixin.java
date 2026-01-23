@@ -30,9 +30,12 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.tag.FluidTags;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -44,6 +47,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
 
 
 import static com.equilibrium.item.tools_attribute.ExtraDamageFromExperienceLevel.getDamageLevel;
@@ -246,7 +250,11 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
     @Inject(method = "jump", at = @At("TAIL"))
     public void jump(CallbackInfo ci)  {
+//        if(this.getWorld() instanceof ServerWorld serverWorld)
+//            testChunkLoading(serverWorld,new ChunkPos(0,0));
     }
+
+
 
 
     //以下是修改方块交互距离
@@ -489,6 +497,10 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
 
     @Shadow public abstract boolean canHarvest(BlockState state);
+
+    @Shadow public abstract PlayerAbilities getAbilities();
+
+    @Shadow public abstract void sendAbilitiesUpdate();
 
     @Unique
     private double lastSleepTime = 0;

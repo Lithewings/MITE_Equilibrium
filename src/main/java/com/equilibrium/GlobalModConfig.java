@@ -14,6 +14,8 @@ public class GlobalModConfig {
     // 破坏锁定功能开关，默认开启
     public boolean enableBreakLock = true;
 
+    public boolean enableSleepChunksAlwaysLoading = true;
+
     // 静态实例，全局唯一
     private static GlobalModConfig INSTANCE;
     // 总配置文件路径：
@@ -63,5 +65,8 @@ public class GlobalModConfig {
     // 对外提供破坏锁定功能的开关判断
     public static boolean isBreakLockEnabled() {
         return getInstance().enableBreakLock;
+    }    // 对外提供破坏锁定功能的开关判断
+    public static boolean isSleepChunksAlwaysLoading() {
+        return getInstance().enableSleepChunksAlwaysLoading;
     }
 }

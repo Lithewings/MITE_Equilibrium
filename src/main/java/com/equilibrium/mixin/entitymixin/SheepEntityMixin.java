@@ -2,7 +2,7 @@ package com.equilibrium.mixin.entitymixin;
 
 import com.equilibrium.OnServerInitialize;
 import com.equilibrium.entity.EnvironmentChecker;
-import com.equilibrium.entity.ProduceManure;
+import com.equilibrium.entity.ProduceManureOrSomething;
 import com.equilibrium.entity.goal.ConstantFleePlayerGoal;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
@@ -27,7 +27,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(SheepEntity.class)
-public abstract  class SheepEntityMixin extends AnimalEntity implements Shearable , ProduceManure {
+public abstract  class SheepEntityMixin extends AnimalEntity implements Shearable , ProduceManureOrSomething {
 
 
     protected SheepEntityMixin(EntityType<? extends AnimalEntity> entityType, World world) {
@@ -81,15 +81,15 @@ public abstract  class SheepEntityMixin extends AnimalEntity implements Shearabl
 
 
     @Unique
-    public int itemLayTime =  this.random.nextInt(6000) + 18000;
+    public int itemLayTime =  this.random.nextInt(6000)+6000;
 
 
 
     @Unique
     public void produceManure(AnimalEntity entity) {
         if (--this.itemLayTime <= 0) {
-            ProduceManure.produceManure(entity);
-            this.itemLayTime = this.random.nextInt(6000) + 18000;
+            ProduceManureOrSomething.produceManure(entity);
+            this.itemLayTime = this.random.nextInt(6000)+6000;
         }
     }
 

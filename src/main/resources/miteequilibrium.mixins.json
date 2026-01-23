@@ -4,10 +4,10 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "BiomeMixin",
-    "EntitySpawner",
     "ThreadCheck",
     "advancement.AdvancementManagerMixin",
     "advancement.PlayerAdvancementTrackerMixin",
+    "chunk.EntitySpawner",
     "crafttime.CraftingScreenHandlerMixin",
     "crafttime.ScreenHandlerMixin",
     "crop.BoneMealItemMixin",

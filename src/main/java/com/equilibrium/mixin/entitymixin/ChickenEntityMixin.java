@@ -2,7 +2,7 @@ package com.equilibrium.mixin.entitymixin;
 
 import com.equilibrium.OnServerInitialize;
 import com.equilibrium.entity.EnvironmentChecker;
-import com.equilibrium.entity.ProduceManure;
+import com.equilibrium.entity.ProduceManureOrSomething;
 import com.equilibrium.entity.goal.ConstantFleePlayerGoal;
 
 import net.minecraft.entity.*;
@@ -27,7 +27,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ChickenEntity.class)
-public abstract class ChickenEntityMixin extends AnimalEntity implements ProduceManure{
+public abstract class ChickenEntityMixin extends AnimalEntity implements ProduceManureOrSomething {
     @Shadow public float prevFlapProgress;
 
     protected ChickenEntityMixin(EntityType<? extends AnimalEntity> entityType, World world) {
@@ -36,19 +36,22 @@ public abstract class ChickenEntityMixin extends AnimalEntity implements Produce
     @Override
     public void tickMovement() {
         super.tickMovement();
-        if(!environmentChecker.isIllness())
-            produceManure(this);
+        if(!environmentChecker.isIllness()){
+            produceManureAndFeather(this);
+
+        }
     }
 
     @Unique
-    public int itemLayTime =  this.random.nextInt(6000) + 18000;
+    public int itemLayTime =  this.random.nextInt(6000)+6000;
 
 
     @Unique
-    public void produceManure(AnimalEntity entity) {
+    public void produceManureAndFeather(AnimalEntity entity) {
         if (--this.itemLayTime <= 0) {
-            ProduceManure.produceManure(entity);
-            this.itemLayTime = this.random.nextInt(6000) + 18000;
+            ProduceManureOrSomething.produceManure(entity);
+            ProduceManureOrSomething.produceFeather(entity);
+            this.itemLayTime = this.random.nextInt(6000)+6000;
         }
     }
 

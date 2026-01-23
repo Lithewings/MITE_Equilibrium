@@ -2,7 +2,7 @@ package com.equilibrium.mixin.entitymixin;
 
 import com.equilibrium.OnServerInitialize;
 import com.equilibrium.entity.EnvironmentChecker;
-import com.equilibrium.entity.ProduceManure;
+import com.equilibrium.entity.ProduceManureOrSomething;
 import com.equilibrium.entity.goal.BreakGrassGoal;
 import com.equilibrium.entity.goal.ConstantFleePlayerGoal;
 
@@ -38,7 +38,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 
 @Mixin(CowEntity.class)
-public abstract class CowEntityMixin extends AnimalEntity implements ProduceManure {
+public abstract class CowEntityMixin extends AnimalEntity implements ProduceManureOrSomething {
 
     protected CowEntityMixin(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
@@ -67,14 +67,14 @@ public abstract class CowEntityMixin extends AnimalEntity implements ProduceManu
     }
 
     @Unique
-    public int itemLayTime =  this.random.nextInt(6000) + 18000;
+    public int itemLayTime =  this.random.nextInt(6000)+6000;
 
 
     @Unique
     public void produceManure(AnimalEntity entity) {
         if (--this.itemLayTime <= 0) {
-            ProduceManure.produceManure(entity);
-            this.itemLayTime = this.random.nextInt(6000) + 18000;
+            ProduceManureOrSomething.produceManure(entity);
+            this.itemLayTime = this.random.nextInt(6000)+6000;
         }
     }
 
@@ -196,7 +196,7 @@ public abstract class CowEntityMixin extends AnimalEntity implements ProduceManu
         this.goalSelector.add(3, new TemptGoal(this, 1.6, stack -> stack.isIn(ItemTags.COW_FOOD), false));
         this.goalSelector.add(5, new FollowParentGoal(this, 1.25));
         this.goalSelector.add(6, new WanderAroundFarGoal(this, 1.0));
-//        this.goalSelector.add(10, new BreakGrassGoal((CowEntity)(Object)this));
+        this.goalSelector.add(10, new BreakGrassGoal((CowEntity)(Object)this));
         this.goalSelector.add(7, new LookAtEntityGoal(this, PlayerEntity.class, 6.0F));
         this.goalSelector.add(8, new LookAroundGoal(this));
     }

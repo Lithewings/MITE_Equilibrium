@@ -2,7 +2,7 @@ package com.equilibrium.mixin.entitymixin;
 
 import com.equilibrium.OnServerInitialize;
 import com.equilibrium.entity.EnvironmentChecker;
-import com.equilibrium.entity.ProduceManure;
+import com.equilibrium.entity.ProduceManureOrSomething;
 import com.equilibrium.entity.goal.ConstantFleePlayerGoal;
 
 import net.minecraft.entity.*;
@@ -29,7 +29,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PigEntity.class)
-public abstract class PigEntityMixin extends AnimalEntity implements ItemSteerable, Saddleable , ProduceManure {
+public abstract class PigEntityMixin extends AnimalEntity implements ItemSteerable, Saddleable , ProduceManureOrSomething {
     @Shadow public abstract boolean isSaddled();
 
     protected PigEntityMixin(EntityType<? extends AnimalEntity> entityType, World world) {
@@ -45,14 +45,14 @@ public abstract class PigEntityMixin extends AnimalEntity implements ItemSteerab
     }
 
     @Unique
-    public int itemLayTime =  this.random.nextInt(6000) + 18000;
+    public int itemLayTime =  this.random.nextInt(6000)+6000;
 
 
     @Unique
     public void produceManure(AnimalEntity entity) {
         if (--this.itemLayTime <= 0) {
-            ProduceManure.produceManure(entity);
-            this.itemLayTime = this.random.nextInt(6000) + 18000;
+            ProduceManureOrSomething.produceManure(entity);
+            this.itemLayTime = this.random.nextInt(6000)+6000;
         }
     }
 

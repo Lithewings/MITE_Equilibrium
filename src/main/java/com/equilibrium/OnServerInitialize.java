@@ -68,6 +68,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import static com.equilibrium.GlobalModConfig.initConfig;
+import static com.equilibrium.GlobalModConfig.isSleepChunksAlwaysLoading;
 import static com.equilibrium.block.reference.BlocksHardnessList.initModBlocksHardnessHashMap;
 import static com.equilibrium.block.reference.BlocksHardnessList.initVanillaBlocksHardnessHashMap;
 import static com.equilibrium.block.enchanting_table.ModBlockEntityTypes.modBlockEntityTypesInit;
@@ -81,6 +82,9 @@ import static com.equilibrium.entity.mob.ModSpawnRestriction.registerModSpawnRes
 import static com.equilibrium.event.CropIllnessEvent.applyIllnessForCrop;
 import static com.equilibrium.event.CropIllnessEvent.updateCropBlockPos;
 import static com.equilibrium.event.MoonPhaseEvent.*;
+
+import static com.equilibrium.event.SleepChunkLoader.registerSleepEvents;
+
 import static com.equilibrium.event.sound.SoundEventRegistry.registrySoundEvents;
 import static com.equilibrium.item.Armors.registerArmors;
 import static com.equilibrium.item.Metal.copper;
@@ -549,6 +553,8 @@ public class OnServerInitialize implements ModInitializer {
 
         //注册事件
         PlayerBlockBreakEvents.AFTER.register(new BreakBlockEvent());
+        if(isSleepChunksAlwaysLoading())
+            registerSleepEvents();
         //创建标签
         registerModBlockTags();
         registerModItemTags();

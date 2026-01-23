@@ -1,4 +1,4 @@
-package com.equilibrium.mixin;
+package com.equilibrium.mixin.chunk;
 
 import com.equilibrium.util.WorldMoonPhasesSelector;
 import net.minecraft.server.world.*;
@@ -19,6 +19,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 import java.util.function.Consumer;
+import java.util.logging.Logger;
+
+import static com.equilibrium.event.SleepChunkLoader.allPlayersDemandToLoadChunks;
 
 @Mixin(ServerChunkManager.class)
 public abstract class EntitySpawner extends ChunkManager {
@@ -43,9 +46,7 @@ public abstract class EntitySpawner extends ChunkManager {
     private SpawnHelper.Info spawnInfo;
 
 
-
-
-
+    @Shadow public abstract <T> void addTicket(ChunkTicketType<T> ticketType, ChunkPos pos, int radius, T argument);
 
     @Inject(method = "tickChunks", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Util;shuffle(Ljava/util/List;Lnet/minecraft/util/math/random/Random;)V", shift = At.Shift.AFTER), locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true)
     private void tickChunks(CallbackInfo ci, long l, long m, Profiler profiler, List<ServerChunkManager.ChunkWithHolder> list, int i, SpawnHelper.Info info, boolean bl) {
@@ -55,11 +56,15 @@ public abstract class EntitySpawner extends ChunkManager {
 //        int j = 16 * this.world.getGameRules().getInt(GameRules.RANDOM_TICK_SPEED);
         int j = this.world.getGameRules().getInt(GameRules.RANDOM_TICK_SPEED);
         boolean bl2 = this.world.getLevelProperties().getTime() % 400L == 0L;
-
         for (ServerChunkManager.ChunkWithHolder chunkWithHolder : list) {
             WorldChunk worldChunk2 = chunkWithHolder.chunk;
             ChunkPos chunkPos = worldChunk2.getPos();
-            if (this.world.shouldTick(chunkPos) && this.chunkLoadingManager.shouldTick(chunkPos)) {
+            if (
+                    (allPlayersDemandToLoadChunks.contains(chunkPos))
+                    ||
+                    (this.world.shouldTick(chunkPos) && this.chunkLoadingManager.shouldTick(chunkPos))
+            ){
+
                 worldChunk2.increaseInhabitedTime(m);
                 if (bl && (this.spawnMonsters || this.spawnAnimals) && this.world.getWorldBorder().contains(chunkPos)) {
                     //蓝月不刷怪
