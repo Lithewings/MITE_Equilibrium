@@ -69,7 +69,9 @@ public class OnClientInitialize implements ClientModInitializer {
             }
             if (stack.getItem() == Items.ENCHANTED_GOLDEN_APPLE) {
                 lines.add(Text.literal("Regeneration II（00:40）").formatted(Formatting.BLUE));
+                lines.add(Text.literal("Resistance II（00:40）").formatted(Formatting.BLUE));
                 lines.add(Text.literal("Fire Resistance（00:40）").formatted(Formatting.BLUE));
+
             }
             if (stack.getItem() == Items.GOLDEN_APPLE) {
                 lines.add(Text.literal("Regeneration I（00:20）").formatted(Formatting.BLUE));
@@ -95,6 +97,7 @@ public class OnClientInitialize implements ClientModInitializer {
         EntityRendererRegistry.register(REVENANT, RevenantEntityRenderer::new);
         EntityRendererRegistry.register(LONG_DEAD, LongDeadEntityRenderer::new);
         EntityRendererRegistry.register(PUDDING, PuddingSlimeEntityRenderer::new);
+        EntityRendererRegistry.register(BONE_LORD, BoneLordEntityRenderer::new);
 
         EntityRendererRegistry.register(FIRE_ELEMENTAL, FireElementalEntityRendererTransparent::new);
 

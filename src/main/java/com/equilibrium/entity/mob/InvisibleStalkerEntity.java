@@ -57,8 +57,8 @@ public class InvisibleStalkerEntity extends ZombieEntity {
 
     @Override
     public boolean isInvulnerableTo(DamageSource damageSource) {
-        return damageSource.getSource() instanceof PlayerEntity
-                ? !forPlayerIsEnchantedItemCauseDamage(damageSource)
+        return forPlayerIsEnchantedItemCauseDamage(damageSource)==false ?
+                true
                 : super.isInvulnerableTo(damageSource);
     }
 

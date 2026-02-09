@@ -1,8 +1,10 @@
-package com.equilibrium.entity.mob;
+package com.equilibrium.entity;
 
 
 
 
+import com.equilibrium.entity.mob.FireElementalEntity;
+import com.equilibrium.entity.mob.PuddingSlimeEntity;
 import com.llamalad7.mixinextras.lib.apache.commons.ObjectUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -62,6 +64,9 @@ public class ModSpawnRestriction {
                 SpawnRestriction.register(SHADOW, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
                 SpawnRestriction.register(INVISIBLE_STALKER, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
                 SpawnRestriction.register(PUDDING, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, PuddingSlimeEntity::canPuddingSpawn);
+
+                SpawnRestriction.register(BONE_LORD, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+
                 SpawnRestriction.register(REVENANT, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
                 SpawnRestriction.register(
                         FIRE_ELEMENTAL,

@@ -10,6 +10,7 @@ import com.equilibrium.tags.ModItemTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.CraftingTableBlock;
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.LoreComponent;
 import net.minecraft.component.type.NbtComponent;
 import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -18,9 +19,12 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.CraftingResultInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.RecipeInputInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
+import net.minecraft.nbt.NbtString;
 import net.minecraft.network.packet.s2c.play.ScreenHandlerSlotUpdateS2CPacket;
 import net.minecraft.recipe.CraftingRecipe;
 import net.minecraft.recipe.RecipeEntry;
@@ -28,9 +32,14 @@ import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.input.CraftingRecipeInput;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.screen.*;
+import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
+import net.minecraft.text.TextColor;
+import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
+import org.apache.logging.log4j.core.tools.picocli.CommandLine;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
@@ -39,7 +48,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.*;
+import java.util.function.Consumer;
 
+import static com.equilibrium.util.SharedConstant.RED_BOLD;
+import static com.equilibrium.util.SharedConstant.YELLOW_BOLD;
 
 
 @Mixin(CraftingScreenHandler.class)
@@ -69,6 +81,11 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 	);
 
 
+
+
+
+
+
 	public CraftingScreenHandlerMixin(ScreenHandlerType<?> screenHandlerType, int i) {
 		super(screenHandlerType, i);
 	}
@@ -88,13 +105,10 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 	@Shadow
 	private boolean filling;
 
-
-
 	@Inject(method = "onContentChanged",at = @At(value = "HEAD"), cancellable = true)
 	public void onContentChanged(Inventory inventory, CallbackInfo ci) {
 		ci.cancel();
 
-//		this.result.clear();
 
 		if (!this.filling) {
 			this.context.run((world, pos) -> {
@@ -141,19 +155,23 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 				//等级是否合法?
 				boolean isLevelValid=maxCraftLevel<=craftTableLevel;
 
+				//无条件输出物品
+				updateResult(this, world, this.player, this.input, this.result, (RecipeEntry) null);
 
-				if(isLevelValid){
-					updateResult(this, world, this.player, this.input, this.result, (RecipeEntry) null);
+
+
+				if(!isLevelValid){
+					List<Text> list1 = List.of(Text.literal("TAG:INVALID ITEM").setStyle(RED_BOLD),
+							Text.literal("此物品无法在该合成台下合成").setStyle(YELLOW_BOLD));
+					LoreComponent loreComponent = new LoreComponent(list1,list1);
+
+					ItemStack itemStack = this.result.getStack(0);
+					itemStack.set(DataComponentTypes.LORE,loreComponent);
 				}
-				else
-					return;
 
-//				this.player.sendMessage(this.result.getStack(0).getName());
 			});
 		}
 	}
-
-
 
 
 	@Shadow

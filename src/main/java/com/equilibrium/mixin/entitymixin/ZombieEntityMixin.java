@@ -82,6 +82,7 @@ public abstract class ZombieEntityMixin extends HostileEntity {
     @Inject(method = "initCustomGoals", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ai/goal/MoveThroughVillageGoal;<init>(Lnet/minecraft/entity/mob/PathAwareEntity;DZILjava/util/function/BooleanSupplier;)V", shift = At.Shift.AFTER), cancellable = true)
     protected void initCustomGoalss(CallbackInfo ci) {
         ci.cancel();
+
 //        this.targetSelector.add(2, new ActiveTargetGoal(this, PlayerEntity.class, false));
         this.goalSelector.add(7, new WanderAroundFarGoal(this, 1.0));
 
@@ -89,10 +90,10 @@ public abstract class ZombieEntityMixin extends HostileEntity {
         //僵尸透视泥土等方块,具体见 AdvanceTargetPredicate
         this.targetSelector.add(2, new AdvanceActiveTargetGoal<>(this, PlayerEntity.class, false));
         this.goalSelector.add(1, new BreakBlockGoal(this, 800, difficulty -> difficulty == Difficulty.NORMAL || difficulty == Difficulty.HARD));
-        this.targetSelector.add(4, new ActiveTargetGoal(this, MerchantEntity.class, false));
-        this.targetSelector.add(4, new ActiveTargetGoal(this, IronGolemEntity.class, true));
+        this.targetSelector.add(4, new ActiveTargetGoal<>(this, MerchantEntity.class, false));
+        this.targetSelector.add(4, new ActiveTargetGoal<>(this, IronGolemEntity.class, true));
         this.targetSelector.add(4, new AdvanceActiveTargetGoal<>(this, PassiveEntity.class, true));
-        this.targetSelector.add(5, new ActiveTargetGoal(this, TurtleEntity.class, 10, true, false, TurtleEntity.BABY_TURTLE_ON_LAND_FILTER));
+        this.targetSelector.add(5, new ActiveTargetGoal<>(this, TurtleEntity.class, 10, true, false, TurtleEntity.BABY_TURTLE_ON_LAND_FILTER));
 
 
         // 添加盯着目标的目标选择器

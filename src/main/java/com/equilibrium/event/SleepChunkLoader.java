@@ -65,7 +65,7 @@ public class SleepChunkLoader {
                     mapForEachPlayerDemandToLoadChunks.remove(player.getUuid());
                     
                 }
-
+                //问题:两个玩家拥有重叠的常加载区块,但其中一个退出卸载,会全额将他的区块卸载,导致另一个玩家的常加载区块数变少了
 
 
 

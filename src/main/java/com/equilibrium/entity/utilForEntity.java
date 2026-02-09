@@ -11,9 +11,6 @@ import net.minecraft.item.Items;
 public class utilForEntity {
     public static boolean forPlayerIsEnchantedItemCauseDamage(DamageSource source) {
         // 获取直接攻击者（可能是箭实体）和间接攻击者（可能是玩家）
-
-
-
         // 对于箭伤害，需要特殊处理
         if (source.isOf(DamageTypes.ARROW)) {
             // 如果是玩家射出的箭

@@ -13,6 +13,8 @@ import net.minecraft.entity.mob.CreeperEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.PersistentProjectileEntity;
+import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootTable;
@@ -38,7 +40,7 @@ public class LongDeadEntity extends ModAbstractSkeletonEntity {
     }
 
     @Override
-    SoundEvent getStepSound() {
+    protected SoundEvent getStepSound() {
         return SoundEvents.ENTITY_SKELETON_STEP;
     }
 
@@ -51,7 +53,19 @@ public class LongDeadEntity extends ModAbstractSkeletonEntity {
 
 
 
-
+    @Override
+    public void shootAt(LivingEntity target, float pullProgress) {
+        ItemStack itemStack = this.getStackInHand(ProjectileUtil.getHandPossiblyHolding(this, Items.BOW));
+        ItemStack itemStack2 = this.getProjectileType(itemStack);
+        PersistentProjectileEntity persistentProjectileEntity = this.createArrowProjectile(itemStack2, pullProgress, itemStack);
+        double d = target.getX() - this.getX();
+        double e = target.getBodyY(0.3333333333333333) - persistentProjectileEntity.getY();
+        double f = target.getZ() - this.getZ();
+        double g = Math.sqrt(d * d + f * f);
+        persistentProjectileEntity.setVelocity(d, e + g * 0.2F, f, 1.6F, 0f);
+        this.playSound(SoundEvents.ENTITY_SKELETON_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
+        this.getWorld().spawnEntity(persistentProjectileEntity);
+    }
 
     @Override
     protected void initDataTracker(DataTracker.Builder builder) {

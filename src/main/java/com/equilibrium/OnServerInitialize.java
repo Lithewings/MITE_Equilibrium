@@ -15,9 +15,7 @@ import com.equilibrium.network.S2CStockChangeGrassColorPacket;
 import com.equilibrium.persistent_state.StateSaverAndLoader;
 import com.equilibrium.util.*;
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.IntegerArgumentType;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -25,13 +23,9 @@ import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.GameVersion;
 import net.minecraft.SaveVersion;
 import net.minecraft.SharedConstants;
-import net.minecraft.advancement.AdvancementEntry;
-import net.minecraft.advancement.AdvancementManager;
-import net.minecraft.advancement.PlacedAdvancement;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -39,7 +33,6 @@ import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.network.packet.s2c.play.AdvancementUpdateS2CPacket;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.CommandManager;
@@ -50,7 +43,6 @@ import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
 import org.slf4j.Logger;
@@ -78,7 +70,7 @@ import static com.equilibrium.block.enchanting_table.ModScreenTypes.registerScre
 
 import static com.equilibrium.entity.EnvironmentChecker.getSquaredDistance;
 import static com.equilibrium.entity.ModEntities.*;
-import static com.equilibrium.entity.mob.ModSpawnRestriction.registerModSpawnRestriction;
+import static com.equilibrium.entity.ModSpawnRestriction.registerModSpawnRestriction;
 import static com.equilibrium.event.CropIllnessEvent.applyIllnessForCrop;
 import static com.equilibrium.event.CropIllnessEvent.updateCropBlockPos;
 import static com.equilibrium.event.MoonPhaseEvent.*;
@@ -87,7 +79,6 @@ import static com.equilibrium.event.SleepChunkLoader.registerSleepEvents;
 
 import static com.equilibrium.event.sound.SoundEventRegistry.registrySoundEvents;
 import static com.equilibrium.item.Armors.registerArmors;
-import static com.equilibrium.item.Metal.copper;
 import static com.equilibrium.item.Metal.registerModItemRaw;
 import static com.equilibrium.item.extend_item.CoinItems.registerCoinItems;
 import static com.equilibrium.item.food.FoodOrFarmItems.registerFoodItems;
@@ -95,7 +86,6 @@ import static com.equilibrium.item.ItemComponentModifier.foodComponentModify;
 import static com.equilibrium.item.food.WaterBowl.vanillaBowlItemUse;
 
 
-import static com.equilibrium.item.reference.ItemMaxStackSize.itemMaxStackSizeInit;
 import static com.equilibrium.structure_generator.ModPlacementGenerator.*;
 import static com.equilibrium.status.registerStatusEffect.registerStatusEffects;
 import static com.equilibrium.structure_generator.StructureRegister.registerStructure;
@@ -108,7 +98,6 @@ import static com.equilibrium.util.AStarCanGoToAndReturn.findSimplePath;
 import static com.equilibrium.util.CraftingDifficultyHelper.initCraftingDifficulties;
 import static com.equilibrium.util.OnServerInitializeMethod.onUseCrystalItem;
 import static com.equilibrium.util.OnServerInitializeMethod.onUseHayBlockItem;
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
 
 
 public class OnServerInitialize implements ModInitializer {
@@ -264,7 +253,7 @@ public class OnServerInitialize implements ModInitializer {
 
             @Override
             public String getName() {
-                return "MITE:Equilibrium Beta v1.0.8_4";
+                return "MITE:Equilibrium Beta v1.0.8_5";
             }
 
             @Override
@@ -415,12 +404,13 @@ public class OnServerInitialize implements ModInitializer {
             ItemStack itemStack = player.getStackInHand(hand);
 
             if (itemStack.isOf(Items.HAY_BLOCK)) {
-                if (player.experienceLevel >= 75)
+                //50级可以完整分解干草块
+                if (player.experienceLevel >= 50)
                     return onUseHayBlockItem(itemStack, player, world, 0);
             }
 
             // 判断是否为青金石等晶体
-            if (player.experienceLevel <= 35) {
+            if (player.experienceLevel <= 50) {
                 if (itemStack.getItem() == Items.REDSTONE) {
                     return onUseCrystalItem(itemStack, player, world, 10);
                 }
@@ -435,6 +425,9 @@ public class OnServerInitialize implements ModInitializer {
                 }
                 if (itemStack.getItem() == Items.DIAMOND) {
                     return onUseCrystalItem(itemStack, player, world, 500);
+                }
+                if (itemStack.getItem() == Metal.ancient_metal) {
+                    return onUseCrystalItem(itemStack, player, world, 250);
                 }
             }
             if (itemStack.getItem() == Items.BOWL) {

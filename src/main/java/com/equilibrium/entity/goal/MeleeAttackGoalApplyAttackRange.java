@@ -14,16 +14,16 @@ public class MeleeAttackGoalApplyAttackRange extends Goal {
 	protected final PathAwareEntity mob;
 	private final double speed;
 	private final boolean pauseWhenMobIdle;
-	private Path path;
+	protected Path path;
 	private double targetX;
 	private double targetY;
 	private double targetZ;
 	private int updateCountdownTicks;
 	private int cooldown;
 	private final int attackIntervalTicks = 20;
-	private long lastUpdateTime;
+	protected long lastUpdateTime;
 	private static final long MAX_ATTACK_TIME = 20L;
-	private float attackRange;
+	protected float attackRange;
 
 	public MeleeAttackGoalApplyAttackRange(PathAwareEntity mob, double speed, boolean pauseWhenMobIdle,float attackRange) {
 		this.mob = mob;
@@ -31,6 +31,10 @@ public class MeleeAttackGoalApplyAttackRange extends Goal {
 		this.pauseWhenMobIdle = pauseWhenMobIdle;
 		this.setControls(EnumSet.of(Control.MOVE, Control.LOOK));
 		this.attackRange = attackRange;
+	}
+
+	public float getAttackRange() {
+		return attackRange;
 	}
 
 	@Override
@@ -145,7 +149,7 @@ public class MeleeAttackGoalApplyAttackRange extends Goal {
 	}
 
 	protected boolean canAttack(LivingEntity target) {
-		return this.isCooledDown() && this.mob.distanceTo(target) < attackRange && this.mob.getVisibilityCache().canSee(target);
+		return this.isCooledDown() && this.mob.distanceTo(target) < getAttackRange() && this.mob.getVisibilityCache().canSee(target);
 	}
 
 	protected int getCooldown() {

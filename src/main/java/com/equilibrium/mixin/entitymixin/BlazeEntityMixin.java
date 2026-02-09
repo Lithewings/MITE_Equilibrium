@@ -29,15 +29,16 @@ public class BlazeEntityMixin extends HostileEntity {
     }
 
     @Override
-    public int getXpToDrop(){
+    public int getXpToDrop() {
         return getXpForLevel(3);
     }
 
 
     @Override
     public boolean isInvulnerableTo(DamageSource damageSource) {
-        return damageSource.getSource() instanceof PlayerEntity
+        return damageSource.getAttacker() instanceof PlayerEntity
                 ? !forPlayerIsEnchantedItemCauseDamage(damageSource)
                 : super.isInvulnerableTo(damageSource);
     }
+
 }

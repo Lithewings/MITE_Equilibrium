@@ -29,7 +29,7 @@ public class WitherSkeletonEntityMixin extends HostileEntity {
 
     @Override
     public boolean isInvulnerableTo(DamageSource damageSource) {
-        return damageSource.getSource() instanceof PlayerEntity
+        return damageSource.getAttacker() instanceof PlayerEntity
                 ? !forPlayerIsEnchantedItemCauseDamage(damageSource)
                 : super.isInvulnerableTo(damageSource);
     }

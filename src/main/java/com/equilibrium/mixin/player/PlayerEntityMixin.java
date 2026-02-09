@@ -96,7 +96,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
         }else{
             this.getWorld().getGameRules().get(GameRules.KEEP_INVENTORY).set(true,this.getServer());
-            this.experienceLevel = this.experienceLevel>35 ? 35 :0;
+            this.experienceLevel = this.experienceLevel>35 ? this.experienceLevel-5 :0;
         }
     }
 

@@ -1,5 +1,7 @@
 package com.equilibrium.entity.mob;
 
+import com.equilibrium.entity.goal.MeleeAttackGoalApplyAttackRange;
+import com.equilibrium.tags.ModItemTags;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
@@ -9,6 +11,7 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.passive.TurtleEntity;
@@ -16,10 +19,7 @@ import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.RangedWeaponItem;
+import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
@@ -33,12 +33,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoField;
+import java.util.EnumSet;
 
 public abstract class ModAbstractSkeletonEntity extends HostileEntity implements RangedAttackMob {
     private static final int HARD_ATTACK_INTERVAL = 20;
     private static final int REGULAR_ATTACK_INTERVAL = 40;
     private final BowAttackGoal<ModAbstractSkeletonEntity> bowAttackGoal = new BowAttackGoal<>(this, 1.0, 20, 15.0F);
-    private final MeleeAttackGoal meleeAttackGoal = new MeleeAttackGoal(this, 1.2, false) {
+    private final MeleeAttackGoalApplyAttackRange meleeAttackGoal = new MeleeAttackGoalApplyAttackRange(this, 1.2, true,1.5f) {
         @Override
         public void stop() {
             super.stop();
@@ -50,6 +51,12 @@ public abstract class ModAbstractSkeletonEntity extends HostileEntity implements
             super.start();
             ModAbstractSkeletonEntity.this.setAttacking(true);
         }
+
+        @Override
+        public float getAttackRange() {
+            return this.mob.getMainHandStack().isIn(ModItemTags.SWORDS)?3f:1.5f;
+        }
+
     };
 
     protected ModAbstractSkeletonEntity(EntityType<? extends ModAbstractSkeletonEntity> entityType, World world) {
@@ -212,5 +219,152 @@ public abstract class ModAbstractSkeletonEntity extends HostileEntity implements
 
     public boolean isShaking() {
         return this.isFrozen();
+    }
+
+
+
+    class BowAttackGoal<T extends HostileEntity & RangedAttackMob> extends Goal {
+        private final T actor;
+        private final double speed;
+        private int attackInterval;
+        private final float squaredRange;
+        private int cooldown = -1;
+        private int targetSeeingTicker;
+        private boolean movingToLeft;
+        private boolean backward;
+        private int combatTicks = -1;
+
+        public BowAttackGoal(T actor, double speed, int attackInterval, float range) {
+            this.actor = actor;
+            this.speed = speed;
+            this.attackInterval = attackInterval;
+            this.squaredRange = range * range;
+            this.setControls(EnumSet.of(Goal.Control.MOVE, Goal.Control.LOOK));
+        }
+
+        public void setAttackInterval(int attackInterval) {
+            this.attackInterval = attackInterval;
+        }
+
+        @Override
+        public boolean canStart() {
+            return this.actor.getTarget() == null ? false : this.isHoldingBow();
+        }
+
+        protected boolean isHoldingBow() {
+            return this.actor.isHolding(Items.BOW);
+        }
+
+        @Override
+        public boolean shouldContinue() {
+            return (this.canStart() || !this.actor.getNavigation().isIdle()) && this.isHoldingBow();
+        }
+
+        @Override
+        public void start() {
+            super.start();
+            this.actor.setAttacking(true);
+        }
+
+        @Override
+        public void stop() {
+            super.stop();
+            this.actor.setAttacking(false);
+            this.targetSeeingTicker = 0;
+            this.cooldown = -1;
+            this.actor.clearActiveItem();
+        }
+
+        @Override
+        public boolean shouldRunEveryTick() {
+            return true;
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity livingEntity = this.actor.getTarget();
+            if (livingEntity != null) {
+                double d = this.actor.squaredDistanceTo(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ());
+                boolean canSeeTarget = this.actor.getVisibilityCache().canSee(livingEntity);
+                boolean wasSeeingTarget = this.targetSeeingTicker > 0;
+
+                if (canSeeTarget != wasSeeingTarget) {
+                    this.targetSeeingTicker = 0;
+                }
+
+                if (canSeeTarget) {
+                    this.targetSeeingTicker++;
+                } else {
+                    this.targetSeeingTicker--;
+                }
+
+                // 如果看不到目标，使用导航移动到目标位置
+                if (!canSeeTarget) {
+                    this.actor.getNavigation().startMovingTo(livingEntity, this.speed);
+                    this.combatTicks = -1;
+                } else {
+                    // 能看到目标，根据距离决定行为
+                    if (d < (double)(this.squaredRange * 0.25F)) {
+                        // 距离太近：一边向后撤退一边射箭
+                        this.actor.getNavigation().stop(); // 停止导航移动
+
+                        // 向后移动拉开距离
+                        this.actor.getMoveControl().strafeTo(-1F, 0);
+
+                        // 保持战斗状态，允许射箭
+                        if (this.targetSeeingTicker >= 10) { // 降低阈值，更快进入射击状态
+                            this.combatTicks = Math.max(this.combatTicks, 0);
+                        }
+
+                        // 始终看向目标
+                        this.actor.lookAtEntity(livingEntity, 30.0F, 30.0F);
+                    } else if (d <= (double)this.squaredRange && this.targetSeeingTicker >= 20) {
+                        // 在理想攻击范围内且看到目标一段时间：进入战斗状态
+                        this.actor.getNavigation().stop();
+                        this.combatTicks++;
+
+                        // 调整位置保持理想距离
+                        if (d > (double)(this.squaredRange * 0.75F)) {
+                            this.actor.getMoveControl().strafeTo(1.0F, 0);
+                        } else if (d < (double)(this.squaredRange * 0.5F)) {
+                            this.actor.getMoveControl().strafeTo(-1.0F, 0);
+                        } else {
+                            this.actor.getMoveControl().strafeTo(0, 0);
+                        }
+
+                        this.actor.lookAtEntity(livingEntity, 30.0F, 30.0F);
+                    } else {
+                        // 在攻击范围外或刚看到目标：直接走向目标
+                        this.actor.getNavigation().startMovingTo(livingEntity, this.speed);
+                        this.combatTicks = -1;
+                        this.actor.getLookControl().lookAt(livingEntity, 30.0F, 30.0F);
+                    }
+                }
+
+                // 重置战斗计时器
+                if (this.combatTicks >= 20) {
+                    this.combatTicks = 0;
+                }
+
+                // 射击逻辑
+                if (this.actor.isUsingItem()) {
+                    if (!canSeeTarget && this.targetSeeingTicker < -60) {
+                        this.actor.clearActiveItem();
+                    } else if (canSeeTarget) {
+                        int i = this.actor.getItemUseTime();
+                        if (i >= 20) {
+                            this.actor.clearActiveItem();
+                            this.actor.shootAt(livingEntity, BowItem.getPullProgress(i));
+                            this.cooldown = this.attackInterval;
+                        }
+                    }
+                } else if (--this.cooldown <= 0 && this.targetSeeingTicker >= -60) {
+                    // 允许在撤退时射箭：只要能看到目标就可以开始拉弓
+                    if (canSeeTarget) {
+                        this.actor.setCurrentHand(ProjectileUtil.getHandPossiblyHolding(this.actor, Items.BOW));
+                    }
+                }
+            }
+        }
     }
 }

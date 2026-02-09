@@ -35,7 +35,7 @@ public class MetalHammer extends ToolItem implements AdditionalAttribute{
 
     private static ToolComponent createToolComponent() {
         return new ToolComponent(
-                List.of(ToolComponent.Rule.ofAlwaysDropping(BlockTags.PICKAXE_MINEABLE, 0.5F)), 1.0F, 0
+                List.of(ToolComponent.Rule.ofAlwaysDropping(BlockTags.PICKAXE_MINEABLE, 0.33F)), 1.0F, 0
         );
     }
 

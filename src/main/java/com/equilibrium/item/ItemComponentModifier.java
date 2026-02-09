@@ -25,6 +25,7 @@ public class ItemComponentModifier {
             .saturationModifier(1.2F)
             .statusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 800, 1), 1.0F)
             .statusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 800, 0), 1.0F)
+            .statusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 800, 1), 1.0F)
             .alwaysEdible()
             .build();
 

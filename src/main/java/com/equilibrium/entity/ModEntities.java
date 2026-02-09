@@ -42,6 +42,10 @@ public class ModEntities {
             Identifier.of(MOD_ID,"longdead"),
             EntityType.Builder.create(LongDeadEntity::new,SpawnGroup.MONSTER).dimensions(0.75f, 1.95f).build());
 
+    public static final EntityType<BoneLordEntity> BONE_LORD = Registry.register(Registries.ENTITY_TYPE,
+            Identifier.of(MOD_ID,"bone_lord"),
+            EntityType.Builder.create(BoneLordEntity::new,SpawnGroup.MONSTER).dimensions(0.75f, 1.95f).build());
+
 
     public static final EntityType< PuddingSlimeEntity> PUDDING = Registry.register(Registries.ENTITY_TYPE,
             Identifier.of(MOD_ID,"pudding"),
@@ -97,6 +101,16 @@ public class ModEntities {
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25F)
                 .add(EntityAttributes.GENERIC_ARMOR, 2.0)
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 0.5));
+
+        FabricDefaultAttributeRegistry.register(BONE_LORD, HostileEntity.createHostileAttributes()
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25F)
+                .add(EntityAttributes.GENERIC_ARMOR, 2.0)
+                .add(EntityAttributes.GENERIC_FOLLOW_RANGE,32)
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 0.5));
+
+
+
+
 
         FabricDefaultAttributeRegistry.register(REVENANT, HostileEntity.createHostileAttributes()
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 35.0)
