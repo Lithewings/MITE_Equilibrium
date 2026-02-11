@@ -17,9 +17,11 @@ public class CreativeGroup {
                 .entries((context, entries) -> {
                     entries.add(ModBlocksRegistry2.FLINT_CRAFTING_TABLE);
                     entries.add(ModBlocksRegistry2.COPPER_CRAFTING_TABLE);
+                    entries.add(ModBlocksRegistry2.SILVER_CRAFTING_TABLE);
                     entries.add(ModBlocksRegistry2.IRON_CRAFTING_TABLE);
                     entries.add(ModBlocksRegistry2.DIAMOND_CRAFTING_TABLE);
                     entries.add(ModBlocksRegistry2.NETHERITE_CRAFTING_TABLE);
+
                     entries.add(ModBlocksRegistry2.CLAY_FURNACE);
                     entries.add(ModBlocksRegistry2.OBSIDIAN_FURNACE);
                     entries.add(ModBlocksRegistry2.NETHERRACK_FURNACE);

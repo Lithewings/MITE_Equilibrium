@@ -252,7 +252,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     public void jump(CallbackInfo ci)  {
 //        if(this.getWorld() instanceof ServerWorld serverWorld)
 //            testChunkLoading(serverWorld,new ChunkPos(0,0));
-    }
+        }
 
 
 

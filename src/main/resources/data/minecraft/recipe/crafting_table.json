@@ -2,29 +2,25 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "D": {
-      "item": "minecraft:diamond"
-    },
-    "L": {
+    "W": {
       "tag": "minecraft:logs"
     },
-    "S": {
+    "X": {
+      "item": "miteequilibrium:adamantium"
+    },
+    "Y": {
       "item": "minecraft:stick"
     },
-    "F": {
+    "Z": {
       "item": "minecraft:leather"
-    },
-    "A": {
-      "item": "miteequilibrium:ancient_metal"
     }
   },
   "pattern": [
-    "DF ",
-    "SL ",
-    "  A"
+    "XZ",
+    "YW"
   ],
   "result": {
     "count": 1,
-    "id": "miteequilibrium:diamond_crafting_table"
+    "id": "minecraft:crafting_table"
   }
 }

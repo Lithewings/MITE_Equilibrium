@@ -240,11 +240,13 @@
 
   "block.miteequilibrium.flint_crafting_table": "Flint Crafting Table",
   "block.miteequilibrium.copper_crafting_table": "Copper Crafting Table",
+  "block.miteequilibrium.silver_crafting_table": "Silver Crafting Table",
   "block.miteequilibrium.iron_crafting_table": "Iron Crafting Table",
   "block.miteequilibrium.diamond_crafting_table": "Diamond Crafting Table",
   "block.miteequilibrium.netherite_crafting_table": "Netherite Crafting Table",
   "container.flint_crafting": "Flint Crafting Table",
   "container.copper_crafting": "Copper Crafting Table",
+  "container.silver_crafting": "Silver Crafting Table",
   "container.iron_crafting": "Iron Crafting Table",
   "container.diamond_crafting": "Diamond Crafting Table",
   "container.netherite_crafting": "Netherite Crafting Table",

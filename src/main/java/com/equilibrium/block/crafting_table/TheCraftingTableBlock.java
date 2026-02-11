@@ -17,6 +17,7 @@ public class TheCraftingTableBlock extends CraftingTableBlock {
     public static  Text TITLE = Text.translatable("container.crafting");
     public static  Text TITLE1 = Text.translatable("container.flint_crafting");
     public static  Text TITLE2 = Text.translatable("container.copper_crafting");
+    public static  Text TITLE_SILVER = Text.translatable("container.silver_crafting");
     public static  Text TITLE3 = Text.translatable("container.iron_crafting");
     public static  Text TITLE4 = Text.translatable("container.diamond_crafting");
     public static  Text TITLE5 = Text.translatable("container.netherite_crafting");
@@ -36,6 +37,10 @@ public class TheCraftingTableBlock extends CraftingTableBlock {
             return new SimpleNamedScreenHandlerFactory((syncId, inventory, player) -> {
                 return new CraftingScreenHandler(syncId, inventory, ScreenHandlerContext.create(world, pos));
             }, TITLE2);
+        }else if(block == ModBlocksRegistry2.SILVER_CRAFTING_TABLE){
+            return new SimpleNamedScreenHandlerFactory((syncId, inventory, player) -> {
+                return new CraftingScreenHandler(syncId, inventory, ScreenHandlerContext.create(world, pos));
+            }, TITLE_SILVER);
         }else if(block == ModBlocksRegistry2.IRON_CRAFTING_TABLE){
             return new SimpleNamedScreenHandlerFactory((syncId, inventory, player) -> {
                 return new CraftingScreenHandler(syncId, inventory, ScreenHandlerContext.create(world, pos));

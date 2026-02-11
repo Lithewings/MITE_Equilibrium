@@ -1,4 +1,4 @@
-package com.equilibrium.util;
+package com.equilibrium.block;
 
 import com.equilibrium.block.ModBlocksRegistry;
 import com.equilibrium.item.Metal;
@@ -30,6 +30,9 @@ public class CraftingDifficultyHelper {
 		float p = 1.0f;
 		if(text.equals(Text.translatable("container.copper_crafting"))){
 			p -= 0.3f;//铜工作台减30%
+		}
+		if(text.equals(Text.translatable("container.silver_crafting"))){
+			p -= 0.3f;//银工作台减30%
 		}
 		if(text.equals(Text.translatable("container.iron_crafting"))){
 			p -= 0.5f;//铁工作台减50%

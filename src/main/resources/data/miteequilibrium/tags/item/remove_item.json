@@ -8,6 +8,13 @@
     "minecraft:stone_shovel",
     "minecraft:stone_hoe",
     "minecraft:stone_axe",
-    "minecraft:stone_pickaxe"
+    "minecraft:stone_pickaxe",
+
+    "minecraft:diamond_sword",
+    "minecraft:diamond_shovel",
+    "minecraft:diamond_hoe",
+    "minecraft:diamond_axe",
+    "minecraft:diamond_pickaxe"
+
   ]
 }

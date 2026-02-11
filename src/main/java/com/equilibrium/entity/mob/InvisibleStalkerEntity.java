@@ -55,10 +55,11 @@ public class InvisibleStalkerEntity extends ZombieEntity {
 
     //免疫非附魔武器伤害(除此之外,还有黑色史莱姆、凋零骷髅、烈焰人免疫非附魔武器伤害)
 
+
     @Override
     public boolean isInvulnerableTo(DamageSource damageSource) {
-        return forPlayerIsEnchantedItemCauseDamage(damageSource)==false ?
-                true
+        return damageSource.getAttacker() instanceof PlayerEntity
+                ? !forPlayerIsEnchantedItemCauseDamage(damageSource)
                 : super.isInvulnerableTo(damageSource);
     }
 

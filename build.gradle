@@ -3,7 +3,7 @@ plugins {
 	id 'maven-publish'
 }
 
-version = "1.0.8.520260124_Beta"
+version = "1.0.8.620260210_Beta"
 group = project.maven_group
 
 base {
@@ -22,7 +22,7 @@ loom {
 	runs {
 		client {
 			// 设置固定玩家名和UUID
-			programArgs("--username", "Lithewings")
+			programArgs("--username", "Riz_0")
 		}
 	}
 }

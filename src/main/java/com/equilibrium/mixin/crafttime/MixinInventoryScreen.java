@@ -1,14 +1,15 @@
 package com.equilibrium.mixin.crafttime;
 
 import com.equilibrium.block.ITimeCraftPlayer;
-import com.equilibrium.OnServerInitialize;
-import com.equilibrium.util.CraftingDifficultyHelper;
+import com.equilibrium.block.CraftingDifficultyHelper;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
@@ -24,6 +25,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import static com.equilibrium.network.C2STriggerContentChangePacket.sendTrigger;
+import static com.equilibrium.util.SharedConstant.INVALID_CRAFTING_TEXT;
+import static com.equilibrium.util.SharedConstant.YELLOW;
 
 @Mixin(InventoryScreen.class)
 public abstract class MixinInventoryScreen extends AbstractInventoryScreen<PlayerScreenHandler> {
@@ -99,6 +102,15 @@ public abstract class MixinInventoryScreen extends AbstractInventoryScreen<Playe
 			invSlot = slot.id;
 		}
 		if (invSlot == 0) {
+			ItemStack resultItemStack = this.handler.getSlot(0).getStack();
+			if (resultItemStack.get(DataComponentTypes.LORE) != null) {
+				for (Text text : resultItemStack.get(DataComponentTypes.LORE).lines()) {
+					if (text.contains(INVALID_CRAFTING_TEXT)) {
+						info.cancel();
+						return;
+					}
+				}
+			}
 			//没有进行合成且输入输出不会空时,才考虑合成
 			if (!player.craftTime$isCrafting()  && !this.handler.getCraftingInput().isEmpty() && !this.handler.getSlot(0).getStack().isEmpty() ) {
 				player.craftTime$startCraftWithNewPeriod(CraftingDifficultyHelper.getCraftingDifficultyFromMatrix(this.handler, false,this));

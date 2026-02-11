@@ -95,7 +95,7 @@ import static com.equilibrium.tags.ModItemTags.registerModItemTags;
 
 
 import static com.equilibrium.util.AStarCanGoToAndReturn.findSimplePath;
-import static com.equilibrium.util.CraftingDifficultyHelper.initCraftingDifficulties;
+import static com.equilibrium.block.CraftingDifficultyHelper.initCraftingDifficulties;
 import static com.equilibrium.util.OnServerInitializeMethod.onUseCrystalItem;
 import static com.equilibrium.util.OnServerInitializeMethod.onUseHayBlockItem;
 
@@ -253,7 +253,7 @@ public class OnServerInitialize implements ModInitializer {
 
             @Override
             public String getName() {
-                return "MITE:Equilibrium Beta v1.0.8_5";
+                return "MITE:Equilibrium Beta v1.0.8_6";
             }
 
             @Override

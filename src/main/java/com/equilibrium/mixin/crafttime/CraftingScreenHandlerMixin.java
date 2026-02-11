@@ -19,12 +19,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.CraftingResultInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.RecipeInputInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.nbt.NbtString;
 import net.minecraft.network.packet.s2c.play.ScreenHandlerSlotUpdateS2CPacket;
 import net.minecraft.recipe.CraftingRecipe;
 import net.minecraft.recipe.RecipeEntry;
@@ -32,14 +29,9 @@ import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.input.CraftingRecipeInput;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.screen.*;
-import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Style;
 import net.minecraft.text.Text;
-import net.minecraft.text.TextColor;
-import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
-import org.apache.logging.log4j.core.tools.picocli.CommandLine;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
@@ -48,10 +40,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.*;
-import java.util.function.Consumer;
 
-import static com.equilibrium.util.SharedConstant.RED_BOLD;
-import static com.equilibrium.util.SharedConstant.YELLOW_BOLD;
+import static com.equilibrium.util.SharedConstant.*;
 
 
 @Mixin(CraftingScreenHandler.class)
@@ -75,6 +65,7 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 	private static final Map<Block, Integer> TABLE_LEVELS = Map.of(
 			ModBlocksRegistry2.FLINT_CRAFTING_TABLE, 1,
 			ModBlocksRegistry2.COPPER_CRAFTING_TABLE, 2,
+			ModBlocksRegistry2.SILVER_CRAFTING_TABLE, 2,
 			ModBlocksRegistry2.IRON_CRAFTING_TABLE, 3,
 			ModBlocksRegistry2.DIAMOND_CRAFTING_TABLE, 4,
 			ModBlocksRegistry2.NETHERITE_CRAFTING_TABLE, 5
@@ -143,28 +134,27 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 				}
 				int maxCraftLevel =  Collections.max(list);
 
-				boolean condition1=this.input.getStack(0).isIn(ModItemTags.CRAFT_TABLE)&&this.input.getStack(1).isOf(Items.LEATHER)&&this.input.getStack(3).isOf(Items.STICK)&&this.input.getStack(4).isIn(ItemTags.LOGS);
-				boolean condition2=this.input.getStack(1).isIn(ModItemTags.CRAFT_TABLE)&&this.input.getStack(2).isOf(Items.LEATHER)&&this.input.getStack(4).isOf(Items.STICK)&&this.input.getStack(5).isIn(ItemTags.LOGS);
-				boolean condition3=this.input.getStack(3).isIn(ModItemTags.CRAFT_TABLE)&&this.input.getStack(4).isOf(Items.LEATHER)&&this.input.getStack(6).isOf(Items.STICK)&&this.input.getStack(7).isIn(ItemTags.LOGS);
-				boolean condition4=this.input.getStack(4).isIn(ModItemTags.CRAFT_TABLE)&&this.input.getStack(5).isOf(Items.LEATHER)&&this.input.getStack(7).isOf(Items.STICK)&&this.input.getStack(8).isIn(ItemTags.LOGS);
 
-				//是否在合成工作台
-
-				if(condition1||condition2||condition3||condition4)
-					maxCraftLevel--;
-				//等级是否合法?
-				boolean isLevelValid=maxCraftLevel<=craftTableLevel;
 
 				//无条件输出物品
 				updateResult(this, world, this.player, this.input, this.result, (RecipeEntry) null);
 
 
 
-				if(!isLevelValid){
-					List<Text> list1 = List.of(Text.literal("TAG:INVALID ITEM").setStyle(RED_BOLD),
-							Text.literal("此物品无法在该合成台下合成").setStyle(YELLOW_BOLD));
-					LoreComponent loreComponent = new LoreComponent(list1,list1);
+				//是否在合成工作台
+				if(this.result.getStack(0).isIn(ModItemTags.CRAFT_TABLE))
+					maxCraftLevel--;
+				//等级是否合法?
+				boolean isLevelValid=maxCraftLevel<=craftTableLevel;
 
+
+
+
+
+				if(!isLevelValid){
+					List<Text> list1 = List.of(INVALID_CRAFTING_TEXT);
+
+					LoreComponent loreComponent = new LoreComponent(list1);
 					ItemStack itemStack = this.result.getStack(0);
 					itemStack.set(DataComponentTypes.LORE,loreComponent);
 				}
@@ -272,11 +262,11 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 
 
 
-			//先删除要移除的物品
-			if(itemStack.isIn(ModItemTags.REMOVEITEM))
+			//先删除要移除的物品,直接返回
+			if(itemStack.isIn(ModItemTags.REMOVEITEM)) {
 				itemStack = ItemStack.EMPTY;
 
-
+			}
 
 			if(itemStack.isOf(Items.POTION)){
 				itemStack = createPotion(itemStack.getComponents().get(DataComponentTypes.POTION_CONTENTS).getColor());

@@ -1,7 +1,10 @@
-package com.equilibrium.mixin.tables;
+package com.equilibrium.mixin.crafttime;
 
 import com.equilibrium.item.Tools;
 import com.equilibrium.tags.ModItemTags;
+import net.minecraft.block.Blocks;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.LoreComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.CraftingResultInventory;
 import net.minecraft.inventory.Inventory;
@@ -14,6 +17,7 @@ import net.minecraft.screen.AbstractRecipeScreenHandler;
 import net.minecraft.screen.CraftingScreenHandler;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -22,6 +26,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static com.equilibrium.util.SharedConstant.INVALID_CRAFTING_TEXT;
+import static com.equilibrium.util.SharedConstant.YELLOW;
 
 @Mixin(PlayerScreenHandler.class)
 public abstract class PlayerScreenHandlerMixin extends AbstractRecipeScreenHandler<CraftingRecipeInput, CraftingRecipe> {
@@ -51,7 +58,7 @@ public abstract class PlayerScreenHandlerMixin extends AbstractRecipeScreenHandl
     @Inject(method = "onContentChanged",at = @At(value = "HEAD"),cancellable = true)
     public void onContentChanged(Inventory inventory, CallbackInfo ci) {
         ci.cancel();
-        this.craftingResult.clear();
+
         if(this.onServer) {
             //确定4个输入物品的合成等级
             List<Integer> list = new ArrayList<>();
@@ -76,18 +83,22 @@ public abstract class PlayerScreenHandlerMixin extends AbstractRecipeScreenHandl
             int maxCraftLevel = Collections.max(list);
 
             //是否在合成工作台?
-            ItemStack itemStack0 = this.craftingInput.getStack(0);ItemStack itemStack1 = this.craftingInput.getStack(1);
-            ItemStack itemStack2 = this.craftingInput.getStack(2);ItemStack itemStack3 = this.craftingInput.getStack(3);
+            if(this.craftingResult.getStack(0).isIn(ModItemTags.CRAFT_TABLE))
+                maxCraftLevel--;
 
 
-            boolean condition1 = itemStack0.isOf(Tools.FLINT_KNIFE)&&itemStack2.isIn(ItemTags.LOGS);
-            boolean condition2 = itemStack1.isOf(Tools.FLINT_KNIFE)&&itemStack3.isIn(ItemTags.LOGS);
-            boolean isCraftTable =condition1||condition2;
+            //无条件输出物品
+            CraftingScreenHandler.updateResult(this, this.owner.getWorld(), this.owner, this.craftingInput, this.craftingResult, null);
+           //然后再施加限制
+            if (maxCraftLevel > 0 ) {
+                List<Text> list1 = List.of(INVALID_CRAFTING_TEXT);
+                LoreComponent loreComponent = new LoreComponent(list1);
+                ItemStack itemStack = this.craftingResult.getStack(0);
+                itemStack.set(DataComponentTypes.LORE,loreComponent);
 
-            if (maxCraftLevel > 0 && !isCraftTable) {
-            //什么都不做,不更新
-            } else
-                CraftingScreenHandler.updateResult(this, this.owner.getWorld(), this.owner, this.craftingInput, this.craftingResult, null);
+            }
+            //定义玩家是否可以取出的逻辑,见MixinInventoryScreen.onMouseClick
+
         }
     }
 

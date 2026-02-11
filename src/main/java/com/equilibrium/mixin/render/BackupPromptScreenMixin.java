@@ -33,25 +33,25 @@ public class BackupPromptScreenMixin extends Screen {
     private CheckboxWidget eraseCacheCheckbox;
 
 
-    @ModifyArg(method = "init",at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/world/BackupPromptScreen;addDrawableChild(Lnet/minecraft/client/gui/Element;)Lnet/minecraft/client/gui/Element;",ordinal = 0))
-    protected Element init1(Element par1) {
-        ButtonWidget buttonWidget = (ButtonWidget) par1;
-        buttonWidget.visible=false;
-        return buttonWidget;
-    }
-    @ModifyArg(method = "init",at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/world/BackupPromptScreen;addDrawableChild(Lnet/minecraft/client/gui/Element;)Lnet/minecraft/client/gui/Element;",ordinal = 1))
-    protected Element init2(Element par1) {
-        ButtonWidget buttonWidget = (ButtonWidget) par1;
-        buttonWidget.visible=false;
-        return buttonWidget;
-    }
-
-    @ModifyArg(method = "init",at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/world/BackupPromptScreen;addDrawableChild(Lnet/minecraft/client/gui/Element;)Lnet/minecraft/client/gui/Element;",ordinal = 2))
-    protected Element init3(Element par1) {
-        ButtonWidget buttonWidget = (ButtonWidget) par1;
-        ((ButtonWidget) par1).setMessage(Text.translatable("select.world.wrong.version"));
-        return buttonWidget;
-    }
+//    @ModifyArg(method = "init",at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/world/BackupPromptScreen;addDrawableChild(Lnet/minecraft/client/gui/Element;)Lnet/minecraft/client/gui/Element;",ordinal = 0))
+//    protected Element init1(Element par1) {
+//        ButtonWidget buttonWidget = (ButtonWidget) par1;
+//        buttonWidget.visible=false;
+//        return buttonWidget;
+//    }
+//    @ModifyArg(method = "init",at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/world/BackupPromptScreen;addDrawableChild(Lnet/minecraft/client/gui/Element;)Lnet/minecraft/client/gui/Element;",ordinal = 1))
+//    protected Element init2(Element par1) {
+//        ButtonWidget buttonWidget = (ButtonWidget) par1;
+//        buttonWidget.visible=false;
+//        return buttonWidget;
+//    }
+//
+//    @ModifyArg(method = "init",at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/world/BackupPromptScreen;addDrawableChild(Lnet/minecraft/client/gui/Element;)Lnet/minecraft/client/gui/Element;",ordinal = 2))
+//    protected Element init3(Element par1) {
+//        ButtonWidget buttonWidget = (ButtonWidget) par1;
+//        ((ButtonWidget) par1).setMessage(Text.translatable("select.world.wrong.version"));
+//        return buttonWidget;
+//    }
 
 
 

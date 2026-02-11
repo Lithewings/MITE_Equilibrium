@@ -3,7 +3,7 @@ package com.equilibrium.mixin.crafttime;
 import com.equilibrium.block.ITimeCraftPlayer;
 import com.equilibrium.network.C2SClickTimesPacket;
 import com.equilibrium.network.C2STriggerContentChangePacket;
-import com.equilibrium.util.CraftingDifficultyHelper;
+import com.equilibrium.block.CraftingDifficultyHelper;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.CraftingScreen;
@@ -11,13 +11,11 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.CraftingScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
@@ -27,10 +25,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.ArrayList;
-
 import static com.equilibrium.network.C2STriggerContentChangePacket.sendTrigger;
-import static com.equilibrium.util.SharedConstant.RED_BOLD;
+import static com.equilibrium.util.SharedConstant.*;
 
 @Mixin(CraftingScreen.class)
 public abstract class MixinCraftingScreen extends HandledScreen<CraftingScreenHandler> {
@@ -101,7 +97,7 @@ public abstract class MixinCraftingScreen extends HandledScreen<CraftingScreenHa
         //输入输出不为空时,才考虑试图合成
         if (!this.handler.input.isEmpty() && !this.handler.getSlot(0).getStack().isEmpty()) {
             //获得合成难度
-            player.craftTime$setCraftPeriod(CraftingDifficultyHelper.getCraftingDifficultyFromMatrix(this.handler, false, this));
+            player.craftTime$setCraftPeriod(CraftingDifficultyHelper.getCraftingDifficultyFromMatrix(this.handler, true, this));
             //进行一次craftTick,若合成结束返回true
             if (this.player.craftTime$craftTickIsFinished()) {
                 //模拟无限制时秒出合成物品的一次操作
@@ -159,7 +155,7 @@ public abstract class MixinCraftingScreen extends HandledScreen<CraftingScreenHa
             ItemStack resultItemStack = this.handler.getSlot(0).getStack();
             if (resultItemStack.get(DataComponentTypes.LORE) != null) {
                 for (Text text : resultItemStack.get(DataComponentTypes.LORE).lines()) {
-                    if (text.contains(Text.literal("TAG:INVALID ITEM").setStyle(RED_BOLD))) {
+                    if (text.contains(INVALID_CRAFTING_TEXT)) {
                         ci.cancel();
                         return;
                     }

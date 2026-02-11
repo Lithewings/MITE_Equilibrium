@@ -34,6 +34,7 @@ public class BlazeEntityMixin extends HostileEntity {
     }
 
 
+
     @Override
     public boolean isInvulnerableTo(DamageSource damageSource) {
         return damageSource.getAttacker() instanceof PlayerEntity
