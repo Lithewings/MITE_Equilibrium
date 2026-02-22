@@ -25,6 +25,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import static com.equilibrium.GlobalModConfig.isAutoCraftingEnabled;
 import static com.equilibrium.network.C2STriggerContentChangePacket.sendTrigger;
 import static com.equilibrium.util.SharedConstant.*;
 
@@ -94,6 +95,18 @@ public abstract class MixinCraftingScreen extends HandledScreen<CraftingScreenHa
             this.player = (ITimeCraftPlayer) this.client.player;
         }
 
+        ItemStack resultItemStack = this.handler.getSlot(0).getStack();
+        if (resultItemStack.get(DataComponentTypes.LORE) != null) {
+            for (Text text : resultItemStack.get(DataComponentTypes.LORE).lines()) {
+                if (text.contains(INVALID_CRAFTING_TEXT)) {
+                    player.craftTime$stopCraft();
+                    return;
+                }
+            }
+        }
+
+
+
         //输入输出不为空时,才考虑试图合成
         if (!this.handler.input.isEmpty() && !this.handler.getSlot(0).getStack().isEmpty()) {
             //获得合成难度
@@ -103,6 +116,9 @@ public abstract class MixinCraftingScreen extends HandledScreen<CraftingScreenHa
                 //模拟无限制时秒出合成物品的一次操作
                 super.onMouseClick(this.handler.getSlot(0), 0, 0, SlotActionType.THROW);
                 //在ScreenHandlerMixin中自动将鼠标stack下的物品放入玩家物品栏中
+                if(!isAutoCraftingEnabled()){
+                    player.craftTime$stopCraft();
+                }
             }
             //刷新一次合成结果栏
             if (this.handler.getSlot(0).getStack().isEmpty()) {

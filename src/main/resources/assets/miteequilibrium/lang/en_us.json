@@ -27,6 +27,7 @@
   "entity.miteequilibrium.invisible_stalker": "Invisible Stalker",
   "entity.miteequilibrium.pudding": "Pudding",
   "entity.miteequilibrium.revenant": "Revenant",
+  "entity.miteequilibrium.wooden_spider": "Wood Spider",
 
   "mod.selectWorld.seedInfo": "Let the random number decide this",
   "mod.options.difficulty.easy.info": "Hostile mobs spawn but deal less damage. Hunger bar depletes and drains all health.",
@@ -264,5 +265,12 @@
   "crafttime.join_info": "Crafttable and Dnchantment tablecan be synthesized on low-level workbench.",
   "crafttime.group": "Craft Time",
   "effect.miteequilibrium.phytonutrient": "Malnutrition",
-  "item.effect.miteequilibrium.sub_night_vision": "Nightvision Potion(cold brew)"
+  "item.effect.miteequilibrium.sub_night_vision": "Nightvision Potion(cold brew)",
+
+
+  "sleep.failure.reason_1": "You can only sleep in the Overworld",
+  "sleep.failure.reason_2": "The blood moon prevents you from resting.",
+  "sleep.failure.reason_3": "It is not safe here. Try sealing the area completely with solid blocks.",
+  "sleep.failure.reason_4": "You are not sleepy.",
+  "sleep.failure.reason_5":  "The full moon gives you insomnia."
 }

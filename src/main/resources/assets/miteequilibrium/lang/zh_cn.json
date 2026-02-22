@@ -1,33 +1,17 @@
-
 {
-
-
-
-
   "next_respawn": "距离下次可用的重生还有: ",
-  "mod.first_day.helloWorld": "在你的附近寻找箱子,取出其中的物品",
   "mod_death_text": "不必冒险，你有无限次重来的机会，这个世界永远等待着你",
-
-  "mod.selectWorld.seedInfo":"让随机数来决定这一切吧",
-  "mod.options.difficulty.easy.info": "敌对生物会生成但造成较少伤害。饥饿条耗尽时会消耗生命值。",
-  "mod.options.difficulty.normal.info": "敌对生物会生成并造成标准伤害。饥饿条耗尽时会消耗生命值。",
-  "mod.options.difficulty.hard.info": "敌对生物会生成并造成更多伤害。饥饿条耗尽时会消耗生命值。",
-
-  "mod.selectWorld.mapFeatures.info": "这是完成主要流程的必需选项",
-  "mod.selectWorld.bonusItems": "用于生成触发初始成就的物品",
-
+  "mod.first_day.helloWorld": "在你的附近寻找箱子,取出其中的物品",
   "item.miteequilibrium.beef_soup": "牛肉汤",
   "item.miteequilibrium.vegetable_soup": "蔬菜汤",
+  "item.miteequilibrium.onion": "洋葱",
+  "item.miteequilibrium.manure": "肥料",
   "item.miteequilibrium.bowl_water": "水碗",
   "item.miteequilibrium.bowl_milk": "牛奶碗",
+  "block.miteequilibrium.emerald_enchanting_table": "绿宝石附魔台",
   "item.miteequilibrium.cheese": "奶酪",
-  "item.miteequilibrium.mashed_potato": "土豆泥",
-
   "item.miteequilibrium.salad": "沙拉",
-  "item.miteequilibrium.onion": "洋葱",
-
-  "item.miteequilibrium.manure": "肥料",
-
+  "item.miteequilibrium.mashed_potato": "土豆泥",
   "entity.miteequilibrium.longdead": "古尸",
   "entity.miteequilibrium.wight": "白色食尸鬼",
   "entity.miteequilibrium.ghoul": "食尸鬼",
@@ -35,98 +19,58 @@
   "entity.miteequilibrium.invisible_stalker": "隐形潜伏者",
   "entity.miteequilibrium.pudding": "黑色史莱姆",
   "entity.miteequilibrium.revenant": "亡魂",
-
-
-
-  "block.miteequilibrium.emerald_enchanting_table": "绿宝石附魔台",
-
-
-
+  "entity.miteequilibrium.wooden_spider": "木蜘蛛",
+  "mod.selectWorld.seedInfo": "让随机数来决定这一切吧",
+  "mod.options.difficulty.easy.info": "敌对生物会生成但造成较少伤害。饥饿条耗尽时会消耗生命值。",
+  "mod.options.difficulty.hard.info": "敌对生物会生成并造成更多伤害。饥饿条耗尽时会消耗生命值。",
+  "mod.options.difficulty.normal.info": "敌对生物会生成并造成标准伤害。饥饿条耗尽时会消耗生命值。",
+  "mod.selectWorld.mapFeatures.info": "这是完成主要流程的必需选项",
+  "mod.selectWorld.bonusItems": "用于生成触发初始成就的物品",
   "select.world.wrong.version": "你无法打开不可兼容版本的存档",
-
-
   "adventure.get_flint.description": "挖掘沙砾，获得燧石碎片，或是一整块燧石",
-  "adventure.brew_potion":  "酿造出一瓶药水。\n现在所有药水的持续时间效果翻倍",
-
-  "adventure.enter_the_end":"来到末地，击败末影龙，希望你没有忘记携带艾德曼镐",
-
-  "adventure.find_fortress":"找到下界要塞，并获得4个金苹果作为奖励。",
-
+  "adventure.brew_potion": "酿造出一瓶药水。\n现在所有药水的持续时间效果翻倍",
+  "adventure.enter_the_end": "来到末地，击败末影龙，希望你没有忘记携带艾德曼镐",
+  "adventure.find_fortress": "找到下界要塞，并获得4个金苹果作为奖励。",
   "adventure.follow_ender_eye": "进入要塞，在迷宫般的走廊中找到末地传送门房间。请注意，传送门房间只会生成在距离世界出生点至少12千米以外的要塞中。",
-
   "adventure.get_adamantium_pickaxe": "在下界合金工作台上打造艾德曼镐。它是唯一能摧毁末影水晶的工具。",
-
   "adventure.get_copper": "获得你的第一颗铜粒，并收集总计27颗以铸造一把铜镐。奖励：20点经验值。",
-
   "adventure.get_diamond": "搜刮各处的战利品箱子，收集钻石，为制作附魔台做好准备。",
-
   "adventure.get_emerald": "搜刮各处的战利品箱子，亦或是采下绿宝石矿，收集绿宝石,为制作附魔台做好准备。",
-  "adventure.get_enchantment_table": "用它制作附魔武器，现在你可以对烈焰人造成有效伤害了。",
-
   "adventure.get_emerald_enchantment_table": "用它制作最基础的附魔武器，也可以用它来附魔出附魔金苹果。",
-
+  "adventure.get_enchantment_table": "用它制作附魔武器，现在你可以对烈焰人造成有效伤害了。",
   "adventure.get_flint_craft_table": "继续收集燧石，打造一把燧石小刀来制作燧石工作台",
-
   "adventure.get_full_copper_armor": "装备全套铜护甲。当护甲值达到10点或以上时，将获得永久的抗性提升 I 效果，并奖励100点经验值。",
-
   "adventure.get_full_iron_armor": "装备全套铁护甲,奖励200点经验值。",
-
   "adventure.get_mithril_armor": "装备全套秘银护甲,你已经几乎无懈可击。奖励500点经验值。",
-
   "adventure.get_hatchet": "获得第一颗燧石，打造一把燧石手斧来砍伐树木",
-
   "adventure.get_iron_pickaxe": "打造一把铁镐，用它采集黑曜石，并获得100点经验值。",
-
-  "adventure.get_mithril": "在岩浆驱动的黑曜石熔炉中冶炼秘银矿石，获取秘银锭，并奖励200点经验值。",
-
   "adventure.get_metal_pickaxe": "打造你的第一把铜镐。这是解锁村庄生成机制的必要条件，并奖励100点经验值。",
-
+  "adventure.get_mithril": "在岩浆驱动的黑曜石熔炉中冶炼秘银矿石，获取秘银锭，并奖励200点经验值。",
   "adventure.get_netherite_ingot": "获取下界合金锭以合成下界合金工作台。你可以在地狱底层挖掘远古残骸，或探索猪灵堡垒的藏宝室来收集所需材料。",
-
   "adventure.get_silver": "获得你的第一颗银粒，并收集9颗来制作一个银工作台，同时获得20点经验值。",
-
   "adventure.go_to_nether": "进入下界。你需要先抵达地下世界的最底层搭建传送门，这将是一段漫长的旅程，并奖励500点经验值与3块铁块。",
   "adventure.go_to_underworld": "在主世界底层构建传送门，进入地下世界维度，并奖励200点经验值与3块铁块。",
-
   "adventure.kill_dragon": "击败末影龙，抵达旅途终点。",
-
-  "adventure.use_ender_eye": "抵达距离出生点至少12千米的位置，成功投掷出一颗末影之眼，然后捡起来",
-
-
   "adventure.root": "一份纪念品——来自你出生点旁的箱子。",
-
-
-
-
-
-
-  "container.repair.require":"等级要求",
-
-
+  "adventure.use_ender_eye": "抵达距离出生点至少12千米的位置，成功投掷出一颗末影之眼，然后捡起来",
+  "item.miteequilibrium.adamantium_hoe.tooltip1": "获得20%的速度加成",
+  "item.miteequilibrium.adamantium_hoe.tooltip2": "泰然自若地快步行走",
+  "enchantment.miteequilibrium.reaching": "触及",
+  "enchantment.miteequilibrium.extend": "延展",
+  "container.repair.require": "等级要求",
   "You will transport to nether": "该传送门会将你传送至下界",
   "You will transport to overworld": "该传送门会将你传送至主世界",
   "You will transport to underworld": "该传送门会将你传送至地下世界",
-
-
-
   "item.miteequilibrium.copper_hammer": "铜锤",
   "item.miteequilibrium.silver_hammer": "银锤",
-
   "item.miteequilibrium.silver.tooltip1": "对亡灵生物造成2倍伤害",
   "item.miteequilibrium.silver.tooltip2": "对亡灵生物给予最后一击后，获得5秒的再生II",
   "item.miteequilibrium.hammer.tooltip": "重锤:对骷髅类生物造成1.5倍伤害",
   "item.miteequilibrium.dagger_tooltip": "屠宰:对消极生物造成1.5倍伤害",
-
-
-
-
   "item.miteequilibrium.gold_hammer": "金锤",
   "item.miteequilibrium.mithril_hammer": "秘银锤",
   "item.miteequilibrium.adamantium_hammer": "艾德曼锤",
   "item.miteequilibrium.iron_hammer": "铁锤",
-
-
-
   "block.miteequilibrium.adamantium_block": "艾德曼块",
   "block.miteequilibrium.ancient_metal_block": "远古金属块",
   "block.miteequilibrium.copper_block": "铜块",
@@ -136,20 +80,7 @@
   "item.miteequilibrium.adamantium": "艾德曼锭",
   "item.miteequilibrium.adamantium_axe": "艾德曼斧",
   "item.miteequilibrium.adamantium_dagger": "艾德曼短剑",
-
-
-
-
   "item.miteequilibrium.adamantium_hoe": "艾德曼锄",
-
-  "item.miteequilibrium.adamantium_hoe.tooltip1": "获得20%的速度加成",
-  "item.miteequilibrium.adamantium_hoe.tooltip2": "泰然自若地快步行走",
-
-
-
-
-
-
   "item.miteequilibrium.adamantium_nugget": "艾德曼粒",
   "item.miteequilibrium.adamantium_pickaxe": "艾德曼镐",
   "item.miteequilibrium.adamantium_raw": "艾德曼矿",
@@ -159,32 +90,16 @@
   "item.miteequilibrium.ancient_metal_nugget": "远古金属粒",
   "item.miteequilibrium.copper": "精铜锭",
   "item.miteequilibrium.copper_axe": "铜斧",
-
   "item.miteequilibrium.copper_boots": "铜靴",
   "item.miteequilibrium.copper_chest_plate": "铜胸甲",
   "item.miteequilibrium.copper_helmet": "铜头盔",
   "item.miteequilibrium.copper_leggings": "铜护腿",
-
-  "item.miteequilibrium.mithril_boots": "秘银靴",
-  "item.miteequilibrium.mithril_chest_plate": "秘银胸甲",
-  "item.miteequilibrium.mithril_helmet": "秘银头盔",
-  "item.miteequilibrium.mithril_leggings": "秘银护腿",
-
-
-
-
-
   "item.miteequilibrium.copper_dagger": "铜短剑",
   "item.miteequilibrium.copper_hoe": "铜锄",
   "item.miteequilibrium.copper_nugget": "铜粒",
   "item.miteequilibrium.copper_pickaxe": "铜镐",
   "item.miteequilibrium.copper_shovel": "铜锹",
   "item.miteequilibrium.copper_sword": "铜剑",
-
-
-
-
-
   "item.miteequilibrium.flint": "燧石碎片",
   "item.miteequilibrium.flint_axe": "燧石斧",
   "item.miteequilibrium.flint_hatchet": "燧石手斧",
@@ -212,10 +127,13 @@
   "item.miteequilibrium.mithril_raw": "秘银矿",
   "item.miteequilibrium.mithril_shovel": "秘银锹",
   "item.miteequilibrium.mithril_sword": "秘银剑",
+  "item.miteequilibrium.mithril_boots": "秘银靴",
+  "item.miteequilibrium.mithril_chest_plate": "秘银胸甲",
+  "item.miteequilibrium.mithril_helmet": "秘银头盔",
+  "item.miteequilibrium.mithril_leggings": "秘银护腿",
   "item.miteequilibrium.silver": "银锭",
   "item.miteequilibrium.silver_nugget": "银粒",
   "item.miteequilibrium.silver_raw": "银矿",
-
   "item.miteequilibrium.silver_axe": "银斧",
   "item.miteequilibrium.silver_dagger": "银短剑",
   "item.miteequilibrium.silver_hoe": "银锄",
@@ -226,20 +144,11 @@
   "item.miteequilibrium.ancient_metal_chainmail_chest_plate": "远古金属锁链胸甲",
   "item.miteequilibrium.ancient_metal_chainmail_leggings": "远古金属锁链护腿",
   "item.miteequilibrium.ancient_metal_chainmail_boots": "远古金属锁链靴子",
-
-
-
   "item.miteequilibrium.copper_coin": "铜币",
   "item.miteequilibrium.iron_coin": "铁币",
-
-
-
-
-
   "item.miteequilibrium.pumpkin_soup": "南瓜汤",
-
-
-
+  "enchantment.miteequilibrium.speed": "速度",
+  "item.miteequilibrium.test": "Test",
   "block.miteequilibrium.example_block": "TestBlock",
   "itemgroup.testgroup": "MITEequilibrium",
   "teleport.overworld": "你将被传送至主世界",
@@ -269,13 +178,10 @@
   "crafttime.join_info": "工作台及附魔台只能在更低级的工作台上合成",
   "crafttime.group": "合成耗时",
   "effect.miteequilibrium.phytonutrient": "营养不良",
-
-
-  "enchantment.miteequilibrium.speed": "速度",
-  "enchantment.miteequilibrium.extend": "延展",
-  "enchantment.miteequilibrium.reaching": "触及",
-
-
   "item.effect.miteequilibrium.sub_night_vision": "冷萃的夜视药水",
-  "item.miteequilibrium.test": "Test"
+  "sleep.failure.reason_1": "你无法在主世界之外的维度睡觉",
+  "sleep.failure.reason_2": "血月让你无法休息.",
+  "sleep.failure.reason_3": "这里并不安全,你无法入睡,尝试彻底封闭周围空间.",
+  "sleep.failure.reason_4": "你并没有困意",
+  "sleep.failure.reason_5": "满月让你感到失眠"
 }

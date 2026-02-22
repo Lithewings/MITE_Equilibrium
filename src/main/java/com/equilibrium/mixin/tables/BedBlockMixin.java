@@ -5,7 +5,10 @@ import net.minecraft.block.BedBlock;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalFacingBlock;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.hit.BlockHitResult;
@@ -17,6 +20,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.List;
 import java.util.Objects;
 
 import static com.equilibrium.util.AStarPathfinder.findPath;
@@ -74,57 +78,63 @@ public abstract class BedBlockMixin extends HorizontalFacingBlock implements Blo
 //        cir.setReturnValue(ActionResult.SUCCESS);
 //    }
 
+    @Unique
+    private static void spawnParticle(World world, double x, double y, double z) {
+        if (world instanceof ServerWorld serverWorld) {
+            //委托服务端完成粒子渲染
+            serverWorld.spawnParticles(ParticleTypes.END_ROD, x + 0.5, y + 0.5, z + 0.5, 1, 0, 0, 0, 0);
+        }
+    }
+
+
+
+
+
+
+
     @Inject(method = "onUse", at = @At(value = "HEAD"), cancellable = true)
     protected void onUse1(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit, CallbackInfoReturnable<ActionResult> cir) {
         if (world.isClient) {
             cir.setReturnValue(ActionResult.CONSUME);
         }
 
-
-
-
-
-
 //        RegistryKey<World> registryKey = RegistryKey.of(RegistryKeys.WORLD, Identifier.of("miteequilibrium", "underworld"));
         if (player.getWorld().getRegistryKey() !=World.OVERWORLD) {
-            player.sendMessage(Text.of("你无法在主世界之外的维度睡觉"),true);
+            player.sendMessage(Text.translatable("sleep.failure.reason_1"),true);
             cir.setReturnValue(ActionResult.SUCCESS);
             return;
         }
         if(Objects.equals(WorldMoonPhasesSelector.calculateMoonType(world), "bloodMoon")) {
-            player.sendMessage(Text.of("血月让你无法休息"), true);
+            player.sendMessage(Text.translatable("sleep.failure.reason_2"), true);
             cir.setReturnValue(ActionResult.SUCCESS);
             return;
         }
 
 
         if (!world.isClient) {
-
             // 向上搜索第一个空气方块
             BlockPos firstAirPos = findFirstAirAbove(world, pos);
-
-
             if (firstAirPos != null) {
                 // 向玩家发送找到的坐标信息
 //                player.sendMessage(Text.literal("找到的空气方块位置: " + firstAirPos+"并以此计算休息位置的安全程度"), true);
-                if(!(findPath(world,pos,firstAirPos)==null)){
-                    player.sendMessage(Text.of("这里并不安全,你无法入睡,尝试彻底封闭周围空间"),true);
+                if(findPath(world,pos,firstAirPos) instanceof List<BlockPos> list){
+                    for(BlockPos blockPos : list){
+                        spawnParticle(world,blockPos.getX(),blockPos.getY(),blockPos.getZ());
+                    }
+                    player.sendMessage(Text.translatable("sleep.failure.reason_3"),true);
                     cir.setReturnValue(ActionResult.SUCCESS);
                 }
                 else{
                     //足够安全后,检查时间
                     if(world.getTimeOfDay() % 24000L<15500 && !Objects.equals(WorldMoonPhasesSelector.calculateMoonType(world), "fullMoon")){
-                    player.sendMessage(Text.of("你并没有困意"), true);
+                    player.sendMessage(Text.translatable("sleep.failure.reason_4"), true);
                     cir.setReturnValue(ActionResult.SUCCESS);
                     } else if (Objects.equals(WorldMoonPhasesSelector.calculateMoonType(world), "fullMoon")) {
-                        player.sendMessage(Text.of("满月让你感到失眠"),true);
+                        player.sendMessage(Text.translatable("sleep.failure.reason_5",true));
                         cir.setReturnValue(ActionResult.SUCCESS);
                     }
                 }
-
-
             } else {
-                player.sendMessage(Text.literal("你无法在露天位置睡觉"), true);
                 cir.setReturnValue(ActionResult.SUCCESS);
             }
 

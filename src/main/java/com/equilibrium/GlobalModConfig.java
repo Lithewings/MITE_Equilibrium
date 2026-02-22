@@ -16,6 +16,8 @@ public class GlobalModConfig {
 
     public boolean enableSleepChunksAlwaysLoading = true;
 
+    public boolean enableAutoCrafting = true;
+
     // 静态实例，全局唯一
     private static GlobalModConfig INSTANCE;
     // 总配置文件路径：
@@ -69,4 +71,9 @@ public class GlobalModConfig {
     public static boolean isSleepChunksAlwaysLoading() {
         return getInstance().enableSleepChunksAlwaysLoading;
     }
+    public static boolean isAutoCraftingEnabled() {
+        return getInstance().enableAutoCrafting;
+    }
+
+
 }

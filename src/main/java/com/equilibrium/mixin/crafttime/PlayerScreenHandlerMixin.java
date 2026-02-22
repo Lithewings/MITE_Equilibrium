@@ -82,20 +82,22 @@ public abstract class PlayerScreenHandlerMixin extends AbstractRecipeScreenHandl
             }
             int maxCraftLevel = Collections.max(list);
 
-            //是否在合成工作台?
-            if(this.craftingResult.getStack(0).isIn(ModItemTags.CRAFT_TABLE))
-                maxCraftLevel--;
+
 
 
             //无条件输出物品
             CraftingScreenHandler.updateResult(this, this.owner.getWorld(), this.owner, this.craftingInput, this.craftingResult, null);
+
+            if(this.craftingResult.getStack(0).isIn(ModItemTags.CRAFT_TABLE)){
+                maxCraftLevel--;
+            }
            //然后再施加限制
+
             if (maxCraftLevel > 0 ) {
                 List<Text> list1 = List.of(INVALID_CRAFTING_TEXT);
                 LoreComponent loreComponent = new LoreComponent(list1);
                 ItemStack itemStack = this.craftingResult.getStack(0);
                 itemStack.set(DataComponentTypes.LORE,loreComponent);
-
             }
             //定义玩家是否可以取出的逻辑,见MixinInventoryScreen.onMouseClick
 

@@ -7,6 +7,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.SpiderEntity;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
@@ -59,6 +60,14 @@ public class ModEntities {
     public static final EntityType< FireElementalEntity> FIRE_ELEMENTAL = Registry.register(Registries.ENTITY_TYPE,
             Identifier.of(MOD_ID,"fire_elemental"),
             EntityType.Builder.create(FireElementalEntity::new,SpawnGroup.MONSTER).allowSpawningInside(Blocks.LAVA).dimensions(0.75f, 1.95f).build());
+
+
+
+    public static final EntityType< WoodenSpiderEntity> WOODEN_SPIDER = Registry.register(Registries.ENTITY_TYPE,
+            Identifier.of(MOD_ID,"wooden_spider"),
+            EntityType.Builder.create(WoodenSpiderEntity::new,SpawnGroup.MONSTER).dimensions(0.8F, 0.45F).build());
+
+
 
     //注册属性
     public static void registerModEntities(){
@@ -127,11 +136,20 @@ public class ModEntities {
                 .add(EntityAttributes.GENERIC_ARMOR, 0.0)
                 .add(EntityAttributes.GENERIC_MAX_HEALTH,20));
 
+
+        FabricDefaultAttributeRegistry.register(WOODEN_SPIDER, SpiderEntity.createSpiderAttributes()
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE,1.0)
+                .add(EntityAttributes.GENERIC_MAX_HEALTH,8));
+
+
+
        //setSize中会引用这三个属性
         FabricDefaultAttributeRegistry.register(PUDDING, HostileEntity.createHostileAttributes()
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED)
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE)
                 .add(EntityAttributes.GENERIC_MAX_HEALTH));
+
+
 
 
 

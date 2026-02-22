@@ -554,6 +554,11 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     @Inject(method = "tick", at = @At("HEAD"))
     public void tick(CallbackInfo ci){
 
+
+
+
+
+
         //首日保护
         if(this.getWorld().getTimeOfDay()<24000) {
             this.phytonutrient = 192000;

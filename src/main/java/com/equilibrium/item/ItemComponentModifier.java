@@ -44,7 +44,7 @@ public class ItemComponentModifier {
 
             Items.PUMPKIN_SEEDS,createFood(3, 3F,ItemStack.EMPTY,List.of()),
             Items.MELON_SEEDS,createFood(0, 1F,ItemStack.EMPTY,List.of()),
-            Items.SUGAR,createFood(0, 1F,ItemStack.EMPTY,List.of())
+            Items.SUGAR,createFood(1, 1F,ItemStack.EMPTY,List.of())
 
     );
 

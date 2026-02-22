@@ -24,6 +24,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import static com.equilibrium.GlobalModConfig.isAutoCraftingEnabled;
 import static com.equilibrium.network.C2STriggerContentChangePacket.sendTrigger;
 import static com.equilibrium.util.SharedConstant.INVALID_CRAFTING_TEXT;
 import static com.equilibrium.util.SharedConstant.YELLOW;
@@ -73,9 +74,19 @@ public abstract class MixinInventoryScreen extends AbstractInventoryScreen<Playe
         if (this.client != null) {
             this.player = (ITimeCraftPlayer) this.client.player;
         }
+		ItemStack resultItemStack = this.handler.getSlot(0).getStack();
+		if (resultItemStack.get(DataComponentTypes.LORE) != null) {
+			for (Text text : resultItemStack.get(DataComponentTypes.LORE).lines()) {
+				if (text.contains(INVALID_CRAFTING_TEXT)) {
+					player.craftTime$stopCraft();
+					return;
+				}
+			}
+		}
 
-		//输入输出不为空时,才考虑试图合成
-        if(!this.handler.getCraftingInput().isEmpty() && !this.handler.getSlot(0).getStack().isEmpty()){
+
+		//自动合成:输入输出不为空时,才考虑试图合成
+        if(isAutoCraftingEnabled() && !this.handler.getCraftingInput().isEmpty() && !this.handler.getSlot(0).getStack().isEmpty()){
 			//获得合成难度
 			player.craftTime$setCraftPeriod(CraftingDifficultyHelper.getCraftingDifficultyFromMatrix(this.handler, false, this));
 			//进行一次craftTick,若合成结束返回true
@@ -83,6 +94,9 @@ public abstract class MixinInventoryScreen extends AbstractInventoryScreen<Playe
 				//模拟无限制时秒出合成物品的一次操作
 				super.onMouseClick(this.handler.getSlot(0), 0, 0, SlotActionType.THROW);
 				//在ScreenHandlerMixin中自动将鼠标stack下的物品放入玩家物品栏中
+				if(!isAutoCraftingEnabled()){
+					player.craftTime$stopCraft();
+				}
 			}
 			//刷新一次合成结果栏
 			if(this.handler.getSlot(0).getStack().isEmpty()){
@@ -94,6 +108,13 @@ public abstract class MixinInventoryScreen extends AbstractInventoryScreen<Playe
 	}
 	@Shadow
 	private final RecipeBookWidget recipeBook = new RecipeBookWidget();
+
+
+
+
+
+
+
 
 	@Inject(method = "onMouseClick", at = @At("HEAD"), cancellable = true)
 	public void timecraft$onMouseClick(Slot slot, int invSlot, int clickData, SlotActionType actionType,

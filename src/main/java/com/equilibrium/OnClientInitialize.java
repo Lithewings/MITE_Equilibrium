@@ -98,6 +98,7 @@ public class OnClientInitialize implements ClientModInitializer {
         EntityRendererRegistry.register(LONG_DEAD, LongDeadEntityRenderer::new);
         EntityRendererRegistry.register(PUDDING, PuddingSlimeEntityRenderer::new);
         EntityRendererRegistry.register(BONE_LORD, BoneLordEntityRenderer::new);
+        EntityRendererRegistry.register(WOODEN_SPIDER, WoodenSpiderRenderer::new);
 
         EntityRendererRegistry.register(FIRE_ELEMENTAL, FireElementalEntityRendererTransparent::new);
 
