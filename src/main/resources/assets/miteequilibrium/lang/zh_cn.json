@@ -183,5 +183,6 @@
   "sleep.failure.reason_2": "血月让你无法休息.",
   "sleep.failure.reason_3": "这里并不安全,你无法入睡,尝试彻底封闭周围空间.",
   "sleep.failure.reason_4": "你并没有困意",
-  "sleep.failure.reason_5": "满月让你感到失眠"
+  "sleep.failure.reason_5": "满月让你感到失眠",
+  "sleep.failure.reason_6": "你无法露天睡觉"
 }

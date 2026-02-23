@@ -1,6 +1,5 @@
 package com.equilibrium.persistent_state;
 
-import com.equilibrium.util.MapNbtSerializer;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.MinecraftServer;
@@ -9,7 +8,6 @@ import net.minecraft.world.PersistentStateManager;
 import net.minecraft.world.World;
 
 import java.io.IOException;
-import java.util.Set;
 
 import static com.equilibrium.OnServerInitialize.MOD_ID;
 import static com.equilibrium.event.CropIllnessEvent.CROP_BLOCK_POS;

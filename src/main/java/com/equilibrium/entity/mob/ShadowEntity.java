@@ -1,13 +1,10 @@
 package com.equilibrium.entity.mob;
 
-import com.equilibrium.entity.goal.BreakGrassGoal;
 import com.equilibrium.entity.goal.BreakTorchGoal;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.entity.mob.ZombifiedPiglinEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
@@ -15,16 +12,13 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
-import static com.equilibrium.event.sound.SoundEventRegistry.*;
+import static com.equilibrium.event.SoundEventRegistry.*;
 import static com.equilibrium.util.XpHashMap.getXpForLevel;
-import static net.minecraft.entity.effect.StatusEffects.SLOWNESS;
 
 public class ShadowEntity extends ZombieEntity {
     //黑色食尸鬼,(应该主动破坏火把)若在主世界,只会在世界最黑暗处且y位置小于0生成

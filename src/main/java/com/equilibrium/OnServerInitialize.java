@@ -12,6 +12,7 @@ import com.equilibrium.network.C2SClickTimesPacket;
 import com.equilibrium.network.C2STriggerContentChangePacket;
 import com.equilibrium.network.S2CIllnessTextureBooleanPacket;
 import com.equilibrium.network.S2CStockChangeGrassColorPacket;
+import com.equilibrium.persistent_state.MapNbtSerializer;
 import com.equilibrium.persistent_state.StateSaverAndLoader;
 import com.equilibrium.util.*;
 import com.mojang.brigadier.CommandDispatcher;
@@ -27,10 +28,8 @@ import net.minecraft.GameVersion;
 import net.minecraft.SaveVersion;
 import net.minecraft.SharedConstants;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.command.CommandRegistryAccess;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.resource.ResourceType;
@@ -68,7 +67,6 @@ import static com.equilibrium.block.enchanting_table.ModBlockEntityTypes.modBloc
 import static com.equilibrium.block.enchanting_table.ModScreenTypes.registerScreenHandlers;
 
 
-import static com.equilibrium.entity.EnvironmentChecker.getSquaredDistance;
 import static com.equilibrium.entity.ModEntities.*;
 import static com.equilibrium.entity.ModSpawnRestriction.registerModSpawnRestriction;
 import static com.equilibrium.event.CropIllnessEvent.applyIllnessForCrop;
@@ -77,7 +75,7 @@ import static com.equilibrium.event.MoonPhaseEvent.*;
 
 import static com.equilibrium.event.SleepChunkLoader.registerSleepEvents;
 
-import static com.equilibrium.event.sound.SoundEventRegistry.registrySoundEvents;
+import static com.equilibrium.event.SoundEventRegistry.registrySoundEvents;
 import static com.equilibrium.item.Armors.registerArmors;
 import static com.equilibrium.item.Metal.registerModItemRaw;
 import static com.equilibrium.item.extend_item.CoinItems.registerCoinItems;
@@ -94,7 +92,6 @@ import static com.equilibrium.tags.ModEntityTags.registerModEntityTags;
 import static com.equilibrium.tags.ModItemTags.registerModItemTags;
 
 
-import static com.equilibrium.util.AStarCanGoToAndReturn.findSimplePath;
 import static com.equilibrium.block.CraftingDifficultyHelper.initCraftingDifficulties;
 import static com.equilibrium.util.OnServerInitializeMethod.onUseCrystalItem;
 import static com.equilibrium.util.OnServerInitializeMethod.onUseHayBlockItem;
@@ -151,85 +148,85 @@ public class OnServerInitialize implements ModInitializer {
                                 (OnServerInitializeMethod::isPickAxeCrafted)
 
         );
-        // 注册 A星算法 命令
-        dispatcher.register(CommandManager.literal("aStarFindPathCanGoToAndReturnForGettingGrass")
-                .executes(context -> {
-                    // 以生物为中心，搜索16格范围内的方块
-                    int searchRadius = 16;
-
-                    if (context.getSource().getEntity() instanceof LivingEntity entity && context.getSource().getWorld() instanceof ServerWorld world) {
-                        int x = context.getSource().getEntity().getBlockPos().getX();
-                        int y = entity.getBlockPos().getY();
-                        int z = entity.getBlockPos().getZ();
-
-
-                        ArrayList<BlockPos> posArrayList = new ArrayList<>();
-
-                        // 从左上角到右下角顺序搜索
-                        for (int dx = -searchRadius; dx <= searchRadius; dx++) {
-                            for (int dz = -searchRadius; dz <= searchRadius; dz++) {
-                                for (int dy = -4; dy <= 4; dy++) {
-                                    // 计算当前搜索位置的世界坐标
-                                    int worldX = x + dx;
-                                    int worldY = y + dy;
-                                    int worldZ = z + dz;
-
-                                    // 获取方块
-                                    BlockPos pos = new BlockPos(worldX, worldY, worldZ);
-                                    BlockState blockState = world.getBlockState(pos);
-
-                                    if (blockState.isOf(Blocks.SHORT_GRASS) || blockState.isOf(Blocks.TALL_GRASS)) {
-                                        posArrayList.add(pos);
-                                    }
-                                }
-
-                            }
-                        }
-
-                        if (!posArrayList.isEmpty()) {
-                            //排序,先从最近的找起
-                            posArrayList.sort((pos1, pos2) -> {
-                                double dist1 = getSquaredDistance(pos1, x, y, z);
-                                double dist2 = getSquaredDistance(pos2, x, y, z);
-                                return Double.compare(dist1, dist2);
-                            });
-
-                            for (BlockPos pos : posArrayList) {
-                                //找到通往草的路径
-
-
-                                List<BlockPos> list = findSimplePath(entity.getWorld(), entity.getBlockPos(), pos);
-                                if (list != null) {
-                                    //导航到草附近
-                                    for (BlockPos blockPos : list) {
-                                        if (blockPos == list.getFirst()) {
-                                            world.setBlockState(blockPos, Blocks.RED_WOOL.getDefaultState());
-                                        } else if (blockPos == list.getLast()) {
-
-                                        } else
-                                            world.setBlockState(blockPos, Blocks.WHITE_WOOL.getDefaultState());
-
-                                        new Thread(() -> {
-                                            try {
-                                                Thread.sleep(3000); // 10秒 = 10000毫秒
-                                                // 延迟结束后，在服务器主线程执行方块操作
-                                                world.getServer().execute(() -> {
-                                                    world.setBlockState(blockPos, Blocks.AIR.getDefaultState());
-                                                });
-                                            } catch (InterruptedException e) {
-                                                e.printStackTrace();
-                                            }
-                                        }).start();
-                                    }
-                                    break;
-                                }
-
-                            }
-                        }
-                    }
-
-                    return 1;
-                }));
+//        // 注册 A星算法 命令
+//        dispatcher.register(CommandManager.literal("aStarFindPathCanGoToAndReturnForGettingGrass")
+//                .executes(context -> {
+//                    // 以生物为中心，搜索16格范围内的方块
+//                    int searchRadius = 16;
+//
+//                    if (context.getSource().getEntity() instanceof LivingEntity entity && context.getSource().getWorld() instanceof ServerWorld world) {
+//                        int x = context.getSource().getEntity().getBlockPos().getX();
+//                        int y = entity.getBlockPos().getY();
+//                        int z = entity.getBlockPos().getZ();
+//
+//
+//                        ArrayList<BlockPos> posArrayList = new ArrayList<>();
+//
+//                        // 从左上角到右下角顺序搜索
+//                        for (int dx = -searchRadius; dx <= searchRadius; dx++) {
+//                            for (int dz = -searchRadius; dz <= searchRadius; dz++) {
+//                                for (int dy = -4; dy <= 4; dy++) {
+//                                    // 计算当前搜索位置的世界坐标
+//                                    int worldX = x + dx;
+//                                    int worldY = y + dy;
+//                                    int worldZ = z + dz;
+//
+//                                    // 获取方块
+//                                    BlockPos pos = new BlockPos(worldX, worldY, worldZ);
+//                                    BlockState blockState = world.getBlockState(pos);
+//
+//                                    if (blockState.isOf(Blocks.SHORT_GRASS) || blockState.isOf(Blocks.TALL_GRASS)) {
+//                                        posArrayList.add(pos);
+//                                    }
+//                                }
+//
+//                            }
+//                        }
+//
+//                        if (!posArrayList.isEmpty()) {
+//                            //排序,先从最近的找起
+//                            posArrayList.sort((pos1, pos2) -> {
+//                                double dist1 = getSquaredDistance(pos1, x, y, z);
+//                                double dist2 = getSquaredDistance(pos2, x, y, z);
+//                                return Double.compare(dist1, dist2);
+//                            });
+//
+//                            for (BlockPos pos : posArrayList) {
+//                                //找到通往草的路径
+//
+//
+//                                List<BlockPos> list = findSimplePath(entity.getWorld(), entity.getBlockPos(), pos);
+//                                if (list != null) {
+//                                    //导航到草附近
+//                                    for (BlockPos blockPos : list) {
+//                                        if (blockPos == list.getFirst()) {
+//                                            world.setBlockState(blockPos, Blocks.RED_WOOL.getDefaultState());
+//                                        } else if (blockPos == list.getLast()) {
+//
+//                                        } else
+//                                            world.setBlockState(blockPos, Blocks.WHITE_WOOL.getDefaultState());
+//
+//                                        new Thread(() -> {
+//                                            try {
+//                                                Thread.sleep(3000); // 10秒 = 10000毫秒
+//                                                // 延迟结束后，在服务器主线程执行方块操作
+//                                                world.getServer().execute(() -> {
+//                                                    world.setBlockState(blockPos, Blocks.AIR.getDefaultState());
+//                                                });
+//                                            } catch (InterruptedException e) {
+//                                                e.printStackTrace();
+//                                            }
+//                                        }).start();
+//                                    }
+//                                    break;
+//                                }
+//
+//                            }
+//                        }
+//                    }
+//
+//                    return 1;
+//                }));
     }
 
 
@@ -253,7 +250,7 @@ public class OnServerInitialize implements ModInitializer {
 
             @Override
             public String getName() {
-                return "MITE:Equilibrium Beta v1.0.8_6";
+                return "MITE:Equilibrium Beta v1.0.8_7";
             }
 
             @Override

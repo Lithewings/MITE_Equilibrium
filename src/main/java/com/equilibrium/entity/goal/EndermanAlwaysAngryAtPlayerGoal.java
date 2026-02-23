@@ -67,7 +67,7 @@ public class EndermanAlwaysAngryAtPlayerGoal<T extends LivingEntity> extends Tra
     public boolean shouldAlwaysAngryAtPlayer(){
         StateSaverAndLoader stateSaverAndLoader;
         stateSaverAndLoader = StateSaverAndLoader.getServerState(this.mob.getServer());
-        return stateSaverAndLoader.playerDeathTimes>=35;
+        return stateSaverAndLoader.playerDeathTimes>=30;
     }
 
 

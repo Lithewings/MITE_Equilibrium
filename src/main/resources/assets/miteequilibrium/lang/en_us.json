@@ -272,5 +272,6 @@
   "sleep.failure.reason_2": "The blood moon prevents you from resting.",
   "sleep.failure.reason_3": "It is not safe here. Try sealing the area completely with solid blocks.",
   "sleep.failure.reason_4": "You are not sleepy.",
-  "sleep.failure.reason_5":  "The full moon gives you insomnia."
+  "sleep.failure.reason_5":  "The full moon gives you insomnia.",
+  "sleep.failure.reason_6": "You cannot sleep outdoors."
 }
