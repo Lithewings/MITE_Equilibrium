@@ -1,7 +1,7 @@
 package com.equilibrium.entity.goal;
 
 import com.equilibrium.persistent_state.StateSaverAndLoader;
-import com.equilibrium.util.ServerInfoRecorder;
+
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.goal.Goal;

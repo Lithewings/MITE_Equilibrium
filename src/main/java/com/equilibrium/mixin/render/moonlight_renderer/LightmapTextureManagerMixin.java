@@ -1,7 +1,7 @@
 package com.equilibrium.mixin.render.moonlight_renderer;
 
-import com.equilibrium.util.MoonlightController;
-import com.equilibrium.util.WorldMoonPhasesSelector;
+import com.equilibrium.event.moon_event.MoonlightController;
+import com.equilibrium.event.moon_event.WorldMoonPhasesSelector;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.LightmapTextureManager;

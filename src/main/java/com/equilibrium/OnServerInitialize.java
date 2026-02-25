@@ -7,6 +7,7 @@ import com.equilibrium.entity.goal.BreakBlockGoal;
 import com.equilibrium.event.BreakBlockEvent;
 import com.equilibrium.event.CraftingMetalPickAxeCallback;
 import com.equilibrium.event.CropIllnessEvent;
+import com.equilibrium.event.EventOnServerInitOrRunning;
 import com.equilibrium.item.*;
 import com.equilibrium.network.C2SClickTimesPacket;
 import com.equilibrium.network.C2STriggerContentChangePacket;
@@ -30,10 +31,8 @@ import net.minecraft.SharedConstants;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.command.CommandRegistryAccess;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.resource.ResourceType;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -42,7 +41,7 @@ import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,7 +70,7 @@ import static com.equilibrium.entity.ModEntities.*;
 import static com.equilibrium.entity.ModSpawnRestriction.registerModSpawnRestriction;
 import static com.equilibrium.event.CropIllnessEvent.applyIllnessForCrop;
 import static com.equilibrium.event.CropIllnessEvent.updateCropBlockPos;
-import static com.equilibrium.event.MoonPhaseEvent.*;
+import static com.equilibrium.event.moon_event.MoonPhaseEvent.*;
 
 import static com.equilibrium.event.SleepChunkLoader.registerSleepEvents;
 
@@ -81,7 +80,6 @@ import static com.equilibrium.item.Metal.registerModItemRaw;
 import static com.equilibrium.item.extend_item.CoinItems.registerCoinItems;
 import static com.equilibrium.item.food.FoodOrFarmItems.registerFoodItems;
 import static com.equilibrium.item.ItemComponentModifier.foodComponentModify;
-import static com.equilibrium.item.food.WaterBowl.vanillaBowlItemUse;
 
 
 import static com.equilibrium.structure_generator.ModPlacementGenerator.*;
@@ -93,15 +91,13 @@ import static com.equilibrium.tags.ModItemTags.registerModItemTags;
 
 
 import static com.equilibrium.block.CraftingDifficultyHelper.initCraftingDifficulties;
-import static com.equilibrium.util.OnServerInitializeMethod.onUseCrystalItem;
-import static com.equilibrium.util.OnServerInitializeMethod.onUseHayBlockItem;
 
 
 public class OnServerInitialize implements ModInitializer {
 
     public static final String MOD_ID = "miteequilibrium";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-
+    private static final Identifier TEXTURE_EYES = Identifier.of(MOD_ID, "textures/entity/earth_elemental_glow.png");
 
     //服务器状态
     public StateSaverAndLoader serverState;
@@ -134,99 +130,26 @@ public class OnServerInitialize implements ModInitializer {
         XpHashMap.setXpForLevel(5, 500);
     }
 
-    public static void talkToAllServerPlayer(MinecraftServer server, String context) {
-        for (ServerPlayerEntity serverPlayer : server.getPlayerManager().getPlayerList()) {
-            serverPlayer.sendMessage(Text.of(context));
-        }
-    }
 
     // 注册命令的标准方式，适配 CommandDispatcher 的签名
     private void registerCommands(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess, CommandManager.RegistrationEnvironment registrationEnvironment) {
         dispatcher.register(
                 CommandManager.literal("village")
                         .executes
-                                (OnServerInitializeMethod::isPickAxeCrafted)
+                                (EventOnServerInitOrRunning::isPickAxeCrafted)
 
         );
-//        // 注册 A星算法 命令
-//        dispatcher.register(CommandManager.literal("aStarFindPathCanGoToAndReturnForGettingGrass")
-//                .executes(context -> {
-//                    // 以生物为中心，搜索16格范围内的方块
-//                    int searchRadius = 16;
-//
-//                    if (context.getSource().getEntity() instanceof LivingEntity entity && context.getSource().getWorld() instanceof ServerWorld world) {
-//                        int x = context.getSource().getEntity().getBlockPos().getX();
-//                        int y = entity.getBlockPos().getY();
-//                        int z = entity.getBlockPos().getZ();
-//
-//
-//                        ArrayList<BlockPos> posArrayList = new ArrayList<>();
-//
-//                        // 从左上角到右下角顺序搜索
-//                        for (int dx = -searchRadius; dx <= searchRadius; dx++) {
-//                            for (int dz = -searchRadius; dz <= searchRadius; dz++) {
-//                                for (int dy = -4; dy <= 4; dy++) {
-//                                    // 计算当前搜索位置的世界坐标
-//                                    int worldX = x + dx;
-//                                    int worldY = y + dy;
-//                                    int worldZ = z + dz;
-//
-//                                    // 获取方块
-//                                    BlockPos pos = new BlockPos(worldX, worldY, worldZ);
-//                                    BlockState blockState = world.getBlockState(pos);
-//
-//                                    if (blockState.isOf(Blocks.SHORT_GRASS) || blockState.isOf(Blocks.TALL_GRASS)) {
-//                                        posArrayList.add(pos);
-//                                    }
-//                                }
-//
-//                            }
-//                        }
-//
-//                        if (!posArrayList.isEmpty()) {
-//                            //排序,先从最近的找起
-//                            posArrayList.sort((pos1, pos2) -> {
-//                                double dist1 = getSquaredDistance(pos1, x, y, z);
-//                                double dist2 = getSquaredDistance(pos2, x, y, z);
-//                                return Double.compare(dist1, dist2);
-//                            });
-//
-//                            for (BlockPos pos : posArrayList) {
-//                                //找到通往草的路径
-//
-//
-//                                List<BlockPos> list = findSimplePath(entity.getWorld(), entity.getBlockPos(), pos);
-//                                if (list != null) {
-//                                    //导航到草附近
-//                                    for (BlockPos blockPos : list) {
-//                                        if (blockPos == list.getFirst()) {
-//                                            world.setBlockState(blockPos, Blocks.RED_WOOL.getDefaultState());
-//                                        } else if (blockPos == list.getLast()) {
-//
-//                                        } else
-//                                            world.setBlockState(blockPos, Blocks.WHITE_WOOL.getDefaultState());
-//
-//                                        new Thread(() -> {
-//                                            try {
-//                                                Thread.sleep(3000); // 10秒 = 10000毫秒
-//                                                // 延迟结束后，在服务器主线程执行方块操作
-//                                                world.getServer().execute(() -> {
-//                                                    world.setBlockState(blockPos, Blocks.AIR.getDefaultState());
-//                                                });
-//                                            } catch (InterruptedException e) {
-//                                                e.printStackTrace();
-//                                            }
-//                                        }).start();
-//                                    }
-//                                    break;
-//                                }
-//
-//                            }
-//                        }
-//                    }
-//
-//                    return 1;
-//                }));
+        dispatcher.register(
+                CommandManager.literal("deathTime")
+                        .executes(context -> {
+                            PlayerEntity player = context.getSource().getPlayer();
+                            StateSaverAndLoader stateSaverAndLoader = StateSaverAndLoader.getServerState(context.getSource().getServer());
+                            if(player!=null)
+                                player.sendMessage(Text.of("你的总死亡次数为: " + stateSaverAndLoader.playerDeathTimes));
+                            return 1;
+                        })
+                );
+
     }
 
 
@@ -337,27 +260,6 @@ public class OnServerInitialize implements ModInitializer {
                     },
                     ConcurrentHashMap::new
             );
-
-
-//			StateSaverAndLoader serverState = StateSaverAndLoader.getServerState(server);
-//			int level = serverState.difficultyLevel;
-//			//极限模式下不生效
-//			switch (level){
-//				case 0:
-//					server.setDifficulty(Difficulty.EASY,true);
-//					break;
-//				case 1:
-//					server.setDifficulty(Difficulty.NORMAL,true);
-//					break;
-//				case 2:
-//					server.setDifficulty(Difficulty.HARD,true);
-//					break;
-//				default:
-//					server.setDifficulty(Difficulty.NORMAL,true);
-//					break;
-//			}
-
-
         });
 
 
@@ -383,7 +285,7 @@ public class OnServerInitialize implements ModInitializer {
             //护甲更新,玩家游戏模式更新,作物状态更新
             if (tickCount % (TICK_INTERVAL / 10) == 0) {
                 for (ServerPlayerEntity serverPlayerEntity : server.getPlayerManager().getPlayerList()) {
-                    OnServerInitializeMethod.updatePlayerArmor(serverPlayerEntity);
+                    EventOnServerInitOrRunning.updatePlayerArmor(serverPlayerEntity);
 //					if(serverPlayerEntity.isCreative())
 //						serverPlayerEntity.changeGameMode(GameMode.SURVIVAL);
                 }
@@ -396,43 +298,7 @@ public class OnServerInitialize implements ModInitializer {
         });
         //使用物品监听器,能不在这里写就不要在这里写,用物品自带的onUse方法
 
-        UseItemCallback.EVENT.register((player, world, hand) -> {
-            // 获取玩家手中的物品
-            ItemStack itemStack = player.getStackInHand(hand);
-
-            if (itemStack.isOf(Items.HAY_BLOCK)) {
-                //50级可以完整分解干草块
-                if (player.experienceLevel >= 50)
-                    return onUseHayBlockItem(itemStack, player, world, 0);
-            }
-
-            // 判断是否为青金石等晶体
-            if (player.experienceLevel <= 50) {
-                if (itemStack.getItem() == Items.REDSTONE) {
-                    return onUseCrystalItem(itemStack, player, world, 10);
-                }
-                if (itemStack.getItem() == Items.LAPIS_LAZULI) {
-                    return onUseCrystalItem(itemStack, player, world, 25);
-                }
-                if (itemStack.getItem() == Items.QUARTZ) {
-                    return onUseCrystalItem(itemStack, player, world, 50);
-                }
-                if (itemStack.getItem() == Items.EMERALD) {
-                    return onUseCrystalItem(itemStack, player, world, 250);
-                }
-                if (itemStack.getItem() == Items.DIAMOND) {
-                    return onUseCrystalItem(itemStack, player, world, 500);
-                }
-                if (itemStack.getItem() == Metal.ancient_metal) {
-                    return onUseCrystalItem(itemStack, player, world, 250);
-                }
-            }
-            if (itemStack.getItem() == Items.BOWL) {
-                return vanillaBowlItemUse(world, player, hand, itemStack);
-            }
-            // 其他物品时不做处理
-            return TypedActionResult.pass(itemStack);
-        });
+        UseItemCallback.EVENT.register(EventOnServerInitOrRunning::onUseItem);
 
 
         //移除原版工作台方块,创造模式除外
@@ -473,37 +339,7 @@ public class OnServerInitialize implements ModInitializer {
         C2STriggerContentChangePacket.registerOnServer();
 
         //合成金属镐监听器
-        CraftingMetalPickAxeCallback.EVENT.register((world, player) -> {
-
-//			DataFixer dataFixer = client.getDataFixer();  // 你需要初始化 DataFixer 实例
-//			RegistryWrapper.WrapperLookup registryLookup = client.player.getRegistryManager();  // 同样初始化RegistryWrapper
-
-
-            //创建持久状态类
-            StateSaverAndLoader serverState;
-            if (!world.isClient()) {
-                serverState = StateSaverAndLoader.getServerState(world.getServer());
-            } else {
-                return ActionResult.PASS;
-            }
-            //直接访问成员变量即可
-            boolean craftedIronPickaxe = serverState.isPickAxeCrafted;
-
-            if (!craftedIronPickaxe) {
-                if (!world.isClient()) {
-                    serverState.isPickAxeCrafted = true;
-                    player.sendMessage(Text.of("你第一次合成了金属镐"));
-                } else
-                    return ActionResult.PASS;
-            } else {
-                if (!world.isClient()) {
-//					player.sendMessage(Text.of("你多次合成了铁镐"));
-                    return ActionResult.PASS;
-                } else
-                    return ActionResult.PASS;
-            }
-            return ActionResult.PASS;
-        });
+        CraftingMetalPickAxeCallback.EVENT.register(EventOnServerInitOrRunning::onCraftingMetalPickAxe);
         //命令注册
         CommandRegistrationCallback.EVENT.register(this::registerCommands);
 
@@ -543,7 +379,7 @@ public class OnServerInitialize implements ModInitializer {
 
         //注册事件
         PlayerBlockBreakEvents.AFTER.register(new BreakBlockEvent());
-        if(isSleepChunksAlwaysLoading())
+        if (isSleepChunksAlwaysLoading())
             registerSleepEvents();
         //创建标签
         registerModBlockTags();

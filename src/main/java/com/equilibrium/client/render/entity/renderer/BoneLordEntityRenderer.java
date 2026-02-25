@@ -50,7 +50,7 @@ public class BoneLordEntityRenderer extends ModSkeletonEntityRenderer<BoneLordEn
 
             // 只渲染头部
             model.head.render(matrices, vertexConsumer, 15728640,
-                    OverlayTexture.DEFAULT_UV, 0x80FF0000);
+                    OverlayTexture.DEFAULT_UV);
         }
     }
 }

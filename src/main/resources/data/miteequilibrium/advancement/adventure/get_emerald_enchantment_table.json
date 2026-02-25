@@ -13,7 +13,7 @@
     }
   },
   "display": {
-    "announce_to_chat": false,
+    "announce_to_chat": true,
 
 
     "description": {
@@ -27,7 +27,7 @@
 
     "icon": {
       "count": 1,
-      "id": "minecraft:enchanting_table"
+      "id": "miteequilibrium:emerald_enchanting_table"
     },
     "title": "初级附魔师"
   },

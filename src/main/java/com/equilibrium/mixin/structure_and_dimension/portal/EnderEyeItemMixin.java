@@ -40,7 +40,7 @@ public abstract class EnderEyeItemMixin extends Item {
             user.setCurrentHand(hand);
             if (world instanceof ServerWorld serverWorld) {
                 BlockPos blockPos = serverWorld.locateStructure(StructureTags.EYE_OF_ENDER_LOCATED, user.getBlockPos(), 300, false);
-                if (blockPos != null && Math.abs(blockPos.getX()) > 12000 && Math.abs(blockPos.getZ()) > 12000) {
+                if (blockPos != null && (Math.abs(blockPos.getX()) >= 12000 || Math.abs(blockPos.getZ()) >= 12000)){
                     EyeOfEnderEntity eyeOfEnderEntity = new EyeOfEnderEntity(world, user.getX(), user.getBodyY(0.5), user.getZ());
                     eyeOfEnderEntity.setItem(itemStack);
                     eyeOfEnderEntity.initTargetPos(blockPos);

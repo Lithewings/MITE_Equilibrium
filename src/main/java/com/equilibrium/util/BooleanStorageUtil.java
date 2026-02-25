@@ -44,12 +44,12 @@ public final class BooleanStorageUtil {
 
     /**
      * 保存布尔值到指定路径
-     * @param value 要存储的值
+     * @param dragonIsDead 要存储的值
      * @param filePath 自定义文件路径
      * @throws IOException 如果发生I/O错误
      */
     // 加密保存方法
-    public static void save(boolean value, String filePath) throws IOException {
+    public static void save(boolean dragonIsDead, String filePath) throws IOException {
         try {
             Cipher cipher = Cipher.getInstance(ALGORITHM);
             SecretKeySpec key = generateKey();
@@ -57,7 +57,7 @@ public final class BooleanStorageUtil {
 
             ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
             try (ObjectOutputStream oos = new ObjectOutputStream(byteOut)) {
-                oos.writeObject(new BooleanData(value));
+                oos.writeObject(new BooleanData(dragonIsDead));
             }
 
             byte[] encryptedData = cipher.doFinal(byteOut.toByteArray());

@@ -1,4 +1,4 @@
-package com.equilibrium.util;
+package com.equilibrium.event.moon_event;
 
 import net.minecraft.world.World;
 

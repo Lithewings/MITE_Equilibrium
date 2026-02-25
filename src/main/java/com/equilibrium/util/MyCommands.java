@@ -1,5 +1,8 @@
 package com.equilibrium.util;
 
+import com.equilibrium.entity.path_finder.AStarCanGoTo;
+import com.equilibrium.entity.path_finder.AStarCanGoToAndReturn;
+import com.equilibrium.entity.path_finder.AStarSimplePathfinder;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
@@ -12,8 +15,8 @@ import net.minecraft.util.math.BlockPos;
 import java.util.List;
 
 
-import static com.equilibrium.event.MoonPhaseEvent.getMoonType;
-import static com.equilibrium.util.OnServerInitializeMethod.updatePlayerArmor;
+import static com.equilibrium.event.moon_event.MoonPhaseEvent.getMoonType;
+import static com.equilibrium.event.EventOnServerInitOrRunning.updatePlayerArmor;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
 
 public class MyCommands {
@@ -70,15 +73,7 @@ public class MyCommands {
                     return 1;
                 })
         );
-//        dispatcher.register(ClientCommandManager.literal("deathTime")
-//                .executes(context -> {
-//                    PlayerEntity player = context.getSource().getPlayer();
-//                    StateSaverAndLoader stateSaverAndLoader = StateSaverAndLoader.getServerState(ServerInfoRecorder.getServerInstance());
-//                    player.sendMessage(Text.of("你的死亡次数为: "+ stateSaverAndLoader.playerDeathTimes+ "（存在一定计算延迟）"));
-//
-//                    return 1;
-//                })
-//        );
+
 
         // 注册 tickSpeed 命令
         //需要用服务器的实例检测随机刻速度,而不是客户端的世界
@@ -111,7 +106,7 @@ public class MyCommands {
                     int z2 = IntegerArgumentType.getInteger(context, "z2");
                     BlockPos start = new BlockPos(x1,y1,z1);
                     BlockPos goal = new BlockPos(x2,y2,z2);
-                    List<BlockPos> path = AStarPathfinder.findPath(context.getSource().getWorld(),start,goal);
+                    List<BlockPos> path = AStarSimplePathfinder.findPath(context.getSource().getWorld(),start,goal);
 
                     if (path != null) {
                         // 找到可通行路径 => 屋顶到床连通 => 房屋不封闭

@@ -1,4 +1,4 @@
-package com.equilibrium.util;
+package com.equilibrium.item;
 
 import com.equilibrium.OnServerInitialize;
 import com.equilibrium.block.ModBlocksRegistry2;

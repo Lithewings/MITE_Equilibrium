@@ -81,9 +81,9 @@
     "monster": [
       {
         "type": "miteequilibrium:fire_elemental",
-        "maxCount": 3,
+        "maxCount": 1,
         "minCount": 1,
-        "weight": 100
+        "weight": 1
       },
       {
 
@@ -103,6 +103,12 @@
         "maxCount": 4,
         "minCount": 3,
         "weight": 5
+      },
+      {
+        "type": "miteequilibrium:netherrack_elemental",
+        "maxCount": 1,
+        "minCount": 1,
+        "weight": 2
       }
     ],
     "underground_water_creature": [],

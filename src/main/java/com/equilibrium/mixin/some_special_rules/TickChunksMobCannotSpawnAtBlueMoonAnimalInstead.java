@@ -1,6 +1,6 @@
 package com.equilibrium.mixin.some_special_rules;
 
-import com.equilibrium.util.WorldMoonPhasesSelector;
+import com.equilibrium.event.moon_event.WorldMoonPhasesSelector;
 import net.minecraft.server.world.*;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.profiler.Profiler;

@@ -1,7 +1,7 @@
 package com.equilibrium.entity;
 
 import com.equilibrium.network.S2CIllnessTextureBooleanPacket;
-import com.equilibrium.util.AStarCanGoToAndReturn;
+import com.equilibrium.entity.path_finder.AStarCanGoToAndReturn;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;

@@ -1,6 +1,5 @@
 package com.equilibrium.mixin.vanilla_entitymixin;
 
-import com.equilibrium.util.ServerInfoRecorder;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -50,7 +49,7 @@ public abstract class IronGolemEntityMixin extends GolemEntity implements Angera
     @Inject(method = "tryAttack",at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/passive/IronGolemEntity;playSound(Lnet/minecraft/sound/SoundEvent;FF)V"))
     public void tryAttack(Entity target, CallbackInfoReturnable<Boolean> cir) {
         //64天之后,铁傀儡获得特殊强化
-        if(ServerInfoRecorder.getDay()>=64)
+        if(this.getWorld().getTimeOfDay()/24000>=64)
             if (target instanceof HostileEntity hostileEntity && hostileEntity.isDead() ) {
                 this.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 200, 2)); // 10秒再生
                 if(this.hasStatusEffect(StatusEffects.REGENERATION))

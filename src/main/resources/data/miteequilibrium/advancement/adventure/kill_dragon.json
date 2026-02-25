@@ -18,6 +18,7 @@
     }
   },
   "display": {
+    "announce_to_chat": true,
     "frame": "challenge",
     "description": {
       "translate": "adventure.kill_dragon"

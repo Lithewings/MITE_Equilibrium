@@ -130,6 +130,18 @@
     "misc": [],
     "monster": [
       {
+        "type": "miteequilibrium:stone_elemental",
+        "maxCount": 1,
+        "minCount": 1,
+        "weight": 2
+      },
+      {
+        "type": "miteequilibrium:obsidian_elemental",
+        "maxCount": 1,
+        "minCount": 1,
+        "weight": 2
+      },
+      {
         "type": "minecraft:spider",
         "maxCount": 1,
         "minCount": 1,

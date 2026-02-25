@@ -1,5 +1,5 @@
 {
-  "parent": "miteequilibrium:adventure/get_mithril",
+  "parent": "miteequilibrium:adventure/go_to_underworld",
   "criteria": {
     "get_diamond": {
       "conditions": {
@@ -13,7 +13,7 @@
     }
   },
   "display": {
-    "announce_to_chat": false,
+    "announce_to_chat": true,
     "description": {
       "translate": "adventure.get_diamond"
     },

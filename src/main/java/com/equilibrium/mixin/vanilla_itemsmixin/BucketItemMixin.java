@@ -80,8 +80,10 @@ public abstract class BucketItemMixin extends Item implements FluidModificationI
 //    }
 
 
-    @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+    @Inject(method = "use",at = @At(value = "INVOKE", target = "Lnet/minecraft/util/hit/BlockHitResult;getType()Lnet/minecraft/util/hit/HitResult$Type;",ordinal = 0),cancellable = true)
+    public void use(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<TypedActionResult<ItemStack>> cir) {
+        cir.cancel();
+
         //若想修改对生物实体(比如美西螈)的use,去生物那边修改,这个use是放在方块上的use
 
 
@@ -93,15 +95,15 @@ public abstract class BucketItemMixin extends Item implements FluidModificationI
                 world, user, this.fluid == Fluids.EMPTY ? RaycastContext.FluidHandling.SOURCE_ONLY : RaycastContext.FluidHandling.NONE
         );
         if (blockHitResult.getType() == HitResult.Type.MISS) {
-            return TypedActionResult.pass(itemStack);
+            cir.setReturnValue(TypedActionResult.pass(itemStack));
         } else if (blockHitResult.getType() != HitResult.Type.BLOCK) {
-            return TypedActionResult.pass(itemStack);
+            cir.setReturnValue(TypedActionResult.pass(itemStack));
         } else {
             BlockPos blockPos = blockHitResult.getBlockPos();
             Direction direction = blockHitResult.getSide();
             BlockPos blockPos2 = blockPos.offset(direction);
             if (!world.canPlayerModifyAt(user, blockPos) || !user.canPlaceOn(blockPos2, direction, itemStack)) {
-                return TypedActionResult.fail(itemStack);
+                cir.setReturnValue(TypedActionResult.fail(itemStack));
             } else if (this.fluid == Fluids.EMPTY) {
                 //空桶盛液体
                 BlockState blockState = world.getBlockState(blockPos);
@@ -120,11 +122,11 @@ public abstract class BucketItemMixin extends Item implements FluidModificationI
                             Criteria.FILLED_BUCKET.trigger((ServerPlayerEntity)user, itemStack2);
                         }
 
-                        return TypedActionResult.success(itemStack3, world.isClient());
+                        cir.setReturnValue(TypedActionResult.success(itemStack3, world.isClient()));
                     }
                 }
 
-                return TypedActionResult.fail(itemStack);
+                cir.setReturnValue(TypedActionResult.fail(itemStack));
             }
             else {
                 //满桶释放
@@ -139,9 +141,9 @@ public abstract class BucketItemMixin extends Item implements FluidModificationI
                     //保留附魔的逻辑交给getEmptiedStack
                     ItemStack itemStack2 = ItemUsage.exchangeStack(itemStack, user, getEmptiedStack(itemStack, user));
 
-                    return TypedActionResult.success(itemStack2, world.isClient());
+                    cir.setReturnValue( TypedActionResult.success(itemStack2, world.isClient()));
                 } else {
-                    return TypedActionResult.fail(itemStack);
+                    cir.setReturnValue( TypedActionResult.fail(itemStack));
                 }
             }
         }

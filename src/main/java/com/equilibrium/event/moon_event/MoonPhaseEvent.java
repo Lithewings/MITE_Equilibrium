@@ -1,6 +1,5 @@
-package com.equilibrium.event;
+package com.equilibrium.event.moon_event;
 
-import com.equilibrium.util.WorldMoonPhasesSelector;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;

@@ -29,6 +29,11 @@
   "entity.miteequilibrium.revenant": "Revenant",
   "entity.miteequilibrium.wooden_spider": "Wood Spider",
 
+  "entity.miteequilibrium.stone_elemental": "Cobble Stone Elemental",
+  "entity.miteequilibrium.end_rock_elemental": "End Stone Elemental",
+  "entity.miteequilibrium.netherrack_elemental": "Netherrack Elemental",
+  "entity.miteequilibrium.obsidian_elemental": "Obsidian Elemental",
+
   "mod.selectWorld.seedInfo": "Let the random number decide this",
   "mod.options.difficulty.easy.info": "Hostile mobs spawn but deal less damage. Hunger bar depletes and drains all health.",
   "mod.options.difficulty.hard.info": "Hostile mobs spawn and deal more damage. Hunger bar depletes and drains all health.",
@@ -52,7 +57,7 @@
 
   "adventure.get_adamantium_pickaxe": "Craft an Adamantium Pickaxe at the Netherite Workbench. It is the only tool capable of destroying the Ender Crystal.",
   "adventure.get_copper": "Obtain your first Copper Nugget, then collect 27 in total to craft a Copper Pickaxe. Reward: 20 XP.",
-  "adventure.get_diamond": "Loot chests from various locations, collect diamonds, and prepare for crafting an enchanting table.",
+  "adventure.get_diamond": "Loot chests from various locations, collect diamonds, and prepare for crafting an enchanting table and a Diamond Crafting Table.",
   "adventure.get_emerald": "Loot chests from various locations, or mine emerald ore, collect emeralds to prepare for crafting an enchanting table.",
 
   "adventure.get_emerald_enchantment_table": "Use it to enchant basic weapons, or to create enchanted golden apples.",
@@ -90,10 +95,12 @@
   "adventure.use_ender_eye": "Reach a location at least 12,000 blocks from your spawn point and successfully throw an End Eye",
 
 
+  "adventure.get_ancient_metal": "Safely kill Longdead to collect enough Ancient Chain Armor, uncraft them into Ancient Metal Nuggets and craft into Ancient Metal Ingots, or go venturing out to locate a Longdead spawner.",
+
+  "adventure.get_diamond_crafting_table": "Collect Ancient Metal and Diamonds to create a Diamond Crafting Table, to then forge Mithril Tools.",
 
 
-
-
+  "adventure.get_mithril_pickaxe": "Craft a Mithril Pickaxe on the Diamond Crafting Table to mine the Adamantium Ore you've encountered.",
 
   "item.miteequilibrium.adamantium_hoe.tooltip1": "Grants a 20% movement speed bonus",
   "item.miteequilibrium.adamantium_hoe.tooltip2": "Walk with swift composure",
@@ -273,5 +280,6 @@
   "sleep.failure.reason_3": "It is not safe here. Try sealing the area completely with solid blocks.",
   "sleep.failure.reason_4": "You are not sleepy.",
   "sleep.failure.reason_5":  "The full moon gives you insomnia.",
-  "sleep.failure.reason_6": "You cannot sleep outdoors."
+  "sleep.failure.reason_6": "You cannot sleep outdoors.",
+  "info.need.advance.craftingtable": "Need a higher level crafting table"
 }

@@ -1,6 +1,6 @@
 package com.equilibrium.mixin.vanilla_blocksmixin.tables;
 
-import com.equilibrium.util.WorldMoonPhasesSelector;
+import com.equilibrium.event.moon_event.WorldMoonPhasesSelector;
 import net.minecraft.block.BedBlock;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.List;
 import java.util.Objects;
 
-import static com.equilibrium.util.AStarPathfinder.findPath;
+import static com.equilibrium.entity.path_finder.AStarSimplePathfinder.findPath;
 
 @Mixin(BedBlock.class)
 public abstract class BedBlockMixin extends HorizontalFacingBlock implements BlockEntityProvider {

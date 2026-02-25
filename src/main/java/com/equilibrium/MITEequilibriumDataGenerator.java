@@ -8,19 +8,7 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 
 public class MITEequilibriumDataGenerator implements DataGeneratorEntrypoint {
-
-
 	@Override
-	public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator){
-		FabricDataGenerator.Pack pack=fabricDataGenerator.createPack();
-//		pack.addProvider(ModRecipeGenerator::new);
-//		pack.addProvider(ModModelProvider::new);
-//		pack.addProvider(ModLanguageTranslatorZhCn::new);
-//		pack.addProvider(TagsProvider::new);
-//		pack.addProvider(ModLootTableProvider::new);
-//		pack.addProvider(ModEnchantmentDynamicRegistryProvider::new);
-//		pack.addProvider(ModAdventureProvider::new);
-
-	}
+	public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator){}
 
 }

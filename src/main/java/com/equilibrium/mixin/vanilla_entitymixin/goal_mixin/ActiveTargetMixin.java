@@ -10,7 +10,7 @@ import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 
 import static com.equilibrium.OnServerInitialize.MOD_ID;
-import static com.equilibrium.event.MoonPhaseEvent.getMoonType;
+import static com.equilibrium.event.moon_event.MoonPhaseEvent.getMoonType;
 
 @Mixin(ActiveTargetGoal.class)
 public abstract class ActiveTargetMixin <T extends LivingEntity> extends TrackTargetGoal {

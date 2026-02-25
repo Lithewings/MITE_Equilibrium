@@ -9,6 +9,7 @@
     }
   },
   "display": {
+    "announce_to_chat": true,
     "description": {
       "translate":"adventure.enter_the_end"
     },

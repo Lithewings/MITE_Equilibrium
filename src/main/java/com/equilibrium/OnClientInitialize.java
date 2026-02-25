@@ -3,24 +3,26 @@ package com.equilibrium;
 
 import com.equilibrium.block.ModBlocksRegistry;
 import com.equilibrium.block.enchanting_table.*;
+import com.equilibrium.client.render.entity.model.BaseEarthElementalEntityModel;
 import com.equilibrium.client.render.entity.renderer.*;
+import com.equilibrium.client.render.entity.renderer.elemental.EndRockElementalEntityRenderer;
+import com.equilibrium.client.render.entity.renderer.elemental.NetherrackElementalEntityRenderer;
+import com.equilibrium.client.render.entity.renderer.elemental.ObsidianElementalEntityRenderer;
+import com.equilibrium.client.render.entity.renderer.elemental.StoneElementalEntityRenderer;
 import com.equilibrium.item.Armors;
 import com.equilibrium.network.S2CIllnessTextureBooleanPacket;
 import com.equilibrium.network.S2CStockChangeGrassColorPacket;
-import com.equilibrium.util.AdvancementRemover;
 import com.equilibrium.util.MyCommands;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
+import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
+import net.minecraft.client.render.entity.model.EntityModelLayers;
 import net.minecraft.item.Items;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -99,9 +101,29 @@ public class OnClientInitialize implements ClientModInitializer {
         EntityRendererRegistry.register(PUDDING, PuddingSlimeEntityRenderer::new);
         EntityRendererRegistry.register(BONE_LORD, BoneLordEntityRenderer::new);
         EntityRendererRegistry.register(WOODEN_SPIDER, WoodenSpiderRenderer::new);
-
         EntityRendererRegistry.register(FIRE_ELEMENTAL, FireElementalEntityRendererTransparent::new);
 
+
+        //模型为两足生物,定义了所有关节如头部,手脚腿的部分,如何活动这里借助原版僵尸的逻辑:正常走路,一直举着手移动,攻击时挥手等等
+        EntityRendererRegistry.register(STONE_ELEMENTAL, (context) -> {
+            ModelPart modelPart = context.getPart(EntityModelLayers.ZOMBIE);
+            return new StoneElementalEntityRenderer(context, new BaseEarthElementalEntityModel<>(modelPart), 0.5f);
+        });
+
+        EntityRendererRegistry.register(END_ROCK_ELEMENTAL, (context) -> {
+            ModelPart modelPart = context.getPart(EntityModelLayers.ZOMBIE);
+            return new EndRockElementalEntityRenderer(context, new BaseEarthElementalEntityModel<>(modelPart), 0.5f);
+        });
+
+        EntityRendererRegistry.register(NETHERROCK_ELEMENTAL, (context) -> {
+            ModelPart modelPart = context.getPart(EntityModelLayers.ZOMBIE);
+            return new NetherrackElementalEntityRenderer(context, new BaseEarthElementalEntityModel<>(modelPart), 0.5f);
+        });
+
+        EntityRendererRegistry.register(OBSIDIAN_ELEMENTAL, (context) -> {
+            ModelPart modelPart = context.getPart(EntityModelLayers.ZOMBIE);
+            return new ObsidianElementalEntityRenderer(context, new BaseEarthElementalEntityModel<>(modelPart), 0.5f);
+        });
 
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
             MyCommands.registerClientAllCommands(dispatcher);

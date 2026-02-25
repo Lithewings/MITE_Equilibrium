@@ -19,6 +19,7 @@
     }
   },
   "display": {
+    "announce_to_chat": true,
     "description": {
       "translate":  "adventure.find_fortress"
     },

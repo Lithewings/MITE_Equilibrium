@@ -1,6 +1,5 @@
 package com.equilibrium.mixin.vanilla_entitymixin;
 
-import com.equilibrium.util.ServerInfoRecorder;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.InteractionObserver;
 import net.minecraft.entity.passive.MerchantEntity;
@@ -25,18 +24,9 @@ public abstract class VillagerEntityMixin extends MerchantEntity implements Inte
 
     @Inject(method = "mobTick",at = @At("HEAD"))
     protected void mobTick(CallbackInfo ci) {
-//只有结构生成的村民才会有natural = true的标签
-//        if (spawnReason == SpawnReason.STRUCTURE) {
-//            this.natural = true;
-//        }
+    //只有结构生成的村民才会有natural = true的标签
         if(this.natural)
             this.setHealth(0);
     }
 
-    @Inject(method = "canSummonGolem",at = @At("HEAD"),cancellable = true)
-    public void canSummonGolem(long time, CallbackInfoReturnable<Boolean> cir) {
-
-        if(ServerInfoRecorder.getDay()<=32)
-            cir.setReturnValue(false);
-    }
 }

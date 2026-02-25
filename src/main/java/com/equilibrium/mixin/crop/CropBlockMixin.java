@@ -1,7 +1,7 @@
 package com.equilibrium.mixin.crop;
 
 import com.equilibrium.OnServerInitialize;
-import com.equilibrium.util.ServerInfoRecorder;
+
 import net.minecraft.block.*;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -97,15 +97,9 @@ public abstract class CropBlockMixin extends PlantBlock implements Fertilizable 
         return super.onUse(state, world, pos, player, hit);
     }
 
-    @Unique
-    private int lastRandomTickDay;
 
-    @Inject(method = "<init>", at = @At(value = "TAIL"))
-    public void CropBlock(Settings settings, CallbackInfo ci) {
-        //初始化种植日期
-        lastRandomTickDay = ServerInfoRecorder.getDay();
 
-    }
+
 
     @Shadow
     public static final IntProperty AGE = Properties.AGE_7;
@@ -172,13 +166,7 @@ public abstract class CropBlockMixin extends PlantBlock implements Fertilizable 
                 world.breakBlock(pos, true);
         }
 
-        //成功进行了一轮随机刻,记录当前日期
-        int thisRandomTickDay = ServerInfoRecorder.getDay();
-        //12天必然成长一个阶段
-        if (thisRandomTickDay - lastRandomTickDay >= 12) {
-            this.applyGrowth(world, pos, state);
-            lastRandomTickDay = thisRandomTickDay;
-        }
+
         if (world.getBaseLightLevel(pos, 0) >= 9) {
             int i = this.getAge(state);
             //MaxAge=7

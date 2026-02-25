@@ -33,7 +33,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Objects;
 
-import static com.equilibrium.util.WorldMoonPhasesSelector.calculateMoonType;
+import static com.equilibrium.event.moon_event.WorldMoonPhasesSelector.calculateMoonType;
 import static com.equilibrium.util.XpHashMap.getXpForLevel;
 
 @Mixin(ZombieEntity.class)

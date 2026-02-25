@@ -30,6 +30,8 @@ public class SharedConstant {
             Optional.empty(),
             Optional.empty(),
             Optional.empty());
+    Text text = Text.translatable("info.need.advance.craftingtable");
+
     public static final Text INVALID_CRAFTING_TEXT = Text.literal("需要更高等级的合成台").setStyle(YELLOW);
 
 

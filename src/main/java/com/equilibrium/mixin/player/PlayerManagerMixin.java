@@ -1,7 +1,6 @@
 package com.equilibrium.mixin.player;
 
 import com.equilibrium.persistent_state.StateSaverAndLoader;
-import com.equilibrium.util.ServerInfoRecorder;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.entity.Entity;
@@ -67,13 +66,6 @@ public abstract class PlayerManagerMixin {
             //只触发一次
             serverState.onFirstInTheWorld = false;
             player.sendMessage(Text.translatable("mod.first_day.helloWorld").formatted(Formatting.YELLOW));
-        }
-
-
-        //发送时间
-        if (!player.getWorld().isClient) {
-            long time = player.getWorld().getTimeOfDay();
-            ServerInfoRecorder.setDay((int) time);
         }
 
 

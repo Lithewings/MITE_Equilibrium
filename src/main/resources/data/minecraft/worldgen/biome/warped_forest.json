@@ -87,10 +87,16 @@
     "misc": [],
     "monster": [
       {
-        "type": "minecraft:enderman",
+        "type": "miteequilibrium:netherrack_elemental",
         "maxCount": 1,
         "minCount": 1,
         "weight": 1
+      },
+      {
+        "type": "minecraft:enderman",
+        "maxCount": 1,
+        "minCount": 1,
+        "weight": 5
       }
     ],
     "underground_water_creature": [],

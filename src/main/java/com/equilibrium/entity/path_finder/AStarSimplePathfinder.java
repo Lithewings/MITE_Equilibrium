@@ -1,10 +1,9 @@
-package com.equilibrium.util;
+package com.equilibrium.entity.path_finder;
 
 import java.util.*;
 
 import com.equilibrium.tags.ModBlockTags;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.state.property.Properties;
 import net.minecraft.world.World;
@@ -14,7 +13,7 @@ import net.minecraft.block.BlockState;
 /**
  * 简易版A*寻路，用于在三维方块格子里找一条从start到goal的可通行路径。
  */
-public class AStarPathfinder {
+public class AStarSimplePathfinder {
 
     // 1) 设定最大搜索范围
     private static final int MAX_RANGE = 32;

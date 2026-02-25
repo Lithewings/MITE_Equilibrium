@@ -67,6 +67,11 @@ public class ModSpawnRestriction {
 
                 SpawnRestriction.register(BONE_LORD, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
 
+                SpawnRestriction.register(STONE_ELEMENTAL, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+                SpawnRestriction.register(OBSIDIAN_ELEMENTAL, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+                SpawnRestriction.register(END_ROCK_ELEMENTAL, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+                SpawnRestriction.register(NETHERROCK_ELEMENTAL, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+
                 SpawnRestriction.register(REVENANT, SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
                 SpawnRestriction.register(
                         FIRE_ELEMENTAL,

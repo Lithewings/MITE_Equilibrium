@@ -27,6 +27,12 @@
         "maxCount": 4,
         "minCount": 4,
         "weight": 10
+      },
+      {
+        "type": "miteequilibrium:end_rock_elemental",
+        "maxCount": 1,
+        "minCount": 1,
+        "weight": 10
       }
     ],
     "underground_water_creature": [],

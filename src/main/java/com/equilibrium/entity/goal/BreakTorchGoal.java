@@ -1,8 +1,7 @@
 package com.equilibrium.entity.goal;
 
 
-import com.equilibrium.util.AStarCanGoTo;
-import com.equilibrium.util.AStarPathfinder;
+import com.equilibrium.entity.path_finder.AStarSimplePathfinder;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.ai.goal.Goal;
@@ -14,8 +13,6 @@ import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-
-import static com.equilibrium.util.AStarPathfinder.findPath;
 
 
 public class BreakTorchGoal extends Goal {
@@ -77,7 +74,7 @@ public class BreakTorchGoal extends Goal {
         if(torchBlockPosList.isEmpty())
             return false;
         //过滤掉不可达的火把路径
-        torchBlockPosList.removeIf(pos -> !AStarPathfinder.hasPath(this.entity.getWorld(), this.entity.getBlockPos(), pos));
+        torchBlockPosList.removeIf(pos -> !AStarSimplePathfinder.hasPath(this.entity.getWorld(), this.entity.getBlockPos(), pos));
         //现在,如果torchBlockPosList存在,那么其中记录的是可到的所有火把坐标
 
         // 按距离排序
@@ -127,7 +124,7 @@ public class BreakTorchGoal extends Goal {
         if(target==null)
             return false;
         //最近的目标路径存在
-        if(!AStarPathfinder.hasPath(this.entity.getWorld(), this.entity.getBlockPos(), target))
+        if(!AStarSimplePathfinder.hasPath(this.entity.getWorld(), this.entity.getBlockPos(), target))
             return false;
 
 

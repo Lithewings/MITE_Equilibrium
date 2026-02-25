@@ -1,4 +1,4 @@
-package com.equilibrium.util;
+package com.equilibrium.entity.path_finder;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.ai.pathing.NavigationType;
@@ -8,20 +8,20 @@ import net.minecraft.world.World;
 
 import java.util.*;
 
-public class AStarCanGoTo {
-    //该算法只考虑是否可以单方面通行,而AStarForAnimals是考虑双行通行
-
-
-
-
-
+public class AStarCanGoToAndReturn {
     // 最大搜索范围
     private static final int MAX_RANGE = 32;
 
-    /**
-     * 简化版寻路算法，只检查是否有路径存在
-     */
-    public static boolean hasPath(World world, BlockPos start, BlockPos goal) {
+
+    public static List<BlockPos> findSimplePath(World world, BlockPos start, BlockPos goal) {
+
+        BlockState blockState = world.getBlockState(start);
+        //生物导航时不能在墙里,也就是说不能贴着墙,也不能在墙里窒息
+        if(blockState.isIn(BlockTags.WALLS )|| blockState.isIn(BlockTags.FENCES) || blockState.isIn(BlockTags.FENCE_GATES)){
+            return null;
+        }
+
+
         // 优先队列，按总代价排序
         PriorityQueue<Node> openSet = new PriorityQueue<>(Comparator.comparingDouble(Node::fCost));
         Map<BlockPos, Node> allNodes = new HashMap<>();
@@ -38,12 +38,14 @@ public class AStarCanGoTo {
             Node current = openSet.poll();
             if (current == null) break;
 
-            // 到达目标 - 返回true
+            // 到达目标
             if (current.pos.equals(goal)) {
-                return true;
+                return reconstructPath(current);
             }
 
             closedSet.add(current.pos);
+
+
 
             // 获取简单邻居（只有6个方向）
             for (BlockPos neighborPos : getSimpleNeighbors(current.pos)) {
@@ -56,22 +58,13 @@ public class AStarCanGoTo {
 
                 int dy = current.pos.getY() - neighborPos.getY();
 
-                //水平移动（dy==0）
-
-                //上移一格（dy==-1）
-
-                //下移一格（dy==1）
-
-                //下移多格（dy>1）
-
-                // 只允许水平移动或一格高度的上下移动
-                if (dy < -1 ) {
-                    continue;
+                // 水平上下移动
+                if (dy == 0 ||dy == 1||dy==-1) {
+                    if(!canStandSimply(world, current.pos) || !isPassable(world,neighborPos))
+                        continue;
                 }
-
-                if (!canStandSimply(world, current.pos) || !isPassable(world, neighborPos)) {
+                else
                     continue;
-                }
 
                 // 已在闭集跳过
                 if (closedSet.contains(neighborPos)) {
@@ -105,14 +98,14 @@ public class AStarCanGoTo {
             }
         }
 
-        return false; // 没找到路径
+        return null; // 没找到路径
     }
 
     /**
-     * 简单邻居：12个方向（水平4个+上下各4个）
+     * 简单邻居：只有6个基本方向
      */
     private static List<BlockPos> getSimpleNeighbors(BlockPos pos) {
-        List<BlockPos> neighbors = new ArrayList<>(12);
+        List<BlockPos> neighbors = new ArrayList<>(6);
 
         // 水平四个方向
         neighbors.add(pos.north());
@@ -120,34 +113,23 @@ public class AStarCanGoTo {
         neighbors.add(pos.east());
         neighbors.add(pos.west());
 
-        // 上方向（水平+上）
+        // 上方向
         neighbors.add(pos.up().north());
         neighbors.add(pos.up().south());
         neighbors.add(pos.up().east());
         neighbors.add(pos.up().west());
 
-        // 下方向（水平+下）
-        neighbors.add(pos.down(1).north());
-        neighbors.add(pos.down(2).north());
-        neighbors.add(pos.down(3).north());
-
-        neighbors.add(pos.down(1).south());
-        neighbors.add(pos.down(2).south());
-        neighbors.add(pos.down(3).south());
-
-        neighbors.add(pos.down(1).east());
-        neighbors.add(pos.down(2).east());
-        neighbors.add(pos.down(3).east());
-
-        neighbors.add(pos.down(1).west());
-        neighbors.add(pos.down(2).west());
-        neighbors.add(pos.down(3).west());
-
-        // 垂直下落多格（正下方）
+        //下方向
+        neighbors.add(pos.down().north());
+        neighbors.add(pos.down().south());
+        neighbors.add(pos.down().east());
+        neighbors.add(pos.down().west());
 
 
         return neighbors;
     }
+
+
 
     /**
      * 简化版站立检查
@@ -155,23 +137,33 @@ public class AStarCanGoTo {
     private static boolean canStandSimply(World world, BlockPos pos) {
         // 检查脚下方块是否坚固
         BlockPos groundPos = pos.down();
-        return !world.getBlockState(groundPos).isAir();
+        if (world.getBlockState(groundPos).isAir()) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
      * 方块是否可通过（空气或可穿越）
      */
     private static boolean isPassable(World world, BlockPos pos) {
+
         BlockState blockState = world.getBlockState(pos);
         BlockState blockStateUp = world.getBlockState(pos.up());
         BlockState blockStateDown = world.getBlockState(pos.down());
-
-        // 需要1×2的空间可以通过，且不能踩在栅栏/墙上
-        return blockState.canPathfindThrough(NavigationType.AIR)
+        //不能踩在1.5格的栅栏上,同时必须满足1*2的大小空间可以通过
+        if (blockState.canPathfindThrough(NavigationType.AIR)
                 && blockStateUp.canPathfindThrough(NavigationType.AIR)
                 && !blockStateDown.isIn(BlockTags.WALLS)
                 && !blockStateDown.isIn(BlockTags.FENCES)
-                && !blockStateDown.isIn(BlockTags.FENCE_GATES);
+                && !blockStateDown.isIn(BlockTags.FENCE_GATES)
+
+
+        ){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -184,13 +176,28 @@ public class AStarCanGoTo {
     }
 
     /**
-     * 简化的节点类
+     * 重构路径
+     */
+    private static List<BlockPos> reconstructPath(Node goalNode) {
+        List<BlockPos> path = new ArrayList<>();
+        Node current = goalNode;
+
+        while (current != null) {
+            path.add(0, current.pos);
+            current = current.parent;
+        }
+
+        return path;
+    }
+
+    /**
+     * 节点类
      */
     private static class Node {
         BlockPos pos;
         double gCost = Double.POSITIVE_INFINITY;
         double hCost = 0;
-        Node parent = null; // 虽然不需要路径，但需要记录父节点用于A*算法
+        Node parent = null;
 
         Node(BlockPos pos) {
             this.pos = pos;
@@ -213,4 +220,5 @@ public class AStarCanGoTo {
             return pos.hashCode();
         }
     }
+
 }
