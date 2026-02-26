@@ -56,15 +56,18 @@ public class MetalAxe extends ToolItem implements AdditionalAttribute{
             .build();
 
     public MetalAxe(ToolMaterial material, Settings settings) {
-        super(material, settings.component(DataComponentTypes.TOOL, createToolComponent()));
+        super(material, settings.component(DataComponentTypes.TOOL, material.createComponent(BlockTags.AXE_MINEABLE)));
 
     }
     //ofAlwaysDropping 可以将为工具添加一个正确挖掘的"标签"
-    private static ToolComponent createToolComponent() {
-        return new ToolComponent(
-                List.of(ToolComponent.Rule.ofAlwaysDropping(BlockTags.AXE_MINEABLE, 4F)), 1.0F, 0
-        );
-    }
+    //ToolComponent(List<ToolComponent.Rule> rules, float defaultMiningSpeed, int damagePerBlock)
+    //ToolComponent的第三个参数damagePerBlock指的是每次破坏方块降低的耐久值,这里设为0,以后统一在BreakBlockEvent上进行定义具体的值
+    //List.of(ToolComponent.Rule.ofAlwaysDropping(BlockTags.AXE_MINEABLE, 4F),在挖掘正确方块时,永远掉落物品,然后进行多少倍的加速?统一两倍.基础值在ToolMaterials中定义
+//    private static ToolComponent createToolComponent() {
+//        return new ToolComponent(
+//                List.of(ToolComponent.Rule.ofAlwaysDropping(BlockTags.AXE_MINEABLE, 2F)), 1.0F, 0
+//        );
+//    }
 
 
 

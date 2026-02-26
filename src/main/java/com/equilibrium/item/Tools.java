@@ -40,7 +40,7 @@ public class Tools {
     public static final Item GOLD_AXE = createMetalAxeItem(ModToolMaterials.GOLD_AXE,5,0.5f);
     public static final Item SILVER_AXE = createMetalAxeItem(ModToolMaterials.SILVER_AXE,8,0.7f);
     public static final Item IRON_AXE = createMetalAxeItem(ModToolMaterials.IRON_AXE,9,0.7f);
-    public static final Item MITHRIL_AXE = createMetalAxeItem(ModToolMaterials.ADAMANTIUM_AXE,10,0.8f);
+    public static final Item MITHRIL_AXE = createMetalAxeItem(ModToolMaterials.MITHRIL_AXE,10,0.8f);
     public static final Item ADAMANTIUM_AXE = createMetalAxeItem(ModToolMaterials.ADAMANTIUM_AXE,10,1f);
 
 
@@ -56,8 +56,6 @@ public class Tools {
     public static final Item SILVER_HOE = createMetalHoeItem(ModToolMaterials.SILVER_HOE,4,3f);
     public static final Item IRON_HOE = createMetalHoeItem(ModToolMaterials.IRON_HOE,5,3f);
     public static final Item MITHRIL_HOE = createMetalHoeItem(ModToolMaterials.MITHRIL_HOE,6,3f);
-
-
     public static final Item ADAMANTIUM_HOE =createAdamantiumHoeItem(ModToolMaterials.ADAMANTIUM_HOE,7,3f);
 
 
@@ -91,7 +89,7 @@ public class Tools {
     public static final Item SILVER_SWORD = createSilverSwordItem(ModToolMaterials.SILVER_SWORD,7,3f);
     public static final Item IRON_SWORD = createMetalSwordItem(ModToolMaterials.IRON_SWORD,8,3f);
     public static final Item MITHRIL_SWORD = createMetalSwordItem(ModToolMaterials.MITHRIL_SWORD,9,3f);
-    public static final Item ADMANTIUM_SWORD =createMetalSwordItem(ModToolMaterials.ADAMANTIUM_SHOVEL,10,3f);
+    public static final Item ADMANTIUM_SWORD =createMetalSwordItem(ModToolMaterials.ADAMANTIUM_SWORD,10,3f);
 
     public static final Item COPPER_DAGGER = createMetalDaggerItem(ModToolMaterials.COPPER_DAGGER,6,4f);
     public static final Item GOLD_DAGGER = createMetalDaggerItem(ModToolMaterials.GOLD_DAGGER,6,4f);

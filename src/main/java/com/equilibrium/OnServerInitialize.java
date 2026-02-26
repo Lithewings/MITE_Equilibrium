@@ -399,9 +399,6 @@ public class OnServerInitialize implements ModInitializer {
 
         FurnaceEntityRegistry.init();
 
-        CreativeGroup.addGroup();
-
-
         registrySoundEvents();
         modBlockEntityTypesInit();
 

@@ -72,7 +72,11 @@ public class BaseCoinItem extends Item {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
-        return onUseCrystalItem(itemStack,user,world,this.experienceCost,convertItem);
+        if(user.experienceLevel<=50) {
+            return onUseCrystalItem(itemStack, user, world, this.experienceCost, convertItem);
+        }
+        //大于50级就不可以使用硬币了
+        return TypedActionResult.fail(itemStack);
     }
 
     //注意:让自动合成器合成该物品是无法扣除玩家的经验值的,需要在合成器那边注入mixin逻辑

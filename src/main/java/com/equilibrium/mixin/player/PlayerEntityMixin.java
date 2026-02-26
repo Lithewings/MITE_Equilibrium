@@ -29,6 +29,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -373,7 +374,6 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     @Inject(method = "getBlockBreakingSpeed", at = @At("HEAD"), cancellable = true)
     public void getBlockBreakingSpeed(BlockState block, CallbackInfoReturnable<Float> cir) {
         cir.cancel();
-
         this.addExhaustion(0.0005f);
         ItemStack stack = this.getMainHandStack();
         float f = this.inventory.getBlockBreakingSpeed(block);
@@ -405,12 +405,8 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         if(block.isIn(ModBlockTags.CATEGORY)||block.isIn(ModBlockTags.SHOULD_BE_SOFT))
             f= f * 8;
 
-        if (stack.isSuitableFor(block)||(stack.isIn(ModItemTags.PICKAXES)&&block.isIn(ModBlockTags.ORE))) {
-            f = f * 4;
-        }
-
-        if (stack.isSuitableFor(block)||(stack.isIn(ModItemTags.HAMMERS)&&block.isIn(ModBlockTags.ORE))) {
-            f = f * 4;
+        if (stack.isSuitableFor(block)){
+            f = f * 16;
         }
 
         this.itemHarvest = getItemHarvestLevel(stack);
@@ -552,11 +548,6 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
     @Inject(method = "tick", at = @At("HEAD"))
     public void tick(CallbackInfo ci){
-
-
-
-
-
 
         //首日保护
         if(this.getWorld().getTimeOfDay()<24000) {

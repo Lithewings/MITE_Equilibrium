@@ -47,7 +47,7 @@ public class ModBlocksRegistry {
     public static final Block COPPER_ORE = new Block(Block.Settings.create().strength(1.0f));
     public static final Block COPPER_BLOCK = new Block(Block.Settings.create().strength(4.0f));
 
-    public static final Block MITHRIL_ORE = new Block(Block.Settings.create().strength(2.0f));
+    public static final Block MITHRIL_ORE = new Block(Block.Settings.create().strength(4.0f));
     public static final Block MITHRIL_BLOCK = new Block(Block.Settings.create().strength(4.0f));
 
     public static final Block SILVER_ORE = new Block(Block.Settings.create().strength(1.0f));

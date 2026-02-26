@@ -20,14 +20,10 @@
   "entity.miteequilibrium.pudding": "黑色史莱姆",
   "entity.miteequilibrium.revenant": "亡魂",
   "entity.miteequilibrium.wooden_spider": "木蜘蛛",
-
   "entity.miteequilibrium.stone_elemental": "石元素",
   "entity.miteequilibrium.end_rock_elemental": "末地岩元素",
   "entity.miteequilibrium.netherrack_elemental": "下界岩元素",
   "entity.miteequilibrium.obsidian_elemental": "黑曜石元素",
-
-
-
   "mod.selectWorld.seedInfo": "让随机数来决定这一切吧",
   "mod.options.difficulty.easy.info": "敌对生物会生成但造成较少伤害。饥饿条耗尽时会消耗生命值。",
   "mod.options.difficulty.hard.info": "敌对生物会生成并造成更多伤害。饥饿条耗尽时会消耗生命值。",
@@ -41,16 +37,8 @@
   "adventure.find_fortress": "找到下界要塞，并获得4个金苹果作为奖励。",
   "adventure.follow_ender_eye": "进入要塞，在迷宫般的走廊中找到末地传送门房间。请注意，传送门房间只会生成在距离世界出生点至少12千米以外的要塞中。",
   "adventure.get_adamantium_pickaxe": "在下界合金工作台上打造艾德曼镐。它是唯一能摧毁末影水晶的工具。",
-
-  "adventure.get_ancient_metal": "在安全的位置击败古尸，收集足够多的远古锁链盔甲,反向合成远古金属颗粒再合成出远古金属锭,亦或是去冒险寻找古尸刷怪笼。",
-
   "adventure.get_copper": "获得你的第一颗铜粒，并收集总计27颗以铸造一把铜镐。奖励：20点经验值。",
   "adventure.get_diamond": "搜刮各处的战利品箱子，收集钻石，为制作合成台和高级附魔台做好准备。",
-
-  "adventure.get_diamond_crafting_table": "使用远古金属和钻石,制作出钻石合成台,以合成秘银工具。",
-  "adventure.get_mithril_pickaxe": "在钻石合成台上合成秘银镐,采下你曾遇到过的艾德曼矿石",
-
-
   "adventure.get_emerald": "搜刮各处的战利品箱子，亦或是采下绿宝石矿，收集绿宝石,为制作附魔台做好准备。",
   "adventure.get_emerald_enchantment_table": "用它制作最基础的附魔武器，也可以用它来附魔出附魔金苹果。",
   "adventure.get_enchantment_table": "用它制作附魔武器，现在你可以对烈焰人造成有效伤害了。",
@@ -68,9 +56,10 @@
   "adventure.go_to_underworld": "在主世界底层构建传送门，进入地下世界维度，并奖励200点经验值与3块铁块。",
   "adventure.kill_dragon": "击败末影龙，抵达旅途终点。",
   "adventure.root": "一份纪念品——来自你出生点旁的箱子。",
-
   "adventure.use_ender_eye": "抵达距离出生点至少12千米的位置，成功投掷出一颗末影之眼，然后捡起来。",
-
+  "adventure.get_ancient_metal": "在安全的位置击败古尸，收集足够多的远古锁链盔甲,反向合成远古金属颗粒再合成出远古金属锭,亦或是去冒险寻找古尸刷怪笼。",
+  "adventure.get_diamond_crafting_table": "使用远古金属和钻石,制作出钻石合成台,以合成秘银工具。",
+  "adventure.get_mithril_pickaxe": "在钻石合成台上合成秘银镐,采下你曾遇到过的艾德曼矿石",
   "item.miteequilibrium.adamantium_hoe.tooltip1": "获得20%的速度加成",
   "item.miteequilibrium.adamantium_hoe.tooltip2": "泰然自若地快步行走",
   "enchantment.miteequilibrium.reaching": "触及",
@@ -95,6 +84,13 @@
   "block.miteequilibrium.gold_block": "金块",
   "block.miteequilibrium.mithril_block": "秘银块",
   "block.miteequilibrium.silver_block": "银块",
+
+
+
+
+
+
+
   "item.miteequilibrium.adamantium": "艾德曼锭",
   "item.miteequilibrium.adamantium_axe": "艾德曼斧",
   "item.miteequilibrium.adamantium_dagger": "艾德曼短剑",
@@ -165,6 +161,8 @@
   "item.miteequilibrium.copper_coin": "铜币",
   "item.miteequilibrium.iron_coin": "铁币",
   "item.miteequilibrium.pumpkin_soup": "南瓜汤",
+  "item.miteequilibrium.pudding_slime_ball": "黑色史莱姆球",
+
   "enchantment.miteequilibrium.speed": "速度",
   "item.miteequilibrium.test": "Test",
   "block.miteequilibrium.example_block": "TestBlock",
@@ -178,6 +176,16 @@
   "block.miteequilibrium.iron_crafting_table": "铁工作台",
   "block.miteequilibrium.diamond_crafting_table": "钻石工作台",
   "block.miteequilibrium.netherite_crafting_table": "下界合金工作台",
+
+
+
+  "block.miteequilibrium.gold_ore": "金矿石方块",
+  "block.miteequilibrium.adamantium_ore": "艾德曼矿石方块",
+  "block.miteequilibrium.copper_ore": "铜矿石方块",
+  "block.miteequilibrium.mithril_ore": "秘银矿石方块",
+  "block.miteequilibrium.silver_ore": "银矿石方块",
+
+
   "container.flint_crafting": "燧石工作台",
   "container.copper_crafting": "铜工作台",
   "container.silver_crafting": "银工作台",
@@ -203,5 +211,8 @@
   "sleep.failure.reason_4": "你并没有困意",
   "sleep.failure.reason_5": "满月让你感到失眠",
   "sleep.failure.reason_6": "你无法露天睡觉",
-  "info.need.advance.craftingtable": "需要更高等级的合成台"
+  "info.need.advance.craftingtable": "需要更高等级的合成台",
+  "mod.itemGroup.armors_and_tools": "工具与盔甲",
+  "mod.itemGroup.blocks_and_metallic_items": "方块与金属制品",
+  "mod.itemGroup.farm": "农业与食物"
 }

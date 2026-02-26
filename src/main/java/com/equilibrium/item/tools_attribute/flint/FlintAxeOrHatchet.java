@@ -4,6 +4,8 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.*;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.ToolComponent;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -21,10 +23,11 @@ import net.minecraft.world.WorldEvents;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class FlintAxeOrHatchet extends MiningToolItem {
+public class FlintAxeOrHatchet extends ToolItem {
     protected static final Map<Block, Block> STRIPPED_BLOCKS = new ImmutableMap.Builder<Block, Block>()
             .put(Blocks.OAK_WOOD, Blocks.STRIPPED_OAK_WOOD)
             .put(Blocks.OAK_LOG, Blocks.STRIPPED_OAK_LOG)
@@ -50,8 +53,11 @@ public class FlintAxeOrHatchet extends MiningToolItem {
             .build();
 
     public FlintAxeOrHatchet(ToolMaterial material, Settings settings) {
-        super(material, BlockTags.AXE_MINEABLE, settings);
+        super(material, settings.component(DataComponentTypes.TOOL, material.createComponent(BlockTags.AXE_MINEABLE)));
     }
+
+
+
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
         World world = context.getWorld();

@@ -53,15 +53,10 @@ public class MetalHoe extends ToolItem implements AdditionalAttribute{
 
 
     public MetalHoe(ToolMaterial toolMaterial, Item.Settings settings) {
-        super(toolMaterial,settings.component(DataComponentTypes.TOOL, createToolComponent()));
+        super(toolMaterial,settings.component(DataComponentTypes.TOOL, toolMaterial.createComponent(BlockTags.HOE_MINEABLE)));
     }
 
 
-    private static ToolComponent createToolComponent() {
-        return new ToolComponent(
-                List.of(ToolComponent.Rule.ofAlwaysDropping(BlockTags.HOE_MINEABLE, 4F)), 1.0F, 0
-        );
-    }
 
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {

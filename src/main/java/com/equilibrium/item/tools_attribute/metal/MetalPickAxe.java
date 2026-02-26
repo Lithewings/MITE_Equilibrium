@@ -1,6 +1,7 @@
 package com.equilibrium.item.tools_attribute.metal;
 
 import com.equilibrium.event.CraftingMetalPickAxeCallback;
+import net.minecraft.block.Blocks;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.ToolComponent;
 import net.minecraft.entity.EquipmentSlot;
@@ -22,24 +23,9 @@ public class MetalPickAxe extends ToolItem implements AdditionalAttribute {
 
 
     public MetalPickAxe(ToolMaterial material, Settings settings) {
-        super(material,settings.component(DataComponentTypes.TOOL, createToolComponent()));
-
+        super(material,settings.component(DataComponentTypes.TOOL,material.createComponent(BlockTags.PICKAXE_MINEABLE)));
     }
 
-//    @Override
-//    public boolean canRepair(ItemStack stack, ItemStack ingredient) {
-//        if(stack.getItem().getName().getString().contains("copper")||ingredient.isOf(Metal.copper_nugget))
-//            return true;
-//        else
-//            return false;
-//    }
-
-
-    private static ToolComponent createToolComponent() {
-        return new ToolComponent(
-                List.of(ToolComponent.Rule.ofAlwaysDropping(BlockTags.PICKAXE_MINEABLE, 1F)), 1.0F, 0
-        );
-    }
 
 
     @Override

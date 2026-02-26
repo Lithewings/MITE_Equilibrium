@@ -244,10 +244,16 @@ public class EventOnServerInitOrRunning {
             if (itemStack.getItem() == Items.DIAMOND) {
                 return onUseCrystalItem(itemStack, player, world, 500);
             }
+        }else {
+            //大于50级同样可以加经验
             if (itemStack.getItem() == Metal.ancient_metal) {
                 return onUseCrystalItem(itemStack, player, world, 250);
             }
         }
+
+
+
+
 
         if (itemStack.getItem() == Items.BOWL) {
             return vanillaBowlItemUse(world, player, hand, itemStack);

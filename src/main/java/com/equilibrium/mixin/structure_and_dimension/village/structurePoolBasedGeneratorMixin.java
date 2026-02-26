@@ -128,7 +128,7 @@ public class structurePoolBasedGeneratorMixin {
                 }
             }
 
-            boolean far = (Math.abs(pos.getX()) > 1000) && (Math.abs(pos.getZ()) > 1000);
+            boolean far = Math.abs(pos.getX()) >= 1000 || Math.abs(pos.getZ()) >= 1000;
             if(!far){
                 cir.setReturnValue(Optional.empty());
                 cir.cancel();

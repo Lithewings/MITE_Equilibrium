@@ -237,7 +237,7 @@
   "item.miteequilibrium.pumpkin_soup": "pumpkin_soup",
 
   "enchantment.miteequilibrium.speed": "speed",
-
+  "item.miteequilibrium.pudding_slime_ball": "Black Slime Ball",
 
   "item.miteequilibrium.test": "Test",
   "block.miteequilibrium.example_block": "TestBlock",
@@ -252,6 +252,14 @@
   "block.miteequilibrium.iron_crafting_table": "Iron Crafting Table",
   "block.miteequilibrium.diamond_crafting_table": "Diamond Crafting Table",
   "block.miteequilibrium.netherite_crafting_table": "Netherite Crafting Table",
+
+  "block.miteequilibrium.gold_ore":"Gold Ore Block",
+  "block.miteequilibrium.adamantium_ore":"Adamantium Ore Block",
+  "block.miteequilibrium.copper_ore":"Copper Ore Block",
+  "block.miteequilibrium.mithril_ore":"Mithril Ore Block",
+  "block.miteequilibrium.silver_ore":"Silver Ore Block",
+
+
   "container.flint_crafting": "Flint Crafting Table",
   "container.copper_crafting": "Copper Crafting Table",
   "container.silver_crafting": "Silver Crafting Table",
@@ -281,5 +289,11 @@
   "sleep.failure.reason_4": "You are not sleepy.",
   "sleep.failure.reason_5":  "The full moon gives you insomnia.",
   "sleep.failure.reason_6": "You cannot sleep outdoors.",
-  "info.need.advance.craftingtable": "Need a higher level crafting table"
+  "info.need.advance.craftingtable": "Need a higher level crafting table",
+
+
+
+  "mod.itemGroup.armors_and_tools": "Tools and Armors",
+  "mod.itemGroup.blocks_and_metallic_items": "Blocks and Metallic Items",
+  "mod.itemGroup.farm": "Farm"
 }

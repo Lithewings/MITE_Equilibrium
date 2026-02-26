@@ -107,6 +107,10 @@ public abstract  class AnvilScreenHandlerMixin extends ForgingScreenHandler {
                 world.syncWorldEvent(WorldEvents.ANVIL_USED, pos, 0);
             }
         });
+        this.context.run((world, pos) ->{
+            BlockState blockState = world.getBlockState(pos);
+
+        });
     }
 
 

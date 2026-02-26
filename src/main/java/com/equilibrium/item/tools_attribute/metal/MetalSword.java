@@ -23,14 +23,10 @@ import java.util.List;
 
 public class MetalSword extends ToolItem implements AdditionalAttribute {
     public MetalSword(ToolMaterial toolMaterial, Settings settings) {
-        super(toolMaterial, settings.component(DataComponentTypes.TOOL, createToolComponent()));
+        super(toolMaterial, settings.component(DataComponentTypes.TOOL, toolMaterial.createComponent(BlockTags.SWORD_EFFICIENT)));
     }
 
-    private static ToolComponent createToolComponent() {
-        return new ToolComponent(
-                List.of(ToolComponent.Rule.ofAlwaysDropping(List.of(Blocks.COBWEB), 15.0F), ToolComponent.Rule.of(BlockTags.SWORD_EFFICIENT, 1.5F)), 1.0F, 0
-        );
-    }
+
 
     @Override
     public boolean canMine(BlockState state, World world, BlockPos pos, PlayerEntity miner) {

@@ -11,8 +11,8 @@ import static com.equilibrium.OnServerInitialize.MOD_ID;
 
 public class OtherItems {
 
-    public static final Item test = new Item(new Item.Settings());
-
+//    public static final Item test = new Item(new Item.Settings());
+//
     //黑色史莱姆粘液球
     public static final Item PUDDING_SLIME_BALL = new Item(new Item.Settings().maxCount(16));
 
@@ -44,7 +44,7 @@ public class OtherItems {
 
 
     public static void registerModItems() {
-        Registry.register(Registries.ITEM, Identifier.of(MOD_ID,"test"), test);
+//        Registry.register(Registries.ITEM, Identifier.of(MOD_ID,"test"), test);
         Registry.register(Registries.ITEM, Identifier.of(MOD_ID,"pudding_slime_ball"), PUDDING_SLIME_BALL);
 
 

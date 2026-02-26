@@ -28,16 +28,10 @@ public class MetalHammer extends ToolItem implements AdditionalAttribute{
     //只能附魔效率和武器类型附魔(节肢杀手亡灵杀手锋利等)
 
     public MetalHammer(ToolMaterial toolMaterial, Settings settings) {
-        super(toolMaterial, settings.component(DataComponentTypes.TOOL, createToolComponent()));
+        super(toolMaterial, settings.component(DataComponentTypes.TOOL, toolMaterial.createComponent(BlockTags.PICKAXE_MINEABLE)));
     }
 
-    //加速采集方块类型,比如镐子可以加速采集石头,锤子也可以
 
-    private static ToolComponent createToolComponent() {
-        return new ToolComponent(
-                List.of(ToolComponent.Rule.ofAlwaysDropping(BlockTags.PICKAXE_MINEABLE, 0.33F)), 1.0F, 0
-        );
-    }
 
 
     @Override

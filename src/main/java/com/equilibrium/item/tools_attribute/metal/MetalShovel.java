@@ -45,19 +45,8 @@ public class MetalShovel extends ToolItem implements AdditionalAttribute{
 
 
     public MetalShovel(ToolMaterial toolMaterial, Settings settings) {
-        super(toolMaterial,settings.component(DataComponentTypes.TOOL, createToolComponent()));
+        super(toolMaterial,settings.component(DataComponentTypes.TOOL, toolMaterial.createComponent(BlockTags.SHOVEL_MINEABLE)));
     }
-
-    private static ToolComponent createToolComponent() {
-        return new ToolComponent(
-                List.of(ToolComponent.Rule.ofAlwaysDropping(BlockTags.SHOVEL_MINEABLE,4F)), 1.0F, 0
-        );
-    }
-
-
-
-
-
 
 
 

@@ -11,12 +11,12 @@ import static com.equilibrium.OnServerInitialize.MOD_ID;
 public class Metal {
 
     //以下开始添加物品:
-    public static final Item adamantium= new Item(new Item.Settings());
-    public static final Item ancient_metal = new Item(new Item.Settings());
-    public static final Item copper = new Item(new Item.Settings());
-    public static final Item gold = new Item(new Item.Settings());
-    public static final Item mithril = new Item(new Item.Settings());
-    public static final Item silver = new Item(new Item.Settings());
+    public static final Item adamantium= new Item(new Item.Settings().maxCount(16));
+    public static final Item ancient_metal = new Item(new Item.Settings().maxCount(16));
+    public static final Item copper = new Item(new Item.Settings().maxCount(16));
+    public static final Item gold = new Item(new Item.Settings().maxCount(16));
+    public static final Item mithril = new Item(new Item.Settings().maxCount(16));
+    public static final Item silver = new Item(new Item.Settings().maxCount(16));
 
     //maxCount = 32
     public static final Item adamantium_nugget= new Item(new Item.Settings().maxCount(64));

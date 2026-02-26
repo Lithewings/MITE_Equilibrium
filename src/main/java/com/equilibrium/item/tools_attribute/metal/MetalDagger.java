@@ -30,14 +30,10 @@ import static com.equilibrium.item.tools_attribute.ExtraDamageFromExperienceLeve
 
 public class MetalDagger extends ToolItem implements AdditionalAttribute{
     public MetalDagger(ToolMaterial toolMaterial, Item.Settings settings) {
-        super(toolMaterial, settings.component(DataComponentTypes.TOOL, createToolComponent()));
+        super(toolMaterial, settings.component(DataComponentTypes.TOOL,toolMaterial.createComponent(BlockTags.SWORD_EFFICIENT)));
     }
 
-    private static ToolComponent createToolComponent() {
-        return new ToolComponent(
-                List.of(ToolComponent.Rule.ofAlwaysDropping(List.of(Blocks.COBWEB), 15.0F), ToolComponent.Rule.of(BlockTags.SWORD_EFFICIENT, 1.5F)), 1.0F, 0
-        );
-    }
+
     @Override
     public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type) {
         AdditionalAttribute.super.appendTooltip(stack,context,tooltip,type);
@@ -46,25 +42,6 @@ public class MetalDagger extends ToolItem implements AdditionalAttribute{
     }
 
 
-
-
-
-    public static AttributeModifiersComponent createAttributeModifiers(ToolMaterial material, int baseAttackDamage, float attackSpeed) {
-        return AttributeModifiersComponent.builder()
-                .add(
-                        EntityAttributes.GENERIC_ATTACK_DAMAGE,
-                        new EntityAttributeModifier(
-                                BASE_ATTACK_DAMAGE_MODIFIER_ID, (double)((float)baseAttackDamage + material.getAttackDamage()), EntityAttributeModifier.Operation.ADD_VALUE
-                        ),
-                        AttributeModifierSlot.MAINHAND
-                )
-                .add(
-                        EntityAttributes.GENERIC_ATTACK_SPEED,
-                        new EntityAttributeModifier(BASE_ATTACK_SPEED_MODIFIER_ID, (double)attackSpeed, EntityAttributeModifier.Operation.ADD_VALUE),
-                        AttributeModifierSlot.MAINHAND
-                )
-                .build();
-    }
 
     @Override
     public boolean canMine(BlockState state, World world, BlockPos pos, PlayerEntity miner) {
@@ -75,9 +52,6 @@ public class MetalDagger extends ToolItem implements AdditionalAttribute{
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         return true;
     }
-
-
-
 
 
 
