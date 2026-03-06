@@ -173,7 +173,7 @@ public class OnServerInitialize implements ModInitializer {
 
             @Override
             public String getName() {
-                return "MITE:Equilibrium Beta v1.0.8_7";
+                return "MITE:Equilibrium Beta v1.0.8_8";
             }
 
             @Override

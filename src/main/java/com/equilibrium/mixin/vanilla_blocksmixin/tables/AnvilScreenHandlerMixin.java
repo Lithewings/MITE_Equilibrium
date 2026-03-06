@@ -1,8 +1,7 @@
 package com.equilibrium.mixin.vanilla_blocksmixin.tables;
 
-import net.minecraft.block.AnvilBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
+import com.equilibrium.OnServerInitialize;
+import net.minecraft.block.*;
 import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -18,6 +17,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import static com.equilibrium.util.SharedConstant.ANVIL_DURABILITY;
 
 @Mixin(AnvilScreenHandler.class)
 public abstract  class AnvilScreenHandlerMixin extends ForgingScreenHandler {
@@ -55,12 +56,20 @@ public abstract  class AnvilScreenHandlerMixin extends ForgingScreenHandler {
 
 
 
+
     @Inject(method = "onTakeOutput",at = @At("HEAD"),cancellable = true)
     protected void onTakeOutput(PlayerEntity player, ItemStack stack, CallbackInfo ci) {
         ci.cancel();
-//        if (!player.getAbilities().creativeMode) {
-//            player.addExperienceLevels(-this.levelCost.get());
-//        }
+        this.context.run((world, pos) -> {
+                    BlockState blockState = world.getBlockState(pos);
+                    if (blockState.contains(ANVIL_DURABILITY)) {
+                        int i = blockState.get(ANVIL_DURABILITY);
+                        world.setBlockState(pos,blockState.with(ANVIL_DURABILITY,Math.clamp(i-1,0,128)));
+                    }
+                    else
+                        OnServerInitialize.LOGGER.error("No such Property called"+ANVIL_DURABILITY+"at the Anvil");
+                }
+        );
 
 
         this.input.setStack(0, ItemStack.EMPTY);
@@ -88,29 +97,48 @@ public abstract  class AnvilScreenHandlerMixin extends ForgingScreenHandler {
                 //以下逻辑为铁砧损坏,getLandingState就是执行了一次阶段损坏逻辑
 
 
+                int i = blockState.get(ANVIL_DURABILITY);
 
-
-                if(player.getRandom().nextInt(40)==0)
-                    blockState = AnvilBlock.getLandingState(blockState);
-
-
-
-
-                if (blockState == null) {
+                //43~64:perfect
+                //22~42:chipped
+                //1~21:damaged
+                //0:removed
+                if(i<=42 && i>=22) {
+                    world.setBlockState(pos, Blocks.CHIPPED_ANVIL.getDefaultState()
+                            //copy facing
+                            .with(AnvilBlock.FACING, blockState.get(AnvilBlock.FACING))
+                            //copy damage level
+                            .with(ANVIL_DURABILITY, i)
+                    );
+                }else if(i<22 && i>0){
+                    world.setBlockState(pos, Blocks.DAMAGED_ANVIL.getDefaultState()
+                            //copy facing
+                            .with(AnvilBlock.FACING, blockState.get(AnvilBlock.FACING))
+                            //copy damage level
+                            .with(ANVIL_DURABILITY, i)
+                    );
+                } else if (i==0) {
                     world.removeBlock(pos, false);
                     world.syncWorldEvent(WorldEvents.ANVIL_DESTROYED, pos, 0);
-                } else {
-                    world.setBlockState(pos, blockState, Block.NOTIFY_LISTENERS);
-                    world.syncWorldEvent(WorldEvents.ANVIL_USED, pos, 0);
-                }
+                } else
+                    OnServerInitialize.LOGGER.error("\"ANVIL_DURABILITY\" can not be negative ");
+
+
+                world.syncWorldEvent(WorldEvents.ANVIL_USED, pos, 0);
+
+
+//                if (blockState == null) {
+//                    world.removeBlock(pos, false);
+//                    world.syncWorldEvent(WorldEvents.ANVIL_DESTROYED, pos, 0);
+//                } else {
+//                    world.setBlockState(pos, blockState, Block.NOTIFY_LISTENERS);
+//                    world.syncWorldEvent(WorldEvents.ANVIL_USED, pos, 0);
+//                }
             } else {
                 world.syncWorldEvent(WorldEvents.ANVIL_USED, pos, 0);
             }
         });
-        this.context.run((world, pos) ->{
-            BlockState blockState = world.getBlockState(pos);
 
-        });
     }
 
 

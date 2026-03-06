@@ -62,10 +62,6 @@ public abstract class FluidBlockMixin extends Block implements FluidDrainable {
         //玩家捞
         if(player!=null){
 
-
-
-
-
             //捞源头,是岩浆,玩家没有下蹲
             if(state.get(LEVEL) == 0 && state.isOf(Blocks.LAVA )&& !player.isSneaking()){
                 if(world.isClient()){

@@ -1,5 +1,6 @@
 package com.equilibrium.mixin.vanilla_itemsmixin;
 
+import com.equilibrium.OnServerInitialize;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -83,12 +84,18 @@ public abstract class BucketItemMixin extends Item implements FluidModificationI
     @Inject(method = "use",at = @At(value = "INVOKE", target = "Lnet/minecraft/util/hit/BlockHitResult;getType()Lnet/minecraft/util/hit/HitResult$Type;",ordinal = 0),cancellable = true)
     public void use(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<TypedActionResult<ItemStack>> cir) {
         cir.cancel();
+        //itemStack : 手里的桶物品
+        ItemStack itemStack = user.getStackInHand(hand);
+
+
+        if(world.isClient)
+            cir.setReturnValue(TypedActionResult.pass(itemStack));
+
 
         //若想修改对生物实体(比如美西螈)的use,去生物那边修改,这个use是放在方块上的use
 
 
-        //itemStack : 手里的桶物品
-        ItemStack itemStack = user.getStackInHand(hand);
+
 
 
         BlockHitResult blockHitResult = raycast(
@@ -124,9 +131,10 @@ public abstract class BucketItemMixin extends Item implements FluidModificationI
 
                         cir.setReturnValue(TypedActionResult.success(itemStack3, world.isClient()));
                     }
+                    OnServerInitialize.LOGGER.error("tryDrainFluid method return a empty value rather ItemStack.Empty");
                 }
-
-                cir.setReturnValue(TypedActionResult.fail(itemStack));
+                else
+                    cir.setReturnValue(TypedActionResult.fail(itemStack));
             }
             else {
                 //满桶释放
