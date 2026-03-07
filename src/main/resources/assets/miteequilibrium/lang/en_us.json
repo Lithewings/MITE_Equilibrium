@@ -295,5 +295,10 @@
 
   "mod.itemGroup.armors_and_tools": "Tools and Armors",
   "mod.itemGroup.blocks_and_metallic_items": "Blocks and Metallic Items",
-  "mod.itemGroup.farm": "Farm"
+  "mod.itemGroup.farm": "Farm",
+
+  "gamerule.enableCraftingTimeAndLevel": "Enable Crafting Time And Level"
+
+
+
 }

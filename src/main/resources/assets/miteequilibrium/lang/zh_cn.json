@@ -214,5 +214,11 @@
   "info.need.advance.craftingtable": "需要更高等级的合成台",
   "mod.itemGroup.armors_and_tools": "工具与盔甲",
   "mod.itemGroup.blocks_and_metallic_items": "方块与金属制品",
-  "mod.itemGroup.farm": "农业与食物"
+  "mod.itemGroup.farm": "农业与食物",
+
+  "gamerule.enableCraftingTimeAndLevel": "启用合成耗时和合成台等级"
+
+
+
+
 }

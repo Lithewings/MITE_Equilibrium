@@ -27,7 +27,6 @@ import net.minecraft.recipe.CraftingRecipe;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.input.CraftingRecipeInput;
-import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.screen.*;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
@@ -41,6 +40,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.*;
 
+import static com.equilibrium.DifficultyEntry.ENABLE_CRAFTING_TIME_AND_LEVEL;
 import static com.equilibrium.util.SharedConstant.*;
 
 
@@ -145,7 +145,7 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 				if(this.result.getStack(0).isIn(ModItemTags.CRAFT_TABLE))
 					maxCraftLevel--;
 				//等级是否合法?
-				boolean isLevelValid=maxCraftLevel<=craftTableLevel;
+				boolean isLevelValid=!world.getGameRules().getBoolean(ENABLE_CRAFTING_TIME_AND_LEVEL) || maxCraftLevel<=craftTableLevel;
 
 
 

@@ -2,7 +2,6 @@
   "required": true,
   "package": "com.equilibrium.mixin",
   "compatibilityLevel": "JAVA_21",
-  "plugin": "com.equilibrium.MixinConfigPlugin",
   "mixins": [
     "advancement.AdvancementManagerMixin",
     "advancement.PlayerAdvancementTrackerMixin",
@@ -97,7 +96,6 @@
     "crafttime.MixinInventoryScreen",
     "crafttime.RecipeBookMixin",
     "player.ClientPlayerEntityMixin",
-    "some_special_rules.EntityRenderDispatcherMixinForRenderHitBox",
     "render.entity_renderer.ChickenEntityRendererMixin",
     "render.entity_renderer.CowEntityRendererMixin",
     "render.entity_renderer.PigEntityRendererMixin",
@@ -112,7 +110,8 @@
     "screens.DeleteBackUpScreen",
     "screens.GameMenuScreenMixin",
     "screens.OpenToLanScreenMixin",
-    "some_special_rules.GameRulesListWhenCreatingWorldIsEmpty",
+    "some_special_rules.EditGameRulesScreenMixin",
+    "some_special_rules.EntityRenderDispatcherMixinForRenderHitBox",
     "some_special_rules.KeepBreakingMixin",
     "vanilla_blocksmixin.GrassBlockColorWithBiomeMixin",
     "vanilla_blocksmixin.tables.AnvilScreenHandlerMixin"

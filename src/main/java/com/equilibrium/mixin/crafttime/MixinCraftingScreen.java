@@ -25,6 +25,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import static com.equilibrium.DifficultyEntry.ENABLE_CRAFTING_TIME_AND_LEVEL;
 import static com.equilibrium.GlobalModConfig.isAutoCraftingEnabled;
 import static com.equilibrium.network.C2STriggerContentChangePacket.sendTrigger;
 import static com.equilibrium.util.SharedConstant.*;
@@ -183,7 +184,8 @@ public abstract class MixinCraftingScreen extends HandledScreen<CraftingScreenHa
                 player.craftTime$startCraftWithNewPeriod(CraftingDifficultyHelper.getCraftingDifficultyFromMatrix(this.handler, false, this));
             }
             //阻止直接从输出栏拿物品
-            ci.cancel();
+            if(!this.client.world.getGameRules().getBoolean(ENABLE_CRAFTING_TIME_AND_LEVEL))
+                ci.cancel();
         }
         this.recipeBook.slotClicked(slot);
     }

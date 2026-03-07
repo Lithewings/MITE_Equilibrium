@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static com.equilibrium.DifficultyEntry.ENABLE_CRAFTING_TIME_AND_LEVEL;
 import static com.equilibrium.util.SharedConstant.INVALID_CRAFTING_TEXT;
 import static com.equilibrium.util.SharedConstant.YELLOW;
 
@@ -92,8 +93,10 @@ public abstract class PlayerScreenHandlerMixin extends AbstractRecipeScreenHandl
                 maxCraftLevel--;
             }
            //然后再施加限制
+            //等级是否合法?
+            boolean isLevelValid=!this.owner.getWorld().getGameRules().getBoolean(ENABLE_CRAFTING_TIME_AND_LEVEL) || maxCraftLevel == 0;
 
-            if (maxCraftLevel > 0 ) {
+            if (!isLevelValid) {
                 List<Text> list1 = List.of(INVALID_CRAFTING_TEXT);
                 LoreComponent loreComponent = new LoreComponent(list1);
                 ItemStack itemStack = this.craftingResult.getStack(0);

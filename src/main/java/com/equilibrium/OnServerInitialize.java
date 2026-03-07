@@ -24,6 +24,8 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
+import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
+import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
 import net.minecraft.GameVersion;
 import net.minecraft.SaveVersion;
@@ -43,6 +45,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.GameRules;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,7 +60,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import static com.equilibrium.GlobalModConfig.initConfig;
+
+import static com.equilibrium.DifficultyEntry.initRules;
 import static com.equilibrium.GlobalModConfig.isSleepChunksAlwaysLoading;
 import static com.equilibrium.block.reference.BlocksHardnessList.initModBlocksHardnessHashMap;
 import static com.equilibrium.block.reference.BlocksHardnessList.initVanillaBlocksHardnessHashMap;
@@ -98,6 +102,9 @@ public class OnServerInitialize implements ModInitializer {
     public static final String MOD_ID = "miteequilibrium";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     private static final Identifier TEXTURE_EYES = Identifier.of(MOD_ID, "textures/entity/earth_elemental_glow.png");
+
+
+
 
     //服务器状态
     public StateSaverAndLoader serverState;
@@ -197,8 +204,7 @@ public class OnServerInitialize implements ModInitializer {
             }
         };
 
-
-
+        initRules();
 
 
         //原版物品修改
