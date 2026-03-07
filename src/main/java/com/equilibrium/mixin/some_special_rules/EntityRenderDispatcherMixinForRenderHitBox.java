@@ -1,4 +1,4 @@
-package com.equilibrium.mixin.render;
+package com.equilibrium.mixin.some_special_rules;
 
 import com.equilibrium.entity.mob.InvisibleStalkerEntity;
 import net.minecraft.client.render.VertexConsumer;

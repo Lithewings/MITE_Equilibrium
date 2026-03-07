@@ -1,4 +1,4 @@
-package com.equilibrium.mixin.render.screens;
+package com.equilibrium.mixin.screens;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.server.integrated.IntegratedServerLoader;

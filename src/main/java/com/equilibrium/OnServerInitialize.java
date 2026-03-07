@@ -198,8 +198,7 @@ public class OnServerInitialize implements ModInitializer {
         };
 
 
-        // 初始化全局配置（总JSON文件）
-        initConfig();
+
 
 
         //原版物品修改

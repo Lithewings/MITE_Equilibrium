@@ -1,29 +1,17 @@
-package com.equilibrium.mixin.render.screens;
+package com.equilibrium.mixin.screens;
 
 import com.equilibrium.client.NewGameTab;
 import com.equilibrium.client.NewWorldTab;
 import com.equilibrium.util.BooleanStorageUtil;
-import com.mojang.logging.LogUtils;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.world.CreateWorldScreen;
-import net.minecraft.client.gui.screen.world.WorldCreator;
 import net.minecraft.client.gui.tab.Tab;
-import net.minecraft.client.gui.tab.TabManager;
-import net.minecraft.client.gui.widget.*;
-import net.minecraft.resource.ResourcePackManager;
 import net.minecraft.text.Text;
-import net.minecraft.util.path.SymlinkFinder;
-import org.slf4j.Logger;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.nio.file.Path;
 

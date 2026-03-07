@@ -1,4 +1,4 @@
-package com.equilibrium.mixin.render.screens;
+package com.equilibrium.mixin.screens;
 
 import net.minecraft.client.gui.screen.GameMenuScreen;
 import net.minecraft.client.gui.screen.Screen;

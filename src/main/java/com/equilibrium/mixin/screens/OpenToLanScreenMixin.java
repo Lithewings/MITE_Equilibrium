@@ -1,6 +1,5 @@
-package com.equilibrium.mixin.render.screens;
+package com.equilibrium.mixin.screens;
 
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.OpenToLanScreen;
 import net.minecraft.client.gui.screen.Screen;
