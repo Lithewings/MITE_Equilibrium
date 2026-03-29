@@ -7,11 +7,13 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 
+import java.nio.file.Path;
 import java.util.List;
 
 
@@ -46,6 +48,12 @@ public class MyCommands {
                     return 1;
                 })
         );
+
+
+
+
+
+
 
         // 注册 day 命令
         dispatcher.register(ClientCommandManager.literal("day")

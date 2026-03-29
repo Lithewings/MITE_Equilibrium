@@ -1,8 +1,6 @@
 package com.equilibrium.mixin.crafttime;
 
-import com.equilibrium.item.Tools;
 import com.equilibrium.tags.ModItemTags;
-import net.minecraft.block.Blocks;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.LoreComponent;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,7 +10,6 @@ import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.CraftingRecipe;
 import net.minecraft.recipe.input.CraftingRecipeInput;
-import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.screen.AbstractRecipeScreenHandler;
 import net.minecraft.screen.CraftingScreenHandler;
 import net.minecraft.screen.PlayerScreenHandler;
@@ -27,9 +24,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.equilibrium.DifficultyEntry.ENABLE_CRAFTING_TIME_AND_LEVEL;
+import static com.equilibrium.DifficultyEntryOnGameRules.ENABLE_CRAFTING_TIME_AND_LEVEL;
 import static com.equilibrium.util.SharedConstant.INVALID_CRAFTING_TEXT;
-import static com.equilibrium.util.SharedConstant.YELLOW;
 
 @Mixin(PlayerScreenHandler.class)
 public abstract class PlayerScreenHandlerMixin extends AbstractRecipeScreenHandler<CraftingRecipeInput, CraftingRecipe> {

@@ -2,15 +2,11 @@ package com.equilibrium.mixin.advancement;
 
 import com.equilibrium.util.BooleanStorageUtil;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.mojang.logging.LogUtils;
-import com.mojang.serialization.Codec;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.advancement.*;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.GameRules;
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,8 +17,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.nio.file.Path;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -73,17 +67,16 @@ public abstract class PlayerAdvancementTrackerMixin {
     protected abstract void onStatusUpdate(AdvancementEntry advancement);
 
 
+
     @Unique
-    private final String fileName = "Finish The Game Once.dat";
-    @Unique
-    private final Path configPath = FabricLoader.getInstance().getConfigDir().normalize().resolve(fileName);
+    private final Path configPath = FabricLoader.getInstance().getConfigDir().normalize().resolve(BooleanStorageUtil.FINISH_GAME_ONCE);
 
 
     //原版的成就已移除,这里本不应该显示,除非击败一次末影龙
     @Inject(method = "grantCriterion",at =@At("HEAD"), cancellable = true)
     public void grantCriterion(AdvancementEntry advancement, String criterionName, CallbackInfoReturnable<Boolean> cir) {
 
-        if (BooleanStorageUtil.load(configPath.toString(), false)) {
+        if (BooleanStorageUtil.loadFinishGameOnce(configPath.toString())) {
             return;
         }
 

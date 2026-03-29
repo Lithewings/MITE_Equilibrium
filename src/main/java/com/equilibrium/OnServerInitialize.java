@@ -9,10 +9,7 @@ import com.equilibrium.event.CraftingMetalPickAxeCallback;
 import com.equilibrium.event.CropIllnessEvent;
 import com.equilibrium.event.EventOnServerInitOrRunning;
 import com.equilibrium.item.*;
-import com.equilibrium.network.C2SClickTimesPacket;
-import com.equilibrium.network.C2STriggerContentChangePacket;
-import com.equilibrium.network.S2CIllnessTextureBooleanPacket;
-import com.equilibrium.network.S2CStockChangeGrassColorPacket;
+import com.equilibrium.network.*;
 import com.equilibrium.persistent_state.MapNbtSerializer;
 import com.equilibrium.persistent_state.StateSaverAndLoader;
 import com.equilibrium.util.*;
@@ -24,8 +21,6 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
-import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
-import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
 import net.minecraft.GameVersion;
 import net.minecraft.SaveVersion;
@@ -44,8 +39,8 @@ import net.minecraft.state.property.IntProperty;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.WorldSavePath;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.GameRules;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,6 +49,7 @@ import com.equilibrium.block.furnace_and_its_entity.FurnaceEntityRegistry;
 
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
@@ -61,7 +57,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 
-import static com.equilibrium.DifficultyEntry.initRules;
+import static com.equilibrium.DifficultyEntryOnGameRules.initRules;
 import static com.equilibrium.GlobalModConfig.isSleepChunksAlwaysLoading;
 import static com.equilibrium.block.reference.BlocksHardnessList.initModBlocksHardnessHashMap;
 import static com.equilibrium.block.reference.BlocksHardnessList.initVanillaBlocksHardnessHashMap;
@@ -95,6 +91,8 @@ import static com.equilibrium.tags.ModItemTags.registerModItemTags;
 
 
 import static com.equilibrium.block.CraftingDifficultyHelper.initCraftingDifficulties;
+import static com.equilibrium.util.BooleanStorageUtil.loadWorldInformation;
+import static net.minecraft.world.World.OVERWORLD;
 
 
 public class OnServerInitialize implements ModInitializer {
@@ -156,6 +154,33 @@ public class OnServerInitialize implements ModInitializer {
                             return 1;
                         })
                 );
+        dispatcher.register(
+                CommandManager.literal("checkAdvancement")
+                        .executes(context -> {
+                            //请确保世界存在
+                            PlayerEntity player = context.getSource().getPlayer();
+                            long originalSeed = context.getSource().getServer().getWorld(OVERWORLD).getSeed();
+                            Path path = context.getSource().getServer().getSavePath(WorldSavePath.ROOT).normalize().resolve("WorldInformationRecorder.dat");;
+                            BooleanStorageUtil.WorldInformationRecorder worldInformationRecorder = loadWorldInformation(path.toString());
+                            if(worldInformationRecorder!=null){
+                                int day = worldInformationRecorder.getFinishDay();
+                                long seed = worldInformationRecorder.getSeed();
+                                String version = worldInformationRecorder.getVersion();
+
+                                if(day>=0 && seed==originalSeed){
+                                    player.sendMessage(Text.of("通关天数为: " + day));
+                                    player.sendMessage(Text.of("世界种子为: " + seed));
+                                    player.sendMessage(Text.of("版本信息号为: " + version));
+                                }
+                                else
+                                    player.sendMessage(Text.of("无效的通关信息"));
+
+                            }
+                            else
+                                player.sendMessage(Text.of("未获取到通关信息"));
+                            return 1;
+                        })
+        );
 
     }
 
@@ -303,6 +328,7 @@ public class OnServerInitialize implements ModInitializer {
         });
         //使用物品监听器,能不在这里写就不要在这里写,用物品自带的onUse方法
 
+
         UseItemCallback.EVENT.register(EventOnServerInitOrRunning::onUseItem);
 
 
@@ -338,6 +364,7 @@ public class OnServerInitialize implements ModInitializer {
         //S->C,发包
         S2CStockChangeGrassColorPacket.registerOnServer();
         S2CIllnessTextureBooleanPacket.registerOnServer();
+        S2CGameRuleSyncPayloadForBooleanPacket.registerOnServer();
 
         //C->S,发包、接收
         C2SClickTimesPacket.registerOnServer();

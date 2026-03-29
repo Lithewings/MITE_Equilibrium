@@ -1,14 +1,10 @@
 package com.equilibrium.mixin.player;
 
 import com.equilibrium.persistent_state.StateSaverAndLoader;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffectUtil;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.PlayerManager;
@@ -17,8 +13,6 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -30,6 +24,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
+
+import static com.equilibrium.DifficultyEntryOnGameRules.onPlayerConnectSynchronizingGameRulesForBoolean;
 
 
 @Mixin(PlayerManager.class)
@@ -86,7 +82,7 @@ public abstract class PlayerManagerMixin {
             StatusEffectInstance statusEffectInstance4 = new StatusEffectInstance(StatusEffects.SLOWNESS, 100, 255, false, false, false);
             StatusEffectUtil.addEffectToPlayersWithinDistance((ServerWorld) player.getWorld(), player, player.getPos(), 4, statusEffectInstance4, 80);
 
-
+            onPlayerConnectSynchronizingGameRulesForBoolean(player);
 
             if (player.getHealth() <= 1) {
                 player.damage(player.getDamageSources().badRespawnPoint(player.getPos()), 114514);

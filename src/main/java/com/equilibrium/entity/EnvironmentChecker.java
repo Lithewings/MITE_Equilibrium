@@ -19,6 +19,11 @@ import net.minecraft.world.World;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.equilibrium.DifficultyEntryOnGameRules.ENABLE_ADVANCE_ANIMAL_AI;
+import static com.equilibrium.DifficultyEntryOnGameRules.getGameBooleanRuleFromClient;
+import static com.equilibrium.entity.EnvironmentChecker.Navigation.canNavigateToSurfaceGrass;
+import static com.equilibrium.entity.EnvironmentChecker.Navigation.canNavigateToSurfaceWater;
+
 
 public class EnvironmentChecker {
 
@@ -53,6 +58,7 @@ public class EnvironmentChecker {
     private int tickCount = 100;
 
     public void tickTask() {
+
         this.tickCount--;
         if (this.entity.getWorld() instanceof ServerWorld serverWorld) {
             this.initIfNeeded(serverWorld);
@@ -157,7 +163,9 @@ public class EnvironmentChecker {
 
 
     public void checkEnvironment() {
-
+        //高级动物AI:检查环境方面
+        if(!getGameBooleanRuleFromClient(ENABLE_ADVANCE_ANIMAL_AI))
+            return;
 
         if (this.entity.isBaby()||this.isIllness())
             this.checkEnvironmentIsSuitableTime = this.checkEnvironmentIsSuitableTime - 4;
@@ -205,153 +213,153 @@ public class EnvironmentChecker {
     }
 
 
-    // 计算距离平方的辅助方法
-    public static double getSquaredDistance(BlockPos pos, double x, double y, double z) {
-        double dx = pos.getX() + 0.5 - x;
-        double dy = pos.getY() + 0.5 - y;
-        double dz = pos.getZ() + 0.5 - z;
-        return dx * dx + dy * dy + dz * dz;
-    }
+    public static class Navigation{    // 计算距离平方的辅助方法
+        public static double getSquaredDistance(BlockPos pos, double x, double y, double z) {
+            double dx = pos.getX() + 0.5 - x;
+            double dy = pos.getY() + 0.5 - y;
+            double dz = pos.getZ() + 0.5 - z;
+            return dx * dx + dy * dy + dz * dz;
+        }
+
+        public static boolean canNavigateToSurfaceWater(PathAwareEntity entity) {
+
+            World world = entity.getWorld();
+
+            // 以生物为中心，搜索16格范围内的方块
+            int searchRadius = 16;
+            int x = entity.getBlockPos().getX();
+            int y = entity.getBlockPos().getY();
+            int z = entity.getBlockPos().getZ();
 
 
-    private static boolean canNavigateToSurfaceWater(PathAwareEntity entity) {
+            ArrayList<BlockPos> posArrayList = new ArrayList<>();
 
-        World world = entity.getWorld();
+            // 从左上角到右下角顺序搜索
+            for (int dx = -searchRadius; dx <= searchRadius; dx++) {
+                for (int dz = -searchRadius; dz <= searchRadius; dz++) {
+                    for (int dy = -4; dy <= 4; dy++) {
+                        // 计算当前搜索位置的世界坐标
+                        int worldX = x + dx;
+                        int worldY = y + dy;
+                        int worldZ = z + dz;
 
-        // 以生物为中心，搜索16格范围内的方块
-        int searchRadius = 16;
-        int x = entity.getBlockPos().getX();
-        int y = entity.getBlockPos().getY();
-        int z = entity.getBlockPos().getZ();
+                        // 获取方块
+                        BlockPos pos = new BlockPos(worldX, worldY, worldZ);
+                        BlockState blockState = world.getBlockState(pos);
 
+                        boolean isWater = blockState.getBlock() == Blocks.WATER ||
+                                blockState.getFluidState().getFluid() == Fluids.WATER ||
+                                blockState.getFluidState().getFluid() == Fluids.FLOWING_WATER;
 
-        ArrayList<BlockPos> posArrayList = new ArrayList<>();
-
-        // 从左上角到右下角顺序搜索
-        for (int dx = -searchRadius; dx <= searchRadius; dx++) {
-            for (int dz = -searchRadius; dz <= searchRadius; dz++) {
-                for (int dy = -4; dy <= 4; dy++) {
-                    // 计算当前搜索位置的世界坐标
-                    int worldX = x + dx;
-                    int worldY = y + dy;
-                    int worldZ = z + dz;
-
-                    // 获取方块
-                    BlockPos pos = new BlockPos(worldX, worldY, worldZ);
-                    BlockState blockState = world.getBlockState(pos);
-
-                    boolean isWater = blockState.getBlock() == Blocks.WATER ||
-                            blockState.getFluidState().getFluid() == Fluids.WATER ||
-                            blockState.getFluidState().getFluid() == Fluids.FLOWING_WATER;
-
-                    if (isWater) {
-                        posArrayList.add(pos);
+                        if (isWater) {
+                            posArrayList.add(pos);
+                        }
                     }
+
                 }
-
             }
-        }
 
-        if (!posArrayList.isEmpty()) {
+            if (!posArrayList.isEmpty()) {
 
-            posArrayList.sort((pos1, pos2) -> {
-                double dist1 = getSquaredDistance(pos1, x, y, z);
-                double dist2 = getSquaredDistance(pos2, x, y, z);
-                return Double.compare(dist1, dist2);
-            });
+                posArrayList.sort((pos1, pos2) -> {
+                    double dist1 = getSquaredDistance(pos1, x, y, z);
+                    double dist2 = getSquaredDistance(pos2, x, y, z);
+                    return Double.compare(dist1, dist2);
+                });
 
 
-            for (BlockPos pos : posArrayList) {
-                //找到通往水面之上的路径
-                List<BlockPos> list = AStarCanGoToAndReturn.findSimplePath(entity.getWorld(), entity.getBlockPos(), pos.up());
-                if (list != null) {
+                for (BlockPos pos : posArrayList) {
+                    //找到通往水面之上的路径
+                    List<BlockPos> list = AStarCanGoToAndReturn.findSimplePath(entity.getWorld(), entity.getBlockPos(), pos.up());
+                    if (list != null) {
 //                    drawPath(list, world);
-                    //导航到水附近
-                    entity.getNavigation().startMovingTo(pos.getX(), pos.getY() + 1, pos.getZ(), 1);
-                    return true;
-                }
-
-            }
-        }
-        return false;
-    }
-
-    private static boolean canNavigateToSurfaceGrass(PathAwareEntity entity) {
-
-        World world = entity.getWorld();
-
-        // 以生物为中心，搜索16格范围内的方块
-        int searchRadius = 16;
-        int x = entity.getBlockPos().getX();
-        int y = entity.getBlockPos().getY();
-        int z = entity.getBlockPos().getZ();
-
-
-        ArrayList<BlockPos> posArrayList = new ArrayList<>();
-
-        // 从左上角到右下角顺序搜索
-        for (int dx = -searchRadius; dx <= searchRadius; dx++) {
-            for (int dz = -searchRadius; dz <= searchRadius; dz++) {
-                for (int dy = -4; dy <= 4; dy++) {
-                    // 计算当前搜索位置的世界坐标
-                    int worldX = x + dx;
-                    int worldY = y + dy;
-                    int worldZ = z + dz;
-
-                    // 获取方块
-                    BlockPos pos = new BlockPos(worldX, worldY, worldZ);
-                    BlockState blockState = world.getBlockState(pos);
-
-                    if (blockState.isOf(Blocks.SHORT_GRASS) || blockState.isOf(Blocks.TALL_GRASS)) {
-                        posArrayList.add(pos);
+                        //导航到水附近
+                        entity.getNavigation().startMovingTo(pos.getX(), pos.getY() + 1, pos.getZ(), 1);
+                        return true;
                     }
-                }
 
+                }
             }
+            return false;
         }
 
-        if (!posArrayList.isEmpty()) {
-            posArrayList.sort((pos1, pos2) -> {
-                double dist1 = getSquaredDistance(pos1, x, y, z);
-                double dist2 = getSquaredDistance(pos2, x, y, z);
-                return Double.compare(dist1, dist2);
-            });
-            for (BlockPos pos : posArrayList) {
-                //找到通往草的路径
-                List<BlockPos> list = AStarCanGoToAndReturn.findSimplePath(entity.getWorld(), entity.getBlockPos(), pos);
-                if (list != null) {
-                    //导航到草附近
+        public static boolean canNavigateToSurfaceGrass(PathAwareEntity entity) {
+
+            World world = entity.getWorld();
+
+            // 以生物为中心，搜索16格范围内的方块
+            int searchRadius = 16;
+            int x = entity.getBlockPos().getX();
+            int y = entity.getBlockPos().getY();
+            int z = entity.getBlockPos().getZ();
+
+
+            ArrayList<BlockPos> posArrayList = new ArrayList<>();
+
+            // 从左上角到右下角顺序搜索
+            for (int dx = -searchRadius; dx <= searchRadius; dx++) {
+                for (int dz = -searchRadius; dz <= searchRadius; dz++) {
+                    for (int dy = -4; dy <= 4; dy++) {
+                        // 计算当前搜索位置的世界坐标
+                        int worldX = x + dx;
+                        int worldY = y + dy;
+                        int worldZ = z + dz;
+
+                        // 获取方块
+                        BlockPos pos = new BlockPos(worldX, worldY, worldZ);
+                        BlockState blockState = world.getBlockState(pos);
+
+                        if (blockState.isOf(Blocks.SHORT_GRASS) || blockState.isOf(Blocks.TALL_GRASS)) {
+                            posArrayList.add(pos);
+                        }
+                    }
+
+                }
+            }
+
+            if (!posArrayList.isEmpty()) {
+                posArrayList.sort((pos1, pos2) -> {
+                    double dist1 = getSquaredDistance(pos1, x, y, z);
+                    double dist2 = getSquaredDistance(pos2, x, y, z);
+                    return Double.compare(dist1, dist2);
+                });
+                for (BlockPos pos : posArrayList) {
+                    //找到通往草的路径
+                    List<BlockPos> list = AStarCanGoToAndReturn.findSimplePath(entity.getWorld(), entity.getBlockPos(), pos);
+                    if (list != null) {
+                        //导航到草附近
 //                    drawPath(list, world);
-                    entity.getNavigation().startMovingTo(pos.getX(), pos.getY() + 1, pos.getZ(), 1);
-                    return true;
-                }
+                        entity.getNavigation().startMovingTo(pos.getX(), pos.getY() + 1, pos.getZ(), 1);
+                        return true;
+                    }
 
+                }
             }
+            return false;
         }
-        return false;
-    }
 
-    private static void drawPath(List<BlockPos> list, World world) {
-        for (BlockPos blockPos : list) {
-            if (blockPos == list.getFirst()) {
-                world.setBlockState(blockPos, Blocks.RED_WOOL.getDefaultState());
-            } else if (blockPos == list.getLast()) {
-                world.setBlockState(blockPos, Blocks.GREEN_WOOL.getDefaultState());
-            } else
-                world.setBlockState(blockPos, Blocks.WHITE_WOOL.getDefaultState());
+        public static void drawPath(List<BlockPos> list, World world) {
+            for (BlockPos blockPos : list) {
+                if (blockPos == list.getFirst()) {
+                    world.setBlockState(blockPos, Blocks.RED_WOOL.getDefaultState());
+                } else if (blockPos == list.getLast()) {
+                    world.setBlockState(blockPos, Blocks.GREEN_WOOL.getDefaultState());
+                } else
+                    world.setBlockState(blockPos, Blocks.WHITE_WOOL.getDefaultState());
 
-            new Thread(() -> {
-                try {
-                    Thread.sleep(3000); // 10秒 = 10000毫秒
-                    // 延迟结束后，在服务器主线程执行方块操作
-                    world.getServer().execute(() -> {
-                        world.setBlockState(blockPos, Blocks.AIR.getDefaultState());
-                    });
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }).start();
-        }
-    }
+                new Thread(() -> {
+                    try {
+                        Thread.sleep(3000); // 10秒 = 10000毫秒
+                        // 延迟结束后，在服务器主线程执行方块操作
+                        world.getServer().execute(() -> {
+                            world.setBlockState(blockPos, Blocks.AIR.getDefaultState());
+                        });
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }).start();
+            }
+        }}
+
 
 }

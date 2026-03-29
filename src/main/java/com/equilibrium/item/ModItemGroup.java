@@ -21,6 +21,7 @@ public class ModItemGroup {
             FabricItemGroup.builder().displayName(Text.translatable("mod.itemGroup.blocks_and_metallic_items"))
                     .icon(()->new ItemStack(ModBlocksRegistry2.FLINT_CRAFTING_TABLE)).entries((displayContext, entries) ->
                             {
+                                entries.add(ModBlocksRegistry.MUNDANE_GRAVEL);
                                 entries.add(ModBlocksRegistry2.FLINT_CRAFTING_TABLE);
                                 entries.add(ModBlocksRegistry2.COPPER_CRAFTING_TABLE);
                                 entries.add(ModBlocksRegistry2.SILVER_CRAFTING_TABLE);

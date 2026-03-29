@@ -10,6 +10,7 @@ import com.equilibrium.client.render.entity.renderer.elemental.NetherrackElement
 import com.equilibrium.client.render.entity.renderer.elemental.ObsidianElementalEntityRenderer;
 import com.equilibrium.client.render.entity.renderer.elemental.StoneElementalEntityRenderer;
 import com.equilibrium.item.Armors;
+import com.equilibrium.network.S2CGameRuleSyncPayloadForBooleanPacket;
 import com.equilibrium.network.S2CIllnessTextureBooleanPacket;
 import com.equilibrium.network.S2CStockChangeGrassColorPacket;
 import com.equilibrium.util.MyCommands;
@@ -54,6 +55,7 @@ public class OnClientInitialize implements ClientModInitializer {
         //S->C,发包、接收
         S2CStockChangeGrassColorPacket.registerOnClient();
         S2CIllnessTextureBooleanPacket.registerOnClient();
+        S2CGameRuleSyncPayloadForBooleanPacket.registerOnClient();
 
         ItemTooltipCallback.EVENT.register((stack, context, type, lines) -> {
             // 判断物品是青金石（Lapis Lazuli）或其他物品

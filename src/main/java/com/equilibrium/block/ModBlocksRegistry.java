@@ -11,6 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.util.ColorCode;
 import net.minecraft.util.Identifier;
 
 import static com.equilibrium.OnServerInitialize.MOD_ID;
@@ -56,6 +57,10 @@ public class ModBlocksRegistry {
     public static final Block GOLD_ORE = new Block(Block.Settings.create().strength(1.0f));
     public static final Block GOLD_BLOCK = new Block(Block.Settings.create().strength(4.0f));
 
+    public static final Block MUNDANE_GRAVEL = new ColoredFallingBlock(
+            new ColorCode(-8356741),
+            AbstractBlock.Settings.create().mapColor(MapColor.STONE_GRAY).instrument(NoteBlockInstrument.SNARE).strength(0.6F).sounds(BlockSoundGroup.GRAVEL)
+    );
     //strength中第一个为硬度,第二个为爆炸抗性
 //    public static final Block UNDERWORLD_PORTAL =
 //            new UnderworldPortalBlock(
@@ -82,9 +87,8 @@ public class ModBlocksRegistry {
 
         Registry.register(Registries.BLOCK, Identifier.of(MOD_ID, "onion"),ONION_BLOCK);
 
-
-
-
+        Registry.register(Registries.BLOCK, Identifier.of(MOD_ID, "mundane_gravel"), MUNDANE_GRAVEL);
+        Registry.register(Registries.ITEM, Identifier.of(MOD_ID, "mundane_gravel"), new BlockItem(MUNDANE_GRAVEL, new Item.Settings().maxCount(16)));
 
 
         Registry.register(Registries.BLOCK, Identifier.of(MOD_ID, "emerald_enchanting_table"), EMERALD_ENCHANTING_TABLE);

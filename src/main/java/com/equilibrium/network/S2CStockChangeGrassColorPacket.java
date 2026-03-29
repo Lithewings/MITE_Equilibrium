@@ -18,7 +18,7 @@ public class S2CStockChangeGrassColorPacket {
 
     public static final Identifier STOCK_CHANGE_GRASS_COLOR_PACKET_PACKET_ID = Identifier.of(MOD_ID, "grass_color");
 
-    //由服务端和客户端共同维护这个ConcurrentHashMap
+
     public static Map<BlockPos, Integer> BLOCK_POS_INTEGER_CONCURRENT_HASH_MAP = new ConcurrentHashMap<>();
 
 

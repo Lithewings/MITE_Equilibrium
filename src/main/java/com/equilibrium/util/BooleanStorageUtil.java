@@ -1,5 +1,7 @@
 package com.equilibrium.util;
 
+import net.minecraft.SharedConstants;
+
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -16,8 +18,12 @@ public final class BooleanStorageUtil {
 
 
     // AES 密钥
-    private static final String SECRET_KEY = "oU6BC0kCAwEAAQ=="; // 128-bit key
+    private static final String SECRET_KEY = "oU68C0kCAwEAAQ=="; // 128-bit key
     private static final String ALGORITHM = "AES";
+
+    public static final String WORLD_INFORMATION_RECORDER = "WorldInformationRecorder.dat";
+
+    public static final String FINISH_GAME_ONCE = "FinishGameOnce.dat";
 
     // 私有构造器防止实例化
     private BooleanStorageUtil() {
@@ -29,27 +35,53 @@ public final class BooleanStorageUtil {
     private static class BooleanData implements Serializable {
         @Serial
         private static final long serialVersionUID = 1L;
-        private final boolean value;
+
+        private final boolean dragonDead;
 
         BooleanData(boolean value) {
-            this.value = value;
+            this.dragonDead = value;
         }
 
-        boolean getValue() {
-            return value;
+        boolean getIfDragonIsDead() {
+            return dragonDead;
+        }
+
+    }
+
+    // 内部数据类（私有静态内部类）
+    public static class WorldInformationRecorder implements Serializable {
+        @Serial
+        private static final long serialVersionUID = 1L;
+
+        private final int finishDay;
+        private final long seed;
+        private final String version = SharedConstants.gameVersion.getName();
+
+        WorldInformationRecorder(int finishDay, long seed) {
+            this.finishDay = finishDay;
+            this.seed = seed;
+        }
+
+        public int getFinishDay() {
+            return finishDay;
+        }
+        public long getSeed() {
+            return seed;
+        }
+        public String getVersion() {
+            return version;
         }
     }
 
-
-
     /**
      * 保存布尔值到指定路径
+     *
      * @param dragonIsDead 要存储的值
-     * @param filePath 自定义文件路径
+     * @param filePath     自定义文件路径
      * @throws IOException 如果发生I/O错误
      */
     // 加密保存方法
-    public static void save(boolean dragonIsDead, String filePath) throws IOException {
+    public static void saveFinishGameOnce(boolean dragonIsDead, String filePath) throws IOException {
         try {
             Cipher cipher = Cipher.getInstance(ALGORITHM);
             SecretKeySpec key = generateKey();
@@ -74,7 +106,28 @@ public final class BooleanStorageUtil {
 
 
 
+    public static void saveWorldInformation(int day, long seed , String filePath) throws IOException {
+        try {
+            Cipher cipher = Cipher.getInstance(ALGORITHM);
+            SecretKeySpec key = generateKey();
+            cipher.init(Cipher.ENCRYPT_MODE, key);
 
+            ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+            try (ObjectOutputStream oos = new ObjectOutputStream(byteOut)) {
+                oos.writeObject(new WorldInformationRecorder(day,seed ));
+            }
+
+            byte[] encryptedData = cipher.doFinal(byteOut.toByteArray());
+
+            try (FileOutputStream fos = new FileOutputStream(filePath)) {
+                fos.write(encryptedData);
+            }
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException
+                 | InvalidKeyException | IllegalBlockSizeException
+                 | BadPaddingException e) {
+            throw new IOException("加密失败: " + e.getMessage(), e);
+        }
+    }
 
 
     private static SecretKeySpec generateKey()
@@ -92,14 +145,13 @@ public final class BooleanStorageUtil {
     /**
      * 从指定路径加载布尔值
      * @param filePath 文件路径
-     * @param defaultValue 文件不存在时的默认值
      * @return 存储值或默认值
      */
     // 解密加载方法
-    public static boolean load(String filePath, boolean defaultValue) {
+    public static boolean loadFinishGameOnce(String filePath) {
         Path path = Path.of(filePath);
         if (!Files.exists(path)) {
-            return defaultValue;
+            return false;
         }
 
         try {
@@ -114,17 +166,42 @@ public final class BooleanStorageUtil {
                     new ByteArrayInputStream(decryptedData))) {
                 Object obj = ois.readObject();
                 if (obj instanceof BooleanData) {
-                    return ((BooleanData) obj).getValue();
+                    return ((BooleanData) obj).getIfDragonIsDead();
                 }
             }
         } catch (Exception e) {
             handleException(e);
         }
-        return defaultValue;
+        return false;
     }
 
 
 
+    public static WorldInformationRecorder loadWorldInformation(String filePath) {
+        Path path = Path.of(filePath);
+        if (!Files.exists(path)) {
+            return null;
+        }
+        try {
+            Cipher cipher = Cipher.getInstance(ALGORITHM);
+            SecretKeySpec key = generateKey();
+            cipher.init(Cipher.DECRYPT_MODE, key);
+
+            byte[] encryptedData = Files.readAllBytes(path);
+            byte[] decryptedData = cipher.doFinal(encryptedData);
+
+            try (ObjectInputStream ois = new ObjectInputStream(
+                    new ByteArrayInputStream(decryptedData))) {
+                Object obj = ois.readObject();
+                if (obj instanceof WorldInformationRecorder) {
+                    return ((WorldInformationRecorder) obj);
+                }
+            }
+        } catch (Exception e) {
+            handleException(e);
+        }
+        return null;
+    }
 
 
 

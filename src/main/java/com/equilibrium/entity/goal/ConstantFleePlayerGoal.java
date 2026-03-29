@@ -25,6 +25,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
+import static com.equilibrium.DifficultyEntryOnGameRules.ENABLE_ADVANCE_ANIMAL_AI;
+import static com.equilibrium.DifficultyEntryOnGameRules.getGameBooleanRuleFromClient;
+
 public class ConstantFleePlayerGoal extends Goal {
     protected final PathAwareEntity mob;
     protected PlayerEntity targetPlayer;
@@ -57,7 +60,9 @@ public class ConstantFleePlayerGoal extends Goal {
 
     @Override
     public boolean canStart() {
-
+        //高级动物AI:寻路算法方面
+        if(!getGameBooleanRuleFromClient(ENABLE_ADVANCE_ANIMAL_AI))
+            return false;
 
         if (cooldown > 0) {
             cooldown--;

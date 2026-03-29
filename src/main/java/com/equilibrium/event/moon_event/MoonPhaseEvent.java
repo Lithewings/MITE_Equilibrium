@@ -31,6 +31,8 @@ import net.minecraft.world.poi.PointOfInterestStorage;
 import net.minecraft.world.poi.PointOfInterestTypes;
 import org.jetbrains.annotations.NotNull;
 
+import static com.equilibrium.DifficultyEntryOnGameRules.ENABLE_CROP_ILLNESS;
+import static com.equilibrium.DifficultyEntryOnGameRules.getGameBooleanRuleFromClient;
 import static com.equilibrium.event.CropIllnessEvent.applyIllnessForCrop;
 
 public class MoonPhaseEvent {
@@ -112,9 +114,9 @@ public class MoonPhaseEvent {
 //                        this.sendMessage(Text.of("雷电事件"));
                 }
                 if (serverOverWorld.getTimeOfDay() % 64 == 0) {
-                    //施加作物疾病
-                    applyIllnessForCrop(serverOverWorld);
-
+                    //根据游戏规则,判断是否应该施加作物疾病
+                    if(getGameBooleanRuleFromClient(ENABLE_CROP_ILLNESS))
+                        applyIllnessForCrop(serverOverWorld);
                 }
 
 

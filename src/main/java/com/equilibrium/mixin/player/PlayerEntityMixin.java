@@ -12,6 +12,7 @@ import net.minecraft.component.EnchantmentEffectComponentTypes;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
+import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
@@ -29,14 +30,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.FluidTags;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -50,7 +47,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 
-
+import static com.equilibrium.DifficultyEntryOnGameRules.*;
 import static com.equilibrium.item.tools_attribute.ExtraDamageFromExperienceLevel.getDamageLevel;
 import static com.equilibrium.util.ableToMine.getBlockHarvestLevel;
 import static com.equilibrium.util.ableToMine.getItemHarvestLevel;
@@ -75,10 +72,6 @@ public abstract class PlayerEntityMixin extends LivingEntity {
             }
         }
     }
-
-
-
-
 
 
     @Override
@@ -149,11 +142,6 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     @Unique
     public long phytonutrient = 0;
     //生物交互距离增益
-
-
-
-
-
 
 
     @Shadow
@@ -250,9 +238,10 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
     @Inject(method = "jump", at = @At("TAIL"))
     public void jump(CallbackInfo ci)  {
+        this.abilities.setFlySpeed(1F);
 //        if(this.getWorld() instanceof ServerWorld serverWorld)
 //            testChunkLoading(serverWorld,new ChunkPos(0,0));
-        }
+    }
 
 
 
@@ -409,6 +398,12 @@ public abstract class PlayerEntityMixin extends LivingEntity {
             f = f * 16;
         }
 
+
+
+        if(getGameBooleanRuleFromClient(ENABLE_FAST_BREAKING_SPEED)){
+            f = f * 16;
+        }
+
         this.itemHarvest = getItemHarvestLevel(stack);
         this.blockHarvest = getBlockHarvestLevel(block);
         if (this.itemHarvest >= this.blockHarvest) {
@@ -418,9 +413,6 @@ public abstract class PlayerEntityMixin extends LivingEntity {
             cir.setReturnValue(0f);
         }
 
-//        if (!this.getWorld().isClient) {
-//            this.sendMessage(Text.of("" + getPhytonutrient()));
-//        }
 
     }
 
@@ -496,6 +488,8 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     @Shadow public abstract PlayerAbilities getAbilities();
 
     @Shadow public abstract void sendAbilitiesUpdate();
+
+    @Shadow protected abstract float getOffGroundSpeed();
 
     @Unique
     private double lastSleepTime = 0;

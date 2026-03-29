@@ -36,7 +36,6 @@
     "structure_and_dimension.portal.PortalForcerMixin",
     "structure_and_dimension.strong_hold.ConcentricRingsStructurePlacementMixin",
     "structure_and_dimension.strong_hold.StrongholdGeneratorMixin",
-    "structure_and_dimension.strong_hold.StrongholdGeneratorStartMixin",
     "structure_and_dimension.village.structurePoolBasedGeneratorMixin",
     "vanilla_blocksmixin.BeetrootsBlockMixin",
     "vanilla_blocksmixin.FluidBlockMixin",

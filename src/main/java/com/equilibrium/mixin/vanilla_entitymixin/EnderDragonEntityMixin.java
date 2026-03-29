@@ -10,8 +10,10 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
+import net.minecraft.util.WorldSavePath;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -43,25 +45,34 @@ public abstract class EnderDragonEntityMixin  extends MobEntity implements Monst
     @Override
     public void onDeath(DamageSource damageSource) {
         super.onDeath(damageSource);
+        int day = (int) (this.getWorld().getTimeOfDay()/24000L);
 
-        String fileName = "Finish The Game Once.dat";
 
-        Path configPath = FabricLoader.getInstance().getConfigDir().normalize().resolve(fileName);
-
-        // 保存到自定义路径
+        // 保存通关凭证
         try {
-            BooleanStorageUtil.save(true, configPath.toFile().getPath());
-
             if(this.getWorld() instanceof ServerWorld serverWorld){
                 for( PlayerEntity player : serverWorld.getPlayers()){
                     player.sendMessage(Text.of("主线完成,现所有世界选项按钮均已解锁(游戏重启生效)"));
                 }
+                BooleanStorageUtil.saveFinishGameOnce(true, FabricLoader.getInstance().getConfigDir().normalize().resolve(BooleanStorageUtil.FINISH_GAME_ONCE).toFile().getPath());
             }
-
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        // 保存世界通关信息
+        try {
+            if(this.getWorld() instanceof ServerWorld serverWorld){
+
+                MinecraftServer server = this.getServer();
+                Path path = server.getSavePath(WorldSavePath.ROOT).normalize().resolve(BooleanStorageUtil.WORLD_INFORMATION_RECORDER);
+                BooleanStorageUtil.saveWorldInformation(day,serverWorld.getSeed(),path.toFile().getPath());
+
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
 
 //        // 从自定义路径读取
 //        boolean value = BooleanStorageUtil.load(configPath.toString(), false);

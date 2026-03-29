@@ -114,7 +114,7 @@ public abstract  class SheepEntityMixin extends AnimalEntity implements Shearabl
 
 
         //讨厌玩家
-        this.goalSelector.add(1, new ConstantFleePlayerGoal(this, 8.0F, 1.6, 1.7));
+        this.goalSelector.add(1, new ConstantFleePlayerGoal(this, 8.0F, 1.7, 1.8));
         this.goalSelector.add(1, new EscapeDangerGoal(this, 2));
 
 

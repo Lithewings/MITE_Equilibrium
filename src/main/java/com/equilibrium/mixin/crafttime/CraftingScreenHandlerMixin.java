@@ -40,7 +40,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.*;
 
-import static com.equilibrium.DifficultyEntry.ENABLE_CRAFTING_TIME_AND_LEVEL;
+import static com.equilibrium.DifficultyEntryOnGameRules.ENABLE_CRAFTING_TIME_AND_LEVEL;
+import static com.equilibrium.DifficultyEntryOnGameRules.getGameBooleanRuleFromClient;
 import static com.equilibrium.util.SharedConstant.*;
 
 
@@ -144,8 +145,8 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 				//是否在合成工作台
 				if(this.result.getStack(0).isIn(ModItemTags.CRAFT_TABLE))
 					maxCraftLevel--;
-				//等级是否合法?
-				boolean isLevelValid=!world.getGameRules().getBoolean(ENABLE_CRAFTING_TIME_AND_LEVEL) || maxCraftLevel<=craftTableLevel;
+				//等级是否合法?如果游戏规则不检查合成等级,则等级永远合法
+				boolean isLevelValid= getGameBooleanRuleFromClient(ENABLE_CRAFTING_TIME_AND_LEVEL) || maxCraftLevel<=craftTableLevel;
 
 
 
