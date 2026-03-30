@@ -1,6 +1,6 @@
 package com.equilibrium.mixin.structure_and_dimension;
 
-import com.equilibrium.persistent_state.StateSaverAndLoader;
+import com.equilibrium.server_and_client.server.persistent_state.StateSaverAndLoader;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.random.CheckedRandom;

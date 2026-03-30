@@ -1,11 +1,10 @@
 package com.equilibrium.item.tools_attribute.metal;
 
-import com.equilibrium.event.CraftingMetalPickAxeCallback;
+import com.equilibrium.server_and_client.server.event.CraftingMetalPickAxeCallback;
 import net.minecraft.block.BlockState;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
-import net.minecraft.component.type.ToolComponent;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;

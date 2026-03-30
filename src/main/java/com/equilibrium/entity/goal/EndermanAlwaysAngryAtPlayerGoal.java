@@ -1,6 +1,6 @@
 package com.equilibrium.entity.goal;
 
-import com.equilibrium.persistent_state.StateSaverAndLoader;
+import com.equilibrium.server_and_client.server.persistent_state.StateSaverAndLoader;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.TargetPredicate;
@@ -8,7 +8,6 @@ import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.TrackTargetGoal;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.Box;

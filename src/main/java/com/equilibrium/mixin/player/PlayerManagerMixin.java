@@ -1,6 +1,6 @@
 package com.equilibrium.mixin.player;
 
-import com.equilibrium.persistent_state.StateSaverAndLoader;
+import com.equilibrium.server_and_client.server.persistent_state.StateSaverAndLoader;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffectUtil;

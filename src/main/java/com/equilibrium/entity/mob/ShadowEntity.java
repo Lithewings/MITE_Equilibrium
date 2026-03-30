@@ -17,7 +17,7 @@ import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
-import static com.equilibrium.event.SoundEventRegistry.*;
+import static com.equilibrium.server_and_client.server.SoundEventRegistry.*;
 import static com.equilibrium.util.XpHashMap.getXpForLevel;
 
 public class ShadowEntity extends ZombieEntity {

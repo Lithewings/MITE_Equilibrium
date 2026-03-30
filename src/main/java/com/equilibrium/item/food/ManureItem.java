@@ -23,8 +23,8 @@ import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
 import static com.equilibrium.OnServerInitialize.FERTILIZED;
-import static com.equilibrium.event.CropIllnessEvent.CROP_BLOCK_POS;
-import static com.equilibrium.event.CropIllnessEvent.updateCropBlockPos;
+import static com.equilibrium.server_and_client.server.CropIllnessEvent.CROP_BLOCK_POS;
+import static com.equilibrium.server_and_client.server.CropIllnessEvent.updateCropBlockPos;
 
 public class ManureItem extends Item {
     public static final int field_30851 = 3;

@@ -1,6 +1,6 @@
 package com.equilibrium.mixin.vanilla_blocksmixin.tables;
 
-import com.equilibrium.event.moon_event.WorldMoonPhasesSelector;
+import com.equilibrium.server_and_client.server.moonphase_tasks.WorldMoonPhasesSelector;
 import net.minecraft.block.BedBlock;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;

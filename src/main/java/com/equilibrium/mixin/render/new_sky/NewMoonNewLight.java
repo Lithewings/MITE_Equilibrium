@@ -31,7 +31,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Objects;
 
-import static com.equilibrium.event.moon_event.MoonPhaseEvent.getMoonType;
+import static com.equilibrium.server_and_client.server.moonphase_tasks.MoonPhaseEvent.getMoonType;
 
 
 @Mixin(WorldRenderer.class)

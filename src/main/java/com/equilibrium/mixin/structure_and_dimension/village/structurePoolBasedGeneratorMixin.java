@@ -1,6 +1,6 @@
 package com.equilibrium.mixin.structure_and_dimension.village;
 
-import com.equilibrium.persistent_state.StateSaverAndLoader;
+import com.equilibrium.server_and_client.server.persistent_state.StateSaverAndLoader;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.MinecraftServer;

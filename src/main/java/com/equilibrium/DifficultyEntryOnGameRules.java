@@ -101,7 +101,7 @@ public class DifficultyEntryOnGameRules {
         return getGameRuleInstanceFromClient(key).get();
     }
 
-    public static void initRules(){
+    public static void initGameRules(){
     }
 
 }

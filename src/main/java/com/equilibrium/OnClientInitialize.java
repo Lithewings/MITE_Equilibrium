@@ -3,17 +3,17 @@ package com.equilibrium;
 
 import com.equilibrium.block.ModBlocksRegistry;
 import com.equilibrium.block.enchanting_table.*;
-import com.equilibrium.client.render.entity.model.BaseEarthElementalEntityModel;
-import com.equilibrium.client.render.entity.renderer.*;
-import com.equilibrium.client.render.entity.renderer.elemental.EndRockElementalEntityRenderer;
-import com.equilibrium.client.render.entity.renderer.elemental.NetherrackElementalEntityRenderer;
-import com.equilibrium.client.render.entity.renderer.elemental.ObsidianElementalEntityRenderer;
-import com.equilibrium.client.render.entity.renderer.elemental.StoneElementalEntityRenderer;
+import com.equilibrium.server_and_client.client.render.entity.model.BaseEarthElementalEntityModel;
+import com.equilibrium.server_and_client.client.render.entity.renderer.*;
+import com.equilibrium.server_and_client.client.render.entity.renderer.elemental.EndRockElementalEntityRenderer;
+import com.equilibrium.server_and_client.client.render.entity.renderer.elemental.NetherrackElementalEntityRenderer;
+import com.equilibrium.server_and_client.client.render.entity.renderer.elemental.ObsidianElementalEntityRenderer;
+import com.equilibrium.server_and_client.client.render.entity.renderer.elemental.StoneElementalEntityRenderer;
 import com.equilibrium.item.Armors;
 import com.equilibrium.network.S2CGameRuleSyncPayloadForBooleanPacket;
 import com.equilibrium.network.S2CIllnessTextureBooleanPacket;
 import com.equilibrium.network.S2CStockChangeGrassColorPacket;
-import com.equilibrium.util.MyCommands;
+import com.equilibrium.server_and_client.client.command.ClientCommands;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
@@ -128,7 +128,7 @@ public class OnClientInitialize implements ClientModInitializer {
         });
 
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
-            MyCommands.registerClientAllCommands(dispatcher);
+            ClientCommands.registerClientAllCommands(dispatcher);
         });
 
     }

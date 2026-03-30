@@ -1,7 +1,7 @@
 package com.equilibrium.mixin.screens;
 
-import com.equilibrium.client.NewGameTab;
-import com.equilibrium.client.NewWorldTab;
+import com.equilibrium.server_and_client.client.NewGameTab;
+import com.equilibrium.server_and_client.client.NewWorldTab;
 import com.equilibrium.util.BooleanStorageUtil;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.screen.Screen;

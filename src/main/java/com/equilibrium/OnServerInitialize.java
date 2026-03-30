@@ -4,16 +4,16 @@ import com.equilibrium.block.ModBlocksRegistry;
 
 import com.equilibrium.block.ModBlocksRegistry2;
 import com.equilibrium.entity.goal.BreakBlockGoal;
-import com.equilibrium.event.BreakBlockEvent;
-import com.equilibrium.event.CraftingMetalPickAxeCallback;
-import com.equilibrium.event.CropIllnessEvent;
-import com.equilibrium.event.EventOnServerInitOrRunning;
+import com.equilibrium.server_and_client.server.event.BreakBlockEvent;
+import com.equilibrium.server_and_client.server.event.CraftingMetalPickAxeCallback;
+import com.equilibrium.server_and_client.server.CropIllnessEvent;
+import com.equilibrium.server_and_client.server.EventOnServerInitOrRunning;
 import com.equilibrium.item.*;
 import com.equilibrium.network.*;
-import com.equilibrium.persistent_state.MapNbtSerializer;
-import com.equilibrium.persistent_state.StateSaverAndLoader;
+import com.equilibrium.server_and_client.server.command.ServerCommands;
+import com.equilibrium.server_and_client.server.persistent_state.MapNbtSerializer;
+import com.equilibrium.server_and_client.server.persistent_state.StateSaverAndLoader;
 import com.equilibrium.util.*;
-import com.mojang.brigadier.CommandDispatcher;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -27,19 +27,12 @@ import net.minecraft.SaveVersion;
 import net.minecraft.SharedConstants;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.command.CommandRegistryAccess;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.resource.ResourceType;
-import net.minecraft.server.command.CommandManager;
-import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.IntProperty;
-import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.WorldSavePath;
 import net.minecraft.util.math.BlockPos;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +42,6 @@ import com.equilibrium.block.furnace_and_its_entity.FurnaceEntityRegistry;
 
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
@@ -57,7 +49,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 
-import static com.equilibrium.DifficultyEntryOnGameRules.initRules;
+import static com.equilibrium.DifficultyEntryOnGameRules.initGameRules;
 import static com.equilibrium.GlobalModConfig.isSleepChunksAlwaysLoading;
 import static com.equilibrium.block.reference.BlocksHardnessList.initModBlocksHardnessHashMap;
 import static com.equilibrium.block.reference.BlocksHardnessList.initVanillaBlocksHardnessHashMap;
@@ -68,13 +60,13 @@ import static com.equilibrium.block.enchanting_table.ModScreenTypes.registerScre
 
 import static com.equilibrium.entity.ModEntities.*;
 import static com.equilibrium.entity.ModSpawnRestriction.registerModSpawnRestriction;
-import static com.equilibrium.event.CropIllnessEvent.applyIllnessForCrop;
-import static com.equilibrium.event.CropIllnessEvent.updateCropBlockPos;
-import static com.equilibrium.event.moon_event.MoonPhaseEvent.*;
+import static com.equilibrium.server_and_client.server.CropIllnessEvent.applyIllnessForCrop;
+import static com.equilibrium.server_and_client.server.CropIllnessEvent.updateCropBlockPos;
+import static com.equilibrium.server_and_client.server.moonphase_tasks.MoonPhaseEvent.*;
 
-import static com.equilibrium.event.SleepChunkLoader.registerSleepEvents;
+import static com.equilibrium.server_and_client.server.event.SleepChunkLoaderEvents.registerSleepEvents;
 
-import static com.equilibrium.event.SoundEventRegistry.registrySoundEvents;
+import static com.equilibrium.server_and_client.server.SoundEventRegistry.registrySoundEvents;
 import static com.equilibrium.item.Armors.registerArmors;
 import static com.equilibrium.item.Metal.registerModItemRaw;
 import static com.equilibrium.item.extend_item.CoinItems.registerCoinItems;
@@ -82,26 +74,21 @@ import static com.equilibrium.item.food.FoodOrFarmItems.registerFoodItems;
 import static com.equilibrium.item.ItemComponentModifier.foodComponentModify;
 
 
-import static com.equilibrium.structure_generator.ModPlacementGenerator.*;
+import static com.equilibrium.structure.ModPlacementGenerator.*;
 import static com.equilibrium.status.registerStatusEffect.registerStatusEffects;
-import static com.equilibrium.structure_generator.StructureRegister.registerStructure;
+import static com.equilibrium.structure.StructureRegister.registerStructure;
 import static com.equilibrium.tags.ModBlockTags.registerModBlockTags;
 import static com.equilibrium.tags.ModEntityTags.registerModEntityTags;
 import static com.equilibrium.tags.ModItemTags.registerModItemTags;
 
 
 import static com.equilibrium.block.CraftingDifficultyHelper.initCraftingDifficulties;
-import static com.equilibrium.util.BooleanStorageUtil.loadWorldInformation;
-import static net.minecraft.world.World.OVERWORLD;
 
 
 public class OnServerInitialize implements ModInitializer {
 
     public static final String MOD_ID = "miteequilibrium";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-    private static final Identifier TEXTURE_EYES = Identifier.of(MOD_ID, "textures/entity/earth_elemental_glow.png");
-
-
 
 
     //服务器状态
@@ -112,7 +99,6 @@ public class OnServerInitialize implements ModInitializer {
     public static final IntProperty GRASSBLOCK_POLLUTED = IntProperty.of("grassblock_polluted", 0, 7);
 
     public static final BooleanProperty CROP_IS_ILLNESS = BooleanProperty.of("crop_illness");
-
 
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
@@ -133,55 +119,6 @@ public class OnServerInitialize implements ModInitializer {
         XpHashMap.setXpForLevel(3, 100);
         XpHashMap.setXpForLevel(4, 200);
         XpHashMap.setXpForLevel(5, 500);
-    }
-
-
-    // 注册命令的标准方式，适配 CommandDispatcher 的签名
-    private void registerCommands(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess, CommandManager.RegistrationEnvironment registrationEnvironment) {
-        dispatcher.register(
-                CommandManager.literal("village")
-                        .executes
-                                (EventOnServerInitOrRunning::isPickAxeCrafted)
-
-        );
-        dispatcher.register(
-                CommandManager.literal("deathTime")
-                        .executes(context -> {
-                            PlayerEntity player = context.getSource().getPlayer();
-                            StateSaverAndLoader stateSaverAndLoader = StateSaverAndLoader.getServerState(context.getSource().getServer());
-                            if(player!=null)
-                                player.sendMessage(Text.of("你的总死亡次数为: " + stateSaverAndLoader.playerDeathTimes));
-                            return 1;
-                        })
-                );
-        dispatcher.register(
-                CommandManager.literal("checkAdvancement")
-                        .executes(context -> {
-                            //请确保世界存在
-                            PlayerEntity player = context.getSource().getPlayer();
-                            long originalSeed = context.getSource().getServer().getWorld(OVERWORLD).getSeed();
-                            Path path = context.getSource().getServer().getSavePath(WorldSavePath.ROOT).normalize().resolve("WorldInformationRecorder.dat");;
-                            BooleanStorageUtil.WorldInformationRecorder worldInformationRecorder = loadWorldInformation(path.toString());
-                            if(worldInformationRecorder!=null){
-                                int day = worldInformationRecorder.getFinishDay();
-                                long seed = worldInformationRecorder.getSeed();
-                                String version = worldInformationRecorder.getVersion();
-
-                                if(day>=0 && seed==originalSeed){
-                                    player.sendMessage(Text.of("通关天数为: " + day));
-                                    player.sendMessage(Text.of("世界种子为: " + seed));
-                                    player.sendMessage(Text.of("版本信息号为: " + version));
-                                }
-                                else
-                                    player.sendMessage(Text.of("无效的通关信息"));
-
-                            }
-                            else
-                                player.sendMessage(Text.of("未获取到通关信息"));
-                            return 1;
-                        })
-        );
-
     }
 
 
@@ -228,8 +165,8 @@ public class OnServerInitialize implements ModInitializer {
                 return true;
             }
         };
-
-        initRules();
+        //难度词条
+        initGameRules();
 
 
         //原版物品修改
@@ -373,7 +310,7 @@ public class OnServerInitialize implements ModInitializer {
         //合成金属镐监听器
         CraftingMetalPickAxeCallback.EVENT.register(EventOnServerInitOrRunning::onCraftingMetalPickAxe);
         //命令注册
-        CommandRegistrationCallback.EVENT.register(this::registerCommands);
+        CommandRegistrationCallback.EVENT.register(ServerCommands::registerCommands);
 
 
         //僵尸破坏方块进度列表

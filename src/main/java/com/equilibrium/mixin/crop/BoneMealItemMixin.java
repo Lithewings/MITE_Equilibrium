@@ -1,7 +1,6 @@
 package com.equilibrium.mixin.crop;
 
 import net.minecraft.block.Blocks;
-import net.minecraft.block.GrassBlock;
 import net.minecraft.item.BoneMealItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
@@ -16,8 +15,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 
 import static com.equilibrium.OnServerInitialize.CROP_IS_ILLNESS;
-import static com.equilibrium.event.CropIllnessEvent.CROP_BLOCK_POS;
-import static com.equilibrium.event.CropIllnessEvent.updateCropBlockPos;
+import static com.equilibrium.server_and_client.server.CropIllnessEvent.CROP_BLOCK_POS;
+import static com.equilibrium.server_and_client.server.CropIllnessEvent.updateCropBlockPos;
 
 
 @Mixin(BoneMealItem.class)

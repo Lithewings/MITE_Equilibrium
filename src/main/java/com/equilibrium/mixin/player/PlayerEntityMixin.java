@@ -2,7 +2,7 @@ package com.equilibrium.mixin.player;
 
 import com.equilibrium.item.Armors;
 import com.equilibrium.item.Tools;
-import com.equilibrium.persistent_state.StateSaverAndLoader;
+import com.equilibrium.server_and_client.server.persistent_state.StateSaverAndLoader;
 import com.equilibrium.status.registerStatusEffect;
 import com.equilibrium.tags.ModBlockTags;
 import com.equilibrium.tags.ModItemTags;
@@ -12,7 +12,6 @@ import net.minecraft.component.EnchantmentEffectComponentTypes;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
-import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;

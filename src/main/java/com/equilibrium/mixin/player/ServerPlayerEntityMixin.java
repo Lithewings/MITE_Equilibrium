@@ -1,11 +1,10 @@
 package com.equilibrium.mixin.player;
 
-import com.equilibrium.persistent_state.StateSaverAndLoader;
+import com.equilibrium.server_and_client.server.persistent_state.StateSaverAndLoader;
 import com.mojang.authlib.GameProfile;
 import com.mojang.datafixers.util.Either;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.BedBlock;
-import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;

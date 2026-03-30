@@ -17,7 +17,7 @@ import net.minecraft.util.math.Box;
 import org.jetbrains.annotations.Nullable;
 
 import static com.equilibrium.OnServerInitialize.MOD_ID;
-import static com.equilibrium.event.moon_event.MoonPhaseEvent.getMoonType;
+import static com.equilibrium.server_and_client.server.moonphase_tasks.MoonPhaseEvent.getMoonType;
 
 
 /**

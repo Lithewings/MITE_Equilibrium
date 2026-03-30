@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static com.equilibrium.OnServerInitialize.*;
 import static com.equilibrium.network.S2CStockChangeGrassColorPacket.BLOCK_POS_INTEGER_CONCURRENT_HASH_MAP;
-import static com.equilibrium.event.moon_event.WorldMoonPhasesSelector.calculateMoonType;
+import static com.equilibrium.server_and_client.server.moonphase_tasks.WorldMoonPhasesSelector.calculateMoonType;
 
 @Mixin(GrassBlock.class)
 public abstract class GrassBlockMixin extends SpreadableBlock implements Fertilizable {

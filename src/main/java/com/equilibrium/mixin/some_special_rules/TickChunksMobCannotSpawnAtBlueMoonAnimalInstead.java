@@ -1,6 +1,6 @@
 package com.equilibrium.mixin.some_special_rules;
 
-import com.equilibrium.event.moon_event.WorldMoonPhasesSelector;
+import com.equilibrium.server_and_client.server.moonphase_tasks.WorldMoonPhasesSelector;
 import net.minecraft.server.world.*;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.profiler.Profiler;
@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import java.util.List;
 import java.util.Objects;
 
-import static com.equilibrium.event.SleepChunkLoader.allPlayersDemandToLoadChunks;
+import static com.equilibrium.server_and_client.server.event.SleepChunkLoaderEvents.allPlayersDemandToLoadChunks;
 
 @Mixin(ServerChunkManager.class)
 public abstract class TickChunksMobCannotSpawnAtBlueMoonAnimalInstead extends ChunkManager {

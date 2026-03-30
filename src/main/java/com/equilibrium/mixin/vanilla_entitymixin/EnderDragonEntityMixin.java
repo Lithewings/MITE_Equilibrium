@@ -1,6 +1,6 @@
 package com.equilibrium.mixin.vanilla_entitymixin;
 
-import com.equilibrium.persistent_state.StateSaverAndLoader;
+import com.equilibrium.server_and_client.server.persistent_state.StateSaverAndLoader;
 import com.equilibrium.util.BooleanStorageUtil;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.EntityType;
