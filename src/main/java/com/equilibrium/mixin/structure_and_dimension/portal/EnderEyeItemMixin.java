@@ -16,7 +16,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import static com.equilibrium.DifficultyEntryOnGameRules.ENABLE_FAR_STRONGHOLD;
 import static com.equilibrium.DifficultyEntryOnGameRules.getGameBooleanRuleFromClient;
 
 @Mixin(EnderEyeItem.class)
@@ -33,12 +32,6 @@ public abstract class EnderEyeItemMixin extends Item {
             ),
             cancellable = true)
     private void redirectLocateStructure(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<TypedActionResult<ItemStack>> cir) {
-        //游戏规则:是否可以随时投掷出末影之眼?
-        if (!getGameBooleanRuleFromClient(ENABLE_FAR_STRONGHOLD))
-            //正常执行
-            return;
-
-
 
         if (world instanceof ServerWorld serverWorld) {
             BlockPos blockPos = serverWorld.locateStructure(StructureTags.EYE_OF_ENDER_LOCATED, user.getBlockPos(), 100, false);

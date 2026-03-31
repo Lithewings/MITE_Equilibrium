@@ -16,6 +16,7 @@ import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
 import net.minecraft.registry.tag.EntityTypeTags;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Vec3d;
@@ -25,8 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
-import static com.equilibrium.DifficultyEntryOnGameRules.ENABLE_ADVANCE_ANIMAL_AI;
-import static com.equilibrium.DifficultyEntryOnGameRules.getGameBooleanRuleFromClient;
+import static com.equilibrium.DifficultyEntryOnGameRules.*;
 
 public class ConstantFleePlayerGoal extends Goal {
     protected final PathAwareEntity mob;
@@ -60,9 +60,10 @@ public class ConstantFleePlayerGoal extends Goal {
 
     @Override
     public boolean canStart() {
-        //高级动物AI:寻路算法方面
-        if(!getGameBooleanRuleFromClient(ENABLE_ADVANCE_ANIMAL_AI))
-            return false;
+        //高级动物AI:寻路算法方面,
+        if(this.mob.getWorld() instanceof ServerWorld serverWorld)
+            if(!getGameBooleanRuleFromServer(ENABLE_ADVANCE_ANIMAL_AI,serverWorld.getServer()))
+                return false;
 
         if (cooldown > 0) {
             cooldown--;

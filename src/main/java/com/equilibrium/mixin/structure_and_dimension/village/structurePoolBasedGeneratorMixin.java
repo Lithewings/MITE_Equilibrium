@@ -25,6 +25,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Optional;
 
+import static com.equilibrium.DifficultyEntryOnGameRules.*;
+
 @Mixin(StructurePoolBasedGenerator.class)
 public class structurePoolBasedGeneratorMixin {
 
@@ -111,9 +113,14 @@ public class structurePoolBasedGeneratorMixin {
             DimensionPadding dimensionPadding,
             StructureLiquidSettings liquidSettings,
             CallbackInfoReturnable<Optional<Structure.StructurePosition>> cir) {
-
+        if(context.world() instanceof ServerWorld serverWorld)
+            if(!getGameBooleanRuleFromServer(ENABLE_RESTRICT_VILLAGE_GEN,serverWorld.getServer()))
+                return;
         // 检查是否是村庄或掠夺者前哨站
         if (regEntryContains(structurePool, "village") || regEntryContains(structurePool, "pillager_outpost")) {
+
+
+
 
             // 只在服务器端世界进行检查
             if (context.world() instanceof ServerWorld serverWorld) {

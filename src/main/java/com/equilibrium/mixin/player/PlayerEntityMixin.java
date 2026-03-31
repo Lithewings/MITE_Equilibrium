@@ -8,6 +8,7 @@ import com.equilibrium.tags.ModBlockTags;
 import com.equilibrium.tags.ModItemTags;
 import com.equilibrium.util.*;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.component.EnchantmentEffectComponentTypes;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -45,6 +46,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+
+import java.util.Objects;
 
 import static com.equilibrium.DifficultyEntryOnGameRules.*;
 import static com.equilibrium.item.tools_attribute.ExtraDamageFromExperienceLevel.getDamageLevel;
@@ -237,7 +240,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
     @Inject(method = "jump", at = @At("TAIL"))
     public void jump(CallbackInfo ci)  {
-        this.abilities.setFlySpeed(1F);
+        this.abilities.setFlySpeed(0.3F);
 //        if(this.getWorld() instanceof ServerWorld serverWorld)
 //            testChunkLoading(serverWorld,new ChunkPos(0,0));
     }
@@ -397,10 +400,16 @@ public abstract class PlayerEntityMixin extends LivingEntity {
             f = f * 16;
         }
 
-
-
-        if(getGameBooleanRuleFromClient(ENABLE_FAST_BREAKING_SPEED)){
-            f = f * 16;
+        //玩家挖掘时,会在客户端和服务端均进行计算,发包时是客户端发包,再看服务端那边是否已计算完毕
+        //有的时候由于服务端延迟,导致客户端已挖掘的方块在服务端那边还没有被计算完毕,导致幽灵方块现象
+        if(this.getWorld() instanceof ServerWorld serverWorld) {
+            if (!getGameBooleanRuleFromServer(ENABLE_SLOW_BREAKING_SPEED, serverWorld.getServer())) {
+                f = f * 16;
+            }
+        } else {
+            if (!getGameBooleanRuleFromClient(ENABLE_SLOW_BREAKING_SPEED)) {
+                f = f * 16;
+            }
         }
 
         this.itemHarvest = getItemHarvestLevel(stack);
@@ -580,7 +589,10 @@ public abstract class PlayerEntityMixin extends LivingEntity {
             }
         }
         if (!this.getWorld().isClient) {
-            this.phytonutrient--;
+            //规则:是否启用营养不良?
+            if(getGameBooleanRuleFromServer(ENABLE_PHYTONUTRIENT, Objects.requireNonNull(this.getWorld().getServer(), "Server can not be found ? Impossible!")))
+                this.phytonutrient--;
+
             //小于0就赋值为0,大于0不动
             this.phytonutrient = this.phytonutrient < 0 ? 0 : this.phytonutrient;
             //溢出判断,大于192000就为192000,否则不动

@@ -5,6 +5,8 @@
 
   "item.miteequilibrium.beef_soup": "Beef Soup",
 
+  "item.miteequilibrium.chocolate": "Chocolate",
+
   "item.miteequilibrium.vegetable_soup": "Vegetable Soup",
 
   "item.miteequilibrium.onion": "Onion",
@@ -298,8 +300,14 @@
   "mod.itemGroup.blocks_and_metallic_items": "Blocks and Metallic Items",
   "mod.itemGroup.farm": "Farm",
 
-  "gamerule.enableCraftingTimeAndLevel": "Enable Crafting Time And Level"
+  "gamerule.enableCraftingTimeAndLevel": "Enable Crafting Time And Level",
 
-
+  "gamerule.enableSlowBreakingSpeed": "Enable Slow Breaking Speed",
+  "gamerule.enableCropIllness": "Enable Crop Illness Function",
+  "gamerule.enableAdvanceAnimalAI": "Enable Animal Advance AI",
+  "gamerule.enableRestrictVillageGen": "Enable Strict Village Generation Conditions",
+  "gamerule.enablePhytonutrient": "Enable Phytonutrient Function",
+  "gamerule.enableBloodMoonThunder": "Enable Weather Effect On BloodMoon",
+  "gamerule.disablePlayerTeleport": "Disable Teleport Commands Between Players"
 
 }

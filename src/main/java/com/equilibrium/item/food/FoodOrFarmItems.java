@@ -25,6 +25,7 @@ public class FoodOrFarmItems {
     public static final Item VEGETABLE_SOUP = new BeefSoup(new Item.Settings().food(VegetableSoup.VEGETABLE_SOUP).maxCount(16));
     public static final Item ONION = new AliasedBlockItem(ModBlocksRegistry.ONION_BLOCK,new Item.Settings().food(new FoodComponent(1,1f,false,1.6F,Optional.empty(), List.of())).maxCount(32));
     public static final Item MANURE = new ManureItem(new Item.Settings().maxCount(16));
+    public static final Item CHOCOLATE = new Chocolate(new Item.Settings().food(Chocolate.CHOCOLATE).maxCount(16));
 
     public static void registerFoodItems() {
         Registry.register(Registries.ITEM, Identifier.of(MOD_ID,"salad"), SALAD);
@@ -37,6 +38,8 @@ public class FoodOrFarmItems {
         Registry.register(Registries.ITEM, Identifier.of(MOD_ID,"cheese"), CHEESE);
         Registry.register(Registries.ITEM, Identifier.of(MOD_ID,"mashed_potato"), MASHED_POTATO);
         Registry.register(Registries.ITEM, Identifier.of(MOD_ID,"manure"), MANURE);
+        Registry.register(Registries.ITEM, Identifier.of(MOD_ID,"chocolate"), CHOCOLATE);
+
     }
 
 }

@@ -138,7 +138,7 @@ public abstract class MixinInventoryScreen extends AbstractInventoryScreen<Playe
 				player.craftTime$startCraftWithNewPeriod(CraftingDifficultyHelper.getCraftingDifficultyFromMatrix(this.handler, false,this));
 			}
 			//阻止直接从输出栏拿物品
-			if(!getGameBooleanRuleFromClient(ENABLE_CRAFTING_TIME_AND_LEVEL))
+			if(getGameBooleanRuleFromClient(ENABLE_CRAFTING_TIME_AND_LEVEL))
 				info.cancel();
 		}
 		this.recipeBook.slotClicked(slot);

@@ -4,19 +4,132 @@ import com.equilibrium.server_and_client.server.EventOnServerInitOrRunning;
 import com.equilibrium.server_and_client.server.persistent_state.StateSaverAndLoader;
 import com.equilibrium.util.BooleanStorageUtil;
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
+import com.mojang.brigadier.tree.LiteralCommandNode;
 import net.minecraft.command.CommandRegistryAccess;
+import net.minecraft.command.argument.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.packet.s2c.play.PositionFlag;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.server.command.TeleportCommand;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.WorldSavePath;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec2f;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 import java.nio.file.Path;
+import java.util.*;
 
+import static com.equilibrium.DifficultyEntryOnGameRules.*;
+import static com.equilibrium.server_and_client.server.command.ServerCommands.TeleportCommand.execute;
 import static com.equilibrium.util.BooleanStorageUtil.loadWorldInformation;
 import static net.minecraft.world.World.OVERWORLD;
 
 public class ServerCommands {
+    static class TeleportCommand{
+        private static final SimpleCommandExceptionType INVALID_POSITION_EXCEPTION = new SimpleCommandExceptionType(
+                Text.translatable("commands.teleport.invalidPosition")
+        );
+        static int execute(ServerCommandSource source, Collection<? extends Entity> targets, Entity destination) throws CommandSyntaxException {
+            for (Entity entity : targets) {
+                teleport(
+                        source,
+                        entity,
+                        (ServerWorld)destination.getWorld(),
+                        destination.getX(),
+                        destination.getY(),
+                        destination.getZ(),
+                        EnumSet.noneOf(PositionFlag.class),
+                        destination.getYaw(),
+                        destination.getPitch(),
+                        null
+                );
+            }
+
+            if (targets.size() == 1) {
+                source.sendFeedback(
+                        () -> Text.translatable("commands.teleport.success.entity.single", ((Entity)targets.iterator().next()).getDisplayName(), destination.getDisplayName()),
+                        true
+                );
+            } else {
+                source.sendFeedback(() -> Text.translatable("commands.teleport.success.entity.multiple", targets.size(), destination.getDisplayName()), true);
+            }
+
+            return targets.size();
+        }
+
+        private static void teleport(
+                ServerCommandSource source,
+                Entity target,
+                ServerWorld world,
+                double x,
+                double y,
+                double z,
+                Set<PositionFlag> movementFlags,
+                float yaw,
+                float pitch,
+                @Nullable LookTarget facingLocation
+        ) throws CommandSyntaxException {
+            BlockPos blockPos = BlockPos.ofFloored(x, y, z);
+            if (!World.isValid(blockPos)) {
+                throw INVALID_POSITION_EXCEPTION.create();
+            } else {
+                float f = MathHelper.wrapDegrees(yaw);
+                float g = MathHelper.wrapDegrees(pitch);
+                if (target.teleport(world, x, y, z, movementFlags, f, g)) {
+                    if (facingLocation != null) {
+                        facingLocation.look(source, target);
+                    }
+
+                    if (!(target instanceof LivingEntity livingEntity) || !livingEntity.isFallFlying()) {
+                        target.setVelocity(target.getVelocity().multiply(1.0, 0.0, 1.0));
+                        target.setOnGround(true);
+                    }
+
+                    if (target instanceof PathAwareEntity pathAwareEntity) {
+                        pathAwareEntity.getNavigation().stop();
+                    }
+                }
+            }
+        }
+        static record LookAtEntity(Entity entity, EntityAnchorArgumentType.EntityAnchor anchor) implements TeleportCommand.LookTarget {
+            @Override
+            public void look(ServerCommandSource source, Entity entity) {
+                if (entity instanceof ServerPlayerEntity serverPlayerEntity) {
+                    serverPlayerEntity.lookAtEntity(source.getEntityAnchor(), this.entity, this.anchor);
+                } else {
+                    entity.lookAt(source.getEntityAnchor(), this.anchor.positionAt(this.entity));
+                }
+            }
+        }
+
+        static record LookAtPosition(Vec3d position) implements LookTarget {
+            @Override
+            public void look(ServerCommandSource source, Entity entity) {
+                entity.lookAt(source.getEntityAnchor(), this.position);
+            }
+        }
+
+        @FunctionalInterface
+        interface LookTarget {
+            void look(ServerCommandSource source, Entity entity);
+        }
+    }
+
+
+
+
     // 注册命令的标准方式，适配 CommandDispatcher 的签名
     public static void registerCommands(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess, CommandManager.RegistrationEnvironment registrationEnvironment) {
         dispatcher.register(
@@ -62,6 +175,37 @@ public class ServerCommands {
                             return 1;
                         })
         );
+        dispatcher.register(
+                CommandManager.literal("teleportToPlayer")
+                        .then(
+                                CommandManager.argument("destination", EntityArgumentType.player())
+                                        .requires(source -> source.getEntity() instanceof PlayerEntity) // 确保执行者是玩家
+                                        .executes(
+                                                context -> {
+                                                    Entity entity =context.getSource().getEntity();
+
+                                                    if (getGameBooleanRuleFromServer(DISABLE_PLAYER_TELEPORT, context.getSource().getServer())){
+                                                        if(entity instanceof PlayerEntity player)
+                                                            player.sendMessage(Text.of("玩家间的传送功能已被禁用"));
+                                                        return 0;
+                                                    }
+                                                    if(entity instanceof PlayerEntity player && player.totalExperience>=500) {
+                                                        player.addExperience(-500);
+                                                        return execute(
+                                                                context.getSource(),
+                                                                Collections.singleton(context.getSource().getEntityOrThrow()), // 执行者
+                                                                EntityArgumentType.getPlayer(context, "destination") // 目标为玩家
+                                                        );
+                                                    }
+                                                    else if(entity instanceof PlayerEntity player && player.totalExperience<500){
+                                                        player.sendMessage(Text.of("至少需要500经验值进行玩家传送"));
+                                                    }
+                                                    return 0;
+                                                }
+                                        )
+                        )
+        );
 
     }
+
 }

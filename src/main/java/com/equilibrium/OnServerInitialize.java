@@ -142,7 +142,7 @@ public class OnServerInitialize implements ModInitializer {
 
             @Override
             public String getName() {
-                return "MITE:Equilibrium Beta v1.0.8_8";
+                return "MITE:Equilibrium Beta v1.0.9";
             }
 
             @Override
@@ -248,7 +248,7 @@ public class OnServerInitialize implements ModInitializer {
             tickCount++;
             //获取时间,得到月相,决定是否触发月相事件
 
-            ServerWorld serverOverWorld = moonEvent(server);
+            ServerWorld serverOverWorld = moonPhaseEvent(server);
             //护甲更新,玩家游戏模式更新,作物状态更新
             if (tickCount % (TICK_INTERVAL / 10) == 0) {
                 for (ServerPlayerEntity serverPlayerEntity : server.getPlayerManager().getPlayerList()) {

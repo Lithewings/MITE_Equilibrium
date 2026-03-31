@@ -38,6 +38,7 @@
     "structure_and_dimension.strong_hold.StrongholdGeneratorMixin",
     "structure_and_dimension.village.structurePoolBasedGeneratorMixin",
     "vanilla_blocksmixin.BeetrootsBlockMixin",
+    "vanilla_blocksmixin.BlocksMixin",
     "vanilla_blocksmixin.FluidBlockMixin",
     "vanilla_blocksmixin.GrassBlockMixin",
     "vanilla_blocksmixin.tables.AbstractFurnaceEntityMixin",

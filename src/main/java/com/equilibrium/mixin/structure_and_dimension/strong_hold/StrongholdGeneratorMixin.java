@@ -11,7 +11,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import static com.equilibrium.DifficultyEntryOnGameRules.ENABLE_FAR_STRONGHOLD;
 import static com.equilibrium.DifficultyEntryOnGameRules.getGameBooleanRuleFromClient;
 
 @Mixin(StrongholdGenerator.class)
@@ -19,9 +18,6 @@ import static com.equilibrium.DifficultyEntryOnGameRules.getGameBooleanRuleFromC
 public abstract class StrongholdGeneratorMixin {
     @Inject(method = "createPiece", at = @At(value = "HEAD"),cancellable = true)
     private static void createPiece(Class<? extends StrongholdGenerator.Piece> pieceType, StructurePiecesHolder holder, Random random, int x, int y, int z, @Nullable Direction orientation, int chainLength, CallbackInfoReturnable<StrongholdGenerator.Piece> cir) {
-        //带有传送门的要塞不再生成在极远处
-        if(!getGameBooleanRuleFromClient(ENABLE_FAR_STRONGHOLD))
-            return;
         cir.cancel();
         StrongholdGenerator.Piece piece = null;
 

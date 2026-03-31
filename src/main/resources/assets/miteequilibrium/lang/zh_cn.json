@@ -4,6 +4,7 @@
   "mod.first_day.helloWorld": "在你的附近寻找箱子,取出其中的物品",
   "item.miteequilibrium.beef_soup": "牛肉汤",
   "item.miteequilibrium.vegetable_soup": "蔬菜汤",
+  "item.miteequilibrium.chocolate": "巧克力",
   "item.miteequilibrium.onion": "洋葱",
   "item.miteequilibrium.manure": "肥料",
   "item.miteequilibrium.bowl_water": "水碗",
@@ -216,7 +217,15 @@
   "mod.itemGroup.blocks_and_metallic_items": "方块与金属制品",
   "mod.itemGroup.farm": "农业与食物",
 
-  "gamerule.enableCraftingTimeAndLevel": "启用合成耗时和合成台等级"
+  "gamerule.enableCraftingTimeAndLevel": "启用合成耗时和合成台等级",
+  "gamerule.enableSlowBreakingSpeed": "启用标准挖掘速度",
+  "gamerule.enableCropIllness": "启用作物生病机制",
+  "gamerule.enableAdvanceAnimalAI": "启用高级动物AI",
+  "gamerule.enableRestrictVillageGen": "启用更严格的村庄和前哨站生成条件",
+  "gamerule.enablePhytonutrient": "启用营养不良机制",
+  "gamerule.enableBloodMoonThunder": "启用血月雷电",
+  "gamerule.disablePlayerTeleport": "启用玩家间的传送指令：/teleportToPlayer"
+
 
 
 

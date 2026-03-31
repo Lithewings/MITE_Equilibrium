@@ -19,8 +19,7 @@ import net.minecraft.world.World;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.equilibrium.DifficultyEntryOnGameRules.ENABLE_ADVANCE_ANIMAL_AI;
-import static com.equilibrium.DifficultyEntryOnGameRules.getGameBooleanRuleFromClient;
+import static com.equilibrium.DifficultyEntryOnGameRules.*;
 import static com.equilibrium.entity.EnvironmentChecker.Navigation.canNavigateToSurfaceGrass;
 import static com.equilibrium.entity.EnvironmentChecker.Navigation.canNavigateToSurfaceWater;
 
@@ -164,8 +163,9 @@ public class EnvironmentChecker {
 
     public void checkEnvironment() {
         //高级动物AI:检查环境方面
-        if(!getGameBooleanRuleFromClient(ENABLE_ADVANCE_ANIMAL_AI))
-            return;
+        if(this.entity.getWorld() instanceof ServerWorld serverWorld)
+            if(!getGameBooleanRuleFromServer(ENABLE_ADVANCE_ANIMAL_AI,serverWorld.getServer()))
+                return;
 
         if (this.entity.isBaby()||this.isIllness())
             this.checkEnvironmentIsSuitableTime = this.checkEnvironmentIsSuitableTime - 4;

@@ -1,5 +1,7 @@
 package com.equilibrium.server_and_client.server.event;
 
+import com.equilibrium.block.ModBlocksRegistry;
+import com.equilibrium.block.ModBlocksRegistry2;
 import com.equilibrium.item.Metal;
 import com.equilibrium.tags.ModBlockTags;
 import com.equilibrium.util.BlockToItemConverter;
@@ -87,8 +89,8 @@ public class BreakBlockEvent implements PlayerBlockBreakEvents.After {
             if (randomNumber1 < 75 - furtuneLevel * 15 && guarantee < 12) {
                 guarantee++;
                 //不再掉落自身
-//                world.spawnEntity(new ItemEntity(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
-//                        new ItemStack(Items.GRAVEL)));
+                world.spawnEntity(new ItemEntity(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
+                        new ItemStack(ModBlocksRegistry.MUNDANE_GRAVEL)));
                 return;
             } else {
                 guarantee = 0;

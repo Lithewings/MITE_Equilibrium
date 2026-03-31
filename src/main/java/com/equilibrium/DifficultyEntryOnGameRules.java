@@ -21,9 +21,9 @@ public class DifficultyEntryOnGameRules {
                 onGameRuleChangedForBoolean(server,booleanRule,"enableCraftingTimeAndLevel");
             }));
 
-    public static final GameRules.Key<GameRules.BooleanRule> ENABLE_FAST_BREAKING_SPEED =
-            GameRuleRegistry.register("enableFastBreakingSpeed", GameRules.Category.MISC,GameRuleFactory.createBooleanRule(false,(server, booleanRule)->{
-                onGameRuleChangedForBoolean(server,booleanRule,"enableFastBreakingSpeed");
+    public static final GameRules.Key<GameRules.BooleanRule> ENABLE_SLOW_BREAKING_SPEED =
+            GameRuleRegistry.register("enableSlowBreakingSpeed", GameRules.Category.MISC,GameRuleFactory.createBooleanRule(true,(server, booleanRule)->{
+                onGameRuleChangedForBoolean(server,booleanRule,"enableSlowBreakingSpeed");
             }));
 
     public static final GameRules.Key<GameRules.BooleanRule> ENABLE_CROP_ILLNESS =
@@ -34,26 +34,48 @@ public class DifficultyEntryOnGameRules {
             GameRuleRegistry.register("enableAdvanceAnimalAI", GameRules.Category.MISC,GameRuleFactory.createBooleanRule(true,(server, booleanRule)->{
                 onGameRuleChangedForBoolean(server,booleanRule,"enableAdvanceAnimalAI");
             }));
-    public static final GameRules.Key<GameRules.BooleanRule> ENABLE_FAR_STRONGHOLD =
-            GameRuleRegistry.register("enableFarStrongHold", GameRules.Category.MISC,GameRuleFactory.createBooleanRule(true,(server, booleanRule)->{
-                onGameRuleChangedForBoolean(server,booleanRule,"enableFarStrongHold");
+
+    public static final GameRules.Key<GameRules.BooleanRule> ENABLE_RESTRICT_VILLAGE_GEN =
+            GameRuleRegistry.register("enableRestrictVillageGen", GameRules.Category.MISC,GameRuleFactory.createBooleanRule(true,(server, booleanRule)->{
+                onGameRuleChangedForBoolean(server,booleanRule,"enableRestrictVillageGen");
+            }));
+
+    public static final GameRules.Key<GameRules.BooleanRule> ENABLE_PHYTONUTRIENT =
+            GameRuleRegistry.register("enablePhytonutrient", GameRules.Category.MISC,GameRuleFactory.createBooleanRule(true,(server, booleanRule)->{
+                onGameRuleChangedForBoolean(server,booleanRule,"enablePhytonutrient");
+            }));
+    public static final GameRules.Key<GameRules.BooleanRule> ENABLE_BLOOD_MOON_THUNDER =
+            GameRuleRegistry.register("enableBloodMoonThunder", GameRules.Category.MISC,GameRuleFactory.createBooleanRule(true,(server, booleanRule)->{
+                onGameRuleChangedForBoolean(server,booleanRule,"enableBloodMoonThunder");
+            }));
+
+    public static final GameRules.Key<GameRules.BooleanRule> DISABLE_PLAYER_TELEPORT =
+            GameRuleRegistry.register("disablePlayerTeleport", GameRules.Category.MISC,GameRuleFactory.createBooleanRule(true,(server, booleanRule)->{
+                onGameRuleChangedForBoolean(server,booleanRule,"disablePlayerTeleport");
             }));
 
     public static Set<GameRules.Key<GameRules.BooleanRule>> ALL_BOOLEAN_GAME_RULE_KEYS =
             Set.of(ENABLE_CROP_ILLNESS,
                     ENABLE_CRAFTING_TIME_AND_LEVEL,
-                    ENABLE_FAST_BREAKING_SPEED,
+                    ENABLE_SLOW_BREAKING_SPEED,
                     ENABLE_ADVANCE_ANIMAL_AI,
-                    ENABLE_FAR_STRONGHOLD
+                    ENABLE_RESTRICT_VILLAGE_GEN,
+                    ENABLE_PHYTONUTRIENT,
+                    ENABLE_BLOOD_MOON_THUNDER,
+                    DISABLE_PLAYER_TELEPORT
             );
 
     //id字典
     public static Map<String, GameRules.Key<GameRules.BooleanRule>> GET_RULE_KEY = Map.of(
             "enableCraftingTimeAndLevel", ENABLE_CRAFTING_TIME_AND_LEVEL,
-            "enableFastBreakingSpeed", ENABLE_FAST_BREAKING_SPEED,
+            "enableSlowBreakingSpeed", ENABLE_SLOW_BREAKING_SPEED,
             "enableCropIllness", ENABLE_CROP_ILLNESS,
             "enableAdvanceAnimalAI",ENABLE_ADVANCE_ANIMAL_AI,
-            "enableFarStrongHold",ENABLE_FAR_STRONGHOLD
+            "enableRestrictVillageGen",ENABLE_RESTRICT_VILLAGE_GEN,
+            "enablePhytonutrient",ENABLE_PHYTONUTRIENT,
+            "enableBloodMoonThunder",ENABLE_BLOOD_MOON_THUNDER,
+            "disablePlayerTeleport",DISABLE_PLAYER_TELEPORT
+
     );
 
 
@@ -66,7 +88,7 @@ public class DifficultyEntryOnGameRules {
         for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
             ServerPlayNetworking.send(player, payload);
         }
-        OnServerInitialize.LOGGER.info("Gamerule changed callback: "+ruleId);
+        OnServerInitialize.LOGGER.info("GameRule changed callback: "+ruleId);
     }
 
     //PlayerManagerMixin中进行了调用
@@ -88,18 +110,22 @@ public class DifficultyEntryOnGameRules {
         if (MinecraftClient.getInstance().world instanceof ClientWorld clientWorld) {
             return clientWorld.getGameRules().get(key);
         }
-        else {
-            throw new IllegalStateException("Client world is not available");
-        }
+        OnServerInitialize.LOGGER.info("Maybe the clientWorld is initializing, please wait.");
+        return null;
     }
-
+    //引入了同步机制,如果某些位置获得server上下文时,用client上下文也可以拿到:
     public static boolean getGameBooleanRuleFromClient(GameRules.Key<GameRules.BooleanRule> key){
-        return getGameRuleInstanceFromClient(key).get();
+        GameRules.BooleanRule rule = getGameRuleInstanceFromClient(key);
+        if(rule==null)
+            return false;
+        return rule.get();
     }
-
-    public static int getGameIntRuleFromClient(GameRules.Key<GameRules.IntRule> key){
-        return getGameRuleInstanceFromClient(key).get();
+    //首选检查serverWorld中的游戏规则
+    public static boolean getGameBooleanRuleFromServer(GameRules.Key<GameRules.BooleanRule> key, MinecraftServer server){
+        GameRules.BooleanRule rule = server.getGameRules().get(key);
+        return rule.get();
     }
+    //如果上下文均不能获取到客户端和服务端信息,那就不要引入这个机制
 
     public static void initGameRules(){
     }
