@@ -1,19 +1,20 @@
 package com.equilibrium;
 
 import com.equilibrium.block.ModBlocksRegistry;
-
 import com.equilibrium.block.ModBlocksRegistry2;
+import com.equilibrium.block.furnace_and_its_entity.FurnaceEntityRegistry;
 import com.equilibrium.entity.goal.BreakBlockGoal;
-import com.equilibrium.server_and_client.server.event.BreakBlockEvent;
-import com.equilibrium.server_and_client.server.event.CraftingMetalPickAxeCallback;
-import com.equilibrium.server_and_client.server.CropIllnessEvent;
-import com.equilibrium.server_and_client.server.EventOnServerInitOrRunning;
 import com.equilibrium.item.*;
 import com.equilibrium.network.*;
+import com.equilibrium.server_and_client.server.CropIllnessEvent;
+import com.equilibrium.server_and_client.server.EventOnServerInitOrRunning;
 import com.equilibrium.server_and_client.server.command.ServerCommands;
+import com.equilibrium.server_and_client.server.event.BreakBlockEvent;
+import com.equilibrium.server_and_client.server.event.CraftingMetalPickAxeCallback;
 import com.equilibrium.server_and_client.server.persistent_state.MapNbtSerializer;
 import com.equilibrium.server_and_client.server.persistent_state.StateSaverAndLoader;
-import com.equilibrium.util.*;
+import com.equilibrium.util.AdvancementRemover;
+import com.equilibrium.util.XpHashMap;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -37,52 +38,37 @@ import net.minecraft.util.math.BlockPos;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-import com.equilibrium.block.furnace_and_its_entity.FurnaceEntityRegistry;
-
-
 import java.io.IOException;
-import java.util.*;
+import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-
-import static com.equilibrium.DifficultyEntryOnGameRules.initGameRules;
 import static com.equilibrium.GlobalModConfig.isSleepChunksAlwaysLoading;
+import static com.equilibrium.block.CraftingDifficultyHelper.initCraftingDifficulties;
+import static com.equilibrium.block.enchanting_table.ModBlockEntityTypes.modBlockEntityTypesInit;
+import static com.equilibrium.block.enchanting_table.ModScreenTypes.registerScreenHandlers;
 import static com.equilibrium.block.reference.BlocksHardnessList.initModBlocksHardnessHashMap;
 import static com.equilibrium.block.reference.BlocksHardnessList.initVanillaBlocksHardnessHashMap;
-import static com.equilibrium.block.enchanting_table.ModBlockEntityTypes.modBlockEntityTypesInit;
-
-import static com.equilibrium.block.enchanting_table.ModScreenTypes.registerScreenHandlers;
-
-
-import static com.equilibrium.entity.ModEntities.*;
+import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.initGameRules;
+import static com.equilibrium.entity.ModEntities.registerModEntities;
 import static com.equilibrium.entity.ModSpawnRestriction.registerModSpawnRestriction;
-import static com.equilibrium.server_and_client.server.CropIllnessEvent.applyIllnessForCrop;
-import static com.equilibrium.server_and_client.server.CropIllnessEvent.updateCropBlockPos;
-import static com.equilibrium.server_and_client.server.moonphase_tasks.MoonPhaseEvent.*;
-
-import static com.equilibrium.server_and_client.server.event.SleepChunkLoaderEvents.registerSleepEvents;
-
-import static com.equilibrium.server_and_client.server.SoundEventRegistry.registrySoundEvents;
 import static com.equilibrium.item.Armors.registerArmors;
+import static com.equilibrium.item.ItemComponentModifier.foodComponentModify;
 import static com.equilibrium.item.Metal.registerModItemRaw;
 import static com.equilibrium.item.extend_item.CoinItems.registerCoinItems;
 import static com.equilibrium.item.food.FoodOrFarmItems.registerFoodItems;
-import static com.equilibrium.item.ItemComponentModifier.foodComponentModify;
-
-
-import static com.equilibrium.structure.ModPlacementGenerator.*;
+import static com.equilibrium.server_and_client.server.CropIllnessEvent.updateCropBlockPos;
+import static com.equilibrium.server_and_client.server.SoundEventRegistry.registrySoundEvents;
+import static com.equilibrium.server_and_client.server.event.SleepChunkLoaderEvents.registerSleepEvents;
+import static com.equilibrium.server_and_client.server.moonphase_tasks.MoonPhaseEvent.moonPhaseEvent;
 import static com.equilibrium.status.registerStatusEffect.registerStatusEffects;
+import static com.equilibrium.structure.ModPlacementGenerator.registerModOre;
 import static com.equilibrium.structure.StructureRegister.registerStructure;
 import static com.equilibrium.tags.ModBlockTags.registerModBlockTags;
 import static com.equilibrium.tags.ModEntityTags.registerModEntityTags;
 import static com.equilibrium.tags.ModItemTags.registerModItemTags;
-
-
-import static com.equilibrium.block.CraftingDifficultyHelper.initCraftingDifficulties;
 
 
 public class OnServerInitialize implements ModInitializer {
@@ -237,10 +223,12 @@ public class OnServerInitialize implements ModInitializer {
 
             //更新服务器状态,在这里修改的所有数据都会被保存
             if (tickCount % (TICK_INTERVAL / 10) == 0) {
+
                 //保存土地污染map,这个map被网络包定义的一个static的map共享,现在把它读取到nbt然后保存,不需要传参因为可以断定要传送的数据位置
                 serverState.saveMapNbtToBuffer1();
                 //保存生病农作物的map
                 serverState.saveMapNbtToBuffer2();
+
             }
 
 

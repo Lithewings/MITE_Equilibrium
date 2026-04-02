@@ -40,8 +40,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.*;
 
-import static com.equilibrium.DifficultyEntryOnGameRules.ENABLE_CRAFTING_TIME_AND_LEVEL;
-import static com.equilibrium.DifficultyEntryOnGameRules.getGameBooleanRuleFromClient;
+import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_CRAFTING_TIME_AND_LEVEL;
 import static com.equilibrium.util.SharedConstant.*;
 
 

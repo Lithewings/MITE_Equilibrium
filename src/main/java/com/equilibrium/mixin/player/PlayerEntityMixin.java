@@ -8,7 +8,6 @@ import com.equilibrium.tags.ModBlockTags;
 import com.equilibrium.tags.ModItemTags;
 import com.equilibrium.util.*;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.component.EnchantmentEffectComponentTypes;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -31,6 +30,7 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.tag.FluidTags;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
@@ -49,7 +49,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Objects;
 
-import static com.equilibrium.DifficultyEntryOnGameRules.*;
+import static com.equilibrium.difficulty_entry.DifficultyEntryDisplay.showAllValuesToServerPlayer;
+import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.*;
+import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_PHYTONUTRIENT;
+import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_SLOW_BREAKING_SPEED;
 import static com.equilibrium.item.tools_attribute.ExtraDamageFromExperienceLevel.getDamageLevel;
 import static com.equilibrium.util.ableToMine.getBlockHarvestLevel;
 import static com.equilibrium.util.ableToMine.getItemHarvestLevel;
@@ -240,7 +243,9 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
     @Inject(method = "jump", at = @At("TAIL"))
     public void jump(CallbackInfo ci)  {
-        this.abilities.setFlySpeed(0.3F);
+
+//        if((PlayerEntity)(Object)this instanceof ServerPlayerEntity serverPlayerEntity)
+//            showAllValuesToServerPlayer(serverPlayerEntity);
 //        if(this.getWorld() instanceof ServerWorld serverWorld)
 //            testChunkLoading(serverWorld,new ChunkPos(0,0));
     }
@@ -393,9 +398,6 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         if (!this.isOnGround()) {
             f /= 5.0F;
         }
-        if(block.isIn(ModBlockTags.CATEGORY)||block.isIn(ModBlockTags.SHOULD_BE_SOFT))
-            f= f * 8;
-
         if (stack.isSuitableFor(block)){
             f = f * 16;
         }

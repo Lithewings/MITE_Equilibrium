@@ -19,7 +19,8 @@ import net.minecraft.world.World;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.equilibrium.DifficultyEntryOnGameRules.*;
+import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.*;
+import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_ADVANCE_ANIMAL_AI;
 import static com.equilibrium.entity.EnvironmentChecker.Navigation.canNavigateToSurfaceGrass;
 import static com.equilibrium.entity.EnvironmentChecker.Navigation.canNavigateToSurfaceWater;
 

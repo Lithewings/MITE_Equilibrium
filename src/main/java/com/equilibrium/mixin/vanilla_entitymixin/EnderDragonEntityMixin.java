@@ -23,8 +23,9 @@ import org.spongepowered.asm.mixin.Unique;
 import java.io.IOException;
 import java.nio.file.Path;
 
-import static com.equilibrium.DifficultyEntryOnGameRules.ALL_BOOLEAN_GAME_RULE_KEYS;
-import static com.equilibrium.DifficultyEntryOnGameRules.getGameBooleanRuleFromServer;
+
+import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.getGameBooleanRuleFromServer;
+import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ALL_BOOLEAN_GAME_RULE_KEYS;
 
 
 @Mixin(EnderDragonEntity.class)

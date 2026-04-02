@@ -10,9 +10,8 @@ import net.minecraft.world.World;
 import java.io.IOException;
 
 import static com.equilibrium.OnServerInitialize.MOD_ID;
-import static com.equilibrium.server_and_client.server.CropIllnessEvent.CROP_BLOCK_POS;
-
 import static com.equilibrium.network.S2CStockChangeGrassColorPacket.BLOCK_POS_INTEGER_CONCURRENT_HASH_MAP;
+import static com.equilibrium.server_and_client.server.CropIllnessEvent.CROP_BLOCK_POS;
 
 public class StateSaverAndLoader extends PersistentState {
     //这里创建你要保存的变量
@@ -31,11 +30,11 @@ public class StateSaverAndLoader extends PersistentState {
 
 
 
-    //map存储缓冲器1
-    public NbtCompound mapNbt1;
+    //map存储缓冲器1,请至少new出来而不是置空
+    public NbtCompound mapNbt1=new NbtCompound();
 
 
-    public NbtCompound mapNbt2;
+    public NbtCompound mapNbt2=new NbtCompound();
 
 
 
@@ -172,6 +171,7 @@ public class StateSaverAndLoader extends PersistentState {
         if (server == null) {
             return new StateSaverAndLoader();
         }
+
         PersistentStateManager persistentStateManager = server.getWorld(World.OVERWORLD).getPersistentStateManager();
 
 

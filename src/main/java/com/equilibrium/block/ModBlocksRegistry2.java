@@ -21,22 +21,22 @@ import java.util.function.ToIntFunction;
 public class ModBlocksRegistry2 {
 
     //tables
-    public static Block FLINT_CRAFTING_TABLE = new TheCraftingTableBlock((AbstractBlock.Settings.create().strength(0.2F).sounds(BlockSoundGroup.WOOD)));//燧石工作台
-    public static Block COPPER_CRAFTING_TABLE = new TheCraftingTableBlock((AbstractBlock.Settings.create().strength(0.2F).sounds(BlockSoundGroup.WOOD)));//铜工作台
-    public static Block SILVER_CRAFTING_TABLE = new TheCraftingTableBlock((AbstractBlock.Settings.create().strength(0.2F).sounds(BlockSoundGroup.WOOD)));//银工作台
+    public static Block FLINT_CRAFTING_TABLE = new TheCraftingTableBlock((AbstractBlock.Settings.create().strength(0.01F).sounds(BlockSoundGroup.WOOD)));//燧石工作台
+    public static Block COPPER_CRAFTING_TABLE = new TheCraftingTableBlock((AbstractBlock.Settings.create().strength(0.01F).sounds(BlockSoundGroup.WOOD)));//铜工作台
+    public static Block SILVER_CRAFTING_TABLE = new TheCraftingTableBlock((AbstractBlock.Settings.create().strength(0.01F).sounds(BlockSoundGroup.WOOD)));//银工作台
 
-    public static Block IRON_CRAFTING_TABLE = new TheCraftingTableBlock((AbstractBlock.Settings.create().strength(0.2F).sounds(BlockSoundGroup.WOOD)));//铁工作台
-    public static Block DIAMOND_CRAFTING_TABLE = new TheCraftingTableBlock((AbstractBlock.Settings.create().strength(0.2F).sounds(BlockSoundGroup.WOOD)));//秘银工作台
-    public static Block NETHERITE_CRAFTING_TABLE = new TheCraftingTableBlock((AbstractBlock.Settings.create().strength(0.2F).sounds(BlockSoundGroup.WOOD)));//下界合金工作台
-
-
+    public static Block IRON_CRAFTING_TABLE = new TheCraftingTableBlock((AbstractBlock.Settings.create().strength(0.01F).sounds(BlockSoundGroup.WOOD)));//铁工作台
+    public static Block DIAMOND_CRAFTING_TABLE = new TheCraftingTableBlock((AbstractBlock.Settings.create().strength(0.01F).sounds(BlockSoundGroup.WOOD)));//钻石工作台
+    public static Block NETHERITE_CRAFTING_TABLE = new TheCraftingTableBlock((AbstractBlock.Settings.create().strength(0.01F).sounds(BlockSoundGroup.WOOD)));//下界合金工作台
 
 
 
 
-    public static Block CLAY_FURNACE = new TheFurnace((AbstractBlock.Settings.create().sounds(BlockSoundGroup.STONE).strength(0.2F).luminance(createLightLevelFromBlockState(12)).sounds(BlockSoundGroup.STONE)));//粘土熔炉
-    public static Block OBSIDIAN_FURNACE = new TheFurnace((AbstractBlock.Settings.create().sounds(BlockSoundGroup.STONE).strength(0.2F).luminance(createLightLevelFromBlockState(11)).sounds(BlockSoundGroup.STONE)));//黑曜石熔炉
-    public static Block NETHERRACK_FURNACE = new TheFurnace((AbstractBlock.Settings.create().sounds(BlockSoundGroup.STONE).strength(0.2F).luminance(createLightLevelFromBlockState(13)).sounds(BlockSoundGroup.STONE)));//地狱岩熔炉
+
+
+    public static Block CLAY_FURNACE = new TheFurnace((AbstractBlock.Settings.create().sounds(BlockSoundGroup.STONE).strength(0.01F).luminance(createLightLevelFromBlockState(12)).sounds(BlockSoundGroup.STONE)));//粘土熔炉
+    public static Block OBSIDIAN_FURNACE = new TheFurnace((AbstractBlock.Settings.create().sounds(BlockSoundGroup.STONE).strength(0.01F).luminance(createLightLevelFromBlockState(11)).sounds(BlockSoundGroup.STONE)));//黑曜石熔炉
+    public static Block NETHERRACK_FURNACE = new TheFurnace((AbstractBlock.Settings.create().sounds(BlockSoundGroup.STONE).strength(0.01F).luminance(createLightLevelFromBlockState(13)).sounds(BlockSoundGroup.STONE)));//地狱岩熔炉
 
     public static void registerBlocks() {
         //tables

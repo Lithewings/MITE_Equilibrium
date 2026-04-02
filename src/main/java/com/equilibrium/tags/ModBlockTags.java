@@ -8,7 +8,7 @@ import net.minecraft.util.Identifier;
 
 public class ModBlockTags {
 
-    public static final TagKey<Block> SHOULD_BE_SOFT = of("should_be_soft");
+
 
 
     //玻璃方块
@@ -26,8 +26,6 @@ public class ModBlockTags {
 
     public static final TagKey<Block> ORE = of("ore");
 
-    //功能性方块,采集速度很快
-    public static final TagKey<Block> CATEGORY = of("category");
 
     private static TagKey<Block> of(String id) {
         return TagKey.of(RegistryKeys.BLOCK, Identifier.of(OnServerInitialize.MOD_ID,id));

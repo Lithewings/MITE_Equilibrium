@@ -1,5 +1,6 @@
 package com.equilibrium.server_and_client.server.persistent_state;
 
+import com.equilibrium.OnServerInitialize;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.util.math.BlockPos;
@@ -71,9 +72,10 @@ public class MapNbtSerializer {
             Function<DataInput, V> valueReader,
             Supplier<Map<K, V>> mapSupplier
     ) {
-        if(nbt==null)
-            //第一次加载世界时会程序会秩序在这里
-            return mapSupplier.get();
+        if(nbt.isEmpty())
+            //第一次加载世界时会程序会执行在这里
+            OnServerInitialize.LOGGER.info("Nothing to load from persistent state, it always occurs on initializing");
+
         if (!nbt.contains("data", NbtElement.BYTE_ARRAY_TYPE)) {
             return mapSupplier.get();
         }

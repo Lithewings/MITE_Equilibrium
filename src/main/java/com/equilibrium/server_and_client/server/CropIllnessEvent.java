@@ -14,6 +14,9 @@ import static com.equilibrium.OnServerInitialize.CROP_IS_ILLNESS;
 public class CropIllnessEvent {
 
     public static Map<BlockPos,Boolean> CROP_BLOCK_POS =new ConcurrentHashMap<>();
+
+
+
     //提供两个方法,是否引起邻居更新?或者理解为无参执行,这是由服务器调用的
     public static void updateCropBlockPos(ServerWorld world, BlockPos triggerPos){
         //更新集合,删除非空元素

@@ -33,7 +33,7 @@ public class ModBlocksRegistry {
     );
 
 
-    public static final Block EMERALD_ENCHANTING_TABLE = new EmeraldEnchantingTableBlock(AbstractBlock.Settings.create().mapColor(MapColor.RED).instrument(NoteBlockInstrument.BASEDRUM).luminance(state->7).strength(0.2F, 1200.0F).nonOpaque());
+    public static final Block EMERALD_ENCHANTING_TABLE = new EmeraldEnchantingTableBlock(AbstractBlock.Settings.create().mapColor(MapColor.RED).instrument(NoteBlockInstrument.BASEDRUM).luminance(state->7).strength(0.01F, 1200.0F).nonOpaque());
 
 
     public static final Block EXAMPLE_BLOCK = new Block(Block.Settings.create().strength(4.0f));

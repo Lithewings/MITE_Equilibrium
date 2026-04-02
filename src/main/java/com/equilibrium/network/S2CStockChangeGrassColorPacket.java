@@ -22,6 +22,7 @@ public class S2CStockChangeGrassColorPacket {
     public static Map<BlockPos, Integer> BLOCK_POS_INTEGER_CONCURRENT_HASH_MAP = new ConcurrentHashMap<>();
 
 
+
     public static void registerOnClient() {
         //因为这里只有客户端接收,且信任服务端,故只做客户端的Receiver
         packetReceived();

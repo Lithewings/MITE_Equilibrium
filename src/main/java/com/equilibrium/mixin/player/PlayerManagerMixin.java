@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
 
-import static com.equilibrium.DifficultyEntryOnGameRules.onPlayerConnectSynchronizingGameRulesForBoolean;
+import static com.equilibrium.difficulty_entry.DifficultyEntryUtil.onPlayerConnectSynchronizingGameRulesForBoolean;
 
 
 @Mixin(PlayerManager.class)

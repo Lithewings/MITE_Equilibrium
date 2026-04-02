@@ -1,6 +1,5 @@
 package com.equilibrium.mixin.structure_and_dimension.strong_hold;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.structure.StrongholdGenerator;
 import net.minecraft.structure.StructurePiecesHolder;
 import net.minecraft.util.math.Direction;
@@ -10,8 +9,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import static com.equilibrium.DifficultyEntryOnGameRules.getGameBooleanRuleFromClient;
 
 @Mixin(StrongholdGenerator.class)
 

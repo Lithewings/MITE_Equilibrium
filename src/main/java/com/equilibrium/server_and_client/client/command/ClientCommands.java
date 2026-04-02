@@ -1,14 +1,20 @@
 package com.equilibrium.server_and_client.client.command;
 
+import com.equilibrium.OnServerInitialize;
 import com.equilibrium.entity.path_finder.AStarCanGoTo;
 import com.equilibrium.entity.path_finder.AStarCanGoToAndReturn;
 import com.equilibrium.entity.path_finder.AStarSimplePathfinder;
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+import net.minecraft.block.entity.VaultBlockEntity;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.command.CommandManager;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 
@@ -48,7 +54,23 @@ public class ClientCommands {
         );
 
 
+        dispatcher.register(
+                ClientCommandManager.literal("fastFlySpeed")
+                        .then(argument("speed", FloatArgumentType.floatArg(0.1F,0.5F))
+                        .requires(source -> source.hasPermissionLevel(2))
+                        .executes
+                                (context -> {
+                                    float speed = FloatArgumentType.getFloat(context, "speed");
+                                    if (context.getSource().getEntity() instanceof ClientPlayerEntity clientPlayerEntity) {
+                                        clientPlayerEntity.getAbilities().setFlySpeed(speed);
+                                        clientPlayerEntity.sendMessage(Text.of("The Fly speed is now: "+speed));
+                                    }
+                                    else
+                                        OnServerInitialize.LOGGER.error("This command \"fastFlySpeed\" can only be used by client player");
+                                    return 1;
+                                })
 
+        ));
 
 
 

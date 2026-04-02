@@ -7,7 +7,8 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.level.ServerWorldProperties;
 
-import static com.equilibrium.DifficultyEntryOnGameRules.*;
+import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.*;
+import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_BLOOD_MOON_THUNDER;
 import static com.equilibrium.server_and_client.server.moonphase_tasks.MoonPhaseEventEntitySpawner.spawnLighteningNearPlayer;
 
 public class MoonPhaseEventWeatherController {

@@ -33,6 +33,7 @@
   "mod.selectWorld.bonusItems": "用于生成触发初始成就的物品",
   "select.world.wrong.version": "你无法打开不可兼容版本的存档",
   "adventure.get_flint.description": "挖掘沙砾，获得燧石碎片，或是一整块燧石。",
+
   "adventure.brew_potion": "酿造出一瓶药水。\n现在所有药水的持续时间效果翻倍。",
   "adventure.enter_the_end": "来到末地，击败末影龙，希望你没有忘记携带艾德曼镐。",
   "adventure.find_fortress": "找到下界要塞，并获得4个金苹果作为奖励。",
@@ -50,6 +51,7 @@
   "adventure.get_hatchet": "获得第一颗燧石，打造一把燧石手斧来砍伐树木。",
   "adventure.get_iron_pickaxe": "打造一把铁镐，用它采集黑曜石，并获得100点经验值。",
   "adventure.get_metal_pickaxe": "打造你的第一把铜镐。这是解锁村庄生成机制的必要条件，并奖励100点经验值。",
+  "adventure.get_metal_pickaxe2": "这也可以?",
   "adventure.get_mithril": "在岩浆驱动的黑曜石熔炉中冶炼秘银矿石，获取秘银锭，并奖励200点经验值。",
   "adventure.get_netherite_ingot": "获取下界合金锭以合成下界合金工作台。你可以在地狱底层挖掘远古残骸，或探索猪灵堡垒的藏宝室来收集所需材料。",
   "adventure.get_silver": "获得你的第一颗银粒，并收集9颗来制作一个银工作台，同时获得20点经验值。",

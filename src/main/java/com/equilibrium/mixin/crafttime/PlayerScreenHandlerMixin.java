@@ -24,8 +24,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.equilibrium.DifficultyEntryOnGameRules.ENABLE_CRAFTING_TIME_AND_LEVEL;
-import static com.equilibrium.DifficultyEntryOnGameRules.getGameBooleanRuleFromServer;
+
+import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.getGameBooleanRuleFromServer;
+import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_CRAFTING_TIME_AND_LEVEL;
 import static com.equilibrium.util.SharedConstant.INVALID_CRAFTING_TEXT;
 
 @Mixin(PlayerScreenHandler.class)

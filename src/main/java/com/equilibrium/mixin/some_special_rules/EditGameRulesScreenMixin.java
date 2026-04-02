@@ -1,6 +1,6 @@
 package com.equilibrium.mixin.some_special_rules;
 
-import com.equilibrium.DifficultyEntryOnGameRules;
+import com.equilibrium.difficulty_entry.DifficultyEntryRegister;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.gui.screen.world.EditGameRulesScreen;
 import net.minecraft.world.GameRules;
@@ -32,7 +32,7 @@ public class EditGameRulesScreenMixin {
         map.remove(GameRules.Category.SPAWNING);
         map.remove(GameRules.Category.UPDATES);
         //只有布尔型规则
-        map.get(GameRules.Category.MISC).keySet().removeIf(key->!DifficultyEntryOnGameRules.ALL_BOOLEAN_GAME_RULE_KEYS.contains(key));
+        map.get(GameRules.Category.MISC).keySet().removeIf(key->!DifficultyEntryRegister.ALL_BOOLEAN_GAME_RULE_KEYS.contains(key));
 
 
 

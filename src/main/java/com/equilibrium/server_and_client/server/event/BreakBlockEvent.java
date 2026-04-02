@@ -44,6 +44,9 @@ public class BreakBlockEvent implements PlayerBlockBreakEvents.After {
 
     @Override
     public void afterBlockBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity) {
+        if(player.isCreative())
+            return;
+
         ItemStack itemStack = player.getMainHandStack();
 
         itemStack.damage(BLOCKS_HARDNESS_HASHMAP.getOrDefault(getStandardBlockName(state.getBlock()),0), player, EquipmentSlot.MAINHAND);

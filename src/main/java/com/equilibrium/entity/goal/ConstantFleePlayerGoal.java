@@ -1,32 +1,21 @@
 package com.equilibrium.entity.goal;
 
-import com.google.common.base.Predicates;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSources;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.mob.PathAwareEntity;
-import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
-import net.minecraft.registry.tag.EntityTypeTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.EnumSet;
-import java.util.List;
 import java.util.Map;
-import java.util.function.Predicate;
 
-import static com.equilibrium.DifficultyEntryOnGameRules.*;
+import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.*;
+import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_ADVANCE_ANIMAL_AI;
 
 public class ConstantFleePlayerGoal extends Goal {
     protected final PathAwareEntity mob;

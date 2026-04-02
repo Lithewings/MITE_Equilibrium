@@ -1,29 +1,28 @@
 package com.equilibrium.server_and_client.server.command;
 
+import com.equilibrium.OnServerInitialize;
 import com.equilibrium.server_and_client.server.EventOnServerInitOrRunning;
 import com.equilibrium.server_and_client.server.persistent_state.StateSaverAndLoader;
 import com.equilibrium.util.BooleanStorageUtil;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
-import com.mojang.brigadier.tree.LiteralCommandNode;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.command.argument.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.s2c.play.PositionFlag;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.server.command.TeleportCommand;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.WorldSavePath;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -31,22 +30,25 @@ import org.jetbrains.annotations.Nullable;
 import java.nio.file.Path;
 import java.util.*;
 
-import static com.equilibrium.DifficultyEntryOnGameRules.*;
+import static com.equilibrium.difficulty_entry.DifficultyEntryDisplay.showAllValuesToServerPlayer;
+import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.*;
+import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.DISABLE_PLAYER_TELEPORT;
 import static com.equilibrium.server_and_client.server.command.ServerCommands.TeleportCommand.execute;
 import static com.equilibrium.util.BooleanStorageUtil.loadWorldInformation;
 import static net.minecraft.world.World.OVERWORLD;
 
 public class ServerCommands {
-    static class TeleportCommand{
+    static class TeleportCommand {
         private static final SimpleCommandExceptionType INVALID_POSITION_EXCEPTION = new SimpleCommandExceptionType(
                 Text.translatable("commands.teleport.invalidPosition")
         );
+
         static int execute(ServerCommandSource source, Collection<? extends Entity> targets, Entity destination) throws CommandSyntaxException {
             for (Entity entity : targets) {
                 teleport(
                         source,
                         entity,
-                        (ServerWorld)destination.getWorld(),
+                        (ServerWorld) destination.getWorld(),
                         destination.getX(),
                         destination.getY(),
                         destination.getZ(),
@@ -59,7 +61,7 @@ public class ServerCommands {
 
             if (targets.size() == 1) {
                 source.sendFeedback(
-                        () -> Text.translatable("commands.teleport.success.entity.single", ((Entity)targets.iterator().next()).getDisplayName(), destination.getDisplayName()),
+                        () -> Text.translatable("commands.teleport.success.entity.single", ((Entity) targets.iterator().next()).getDisplayName(), destination.getDisplayName()),
                         true
                 );
             } else {
@@ -103,7 +105,9 @@ public class ServerCommands {
                 }
             }
         }
-        static record LookAtEntity(Entity entity, EntityAnchorArgumentType.EntityAnchor anchor) implements TeleportCommand.LookTarget {
+
+        static record LookAtEntity(Entity entity,
+                                   EntityAnchorArgumentType.EntityAnchor anchor) implements TeleportCommand.LookTarget {
             @Override
             public void look(ServerCommandSource source, Entity entity) {
                 if (entity instanceof ServerPlayerEntity serverPlayerEntity) {
@@ -128,10 +132,40 @@ public class ServerCommands {
     }
 
 
-
-
     // 注册命令的标准方式，适配 CommandDispatcher 的签名
     public static void registerCommands(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess, CommandManager.RegistrationEnvironment registrationEnvironment) {
+        dispatcher.register(
+                CommandManager.literal("clearHunger")
+                        .requires(source -> source.hasPermissionLevel(2))
+                        .executes
+                                ((context -> {
+                                            if (context.getSource().getEntity() instanceof ServerPlayerEntity serverPlayerEntity){
+                                                HungerManager hungerManager = serverPlayerEntity.getHungerManager();
+                                                hungerManager.setFoodLevel(0);
+                                                hungerManager.setSaturationLevel(0);
+                                            }
+                                            else
+                                                OnServerInitialize.LOGGER.error("This command \"clearHunger\" can only be used by server player");
+                                            return 1;
+                                        })
+
+                                )
+        );
+        dispatcher.register(
+                CommandManager.literal("checkDifficultyEntry")
+                        .executes
+                                ((context -> {
+                                            if (context.getSource().getEntity() instanceof ServerPlayerEntity serverPlayerEntity)
+                                                showAllValuesToServerPlayer(serverPlayerEntity);
+                                            else
+                                                OnServerInitialize.LOGGER.error("This command \"checkDifficultyEntry\" can only be used by server player");
+                                            return 1;
+                                        })
+
+                                )
+        );
+
+
         dispatcher.register(
                 CommandManager.literal("village")
                         .executes
@@ -143,7 +177,7 @@ public class ServerCommands {
                         .executes(context -> {
                             PlayerEntity player = context.getSource().getPlayer();
                             StateSaverAndLoader stateSaverAndLoader = StateSaverAndLoader.getServerState(context.getSource().getServer());
-                            if(player!=null)
+                            if (player != null)
                                 player.sendMessage(Text.of("你的总死亡次数为: " + stateSaverAndLoader.playerDeathTimes));
                             return 1;
                         })
@@ -154,23 +188,25 @@ public class ServerCommands {
                             //请确保世界存在
                             PlayerEntity player = context.getSource().getPlayer();
                             long originalSeed = context.getSource().getServer().getWorld(OVERWORLD).getSeed();
-                            Path path = context.getSource().getServer().getSavePath(WorldSavePath.ROOT).normalize().resolve("WorldInformationRecorder.dat");;
+                            Path path = context.getSource().getServer().getSavePath(WorldSavePath.ROOT).normalize().resolve("WorldInformationRecorder.dat");
+                            ;
                             BooleanStorageUtil.WorldInformationRecorder worldInformationRecorder = loadWorldInformation(path.toString());
-                            if(worldInformationRecorder!=null){
+                            if (worldInformationRecorder != null) {
                                 int day = worldInformationRecorder.getFinishDay();
                                 long seed = worldInformationRecorder.getSeed();
                                 String version = worldInformationRecorder.getVersion();
 
-                                if(day>=0 && seed==originalSeed){
+                                if (day >= 0 && seed == originalSeed) {
                                     player.sendMessage(Text.of("通关天数为: " + day));
                                     player.sendMessage(Text.of("世界种子为: " + seed));
                                     player.sendMessage(Text.of("版本信息号为: " + version));
                                 }
+                                else if (day >= 0 && seed != originalSeed)
+                                    player.sendMessage(Text.of("无效的通关信息,因为在记录的通关信息中，世界种子与当前世界不符"));
                                 else
                                     player.sendMessage(Text.of("无效的通关信息"));
 
-                            }
-                            else
+                            } else
                                 player.sendMessage(Text.of("未获取到通关信息"));
                             return 1;
                         })
@@ -182,22 +218,21 @@ public class ServerCommands {
                                         .requires(source -> source.getEntity() instanceof PlayerEntity) // 确保执行者是玩家
                                         .executes(
                                                 context -> {
-                                                    Entity entity =context.getSource().getEntity();
+                                                    Entity entity = context.getSource().getEntity();
 
-                                                    if (getGameBooleanRuleFromServer(DISABLE_PLAYER_TELEPORT, context.getSource().getServer())){
-                                                        if(entity instanceof PlayerEntity player)
+                                                    if (getGameBooleanRuleFromServer(DISABLE_PLAYER_TELEPORT, context.getSource().getServer())) {
+                                                        if (entity instanceof PlayerEntity player)
                                                             player.sendMessage(Text.of("玩家间的传送功能已被禁用"));
                                                         return 0;
                                                     }
-                                                    if(entity instanceof PlayerEntity player && player.totalExperience>=500) {
+                                                    if (entity instanceof PlayerEntity player && player.totalExperience >= 500) {
                                                         player.addExperience(-500);
                                                         return execute(
                                                                 context.getSource(),
                                                                 Collections.singleton(context.getSource().getEntityOrThrow()), // 执行者
                                                                 EntityArgumentType.getPlayer(context, "destination") // 目标为玩家
                                                         );
-                                                    }
-                                                    else if(entity instanceof PlayerEntity player && player.totalExperience<500){
+                                                    } else if (entity instanceof PlayerEntity player && player.totalExperience < 500) {
                                                         player.sendMessage(Text.of("至少需要500经验值进行玩家传送"));
                                                     }
                                                     return 0;

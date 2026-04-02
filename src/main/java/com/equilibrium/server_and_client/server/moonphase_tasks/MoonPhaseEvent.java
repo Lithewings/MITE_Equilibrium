@@ -1,22 +1,18 @@
 package com.equilibrium.server_and_client.server.moonphase_tasks;
 
-import net.minecraft.entity.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.*;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 
 import java.util.*;
 
-import net.minecraft.world.level.ServerWorldProperties;
 import org.jetbrains.annotations.NotNull;
 
-import static com.equilibrium.DifficultyEntryOnGameRules.*;
+import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.*;
+import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_CROP_ILLNESS;
 import static com.equilibrium.server_and_client.server.CropIllnessEvent.applyIllnessForCrop;
 import static com.equilibrium.server_and_client.server.moonphase_tasks.MoonPhaseEventEntitySpawner.*;
 import static com.equilibrium.server_and_client.server.moonphase_tasks.MoonPhaseEventWeatherController.controlWeather;
