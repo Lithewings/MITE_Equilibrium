@@ -25,7 +25,7 @@ import java.nio.file.Path;
 
 
 import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.getGameBooleanRuleFromServer;
-import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ALL_BOOLEAN_GAME_RULE_KEYS;
+import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ALL_BASIC_ENTRY_KEYS;
 
 
 @Mixin(EnderDragonEntity.class)
@@ -58,7 +58,7 @@ public abstract class EnderDragonEntityMixin extends MobEntity implements Monste
 
                 int stageFinish = 0;
                 int stageLost = 0;
-                for (GameRules.Key<GameRules.BooleanRule> booleanRuleKey : ALL_BOOLEAN_GAME_RULE_KEYS) {
+                for (GameRules.Key<GameRules.BooleanRule> booleanRuleKey : ALL_BASIC_ENTRY_KEYS) {
                     if (getGameBooleanRuleFromServer(booleanRuleKey, serverWorld.getServer())) {
                         stageFinish++;
 //                        for (PlayerEntity player : serverWorld.getPlayers()) {

@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.GameRules;
 
 import static com.equilibrium.OnServerInitialize.MOD_ID;
-import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.GET_RULE_KEY;
+import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.GET_ALL_ENTRY_KEY;
 
 public class S2CGameRuleSyncPayloadForBooleanPacket  {
     public static final CustomPayload.Id<S2CGameRuleSyncPayload> ID = new CustomPayload.Id<>(Identifier.of(MOD_ID, "game_rule_sync"));
@@ -23,12 +23,12 @@ public class S2CGameRuleSyncPayloadForBooleanPacket  {
                 (payload, context) ->
                         context.client().execute(() -> {
                             //接收包也要做什么?把这个新规则更新到自己的Client环境中
-                            if(!GET_RULE_KEY.containsKey(payload.rulesId)){
+                            if(!GET_ALL_ENTRY_KEY.containsKey(payload.rulesId)){
                                 OnServerInitialize.LOGGER.error("This GameRule can not be changed");
                                 return; // 重要！
                             }
 
-                            GameRules.Key<GameRules.BooleanRule> booleanRuleKey = GET_RULE_KEY.get(payload.rulesId);
+                            GameRules.Key<GameRules.BooleanRule> booleanRuleKey = GET_ALL_ENTRY_KEY.get(payload.rulesId);
                             ClientWorld clientWorld = context.client().world;
 
                             clientWorld.getGameRules().get(booleanRuleKey).set(payload.gameRuleBooleanValue,null);

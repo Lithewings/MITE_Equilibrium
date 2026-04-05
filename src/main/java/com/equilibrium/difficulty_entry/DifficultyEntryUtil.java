@@ -7,7 +7,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.GameRules;
 
-import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.GET_RULE_KEY;
+import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.GET_ALL_ENTRY_KEY;
 
 public class DifficultyEntryUtil {
 
@@ -26,13 +26,18 @@ public class DifficultyEntryUtil {
         OnServerInitialize.LOGGER.info("GameRule changed callback: "+ruleId);
     }
 
+
+
+
+
+
     //PlayerManagerMixin中进行了调用
     public static void onPlayerConnectSynchronizingGameRulesForBoolean(ServerPlayerEntity serverPlayerEntity){
         // 仅在服务端执行，为这名登录的玩家发送所有规则的同步包
         // 构造一个game_rule->value的键值对
-        for(String ruleId : GET_RULE_KEY.keySet()){
+        for(String ruleId : GET_ALL_ENTRY_KEY.keySet()){
 
-            S2CGameRuleSyncPayloadForBooleanPacket.S2CGameRuleSyncPayload payload = new S2CGameRuleSyncPayloadForBooleanPacket.S2CGameRuleSyncPayload(ruleId,serverPlayerEntity.getWorld().getGameRules().get(GET_RULE_KEY.get(ruleId)).get());
+            S2CGameRuleSyncPayloadForBooleanPacket.S2CGameRuleSyncPayload payload = new S2CGameRuleSyncPayloadForBooleanPacket.S2CGameRuleSyncPayload(ruleId,serverPlayerEntity.getWorld().getGameRules().get(GET_ALL_ENTRY_KEY.get(ruleId)).get());
             ServerPlayNetworking.send(serverPlayerEntity, payload);
         }
         OnServerInitialize.LOGGER.info("A player is connecting, synchronizing all game rules.");

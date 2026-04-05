@@ -36,6 +36,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.getGameBooleanRuleFromServer;
+import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.DISABLE_VILLAGE_AND_PILLAGE;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_RESTRICT_VILLAGE_GEN;
 
 
@@ -70,22 +71,21 @@ public abstract class VillageGenerationControlMixin {
             StructureTemplateManager structureTemplateManager
     ) {
 
-        // ==============================================
-        // 你的判断逻辑（游戏规则 / 世界 / 条件）
-        // ==============================================
         boolean shouldGenVillage = false; // 禁用村庄
-        // 你也可以用游戏规则：
-        if (structureAccessor.world instanceof ServerWorld serverWorld)
+        if (structureAccessor.world instanceof ServerWorld serverWorld) {
             //禁用村庄的条件如下
             shouldGenVillage =
                     //游戏规则中,未使用生成限制规则,则这一整项均为true,则生成村庄
-                    !getGameBooleanRuleFromServer(ENABLE_RESTRICT_VILLAGE_GEN,serverWorld.getServer())
-                    //否则看这里:
-                    //游戏时长大于等于10天,且制作出金属镐
-                    ||
-                    (serverWorld.getTimeOfDay()/24000L>=10 && getStructureGenerateValidity(serverWorld.getServer()));
+                    !getGameBooleanRuleFromServer(ENABLE_RESTRICT_VILLAGE_GEN, serverWorld.getServer())
+                            //否则看这里:
+                            //游戏时长大于等于10天,且制作出金属镐
+                            ||
+                            (serverWorld.getTimeOfDay() / 24000L >= 10 && getStructureGenerateValidity(serverWorld.getServer()));
 
-
+            //Extra:最后一步检查
+            if(getGameBooleanRuleFromServer(DISABLE_VILLAGE_AND_PILLAGE,serverWorld.getServer()))
+                shouldGenVillage=false;
+        }
         // 遍历并跳过村庄或前哨站
         for (RegistryEntry<StructureSet> entry : instance) {
             Identifier id = entry.getKey().get().getValue();

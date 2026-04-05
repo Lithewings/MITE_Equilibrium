@@ -156,7 +156,7 @@ public class ServerCommands {
                         .executes
                                 ((context -> {
                                             if (context.getSource().getEntity() instanceof ServerPlayerEntity serverPlayerEntity)
-                                                showAllValuesToServerPlayer(serverPlayerEntity);
+                                                showAllValuesToServerPlayer(serverPlayerEntity,true);
                                             else
                                                 OnServerInitialize.LOGGER.error("This command \"checkDifficultyEntry\" can only be used by server player");
                                             return 1;
@@ -165,6 +165,19 @@ public class ServerCommands {
                                 )
         );
 
+        dispatcher.register(
+                CommandManager.literal("checkExtraDifficultyEntry")
+                        .executes
+                                ((context -> {
+                                            if (context.getSource().getEntity() instanceof ServerPlayerEntity serverPlayerEntity)
+                                                showAllValuesToServerPlayer(serverPlayerEntity,false);
+                                            else
+                                                OnServerInitialize.LOGGER.error("This command \"checkExtraDifficultyEntry\" can only be used by server player");
+                                            return 1;
+                                        })
+
+                                )
+        );
 
         dispatcher.register(
                 CommandManager.literal("village")

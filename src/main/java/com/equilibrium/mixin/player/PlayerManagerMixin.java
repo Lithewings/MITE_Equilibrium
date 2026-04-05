@@ -25,6 +25,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
 
+import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.getGameBooleanRuleFromServer;
+import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_MORE_SL_DAMAGE;
 import static com.equilibrium.difficulty_entry.DifficultyEntryUtil.onPlayerConnectSynchronizingGameRulesForBoolean;
 
 
@@ -87,7 +89,10 @@ public abstract class PlayerManagerMixin {
             if (player.getHealth() <= 1) {
                 player.damage(player.getDamageSources().badRespawnPoint(player.getPos()), 114514);
             } else {
-                player.setHealth(player.getHealth() - 1);
+                if(getGameBooleanRuleFromServer(ENABLE_MORE_SL_DAMAGE, player.getServerWorld().getServer()))
+                    player.damage(player.getDamageSources().badRespawnPoint(player.getPos()),Math.max(3,player.getHealth()/2));
+                else
+                    player.damage(player.getDamageSources().badRespawnPoint(player.getPos()), 1);
             }
         }
     }
