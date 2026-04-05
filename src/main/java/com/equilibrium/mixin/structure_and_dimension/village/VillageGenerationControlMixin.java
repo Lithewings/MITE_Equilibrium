@@ -70,7 +70,6 @@ public abstract class VillageGenerationControlMixin {
             StructureTemplateManager structureTemplateManager
     ) {
 
-
         // ==============================================
         // 你的判断逻辑（游戏规则 / 世界 / 条件）
         // ==============================================
