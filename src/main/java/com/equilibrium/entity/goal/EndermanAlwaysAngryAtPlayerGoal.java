@@ -17,11 +17,11 @@ import org.spongepowered.asm.mixin.Unique;
 import java.util.EnumSet;
 import java.util.function.Predicate;
 
-
+import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.getGameBooleanRuleFromServer;
+import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_UNIVERSAL_AGGRO;
 
 
 public class EndermanAlwaysAngryAtPlayerGoal<T extends LivingEntity> extends TrackTargetGoal {
-    private static final int DEFAULT_RECIPROCAL_CHANCE = 10;
     protected final Class<T> targetClass;
     /**
      * The reciprocal of chance to actually search for a target on every tick
@@ -33,13 +33,6 @@ public class EndermanAlwaysAngryAtPlayerGoal<T extends LivingEntity> extends Tra
     protected LivingEntity targetEntity;
     protected TargetPredicate targetPredicate;
 
-    public EndermanAlwaysAngryAtPlayerGoal(MobEntity mob, Class<T> targetClass, boolean checkVisibility) {
-        this(mob, targetClass, 10, checkVisibility, false, null);
-    }
-
-    public EndermanAlwaysAngryAtPlayerGoal(MobEntity mob, Class<T> targetClass, boolean checkVisibility, Predicate<LivingEntity> targetPredicate) {
-        this(mob, targetClass, 10, checkVisibility, false, targetPredicate);
-    }
 
     public EndermanAlwaysAngryAtPlayerGoal(MobEntity mob, Class<T> targetClass, boolean checkVisibility, boolean checkCanNavigate) {
         this(mob, targetClass, 10, checkVisibility, checkCanNavigate, null);
@@ -64,6 +57,9 @@ public class EndermanAlwaysAngryAtPlayerGoal<T extends LivingEntity> extends Tra
 
     @Unique
     public boolean shouldAlwaysAngryAtPlayer(){
+        boolean b1 = getGameBooleanRuleFromServer(ENABLE_UNIVERSAL_AGGRO,this.mob.getServer());
+        if(b1)
+            return true;
         StateSaverAndLoader stateSaverAndLoader;
         stateSaverAndLoader = StateSaverAndLoader.getServerState(this.mob.getServer());
         return stateSaverAndLoader.playerDeathTimes>=30;
@@ -82,6 +78,7 @@ public class EndermanAlwaysAngryAtPlayerGoal<T extends LivingEntity> extends Tra
 
 
     @Override
+    //server环境
     public boolean canStart() {
         if (this.reciprocalChance > 0 && this.mob.getRandom().nextInt(this.reciprocalChance) != 0) {
             return false;

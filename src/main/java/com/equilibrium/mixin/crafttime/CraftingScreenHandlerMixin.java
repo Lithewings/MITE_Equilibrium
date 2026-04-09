@@ -8,6 +8,7 @@ import com.equilibrium.item.tools_attribute.metal.*;
 import com.equilibrium.network.C2SClickTimesPacket;
 import com.equilibrium.tags.ModItemTags;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.CraftingTableBlock;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.LoreComponent;
@@ -73,10 +74,6 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 
 
 
-
-
-
-
 	public CraftingScreenHandlerMixin(ScreenHandlerType<?> screenHandlerType, int i) {
 		super(screenHandlerType, i);
 	}
@@ -84,11 +81,12 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 
 	@Inject(at = @At("HEAD"), method = "canUse", cancellable = true)
 	public void canUse(PlayerEntity player, CallbackInfoReturnable<Boolean> info) {
-		context.run((world, blockPos) ->{
-			if(world.getBlockState(blockPos).getBlock() instanceof CraftingTableBlock){
+		//自定义合成台一定可以被打开
+		context.run((world, blockPos) -> {
+			if (world.getBlockState(blockPos).getBlock() instanceof CraftingTableBlock) {
 				info.setReturnValue(true);
 			}
-				});
+		});
 		info.cancel();
 	}
 

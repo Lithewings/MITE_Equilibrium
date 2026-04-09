@@ -5,13 +5,18 @@ import com.equilibrium.block.ModBlocksRegistry2;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CraftingTableBlock;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.CraftingScreenHandler;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import static com.equilibrium.block.UseBlockActionUtil.isTableBlocked;
 
 public class TheCraftingTableBlock extends CraftingTableBlock {
     public static  Text TITLE = Text.translatable("container.crafting");
@@ -24,6 +29,13 @@ public class TheCraftingTableBlock extends CraftingTableBlock {
 
     public TheCraftingTableBlock(Settings settings) {
         super(settings);
+    }
+
+
+    @Override
+    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
+        //对于工作台(非原版)，如果正上方有方块阻挡，玩家就无法与其交互
+        return isTableBlocked(world,pos,player)?ActionResult.PASS: super.onUse(state, world, pos, player, hit);
     }
 
     public NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {

@@ -5,6 +5,7 @@ import com.equilibrium.block.ModBlocksRegistry2;
 import com.equilibrium.block.furnace_and_its_entity.FurnaceEntityRegistry;
 import com.equilibrium.entity.goal.BreakBlockGoal;
 import com.equilibrium.item.*;
+import com.equilibrium.block.UseBlockActionUtil;
 import com.equilibrium.network.*;
 import com.equilibrium.server_and_client.server.CropIllnessEvent;
 import com.equilibrium.server_and_client.server.EventOnServerInitOrRunning;
@@ -26,14 +27,11 @@ import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
 import net.minecraft.GameVersion;
 import net.minecraft.SaveVersion;
 import net.minecraft.SharedConstants;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.IntProperty;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -258,17 +256,7 @@ public class OnServerInitialize implements ModInitializer {
 
 
         //移除原版工作台方块,创造模式除外
-        UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
-            Block block = world.getBlockState(hitResult.getBlockPos()).getBlock();
-            if (!player.getWorld().isClient) {
-                if (!player.isCreative()) {
-                    if (block == Blocks.CRAFTING_TABLE) {
-                        world.removeBlock(hitResult.getBlockPos(), true);
-                    }
-                }
-            }
-            return ActionResult.PASS;
-        });
+        UseBlockCallback.EVENT.register(UseBlockActionUtil::canUseVanillaCraftingTable);
 
 
 //        //结构注册

@@ -15,6 +15,7 @@ import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.*;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_CROP_ILLNESS;
 import static com.equilibrium.server_and_client.server.CropIllnessEvent.applyIllnessForCrop;
 import static com.equilibrium.server_and_client.server.moonphase_tasks.MoonPhaseEventEntitySpawner.*;
+import static com.equilibrium.server_and_client.server.moonphase_tasks.MoonPhaseEventWeatherController.clearWeatherForSometime;
 import static com.equilibrium.server_and_client.server.moonphase_tasks.MoonPhaseEventWeatherController.controlWeather;
 
 public class MoonPhaseEvent {
@@ -110,6 +111,9 @@ public class MoonPhaseEvent {
 
             //第一次蓝月,不改变随机刻速度
             if (moonType.equals("blueMoon")) {
+
+                clearWeatherForSometime(serverOverWorld,12000);
+
                 if (serverOverWorld.getTimeOfDay() > 24000) {
 
                     if (serverOverWorld.getGameRules().getInt(GameRules.RANDOM_TICK_SPEED) != 5)

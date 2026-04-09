@@ -30,6 +30,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
 
+import static com.equilibrium.block.UseBlockActionUtil.isTableBlocked;
 import static com.equilibrium.util.SharedConstant.ANVIL_DURABILITY;
 import static net.minecraft.sound.SoundCategory.BLOCKS;
 
@@ -112,6 +113,10 @@ public abstract class AnvilBlockMixin extends FallingBlock {
     @Inject(method = "onUse",at = @At("HEAD"), cancellable = true)
     public void onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit, CallbackInfoReturnable<ActionResult> cir) {
         cir.cancel();
+        if(isTableBlocked(world,pos,player)){
+            cir.setReturnValue(ActionResult.PASS);
+            return;
+        }
 
 
         int i = state.get(ANVIL_DURABILITY);

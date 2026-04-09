@@ -5,6 +5,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffectUtil;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.PlayerManager;
@@ -27,74 +29,58 @@ import java.util.List;
 
 import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.getGameBooleanRuleFromServer;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_MORE_SL_DAMAGE;
+import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_NO_ANIMALS;
 import static com.equilibrium.difficulty_entry.DifficultyEntryUtil.onPlayerConnectSynchronizingGameRulesForBoolean;
 
 
 @Mixin(PlayerManager.class)
 public abstract class PlayerManagerMixin {
 
-    @Shadow
-    @Final
-    private static Logger LOGGER;
-
-    @Shadow
-    @Final
-    private MinecraftServer server;
-
-    @Shadow
-    @Final
-    private List<ServerPlayerEntity> players;
-
-
     @Unique
-    public StateSaverAndLoader serverState;
+    private static final StatusEffectInstance statusEffectInstance1 = new StatusEffectInstance(StatusEffects.BLINDNESS, 100, 255, false, false, false);
+    @Unique
+    private static final StatusEffectInstance statusEffectInstance2 = new StatusEffectInstance(StatusEffects.NAUSEA, 100, 255, false, false, false);
+    @Unique
+    private static final StatusEffectInstance statusEffectInstance3 = new StatusEffectInstance(StatusEffects.WEAKNESS, 100, 255, false, false, false);
+    @Unique
+    private static final StatusEffectInstance statusEffectInstance4 = new StatusEffectInstance(StatusEffects.SLOWNESS, 100, 255, false, false, false);
+
 
 
     @Inject(method = "onPlayerConnect", at = @At(value = "TAIL"))
     public void onPlayerConnect(ClientConnection connection, ServerPlayerEntity player, ConnectedClientData clientData, CallbackInfo ci) {
-//        LOGGER.info("When finishing connect,the player xp level is " + player.experienceLevel);
-//        LOGGER.info("When finishing connect,the player health level is " + player.getHealth());
+
         //获取服务器的所有nbt数据
-
-
-
-
-        serverState = StateSaverAndLoader.getServerState(this.server);
+        StateSaverAndLoader serverState = StateSaverAndLoader.getServerState(player.getServer());
         if (serverState.onFirstInTheWorld) {
             //只触发一次
             serverState.onFirstInTheWorld = false;
             player.sendMessage(Text.translatable("mod.first_day.helloWorld").formatted(Formatting.YELLOW));
-        }
-
-
-
-        if (!player.getWorld().isClient) {
-//            int initializedMaxHealth = player.experienceLevel >= 35 ? 20 : 6 + (int) (player.experienceLevel / 5) * 2;
-//            PlayerMaxHealthHelper.setMaxHealthLevel(initializedMaxHealth);
-//
-//            int initializedFoodLevel = player.experienceLevel >= 35 ? 20 : 6 + (int) (player.experienceLevel / 5) * 2;
-//            PlayerMaxHungerHelper.setMaxFoodLevel(initializedFoodLevel);
-
-            StatusEffectInstance statusEffectInstance1 = new StatusEffectInstance(StatusEffects.BLINDNESS, 100, 255, false, false, false);
-            StatusEffectUtil.addEffectToPlayersWithinDistance((ServerWorld) player.getWorld(), player, player.getPos(), 4, statusEffectInstance1, 80);
-            StatusEffectInstance statusEffectInstance2 = new StatusEffectInstance(StatusEffects.NAUSEA, 100, 255, false, false, false);
-            StatusEffectUtil.addEffectToPlayersWithinDistance((ServerWorld) player.getWorld(), player, player.getPos(), 4, statusEffectInstance2, 80);
-            StatusEffectInstance statusEffectInstance3 = new StatusEffectInstance(StatusEffects.WEAKNESS, 100, 255, false, false, false);
-            StatusEffectUtil.addEffectToPlayersWithinDistance((ServerWorld) player.getWorld(), player, player.getPos(), 4, statusEffectInstance3, 80);
-            StatusEffectInstance statusEffectInstance4 = new StatusEffectInstance(StatusEffects.SLOWNESS, 100, 255, false, false, false);
-            StatusEffectUtil.addEffectToPlayersWithinDistance((ServerWorld) player.getWorld(), player, player.getPos(), 4, statusEffectInstance4, 80);
-
-            onPlayerConnectSynchronizingGameRulesForBoolean(player);
-
-            if (player.getHealth() <= 1) {
-                player.damage(player.getDamageSources().badRespawnPoint(player.getPos()), 114514);
-            } else {
-                if(getGameBooleanRuleFromServer(ENABLE_MORE_SL_DAMAGE, player.getServerWorld().getServer()))
-                    player.damage(player.getDamageSources().badRespawnPoint(player.getPos()),Math.max(3,player.getHealth()/2));
-                else
-                    player.damage(player.getDamageSources().badRespawnPoint(player.getPos()), 1);
+            if(getGameBooleanRuleFromServer(ENABLE_NO_ANIMALS,player.getServer())){
+                ItemStack leather = Items.LEATHER.getDefaultStack();
+                leather.setCount(16);
+                player.getInventory().offerOrDrop(leather);
             }
+
+
         }
+        player.addStatusEffect(statusEffectInstance1);
+        player.addStatusEffect(statusEffectInstance2);
+        player.addStatusEffect(statusEffectInstance3);
+        player.addStatusEffect(statusEffectInstance4);
+
+        //游戏规则同步,将服务器上的数据拷贝一份到客户端供使用
+        onPlayerConnectSynchronizingGameRulesForBoolean(player);
+
+        if (player.getHealth() <= 1) {
+            player.damage(player.getDamageSources().badRespawnPoint(player.getPos()), 114514);
+        } else {
+            if(getGameBooleanRuleFromServer(ENABLE_MORE_SL_DAMAGE, player.getServerWorld().getServer()))
+                player.damage(player.getDamageSources().badRespawnPoint(player.getPos()),Math.max(3,player.getHealth()/2));
+            else
+                player.damage(player.getDamageSources().badRespawnPoint(player.getPos()), 1);
+        }
+
     }
 
 

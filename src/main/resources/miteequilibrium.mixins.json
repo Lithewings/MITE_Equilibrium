@@ -35,8 +35,8 @@
     "structure_and_dimension.portal.PortalForcerMixin",
     "structure_and_dimension.strong_hold.ConcentricRingsStructurePlacementMixin",
     "structure_and_dimension.strong_hold.StrongholdGeneratorMixin",
-    "structure_and_dimension.village.structurePoolBasedGeneratorMixin",
-    "structure_and_dimension.village.VillageGenerationControlMixin",
+    "structure_and_dimension.structure.structurePoolBasedGeneratorMixin",
+    "structure_and_dimension.structure.VillageGenerationControlMixin",
     "vanilla_blocksmixin.BeetrootsBlockMixin",
     "vanilla_blocksmixin.BlocksMixin",
     "vanilla_blocksmixin.FluidBlockMixin",
@@ -54,7 +54,6 @@
     "vanilla_entitymixin.CatEntityMixin",
     "vanilla_entitymixin.ChickenEntityMixin",
     "vanilla_entitymixin.CowEntityMixin",
-    "vanilla_entitymixin.CowEntityMixin2",
     "vanilla_entitymixin.EndCrystalEntityMixin",
     "vanilla_entitymixin.EnderDragonEntityMixin",
     "vanilla_entitymixin.EnderManEntity",
@@ -74,6 +73,7 @@
     "vanilla_entitymixin.WitherSkeletonEntityMixin",
     "vanilla_entitymixin.ZombieEntityMixin",
     "vanilla_entitymixin.ZombieVillagerEntityMixin",
+    "vanilla_entitymixin.ZombifiedPiglinEntityMixin",
     "vanilla_entitymixin.goal_mixin.ActiveTargetMixin",
     "vanilla_entitymixin.goal_mixin.BeeEntityGrowCropsGoalMixin",
     "vanilla_entitymixin.goal_mixin.BowAttackGoalMixin",
@@ -85,7 +85,8 @@
     "vanilla_itemsmixin.WoodenMaterialsModify",
     "vanilla_itemsmixin.tool.ArmorMaterialsMixin",
     "vanilla_itemsmixin.tool.ShearsItemMixin",
-    "vanilla_itemsmixin.tool.ShovelItemMixin"
+    "vanilla_itemsmixin.tool.ShovelItemMixin",
+    "world.ServerWorldMixin"
   ],
   "injectors": {
     "defaultRequire": 1

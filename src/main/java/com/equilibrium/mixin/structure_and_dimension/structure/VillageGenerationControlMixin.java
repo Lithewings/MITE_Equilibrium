@@ -1,4 +1,4 @@
-package com.equilibrium.mixin.structure_and_dimension.village;
+package com.equilibrium.mixin.structure_and_dimension.structure;
 
 import com.equilibrium.server_and_client.server.persistent_state.StateSaverAndLoader;
 import net.minecraft.registry.DynamicRegistryManager;
@@ -6,33 +6,18 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.structure.StructureSet;
-import net.minecraft.structure.StructureStart;
-import net.minecraft.structure.StructureTemplate;
 import net.minecraft.structure.StructureTemplateManager;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.collection.BoundedRegionArray;
-import net.minecraft.util.math.random.CheckedRandom;
-import net.minecraft.util.math.random.ChunkRandom;
-import net.minecraft.world.GameRules;
 import net.minecraft.world.chunk.*;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
-import net.minecraft.world.gen.chunk.placement.StructurePlacement;
 import net.minecraft.world.gen.chunk.placement.StructurePlacementCalculator;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.getGameBooleanRuleFromServer;
@@ -70,7 +55,6 @@ public abstract class VillageGenerationControlMixin {
             Chunk chunk,
             StructureTemplateManager structureTemplateManager
     ) {
-
         boolean shouldGenVillage = false; // 禁用村庄
         if (structureAccessor.world instanceof ServerWorld serverWorld) {
             //禁用村庄的条件如下

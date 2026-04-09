@@ -28,6 +28,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.getGameBooleanRuleFromServer;
+import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_NO_ANIMALS;
+
 @Mixin(PigEntity.class)
 public abstract class PigEntityMixin extends AnimalEntity implements ItemSteerable, Saddleable , ProduceManureOrSomething {
     @Shadow public abstract boolean isSaddled();
@@ -35,6 +38,19 @@ public abstract class PigEntityMixin extends AnimalEntity implements ItemSteerab
     protected PigEntityMixin(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
     }
+
+
+    @Inject(method = "<init>",at = @At("TAIL"))
+    public void init(EntityType<?>entityType, World world, CallbackInfo ci){
+        if(this.getWorld() instanceof ServerWorld serverWorld){
+            boolean shouldNotGen = getGameBooleanRuleFromServer(ENABLE_NO_ANIMALS,serverWorld.getServer());
+            if(shouldNotGen){
+                this.discard();
+            }
+        }
+    }
+
+
 
 
     @Override

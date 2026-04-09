@@ -56,4 +56,10 @@ public class MoonPhaseEventWeatherController {
         worldProperties.setClearWeatherTime(12000); // 设置晴天时间长度（可以根据需要调整）
     }
 
+    public static void clearWeatherForSometime(ServerWorld world, int clearTime) {
+        ServerWorldProperties worldProperties = (ServerWorldProperties) world.getLevelProperties();
+        worldProperties.setThundering(false); // 关闭雷雨
+        worldProperties.setRaining(false); // 关闭降雨
+        worldProperties.setClearWeatherTime(clearTime); // 设置晴天时间长度（可以根据需要调整）
+    }
 }

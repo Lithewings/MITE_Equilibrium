@@ -591,6 +591,24 @@ public abstract class PlayerEntityMixin extends LivingEntity {
             }
         }
         if (!this.getWorld().isClient) {
+            if(this.getWorld().isRaining() && this.getWorld().isSkyVisible(this.getBlockPos())){
+                //雨天施加挖掘疲劳
+                boolean hasMiningFatigue = this.hasStatusEffect(StatusEffects.MINING_FATIGUE);
+                if (!hasMiningFatigue)
+                    this.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE, 120, 0, false, false, false));
+                else if (this.getStatusEffect(StatusEffects.MINING_FATIGUE).getDuration() <= 20) {
+                    this.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE, 120, 0, false, false, false));
+                }
+                //雨天施加饥饿
+                this.addExhaustion(0.0005f);
+            }
+
+
+
+
+
+
+
             //规则:是否启用营养不良?
             if(getGameBooleanRuleFromServer(ENABLE_PHYTONUTRIENT, Objects.requireNonNull(this.getWorld().getServer(), "Server can not be found ? Impossible!")))
                 this.phytonutrient--;

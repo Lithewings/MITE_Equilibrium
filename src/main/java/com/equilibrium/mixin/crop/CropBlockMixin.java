@@ -31,6 +31,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 
 import static com.equilibrium.OnServerInitialize.*;
+import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.getGameBooleanRuleFromServer;
+import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.DISABLE_CROP_GROW;
 import static com.equilibrium.server_and_client.server.CropIllnessEvent.*;
 import static com.equilibrium.server_and_client.server.CropIllnessEvent.updateCropBlockPos;
 
@@ -181,8 +183,8 @@ public abstract class CropBlockMixin extends PlantBlock implements Fertilizable 
                 } else
                     OnServerInitialize.LOGGER.error("No such Block State called fertilized");
 
-
-                if (random.nextInt((int) (times * 25.0F / f) + 1) == 0) {
+                //游戏规则:是否允许农作物自然生长
+                if (!getGameBooleanRuleFromServer(DISABLE_CROP_GROW,world.getServer()) && random.nextInt((int) (times * 25.0F / f) + 1) == 0) {
                     world.setBlockState(pos, this.withAge(i + 1).with(CROP_IS_ILLNESS, CROP_BLOCK_POS.getOrDefault(pos, false)), Block.NOTIFY_LISTENERS);
                 }
             }
