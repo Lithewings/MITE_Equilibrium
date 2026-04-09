@@ -179,6 +179,39 @@ public abstract class ServerWorldMixin extends World {
             ci.cancel();
         }
     }
+
+
+
+
+
+    /**
+     * 拦截睡眠后设置时间的调用，强制将时间设为 23000（黎明前）
+     */
+    @Redirect(
+            method = "tick",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/server/world/ServerWorld;setTimeOfDay(J)V"
+            )
+    )
+    private void redirectSetTimeOfDay(ServerWorld world, long time) {
+        // 忽略计算出的原始时间（通常为 0 或 24000），直接设为 23000
+        world.setTimeOfDay(time - time  % 24000L - 1500L);
+    }
+
+    /**
+     * 完全跳过 resetWeather() 的调用
+     */
+    @Redirect(
+            method = "tick",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/server/world/ServerWorld;resetWeather()V"
+            )
+    )
+    private void cancelResetWeather(ServerWorld world) {
+        // 空实现，什么也不做
+    }
 }
 
 

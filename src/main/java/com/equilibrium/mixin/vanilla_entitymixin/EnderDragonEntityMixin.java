@@ -6,6 +6,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
+import net.minecraft.entity.boss.dragon.EnderDragonPart;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.Monster;
@@ -16,6 +17,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.WorldSavePath;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -26,6 +28,7 @@ import java.nio.file.Path;
 
 import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.getGameBooleanRuleFromServer;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ALL_BASIC_ENTRY_KEYS;
+import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ALL_EXTRA_ENTRY_KEYS;
 
 
 @Mixin(EnderDragonEntity.class)
@@ -35,6 +38,8 @@ public abstract class EnderDragonEntityMixin extends MobEntity implements Monste
 
     @Shadow
     public abstract boolean damage(DamageSource source, float amount);
+
+    @Shadow @Final private EnderDragonPart body;
 
     protected EnderDragonEntityMixin(EntityType<? extends MobEntity> entityType, World world) {
         super(entityType, world);
@@ -51,6 +56,7 @@ public abstract class EnderDragonEntityMixin extends MobEntity implements Monste
         int day = (int) (this.getWorld().getTimeOfDay() / 24000L);
 
         boolean stageClear = true;
+        boolean grandStageClear = true;
         // 保存通关凭证
         try {
             if (this.getWorld() instanceof ServerWorld serverWorld) {
@@ -74,9 +80,16 @@ public abstract class EnderDragonEntityMixin extends MobEntity implements Monste
                     }
                 }
 
+                for (GameRules.Key<GameRules.BooleanRule> booleanRuleKey : ALL_EXTRA_ENTRY_KEYS) {
+                    if (!getGameBooleanRuleFromServer(booleanRuleKey, serverWorld.getServer())) {
+                        grandStageClear = false;
+                    }
+                }
+
                 if(stageClear){
                     for (PlayerEntity player : serverWorld.getPlayers()) {
                         player.sendMessage(Text.of("主线完成,现所有世界选项按钮均已解锁(游戏重启生效)"));
+                        player.sendMessage(Text.of("Grand Stage Clear ? "+grandStageClear));
                     }
                     BooleanStorageUtil.saveFinishGameOnce(true, FabricLoader.getInstance().getConfigDir().normalize().resolve(BooleanStorageUtil.FINISH_GAME_ONCE).toFile().getPath());
                 }else {
@@ -98,7 +111,7 @@ public abstract class EnderDragonEntityMixin extends MobEntity implements Monste
 
                 MinecraftServer server = this.getServer();
                 Path path = server.getSavePath(WorldSavePath.ROOT).normalize().resolve(BooleanStorageUtil.WORLD_INFORMATION_RECORDER);
-                BooleanStorageUtil.saveWorldInformation(day, serverWorld.getSeed(), path.toFile().getPath());
+                BooleanStorageUtil.saveWorldInformation(day, serverWorld.getSeed(), grandStageClear,path.toFile().getPath());
 
             }
         } catch (IOException e) {

@@ -55,11 +55,13 @@ public final class BooleanStorageUtil {
 
         private final int finishDay;
         private final long seed;
+        private final boolean isGrandStageClear;
         private final String version = SharedConstants.gameVersion.getName();
 
-        WorldInformationRecorder(int finishDay, long seed) {
+        WorldInformationRecorder(int finishDay, long seed, boolean isGrandStageClear) {
             this.finishDay = finishDay;
             this.seed = seed;
+            this.isGrandStageClear = isGrandStageClear;
         }
 
         public int getFinishDay() {
@@ -70,6 +72,9 @@ public final class BooleanStorageUtil {
         }
         public String getVersion() {
             return version;
+        }
+        public boolean getIsGrandStageClear() {
+            return isGrandStageClear;
         }
     }
 
@@ -106,7 +111,7 @@ public final class BooleanStorageUtil {
 
 
 
-    public static void saveWorldInformation(int day, long seed , String filePath) throws IOException {
+    public static void saveWorldInformation(int day, long seed ,boolean isGrandStageClear, String filePath) throws IOException {
         try {
             Cipher cipher = Cipher.getInstance(ALGORITHM);
             SecretKeySpec key = generateKey();
@@ -114,7 +119,7 @@ public final class BooleanStorageUtil {
 
             ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
             try (ObjectOutputStream oos = new ObjectOutputStream(byteOut)) {
-                oos.writeObject(new WorldInformationRecorder(day,seed ));
+                oos.writeObject(new WorldInformationRecorder(day,seed,isGrandStageClear ));
             }
 
             byte[] encryptedData = cipher.doFinal(byteOut.toByteArray());

@@ -27,17 +27,22 @@ import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
 import net.minecraft.GameVersion;
 import net.minecraft.SaveVersion;
 import net.minecraft.SharedConstants;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.IntProperty;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.Difficulty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -49,6 +54,7 @@ import static com.equilibrium.block.enchanting_table.ModBlockEntityTypes.modBloc
 import static com.equilibrium.block.enchanting_table.ModScreenTypes.registerScreenHandlers;
 import static com.equilibrium.block.reference.BlocksHardnessList.initModBlocksHardnessHashMap;
 import static com.equilibrium.block.reference.BlocksHardnessList.initVanillaBlocksHardnessHashMap;
+import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.isAnyExtraEntryExisting;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.initGameRules;
 import static com.equilibrium.entity.ModEntities.registerModEntities;
 import static com.equilibrium.entity.ModSpawnRestriction.registerModSpawnRestriction;
@@ -126,7 +132,7 @@ public class OnServerInitialize implements ModInitializer {
 
             @Override
             public String getName() {
-                return "MITE:Equilibrium Beta v1.1.0";
+                return "MITE:Equilibrium Beta v1.1.0_1";
             }
 
             @Override
@@ -165,6 +171,9 @@ public class OnServerInitialize implements ModInitializer {
 
             //锁定游戏难度
             server.setDifficultyLocked(true);
+
+
+
 
 
             //读取服务器持久状态数据
@@ -226,6 +235,35 @@ public class OnServerInitialize implements ModInitializer {
                 serverState.saveMapNbtToBuffer1();
                 //保存生病农作物的map
                 serverState.saveMapNbtToBuffer2();
+
+                if(isAnyExtraEntryExisting(server,null)){
+                    server.setDifficulty(Difficulty.HARD,true);
+                    boolean allowCommands = server.getSaveProperties().areCommandsAllowed();
+                    List<ServerPlayerEntity> playerList = server.getPlayerManager().getPlayerList();
+                    boolean isAnyCreativeOrSpectator = playerList.stream().allMatch(player -> player.isCreative()||player.isSpectator());
+                    boolean isPlayerExisting = !playerList.isEmpty();
+                    if(isPlayerExisting && (allowCommands || isAnyCreativeOrSpectator)){
+                        playerList.forEach(serverPlayerEntity -> serverPlayerEntity.sendMessage(Text.of("检测到错误的世界设置,服务器将在不久后强制清除玩家"),true) );
+                        new Thread(() -> {
+                            try {
+                                Thread.sleep(8000);
+                            } catch (InterruptedException e) {
+                                Thread.currentThread().interrupt();
+                                return; // 被中断则不再执行后续任务
+                            }
+                            if (server.isRunning()) {
+                                server.execute(() -> {
+                                    if (server.isRunning()) {
+                                        server.getPlayerManager().disconnectAllPlayers();
+                                    }
+                                });
+                            }
+                        }).start();
+                    }
+
+
+                }
+
 
             }
 

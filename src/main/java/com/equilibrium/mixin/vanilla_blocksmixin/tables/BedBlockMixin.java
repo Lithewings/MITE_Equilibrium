@@ -125,10 +125,13 @@ public abstract class BedBlockMixin extends HorizontalFacingBlock implements Blo
                 }
                 else{
                     //足够安全后,检查时间
-                    if(world.getTimeOfDay() % 24000L<15500 && !Objects.equals(WorldMoonPhasesSelector.calculateMoonType(world), "fullMoon")){
+                    int time = (int) (world.getTimeOfDay() % 24000L);
+                    boolean isSleepy = time>15500 && time<22000;
+                    //玩家会在22500之后醒来
+                    if(!isSleepy && !Objects.equals(WorldMoonPhasesSelector.calculateMoonType(world), "fullMoon")){
                     player.sendMessage(Text.translatable("sleep.failure.reason_4"), true);
                     cir.setReturnValue(ActionResult.SUCCESS);
-                    } else if (Objects.equals(WorldMoonPhasesSelector.calculateMoonType(world), "fullMoon")) {
+                    } else if (isSleepy && Objects.equals(WorldMoonPhasesSelector.calculateMoonType(world), "fullMoon")) {
                         player.sendMessage(Text.translatable("sleep.failure.reason_5"),true);
                         cir.setReturnValue(ActionResult.SUCCESS);
                     }

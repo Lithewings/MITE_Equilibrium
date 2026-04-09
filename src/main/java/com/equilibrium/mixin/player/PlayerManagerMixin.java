@@ -36,14 +36,6 @@ import static com.equilibrium.difficulty_entry.DifficultyEntryUtil.onPlayerConne
 @Mixin(PlayerManager.class)
 public abstract class PlayerManagerMixin {
 
-    @Unique
-    private static final StatusEffectInstance statusEffectInstance1 = new StatusEffectInstance(StatusEffects.BLINDNESS, 100, 255, false, false, false);
-    @Unique
-    private static final StatusEffectInstance statusEffectInstance2 = new StatusEffectInstance(StatusEffects.NAUSEA, 100, 255, false, false, false);
-    @Unique
-    private static final StatusEffectInstance statusEffectInstance3 = new StatusEffectInstance(StatusEffects.WEAKNESS, 100, 255, false, false, false);
-    @Unique
-    private static final StatusEffectInstance statusEffectInstance4 = new StatusEffectInstance(StatusEffects.SLOWNESS, 100, 255, false, false, false);
 
 
 
@@ -64,10 +56,10 @@ public abstract class PlayerManagerMixin {
 
 
         }
-        player.addStatusEffect(statusEffectInstance1);
-        player.addStatusEffect(statusEffectInstance2);
-        player.addStatusEffect(statusEffectInstance3);
-        player.addStatusEffect(statusEffectInstance4);
+        player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 100, 255, false, false, false));
+        player.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 100, 255, false, false, false));
+        player.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 100, 255, false, false, false));
+        player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 100, 255, false, false, false));
 
         //游戏规则同步,将服务器上的数据拷贝一份到客户端供使用
         onPlayerConnectSynchronizingGameRulesForBoolean(player);

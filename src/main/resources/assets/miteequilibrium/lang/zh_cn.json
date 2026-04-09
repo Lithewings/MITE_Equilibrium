@@ -226,7 +226,15 @@
   "gamerule.enableRestrictVillageGen": "启用更严格的村庄和前哨站生成条件",
   "gamerule.enablePhytonutrient": "启用营养不良机制",
   "gamerule.enableBloodMoonThunder": "启用血月雷电",
-  "gamerule.disablePlayerTeleport": "启用玩家间的传送指令：/teleportToPlayer"
+  "gamerule.disablePlayerTeleport": "启用玩家间的传送指令：/teleportToPlayer",
+
+  "gamerule.disableVillageAndPillage": "荒芜：移除了村庄、附属的农田和掠夺者前哨站结构",
+  "gamerule.enableMoreSlDamage": "三思而后行：SL行为会损失更多生命值",
+  "gamerule.enableNoAnimals": "灭绝：牛、羊、猪、鸡四种动物不再生成",
+  "gamerule.disableCropGrow": "荒疫：农作物不再自然生长",
+  "gamerule.enableMoreRainWeather": "雨季：一段时间后大幅提高世界下雨的时长",
+  "gamerule.enableUniversalAggro": "众矢之的：玩家会无条件引起猪人和末影人的仇恨"
+
 
 
 

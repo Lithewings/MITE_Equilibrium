@@ -207,11 +207,13 @@ public class ServerCommands {
                             if (worldInformationRecorder != null) {
                                 int day = worldInformationRecorder.getFinishDay();
                                 long seed = worldInformationRecorder.getSeed();
+                                boolean isGrandStageClear  = worldInformationRecorder.getIsGrandStageClear();
                                 String version = worldInformationRecorder.getVersion();
 
                                 if (day >= 0 && seed == originalSeed) {
                                     player.sendMessage(Text.of("通关天数为: " + day));
                                     player.sendMessage(Text.of("世界种子为: " + seed));
+                                    player.sendMessage(Text.of("Grand Stage Clear ? " + isGrandStageClear));
                                     player.sendMessage(Text.of("版本信息号为: " + version));
                                 }
                                 else if (day >= 0 && seed != originalSeed)

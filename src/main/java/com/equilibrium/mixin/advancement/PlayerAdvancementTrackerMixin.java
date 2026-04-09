@@ -73,12 +73,13 @@ public abstract class PlayerAdvancementTrackerMixin {
 
 
     //原版的成就已移除,这里本不应该显示,除非击败一次末影龙
+    //原版成就强制清除吧
     @Inject(method = "grantCriterion",at =@At("HEAD"), cancellable = true)
     public void grantCriterion(AdvancementEntry advancement, String criterionName, CallbackInfoReturnable<Boolean> cir) {
 
-        if (BooleanStorageUtil.loadFinishGameOnce(configPath.toString())) {
-            return;
-        }
+//        if (BooleanStorageUtil.loadFinishGameOnce(configPath.toString())) {
+//            return;
+//        }
 
         cir.cancel();
         boolean bl = false;

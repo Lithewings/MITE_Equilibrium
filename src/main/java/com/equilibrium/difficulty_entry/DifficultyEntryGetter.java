@@ -4,8 +4,13 @@ import com.equilibrium.OnServerInitialize;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
+
+import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ALL_EXTRA_ENTRY_KEYS;
 
 public class DifficultyEntryGetter {
 
@@ -37,9 +42,22 @@ public class DifficultyEntryGetter {
     }
     //如果上下文均不能获取到客户端和服务端信息,那就不要引入这个机制
 
-    //如果有world的上下文,就用world
-    public static boolean getGameBooleanRuleFromWorld(GameRules.Key<GameRules.BooleanRule> key, World world){
-        GameRules.BooleanRule rule = world.getGameRules().get(key);
-        return rule.get();
+
+    public static boolean isAnyExtraEntryExisting(MinecraftServer server, @Nullable ServerPlayerEntity player){
+        int entryNumber = 0;
+        for (GameRules.Key<GameRules.BooleanRule> booleanRuleKey : ALL_EXTRA_ENTRY_KEYS) {
+            if (getGameBooleanRuleFromServer(booleanRuleKey, server)) {
+                entryNumber++;
+            }
+        }
+        if(player!=null){
+            player.sendMessage(Text.of("已开启了"+entryNumber+"条进阶难度词条"));
+        }
+        return entryNumber>0;
     }
+
+
+
+
+
 }
