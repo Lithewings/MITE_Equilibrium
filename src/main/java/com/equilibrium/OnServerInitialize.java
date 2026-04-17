@@ -15,6 +15,7 @@ import com.equilibrium.server_and_client.server.event.CraftingMetalPickAxeCallba
 import com.equilibrium.server_and_client.server.persistent_state.MapNbtSerializer;
 import com.equilibrium.server_and_client.server.persistent_state.StateSaverAndLoader;
 import com.equilibrium.util.AdvancementRemover;
+import com.equilibrium.util.BooleanStorageUtil;
 import com.equilibrium.util.XpHashMap;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
@@ -35,12 +36,14 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.text.Text;
+import net.minecraft.util.WorldSavePath;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -73,6 +76,8 @@ import static com.equilibrium.structure.StructureRegister.registerStructure;
 import static com.equilibrium.tags.ModBlockTags.registerModBlockTags;
 import static com.equilibrium.tags.ModEntityTags.registerModEntityTags;
 import static com.equilibrium.tags.ModItemTags.registerModItemTags;
+import static com.equilibrium.util.BooleanStorageUtil.loadWorldInformation;
+import static net.minecraft.world.World.OVERWORLD;
 
 
 public class OnServerInitialize implements ModInitializer {
@@ -236,7 +241,14 @@ public class OnServerInitialize implements ModInitializer {
                 //保存生病农作物的map
                 serverState.saveMapNbtToBuffer2();
 
-                if(isAnyExtraEntryExisting(server,null)){
+                boolean isGrandStageClear = false;
+                Path path = server.getSavePath(WorldSavePath.ROOT).normalize().resolve("WorldInformationRecorder.dat");
+                BooleanStorageUtil.WorldInformationRecorder worldInformationRecorder = loadWorldInformation(path.toString());
+                if (worldInformationRecorder != null && worldInformationRecorder.getIsGrandStageClear()==true) {
+                    isGrandStageClear  = true;
+                }
+
+                if((isAnyExtraEntryExisting(server,null))&& !isGrandStageClear){
                     server.setDifficulty(Difficulty.HARD,true);
                     boolean allowCommands = server.getSaveProperties().areCommandsAllowed();
                     List<ServerPlayerEntity> playerList = server.getPlayerManager().getPlayerList();

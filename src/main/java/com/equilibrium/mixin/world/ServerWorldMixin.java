@@ -7,6 +7,7 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.intprovider.BiasedToBottomIntProvider;
 import net.minecraft.util.math.intprovider.IntProvider;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.util.profiler.Profiler;
@@ -196,7 +197,8 @@ public abstract class ServerWorldMixin extends World {
     )
     private void redirectSetTimeOfDay(ServerWorld world, long time) {
         // 忽略计算出的原始时间（通常为 0 或 24000），直接设为 23000
-        world.setTimeOfDay(time - time  % 24000L - 1500L);
+        world.setTimeOfDay(time - time  % 24000L + BiasedToBottomIntProvider.create(-1500,3000).get(world.random));
+
     }
 
     /**

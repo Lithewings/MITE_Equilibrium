@@ -202,7 +202,7 @@ public class ServerCommands {
                             PlayerEntity player = context.getSource().getPlayer();
                             long originalSeed = context.getSource().getServer().getWorld(OVERWORLD).getSeed();
                             Path path = context.getSource().getServer().getSavePath(WorldSavePath.ROOT).normalize().resolve("WorldInformationRecorder.dat");
-                            ;
+
                             BooleanStorageUtil.WorldInformationRecorder worldInformationRecorder = loadWorldInformation(path.toString());
                             if (worldInformationRecorder != null) {
                                 int day = worldInformationRecorder.getFinishDay();
