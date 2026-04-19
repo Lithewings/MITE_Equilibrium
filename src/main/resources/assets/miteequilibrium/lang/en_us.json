@@ -45,7 +45,7 @@
   "mod.selectWorld.bonusItems": "Generates structures which contain items to trigger initial advancements",
 
 
-
+  "death.attack.fatal_poison": "%1$s died from poison",
 
 
   "select.world.wrong.version": "You cannot load a world from an incompatible mod version",

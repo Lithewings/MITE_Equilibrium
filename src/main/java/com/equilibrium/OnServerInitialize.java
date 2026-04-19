@@ -30,12 +30,16 @@ import net.minecraft.SaveVersion;
 import net.minecraft.SharedConstants;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageType;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.WorldSavePath;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
@@ -51,6 +55,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static com.equilibrium.DamageSourceRegister.damageSourceInit;
 import static com.equilibrium.GlobalModConfig.isSleepChunksAlwaysLoading;
 import static com.equilibrium.block.CraftingDifficultyHelper.initCraftingDifficulties;
 import static com.equilibrium.block.enchanting_table.ModBlockEntityTypes.modBlockEntityTypesInit;
@@ -96,6 +101,8 @@ public class OnServerInitialize implements ModInitializer {
     public static final BooleanProperty CROP_IS_ILLNESS = BooleanProperty.of("crop_illness");
 
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
+
 
 
     public static void init() {
@@ -169,6 +176,7 @@ public class OnServerInitialize implements ModInitializer {
 
 
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
+
 
             //成就删除
             AdvancementRemover.removeAllMinecraftAdvancements(server.getAdvancementLoader().getManager());
@@ -312,6 +320,8 @@ public class OnServerInitialize implements ModInitializer {
 //        //结构注册
         registerStructure();
 
+        //自定义伤害源
+        damageSourceInit();
 
         //食物修改
         foodComponentModify();

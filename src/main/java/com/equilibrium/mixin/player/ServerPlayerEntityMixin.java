@@ -6,6 +6,7 @@ import com.mojang.datafixers.util.Either;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.BedBlock;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.RegistryKey;
@@ -24,6 +25,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Mixin(ServerPlayerEntity.class)
@@ -59,6 +62,7 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
         //创建一个持久状态类,传入当前服务器副本,再对这个持久状态类写入数据,当玩家退出时,自动把信息写回磁盘
         serverState = StateSaverAndLoader.getServerState(this.getServer());
         serverState.playerDeathTimes++;
+        Collection<StatusEffectInstance> effects =  this.getStatusEffects();
     }
 
 

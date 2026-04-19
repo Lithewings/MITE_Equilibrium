@@ -219,6 +219,9 @@
   "mod.itemGroup.blocks_and_metallic_items": "方块与金属制品",
   "mod.itemGroup.farm": "农业与食物",
 
+  "death.attack.fatal_poison": "%1$s 毒发身亡",
+
+
   "gamerule.enableCraftingTimeAndLevel": "启用合成耗时和合成台等级",
   "gamerule.enableSlowBreakingSpeed": "启用标准挖掘速度",
   "gamerule.enableCropIllness": "启用作物生病机制",
