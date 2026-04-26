@@ -30,7 +30,6 @@
     "some_special_rules.fence_link_together.WallBlockMixin",
     "structure_and_dimension.BonusChestFeatureMixin",
     "structure_and_dimension.CompassItemMixin",
-    "structure_and_dimension.portal.AbstractFireBlockMixin",
     "structure_and_dimension.portal.EnderEyeItemMixin",
     "structure_and_dimension.portal.NetherPortalBlockMixin",
     "structure_and_dimension.portal.PortalForcerMixin",
@@ -87,7 +86,8 @@
     "vanilla_itemsmixin.tool.ArmorMaterialsMixin",
     "vanilla_itemsmixin.tool.ShearsItemMixin",
     "vanilla_itemsmixin.tool.ShovelItemMixin",
-    "world.ServerWorldMixin"
+    "world.ServerWorldMixin",
+    "world.CreateWorldScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

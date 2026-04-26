@@ -1,5 +1,8 @@
 accessWidener v1 named
 
+accessible class net/minecraft/world/gen/WorldPresets$Registrar
+
+
 accessible field net/minecraft/world/gen/StructureAccessor world Lnet/minecraft/world/WorldAccess;
 
 accessible field net/minecraft/client/gui/screen/world/EditGameRulesScreen$AbstractRuleWidget description Ljava/util/List;

@@ -13,6 +13,13 @@ public class ModPlacementGenerator {
     public static final RegistryKey<PlacedFeature> CUSTOM_ORE_OVERWORLD = RegistryKey.of(RegistryKeys.PLACED_FEATURE,
             Identifier.of("miteequilibrium", "ore_custom_overworld"));
 
+
+    public static final RegistryKey<PlacedFeature> GRAVEL_UPPER = RegistryKey.of(RegistryKeys.PLACED_FEATURE,
+            Identifier.of("miteequilibrium", "gravel_upper"));
+
+    public static final RegistryKey<PlacedFeature> GRAVEL = RegistryKey.of(RegistryKeys.PLACED_FEATURE,
+            Identifier.of("miteequilibrium", "gravel"));
+
     //Identifier名字要与json文件对应
     public static final RegistryKey<PlacedFeature> SILVER_OVERWORLD = RegistryKey.of(RegistryKeys.PLACED_FEATURE,
             Identifier.of("miteequilibrium", "silver_ore_overworld"));
@@ -85,6 +92,9 @@ public class ModPlacementGenerator {
         //主世界添加矿物
         BiomeModifications.addFeature(context -> context.canGenerateIn(UnderWorldDimensionOptions.OVERWORLD), GenerationStep.Feature.UNDERGROUND_ORES, CUSTOM_ORE_OVERWORLD);
         BiomeModifications.addFeature(context -> context.canGenerateIn(UnderWorldDimensionOptions.OVERWORLD), GenerationStep.Feature.UNDERGROUND_ORES, SILVER_OVERWORLD);
+        BiomeModifications.addFeature(context -> context.canGenerateIn(UnderWorldDimensionOptions.OVERWORLD), GenerationStep.Feature.UNDERGROUND_ORES, GRAVEL_UPPER);
+        BiomeModifications.addFeature(context -> context.canGenerateIn(UnderWorldDimensionOptions.OVERWORLD), GenerationStep.Feature.UNDERGROUND_ORES, GRAVEL);
+
 
 
         //地下世界添加矿物

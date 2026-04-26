@@ -57,6 +57,7 @@ import java.util.concurrent.TimeUnit;
 
 import static com.equilibrium.DamageSourceRegister.damageSourceInit;
 import static com.equilibrium.GlobalModConfig.isSleepChunksAlwaysLoading;
+import static com.equilibrium.ModWorldPreset.worldPresetRegister;
 import static com.equilibrium.block.CraftingDifficultyHelper.initCraftingDifficulties;
 import static com.equilibrium.block.enchanting_table.ModBlockEntityTypes.modBlockEntityTypesInit;
 import static com.equilibrium.block.enchanting_table.ModScreenTypes.registerScreenHandlers;
@@ -169,7 +170,8 @@ public class OnServerInitialize implements ModInitializer {
         };
         //难度词条
         initGameRules();
-
+        //世界预设
+        worldPresetRegister();
 
         //原版物品修改
         DefaultItemComponentEvents.MODIFY.register(new VanillaItemModifier());
