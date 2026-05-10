@@ -33,6 +33,7 @@ import java.util.*;
 import static com.equilibrium.difficulty_entry.DifficultyEntryDisplay.showAllValuesToServerPlayer;
 import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.*;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.DISABLE_PLAYER_TELEPORT;
+import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_MORE_RAIN_WEATHER;
 import static com.equilibrium.server_and_client.server.command.ServerCommands.TeleportCommand.execute;
 import static com.equilibrium.util.BooleanStorageUtil.loadWorldInformation;
 import static net.minecraft.world.World.OVERWORLD;
@@ -134,6 +135,39 @@ public class ServerCommands {
 
     // 注册命令的标准方式，适配 CommandDispatcher 的签名
     public static void registerCommands(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess, CommandManager.RegistrationEnvironment registrationEnvironment) {
+        dispatcher.register(
+                CommandManager.literal("sun")
+                        .requires(source -> {
+                            return getGameBooleanRuleFromServer(ENABLE_MORE_RAIN_WEATHER,source.getServer());
+                        })
+                        .executes
+                                ((context -> {
+                                            if (context.getSource().getEntity() instanceof ServerPlayerEntity serverPlayerEntity){
+                                                if(serverPlayerEntity.totalExperience>=500) {
+                                                    context.getSource().getServer().getOverworld().setWeather(6400, 0, false, false);
+                                                    serverPlayerEntity.addExperience(-500);
+                                                }
+                                                else
+                                                    serverPlayerEntity.sendMessage(Text.of("经验不足500xp"));
+                                            }
+                                            else
+                                                OnServerInitialize.LOGGER.error("This command \"sun\" can only be used by server player");
+                                            return 1;
+                                        })
+
+                                )
+        );
+
+
+
+
+
+
+
+
+
+
+
         dispatcher.register(
                 CommandManager.literal("clearHunger")
                         .requires(source -> source.hasPermissionLevel(2))

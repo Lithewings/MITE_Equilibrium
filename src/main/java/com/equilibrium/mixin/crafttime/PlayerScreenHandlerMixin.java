@@ -93,7 +93,7 @@ public abstract class PlayerScreenHandlerMixin extends AbstractRecipeScreenHandl
            //然后再施加限制
             //等级是否合法?
             //onServer条件下,一定不发生get不到server的情况
-            boolean isLevelValid=!getGameBooleanRuleFromServer(ENABLE_CRAFTING_TIME_AND_LEVEL,this.owner.getServer()) || maxCraftLevel == 0;
+            boolean isLevelValid=!(getGameBooleanRuleFromServer(ENABLE_CRAFTING_TIME_AND_LEVEL,this.owner.getServer())) || maxCraftLevel == 0;
 
             if (!isLevelValid) {
                 List<Text> list1 = List.of(INVALID_CRAFTING_TEXT);

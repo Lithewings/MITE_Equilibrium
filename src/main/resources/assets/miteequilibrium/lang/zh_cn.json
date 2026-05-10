@@ -236,9 +236,9 @@
   "gamerule.enableNoAnimals": "灭绝：牛、羊、猪、鸡四种动物不再生成",
   "gamerule.disableCropGrow": "荒疫：农作物不再自然生长",
   "gamerule.enableMoreRainWeather": "雨季：一段时间后大幅提高世界下雨的时长",
-  "gamerule.enableUniversalAggro": "众矢之的：玩家会无条件引起猪人和末影人的仇恨"
+  "gamerule.enableUniversalAggro": "众矢之的：玩家会无条件引起猪人和末影人的仇恨",
 
-
+  "generator.miteequilibrium.classic_overworld":"默认（经典）"
 
 
 

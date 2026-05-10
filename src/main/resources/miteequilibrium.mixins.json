@@ -39,6 +39,7 @@
     "structure_and_dimension.structure.VillageGenerationControlMixin",
     "vanilla_blocksmixin.BeetrootsBlockMixin",
     "vanilla_blocksmixin.BlocksMixin",
+    "vanilla_blocksmixin.FireBlockForPortalMixin",
     "vanilla_blocksmixin.FluidBlockMixin",
     "vanilla_blocksmixin.GrassBlockMixin",
     "vanilla_blocksmixin.tables.AbstractFurnaceEntityMixin",
@@ -86,8 +87,8 @@
     "vanilla_itemsmixin.tool.ArmorMaterialsMixin",
     "vanilla_itemsmixin.tool.ShearsItemMixin",
     "vanilla_itemsmixin.tool.ShovelItemMixin",
-    "world.ServerWorldMixin",
-    "world.CreateWorldScreenMixin"
+    "world.CreateWorldScreenMixin",
+    "world.ServerWorldMixin"
   ],
   "injectors": {
     "defaultRequire": 1

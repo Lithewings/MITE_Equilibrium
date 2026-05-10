@@ -145,7 +145,7 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 				//等级是否合法?如果游戏规则不检查合成等级,则等级永远合法
 
 
-				boolean isLevelValid = world.getGameRules().getBoolean(ENABLE_CRAFTING_TIME_AND_LEVEL) || maxCraftLevel<=craftTableLevel;
+				boolean isLevelValid = (!world.getGameRules().getBoolean(ENABLE_CRAFTING_TIME_AND_LEVEL)) || maxCraftLevel<=craftTableLevel;
 
 
 

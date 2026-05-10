@@ -319,8 +319,8 @@
   "gamerule.enableNoAnimals": "Extinction: Cows, sheep, pigs, and chickens will no longer spawn.",
   "gamerule.disableCropGrow": "Blight: Crops will no longer grow naturally.",
   "gamerule.enableMoreRainWeather": "Rainy Season: Greatly increases the duration of rainy weather after a period of time.",
-  "gamerule.enableUniversalAggro": "Universal Aggro: Players will unconditionally provoke the aggression of Piglins and Endermen."
-
+  "gamerule.enableUniversalAggro": "Universal Aggro: Players will unconditionally provoke the aggression of Piglins and Endermen.",
+  "generator.miteequilibrium.classic_overworld":"Classic Overworld"
 
 
 
