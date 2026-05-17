@@ -3,8 +3,9 @@ package com.equilibrium.mixin.player;
 import com.equilibrium.item.Armors;
 import com.equilibrium.item.Tools;
 import com.equilibrium.server_and_client.server.persistent_state.StateSaverAndLoader;
-import com.equilibrium.status.registerStatusEffect;
-import com.equilibrium.tags.ModBlockTags;
+import com.equilibrium.status.RegisterStatusEffect;
+import com.equilibrium.status.disease_IR.DiabetesEffect;
+import com.equilibrium.status.disease_IR.SugarMap;
 import com.equilibrium.tags.ModItemTags;
 import com.equilibrium.util.*;
 import net.minecraft.block.BlockState;
@@ -30,7 +31,6 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.tag.FluidTags;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
@@ -49,11 +49,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Objects;
 
-import static com.equilibrium.difficulty_entry.DifficultyEntryDisplay.showAllValuesToServerPlayer;
 import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.*;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_PHYTONUTRIENT;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_SLOW_BREAKING_SPEED;
 import static com.equilibrium.item.tools_attribute.ExtraDamageFromExperienceLevel.getDamageLevel;
+import static com.equilibrium.status.disease_IR.DiabetesEffect.tryApplyDiabetesEffect;
 import static com.equilibrium.util.ableToMine.getBlockHarvestLevel;
 import static com.equilibrium.util.ableToMine.getItemHarvestLevel;
 import static java.lang.Math.max;
@@ -84,46 +84,46 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         super.dropInventory();
         serverState = StateSaverAndLoader.getServerState(this.getServer());
         //首次死亡的掉落保护
-        if(serverState.playerDeathTimes==1)
-            this.getWorld().getGameRules().get(GameRules.KEEP_INVENTORY).set(true,this.getServer());
-        else if ((this.experienceLevel<5)) {
-            this.getWorld().getGameRules().get(GameRules.KEEP_INVENTORY).set(false,this.getServer());
+        if (serverState.playerDeathTimes == 1)
+            this.getWorld().getGameRules().get(GameRules.KEEP_INVENTORY).set(true, this.getServer());
+        else if ((this.experienceLevel < 5)) {
+            this.getWorld().getGameRules().get(GameRules.KEEP_INVENTORY).set(false, this.getServer());
             this.vanishCursedItems();
-        //掉落所有物品
+            //掉落所有物品
             this.inventory.dropAll();
 
-        }else{
-            this.getWorld().getGameRules().get(GameRules.KEEP_INVENTORY).set(true,this.getServer());
-            this.experienceLevel = this.experienceLevel>35 ? this.experienceLevel-5 :0;
+        } else {
+            this.getWorld().getGameRules().get(GameRules.KEEP_INVENTORY).set(true, this.getServer());
+            this.experienceLevel = this.experienceLevel > 35 ? this.experienceLevel - 5 : 0;
         }
     }
 
 
-    @Inject(method = "attack",at = @At("HEAD"))
+    @Inject(method = "attack", at = @At("HEAD"))
     public void attackStart(Entity target, CallbackInfo ci) {
         //经验攻击特效
         float experienceBonus = getDamageLevel(this.experienceLevel);
         //工具攻击特效
         float otherBonus = 1.0F;
-        if(this.getMainHandStack().isIn(ModItemTags.DAGGERS) && target instanceof PassiveEntity) {
-            otherBonus=1.5F;
+        if (this.getMainHandStack().isIn(ModItemTags.DAGGERS) && target instanceof PassiveEntity) {
+            otherBonus = 1.5F;
         }
-        if((this.getMainHandStack().isOf(Tools.SILVER_DAGGER) ) && target.getType().isIn(UNDEAD)) {
-            otherBonus=1.5F;
+        if ((this.getMainHandStack().isOf(Tools.SILVER_DAGGER)) && target.getType().isIn(UNDEAD)) {
+            otherBonus = 1.5F;
         }
-        if((this.getMainHandStack().isOf(Tools.SILVER_SWORD) ) && target.getType().isIn(UNDEAD)) {
-            otherBonus=2F;
+        if ((this.getMainHandStack().isOf(Tools.SILVER_SWORD)) && target.getType().isIn(UNDEAD)) {
+            otherBonus = 2F;
         }
-        if((this.getMainHandStack().isOf(Tools.SILVER_HAMMER) ) && target.getType().isIn(UNDEAD)) {
-            otherBonus=2F;
+        if ((this.getMainHandStack().isOf(Tools.SILVER_HAMMER)) && target.getType().isIn(UNDEAD)) {
+            otherBonus = 2F;
         }
         //锤子独立乘区
-        if((this.getMainHandStack().isIn(ModItemTags.HAMMERS) ) && target.getType().isIn(SKELETONS)) {
-            otherBonus*=1.5F;
+        if ((this.getMainHandStack().isIn(ModItemTags.HAMMERS)) && target.getType().isIn(SKELETONS)) {
+            otherBonus *= 1.5F;
         }
 
         //非独立乘区
-        this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).setBaseValue(experienceBonus*otherBonus);
+        this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).setBaseValue(experienceBonus * otherBonus);
 
         //例子: 玩家等级为5级,铜短剑的伤害为额外伤害为5点,使用跳斩伤害猪(10点生命)再获得1.5倍率伤害增益
         //基础伤害,面板伤害=(1.25*1.5+5)=6.875
@@ -138,15 +138,11 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
     }
 
-    @Inject(method = "attack",at = @At("TAIL"))
+    @Inject(method = "attack", at = @At("TAIL"))
     public void attackEnd(Entity target, CallbackInfo ci) {
         this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).setBaseValue(1.0);
     }
 
-    //植物营养素
-    @Unique
-    public long phytonutrient = 0;
-    //生物交互距离增益
 
 
     @Shadow
@@ -161,19 +157,20 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     protected HungerManager hungerManager;
 
 
-
-
-
     @Inject(method = "canHarvest", at = @At(value = "HEAD"), cancellable = true)
     public void canHarvest(BlockState state, CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(true);
     }
 
-
+    //植物营养素
+    @Unique
+    public long phytonutrient = 0;
+    //胰岛素抵抗
+    @Unique
+    public int diabetes = 48000;
 
     @Inject(method = "eatFood", at = @At(value = "HEAD"))
     public void eatFood(World world, ItemStack stack, FoodComponent foodComponent, CallbackInfoReturnable<ItemStack> cir) {
-
 
 
         //触发使用食物的事件
@@ -181,23 +178,25 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 //            ActionResult result = OnPlayerEntityEatEvent.EVENT.invoker().interact(this.getWorld().getPlayerByUuid(this.getUuid()));
 //        }
 
-        if (stack.isIn(ModItemTags.HARMFOOD)){
-            this.phytonutrient-=48000;
-            StatusEffectInstance statusEffectInstance = new StatusEffectInstance(StatusEffects.POISON, 400,0,true,true,true);
-            this.setStatusEffect(statusEffectInstance,null);
+        if (stack.isIn(ModItemTags.HARMFOOD)) {
+            this.phytonutrient -= 48000;
+            StatusEffectInstance statusEffectInstance = new StatusEffectInstance(StatusEffects.POISON, 400, 0, true, true, true);
+            this.setStatusEffect(statusEffectInstance, null);
         }
-        if (stack.isIn(ModItemTags.PHYTONUTRIENT_LEVEL1)){
-            this.phytonutrient+=6000;
+        if (stack.isIn(ModItemTags.PHYTONUTRIENT_LEVEL1)) {
+            this.phytonutrient += 6000;
 //            if(!this.getWorld().isClient){
 //                this.sendMessage(Text.of("食用了一个+6000植物营养素的食物,目前的植物营养素的值为: "+this.phytonutrient));
 //            }
         }
-        if (stack.isIn(ModItemTags.PHYTONUTRIENT_LEVEL2)){
-            this.phytonutrient+=48000;
+        if (stack.isIn(ModItemTags.PHYTONUTRIENT_LEVEL2)) {
+            this.phytonutrient += 48000;
         }
-
+        int sugarAmount = SugarMap.SUGAR_MAP.getOrDefault(stack.getItem(),0);
+        this.diabetes+= sugarAmount;
+        if(!this.getWorld().isClient()&&sugarAmount>0)
+            tryApplyDiabetesEffect((PlayerEntity)(Object)this,diabetes);
     }
-
 
 
 
@@ -205,13 +204,15 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     @Inject(method = "readCustomDataFromNbt", at = @At(value = "TAIL"))
     public void readCustomDataFromNbt(NbtCompound nbt, CallbackInfo ci) {
         super.readCustomDataFromNbt(nbt);
-        this.phytonutrient = nbt.getInt("Phytonutrient");
+        this.phytonutrient = nbt.getInt("phytonutrient");
+        this.diabetes = nbt.getInt("diabetes");
     }
 
     @Inject(method = "writeCustomDataToNbt", at = @At(value = "TAIL"))
     public void writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
         super.writeCustomDataToNbt(nbt);
-        nbt.putInt("Phytonutrient", (int) this.phytonutrient);
+        nbt.putInt("phytonutrient", (int) this.phytonutrient);
+        nbt.putInt("diabetes", this.diabetes);
     }
 
 
@@ -219,31 +220,32 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     public double getEntityInteractionRange() {
         return this.getAttributeValue(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE);
     }
+
     @Shadow
     private final PlayerAbilities abilities = new PlayerAbilities();
+
     //加快饥饿速度
     @Inject(method = "addExhaustion", at = @At("HEAD"), cancellable = true)
     public void addExhaustion(float exhaustion, CallbackInfo ci) {
         ci.cancel();
         if (!this.abilities.invulnerable) {
             if (!this.getWorld().isClient) {
-                this.hungerManager.addExhaustion(exhaustion*4);
+                this.hungerManager.addExhaustion(exhaustion * 4);
             }
         }
     }
+
     @Unique
     public StateSaverAndLoader serverState;
-
 
 
 //    StatusEffectInstance NIGHT_VISION = new StatusEffectInstance(StatusEffects.NIGHT_VISION,2000);
 //    StatusEffectInstance MINING_FATIGUE = new StatusEffectInstance(StatusEffects.MINING_FATIGUE,2000);
 
 
-
     @Inject(method = "jump", at = @At("TAIL"))
-    public void jump(CallbackInfo ci)  {
-
+    public void jump(CallbackInfo ci) {
+//        this.diabetes=0;
 //        if((PlayerEntity)(Object)this instanceof ServerPlayerEntity serverPlayerEntity)
 //            showAllValuesToServerPlayer(serverPlayerEntity);
 //        if(this.getWorld() instanceof ServerWorld serverWorld)
@@ -251,18 +253,15 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     }
 
 
-
-
     //以下是修改方块交互距离
     @Inject(method = "getBlockInteractionRange", at = @At("HEAD"), cancellable = true)
     public void getBlockInteractionRange(CallbackInfoReturnable<Double> cir) {
-        cir.setReturnValue(this.getAttributeValue(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE)-1);
+        cir.setReturnValue(this.getAttributeValue(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE) - 1);
 
     }
 
     @Unique
     private double interactionRange = 2f;
-
 
 
     //以下修改实体交互距离
@@ -290,8 +289,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         } else if (itemStack.isIn(ModItemTags.DAGGERS)) {
             //小刀、匕首
             interactionRange = 1.5f + 0.5f;
-        }
-        else if (itemStack.isOf(Items.STICK) || itemStack.isOf(Items.BONE)) {
+        } else if (itemStack.isOf(Items.STICK) || itemStack.isOf(Items.BONE)) {
             //木棍和骨头
             interactionRange = 1.5f + 0.5f;
         } else {
@@ -301,10 +299,10 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
         RegistryKey<World> end = World.END;
         //潜行向下看时,增加生物交互距离
-        if(this.isSneaking() && this.getPitch()>0)
+        if (this.isSneaking() && this.getPitch() > 0)
             interactionRange += 0.5f;
         //末地可以摸到末影龙
-        if(this.getWorld().getRegistryKey()==end){
+        if (this.getWorld().getRegistryKey() == end) {
             interactionRange += 1.5f;
         }
 
@@ -327,7 +325,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
                         .add(EntityAttributes.GENERIC_LUCK)
                         .add(EntityAttributes.GENERIC_MAX_HEALTH, 20)
                         .add(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE)
-                        .add(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE,1.5)
+                        .add(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE, 1.5)
                         .add(EntityAttributes.PLAYER_BLOCK_BREAK_SPEED)
                         .add(EntityAttributes.PLAYER_SUBMERGED_MINING_SPEED)
                         .add(EntityAttributes.PLAYER_SNEAKING_SPEED)
@@ -353,7 +351,6 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     @Shadow
     @Nullable
     public FishingBobberEntity fishHook;
-
 
 
     @Shadow
@@ -398,13 +395,13 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         if (!this.isOnGround()) {
             f /= 5.0F;
         }
-        if (stack.isSuitableFor(block)){
+        if (stack.isSuitableFor(block)) {
             f = f * 16;
         }
 
         //玩家挖掘时,会在客户端和服务端均进行计算,发包时是客户端发包,再看服务端那边是否已计算完毕
         //有的时候由于服务端延迟,导致客户端已挖掘的方块在服务端那边还没有被计算完毕,导致幽灵方块现象
-        if(this.getWorld() instanceof ServerWorld serverWorld) {
+        if (this.getWorld() instanceof ServerWorld serverWorld) {
             if (!getGameBooleanRuleFromServer(ENABLE_SLOW_BREAKING_SPEED, serverWorld.getServer())) {
                 f = f * 16;
             }
@@ -418,7 +415,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         this.blockHarvest = getBlockHarvestLevel(block);
         if (this.itemHarvest >= this.blockHarvest) {
 
-            cir.setReturnValue(f * (0.040F) * (this.experienceLevel<35?1 + this.experienceLevel * 0.1F :1.35F + this.experienceLevel * 0.1F));
+            cir.setReturnValue(f * (0.040F) * (this.experienceLevel < 35 ? 1 + this.experienceLevel * 0.1F : 1.35F + this.experienceLevel * 0.1F));
         } else {
             cir.setReturnValue(0f);
         }
@@ -442,80 +439,69 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //营养不良造成的缓慢回血倍率
     @Unique
     public int malnourishedForSlowHealing;
+
     @Shadow
     public abstract boolean isCreative();
 
-    @Shadow public abstract void playSound(SoundEvent sound, float volume, float pitch);
+    @Shadow
+    public abstract void playSound(SoundEvent sound, float volume, float pitch);
 
-    @Shadow public abstract void sendMessage(Text message, boolean overlay);
-
-
-    @Shadow public abstract Iterable<ItemStack> getArmorItems();
-
-
-    @Shadow public abstract void tick();
-
-    @Shadow public abstract float getAbsorptionAmount();
-
-    @Shadow @Final protected static TrackedData<Byte> MAIN_ARM;
-
-    @Shadow public abstract ItemStack getEquippedStack(EquipmentSlot slot);
-
-    @Shadow public abstract boolean isInvulnerableTo(DamageSource damageSource);
-
-    @Shadow public abstract PlayerInventory getInventory();
-
-    @Shadow public abstract HungerManager getHungerManager();
-
-    @Shadow public abstract void jump();
+    @Shadow
+    public abstract void sendMessage(Text message, boolean overlay);
 
 
-    @Shadow public abstract boolean canHarvest(BlockState state);
+    @Shadow
+    public abstract Iterable<ItemStack> getArmorItems();
 
-    @Shadow public abstract PlayerAbilities getAbilities();
 
-    @Shadow public abstract void sendAbilitiesUpdate();
+    @Shadow
+    public abstract void tick();
 
-    @Shadow protected abstract float getOffGroundSpeed();
+    @Shadow
+    public abstract float getAbsorptionAmount();
+
+    @Shadow
+    @Final
+    protected static TrackedData<Byte> MAIN_ARM;
+
+    @Shadow
+    public abstract ItemStack getEquippedStack(EquipmentSlot slot);
+
+    @Shadow
+    public abstract boolean isInvulnerableTo(DamageSource damageSource);
+
+    @Shadow
+    public abstract PlayerInventory getInventory();
+
+    @Shadow
+    public abstract HungerManager getHungerManager();
+
+    @Shadow
+    public abstract void jump();
+
+
+    @Shadow
+    public abstract boolean canHarvest(BlockState state);
+
+    @Shadow
+    public abstract PlayerAbilities getAbilities();
+
+    @Shadow
+    public abstract void sendAbilitiesUpdate();
+
+    @Shadow
+    protected abstract float getOffGroundSpeed();
+
+    @Shadow public abstract boolean damage(DamageSource source, float amount);
 
     @Unique
     private double lastSleepTime = 0;
 
 
-
-
-
-
-
-
-
-
-
-
-    @Inject(method = "wakeUp(ZZ)V",at = @At("TAIL"))
+    @Inject(method = "wakeUp(ZZ)V", at = @At("TAIL"))
     public void wakeUp(boolean skipSleepTimer, boolean updateSleepingPlayers, CallbackInfo ci) {
         if (!this.getWorld().isClient) {
             double timeNow = this.getWorld().getTimeOfDay();
@@ -527,45 +513,31 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 //                this.sendMessage(Text.of("睡得还好!"));
                 this.addExhaustion(4f);
                 this.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 75, 0));
-            }
-            else
+            } else
                 this.addExhaustion(3f);
         }
 
     }
 
 
-
-
-
-
-
-
     @Unique
     private float regerationFactor = 1;
 
 
-
-
-
-
-
     @Inject(method = "tick", at = @At("HEAD"))
-    public void tick(CallbackInfo ci){
+    public void tick(CallbackInfo ci) {
 
         //首日保护
-        if(this.getWorld().getTimeOfDay()<24000) {
+        if (this.getWorld().getTimeOfDay() < 24000) {
             this.phytonutrient = 192000;
-            if(!this.hasStatusEffect(StatusEffects.SATURATION))
+            if (!this.hasStatusEffect(StatusEffects.SATURATION))
                 this.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 24000, 0, false, false, true));
+            this.diabetes=0;
         }
 
 
-
-        if(this.isSleeping()&&!this.getWorld().isClient())
+        if (this.isSleeping() && !this.getWorld().isClient())
             this.lastSleepTime = this.getWorld().getTimeOfDay();
-
-
 
 
         //你也许可以用这个方法来改进生命值上限/饱食度上限
@@ -573,16 +545,16 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 //        this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).setBaseValue(Math.min(1.0 + (this.experienceLevel * 0.01), 1.5));
 
         //更新生命值上限,最大生命值
-        this.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(PlayerMaxHealthOrFoodLevelHelper.getMaxHealthOrFoodLevel((PlayerEntity)(Object)this));
+        this.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(PlayerMaxHealthOrFoodLevelHelper.getMaxHealthOrFoodLevel((PlayerEntity) (Object) this));
 
 
         //更新回血速率
         this.regerationFactor = this.regerationFactor * this.phytonutrient < 100 ? 4 : 1;
         //秘银胸甲提供两倍回血速率
-        if(this.getEquippedStack(EquipmentSlot.CHEST).isOf(Armors.MITHRIL_CHEST_PLATE))
+        if (this.getEquippedStack(EquipmentSlot.CHEST).isOf(Armors.MITHRIL_CHEST_PLATE))
             this.regerationFactor = this.regerationFactor * 0.5f;
 
-        int maxHealth = PlayerMaxHealthOrFoodLevelHelper.getMaxHealthOrFoodLevel((PlayerEntity)(Object)this);
+        int maxHealth = PlayerMaxHealthOrFoodLevelHelper.getMaxHealthOrFoodLevel((PlayerEntity) (Object) this);
         if (this.age % (960 * regerationFactor) == 0) {
             //在tick中加入生命回复任务
             if (this.getHealth() < maxHealth) {
@@ -591,7 +563,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
             }
         }
         if (!this.getWorld().isClient) {
-            if(this.getWorld().isRaining() && this.getWorld().isSkyVisible(this.getBlockPos())){
+            if (this.getWorld().isRaining() && this.getWorld().isSkyVisible(this.getBlockPos())) {
                 //雨天施加挖掘疲劳
                 boolean hasMiningFatigue = this.hasStatusEffect(StatusEffects.MINING_FATIGUE);
                 if (!hasMiningFatigue)
@@ -607,10 +579,29 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
 
 
+            //糖尿病计时器,每一刻降低1,如果没有开启任何进阶难度词条,则此机制时刻将总糖值设为0,可以保护玩家一定不受糖尿病影响
+            this.diabetes=isAnyExtraEntryExisting(this.getServer(),null)?diabetes-1:0;
+            //小于0就赋值为0,大于0不动
+            this.diabetes = this.diabetes < 0 ? 0 : diabetes;
+            //溢出判断,大于96000就为96000,否则不动
+            this.diabetes = this.diabetes > 96000 ? 96000 : this.diabetes;
+            int diabetesProgress = DiabetesEffect.getProgress(diabetes);
+            if (diabetesProgress!=-1) {
+                this.setStatusEffect(new StatusEffectInstance(RegisterStatusEffect.INSULIN_RESISTANCE, -1, diabetesProgress, false, false, false),null);
+            } else {
+                if (this.hasStatusEffect(RegisterStatusEffect.INSULIN_RESISTANCE)) {
+                    this.removeStatusEffect(RegisterStatusEffect.INSULIN_RESISTANCE);
+                }
+            }
+
+
+
+
+
 
 
             //规则:是否启用营养不良?
-            if(getGameBooleanRuleFromServer(ENABLE_PHYTONUTRIENT, Objects.requireNonNull(this.getWorld().getServer(), "Server can not be found ? Impossible!")))
+            if (getGameBooleanRuleFromServer(ENABLE_PHYTONUTRIENT, Objects.requireNonNull(this.getWorld().getServer(), "Server can not be found ? Impossible!")))
                 this.phytonutrient--;
 
             //小于0就赋值为0,大于0不动
@@ -619,19 +610,18 @@ public abstract class PlayerEntityMixin extends LivingEntity {
             this.phytonutrient = this.phytonutrient > 192000 ? 192000 : this.phytonutrient;
             //施加饥饿效果
             if (this.phytonutrient < 100) {
-                if (!this.hasStatusEffect(registerStatusEffect.PHYTONUTRIENT)) {
-                    StatusEffectInstance statusEffectInstance1 = new StatusEffectInstance(registerStatusEffect.PHYTONUTRIENT, -1, 0, false, false, false);
+                if (!this.hasStatusEffect(RegisterStatusEffect.PHYTONUTRIENT)) {
+                    StatusEffectInstance statusEffectInstance1 = new StatusEffectInstance(RegisterStatusEffect.PHYTONUTRIENT, -1, 0, false, false, false);
                     StatusEffectUtil.addEffectToPlayersWithinDistance((ServerWorld) this.getWorld(), this, this.getPos(), 16, statusEffectInstance1, -1);
 
                 }
             } else {
-                if (this.hasStatusEffect(registerStatusEffect.PHYTONUTRIENT)) {
-                    this.removeStatusEffect(registerStatusEffect.PHYTONUTRIENT);
+                if (this.hasStatusEffect(RegisterStatusEffect.PHYTONUTRIENT)) {
+                    this.removeStatusEffect(RegisterStatusEffect.PHYTONUTRIENT);
                 }
             }
         }
     }
-
 
 
 }

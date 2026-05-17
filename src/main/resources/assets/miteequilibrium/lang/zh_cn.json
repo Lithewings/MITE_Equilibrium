@@ -206,7 +206,11 @@
   "container.obsidian_furnace": "黑曜石熔炉",
   "crafttime.join_info": "工作台及附魔台只能在更低级的工作台上合成",
   "crafttime.group": "合成耗时",
+
   "effect.miteequilibrium.phytonutrient": "营养不良",
+  "effect.miteequilibrium.insulin_resistance": "糖尿病",
+
+
   "item.effect.miteequilibrium.sub_night_vision": "冷萃的夜视药水",
   "sleep.failure.reason_1": "你无法在主世界之外的维度睡觉",
   "sleep.failure.reason_2": "血月让你无法休息.",

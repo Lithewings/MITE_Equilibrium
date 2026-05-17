@@ -40,11 +40,12 @@ public abstract class CreateWorldScreenMixin {
 
     private void create(MinecraftClient client, Screen parent, GeneratorOptionsHolder generatorOptionsHolder, Optional defaultWorldType, OptionalLong seed, CallbackInfo ci) {
 
-        DynamicRegistryManager registryManager = generatorOptionsHolder.getCombinedRegistryManager();
-        Registry<WorldPreset> registry = registryManager.get(RegistryKeys.WORLD_PRESET);
-
-
-        this.worldCreator.getNormalWorldTypes().add(1,new WorldCreator.WorldType(registry.getEntry(ModWorldPreset.CLASSIC_PRESET).get()));
+//        DynamicRegistryManager registryManager = generatorOptionsHolder.getCombinedRegistryManager();
+//        Registry<WorldPreset> registry = registryManager.get(RegistryKeys.WORLD_PRESET);
+//
+//
+//        this.worldCreator.getNormalWorldTypes().add(1,new WorldCreator.WorldType(registry.getEntry(ModWorldPreset.CLASSIC_PRESET).get()));
+//        this.worldCreator.getNormalWorldTypes().removeFirst();
 
     }
 }

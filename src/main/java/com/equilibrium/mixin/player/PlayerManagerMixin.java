@@ -65,11 +65,11 @@ public abstract class PlayerManagerMixin {
         onPlayerConnectSynchronizingGameRulesForBoolean(player);
 
         if (player.getHealth() <= 1) {
-            player.damage(player.getDamageSources().badRespawnPoint(player.getPos()), 114514);
+            player.damage(player.getDamageSources().badRespawnPoint(player.getPos()), 200);
         } else {
             if(getGameBooleanRuleFromServer(ENABLE_MORE_SL_DAMAGE, player.getServerWorld().getServer())) {
                 player.setHealth(player.getHealth()/2);
-                player.damage(player.getDamageSources().badRespawnPoint(player.getPos()), player.getHealth()>=3?0:114514);
+                player.damage(player.getDamageSources().badRespawnPoint(player.getPos()), player.getHealth()>=3?0:200);
             }
             else {
                 player.setHealth(player.getHealth()-1);

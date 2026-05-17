@@ -28,18 +28,12 @@ import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
 import net.minecraft.GameVersion;
 import net.minecraft.SaveVersion;
 import net.minecraft.SharedConstants;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageType;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.WorldSavePath;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
@@ -76,14 +70,13 @@ import static com.equilibrium.server_and_client.server.CropIllnessEvent.updateCr
 import static com.equilibrium.server_and_client.server.SoundEventRegistry.registrySoundEvents;
 import static com.equilibrium.server_and_client.server.event.SleepChunkLoaderEvents.registerSleepEvents;
 import static com.equilibrium.server_and_client.server.moonphase_tasks.MoonPhaseEvent.moonPhaseEvent;
-import static com.equilibrium.status.registerStatusEffect.registerStatusEffects;
+import static com.equilibrium.status.RegisterStatusEffect.registerStatusEffects;
 import static com.equilibrium.structure.ModPlacementGenerator.registerModOre;
 import static com.equilibrium.structure.StructureRegister.registerStructure;
 import static com.equilibrium.tags.ModBlockTags.registerModBlockTags;
 import static com.equilibrium.tags.ModEntityTags.registerModEntityTags;
 import static com.equilibrium.tags.ModItemTags.registerModItemTags;
 import static com.equilibrium.util.BooleanStorageUtil.loadWorldInformation;
-import static net.minecraft.world.World.OVERWORLD;
 
 
 public class OnServerInitialize implements ModInitializer {
@@ -145,7 +138,7 @@ public class OnServerInitialize implements ModInitializer {
 
             @Override
             public String getName() {
-                return "MITE:Equilibrium Beta v1.1.0_2";
+                return "MITE:Equilibrium Beta v1.1.0_3";
             }
 
             @Override

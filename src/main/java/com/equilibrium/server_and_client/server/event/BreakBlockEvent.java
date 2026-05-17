@@ -91,9 +91,8 @@ public class BreakBlockEvent implements PlayerBlockBreakEvents.After {
             int randomNumber1 = random.nextInt(100);
             if (randomNumber1 < 75 - furtuneLevel * 15 && guarantee < 12) {
                 guarantee++;
-                //不再掉落自身
                 world.spawnEntity(new ItemEntity(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
-                        new ItemStack(ModBlocksRegistry.MUNDANE_GRAVEL)));
+                        new ItemStack(Blocks.GRAVEL)));
                 return;
             } else {
                 guarantee = 0;
