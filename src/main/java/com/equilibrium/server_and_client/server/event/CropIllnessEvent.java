@@ -1,4 +1,4 @@
-package com.equilibrium.server_and_client.server;
+package com.equilibrium.server_and_client.server.event;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CropBlock;

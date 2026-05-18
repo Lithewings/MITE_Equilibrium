@@ -33,8 +33,8 @@ import java.util.List;
 import static com.equilibrium.OnServerInitialize.*;
 import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.getGameBooleanRuleFromServer;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.DISABLE_CROP_GROW;
-import static com.equilibrium.server_and_client.server.CropIllnessEvent.*;
-import static com.equilibrium.server_and_client.server.CropIllnessEvent.updateCropBlockPos;
+import static com.equilibrium.server_and_client.server.event.CropIllnessEvent.*;
+import static com.equilibrium.server_and_client.server.event.CropIllnessEvent.updateCropBlockPos;
 
 
 @Mixin(CropBlock.class)

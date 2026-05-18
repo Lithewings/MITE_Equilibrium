@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.*;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_CROP_ILLNESS;
-import static com.equilibrium.server_and_client.server.CropIllnessEvent.applyIllnessForCrop;
+import static com.equilibrium.server_and_client.server.event.CropIllnessEvent.applyIllnessForCrop;
 import static com.equilibrium.server_and_client.server.moonphase_tasks.MoonPhaseEventEntitySpawner.*;
 import static com.equilibrium.server_and_client.server.moonphase_tasks.MoonPhaseEventWeatherController.clearWeatherForSometime;
 import static com.equilibrium.server_and_client.server.moonphase_tasks.MoonPhaseEventWeatherController.controlWeather;

@@ -1,7 +1,7 @@
 package com.equilibrium.server_and_client.server.command;
 
 import com.equilibrium.OnServerInitialize;
-import com.equilibrium.server_and_client.server.EventOnServerInitOrRunning;
+import com.equilibrium.server_and_client.server.event.OnCraftingMetalPickAxe;
 import com.equilibrium.server_and_client.server.persistent_state.StateSaverAndLoader;
 import com.equilibrium.util.BooleanStorageUtil;
 import com.mojang.brigadier.CommandDispatcher;
@@ -32,8 +32,7 @@ import java.util.*;
 
 import static com.equilibrium.difficulty_entry.DifficultyEntryDisplay.showAllValuesToServerPlayer;
 import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.*;
-import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.DISABLE_PLAYER_TELEPORT;
-import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_MORE_RAIN_WEATHER;
+import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.*;
 import static com.equilibrium.server_and_client.server.command.ServerCommands.TeleportCommand.execute;
 import static com.equilibrium.util.BooleanStorageUtil.loadWorldInformation;
 import static net.minecraft.world.World.OVERWORLD;
@@ -215,8 +214,10 @@ public class ServerCommands {
 
         dispatcher.register(
                 CommandManager.literal("village")
+                        //在开启了关闭村庄的进阶词条时,本命令不生效
+                        .requires(source -> !getGameBooleanRuleFromServer(DISABLE_VILLAGE_AND_PILLAGE,source.getServer()))
                         .executes
-                                (EventOnServerInitOrRunning::isPickAxeCrafted)
+                                (OnCraftingMetalPickAxe::isPickAxeCrafted)
 
         );
         dispatcher.register(

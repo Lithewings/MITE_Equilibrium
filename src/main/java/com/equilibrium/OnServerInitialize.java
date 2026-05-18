@@ -7,11 +7,13 @@ import com.equilibrium.entity.goal.BreakBlockGoal;
 import com.equilibrium.item.*;
 import com.equilibrium.block.UseBlockActionUtil;
 import com.equilibrium.network.*;
-import com.equilibrium.server_and_client.server.CropIllnessEvent;
-import com.equilibrium.server_and_client.server.EventOnServerInitOrRunning;
+import com.equilibrium.server_and_client.server.event.CropIllnessEvent;
+import com.equilibrium.server_and_client.server.event.UpdateArmorEvent;
 import com.equilibrium.server_and_client.server.command.ServerCommands;
 import com.equilibrium.server_and_client.server.event.BreakBlockEvent;
 import com.equilibrium.server_and_client.server.event.CraftingMetalPickAxeCallback;
+import com.equilibrium.server_and_client.server.event.OnCraftingMetalPickAxe;
+import com.equilibrium.server_and_client.server.event.OnItemUseEvent;
 import com.equilibrium.server_and_client.server.persistent_state.MapNbtSerializer;
 import com.equilibrium.server_and_client.server.persistent_state.StateSaverAndLoader;
 import com.equilibrium.util.AdvancementRemover;
@@ -66,7 +68,7 @@ import static com.equilibrium.item.ItemComponentModifier.foodComponentModify;
 import static com.equilibrium.item.Metal.registerModItemRaw;
 import static com.equilibrium.item.extend_item.CoinItems.registerCoinItems;
 import static com.equilibrium.item.food.FoodOrFarmItems.registerFoodItems;
-import static com.equilibrium.server_and_client.server.CropIllnessEvent.updateCropBlockPos;
+import static com.equilibrium.server_and_client.server.event.CropIllnessEvent.updateCropBlockPos;
 import static com.equilibrium.server_and_client.server.SoundEventRegistry.registrySoundEvents;
 import static com.equilibrium.server_and_client.server.event.SleepChunkLoaderEvents.registerSleepEvents;
 import static com.equilibrium.server_and_client.server.moonphase_tasks.MoonPhaseEvent.moonPhaseEvent;
@@ -291,7 +293,7 @@ public class OnServerInitialize implements ModInitializer {
             //护甲更新,玩家游戏模式更新,作物状态更新
             if (tickCount % (TICK_INTERVAL / 10) == 0) {
                 for (ServerPlayerEntity serverPlayerEntity : server.getPlayerManager().getPlayerList()) {
-                    EventOnServerInitOrRunning.updatePlayerArmor(serverPlayerEntity);
+                    UpdateArmorEvent.updatePlayerArmor(serverPlayerEntity);
 //					if(serverPlayerEntity.isCreative())
 //						serverPlayerEntity.changeGameMode(GameMode.SURVIVAL);
                 }
@@ -305,7 +307,7 @@ public class OnServerInitialize implements ModInitializer {
         //使用物品监听器,能不在这里写就不要在这里写,用物品自带的onUse方法
 
 
-        UseItemCallback.EVENT.register(EventOnServerInitOrRunning::onUseItem);
+        UseItemCallback.EVENT.register(OnItemUseEvent::onUseItem);
 
 
         //移除原版工作台方块,创造模式除外
@@ -339,7 +341,7 @@ public class OnServerInitialize implements ModInitializer {
         C2STriggerContentChangePacket.registerOnServer();
 
         //合成金属镐监听器
-        CraftingMetalPickAxeCallback.EVENT.register(EventOnServerInitOrRunning::onCraftingMetalPickAxe);
+        CraftingMetalPickAxeCallback.EVENT.register(OnCraftingMetalPickAxe::onCraftingMetalPickAxe);
         //命令注册
         CommandRegistrationCallback.EVENT.register(ServerCommands::registerCommands);
 

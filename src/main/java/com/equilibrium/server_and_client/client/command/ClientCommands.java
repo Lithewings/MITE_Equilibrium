@@ -9,12 +9,9 @@ import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
-import net.minecraft.block.entity.VaultBlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.command.CommandManager;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 
@@ -22,7 +19,7 @@ import java.util.List;
 
 
 import static com.equilibrium.server_and_client.server.moonphase_tasks.MoonPhaseEvent.getMoonType;
-import static com.equilibrium.server_and_client.server.EventOnServerInitOrRunning.updatePlayerArmor;
+import static com.equilibrium.server_and_client.server.event.UpdateArmorEvent.updatePlayerArmor;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
 
 public class ClientCommands {

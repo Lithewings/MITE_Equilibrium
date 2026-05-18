@@ -74,9 +74,13 @@ public class BaseCoinItem extends Item {
         ItemStack itemStack = user.getStackInHand(hand);
         if(user.experienceLevel<=50) {
             return onUseCrystalItem(itemStack, user, world, this.experienceCost, convertItem);
+        }else {
+            //大于50级就不可以使用硬币了
+            user.sendMessage(Text.of("通过打碎硬币获得的经验等级已达到上限(要求:玩家等级<=50级)"), true);
+            return TypedActionResult.fail(itemStack);
         }
-        //大于50级就不可以使用硬币了
-        return TypedActionResult.fail(itemStack);
+
+
     }
 
     //注意:让自动合成器合成该物品是无法扣除玩家的经验值的,需要在合成器那边注入mixin逻辑

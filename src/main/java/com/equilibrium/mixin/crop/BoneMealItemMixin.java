@@ -15,8 +15,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 
 import static com.equilibrium.OnServerInitialize.CROP_IS_ILLNESS;
-import static com.equilibrium.server_and_client.server.CropIllnessEvent.CROP_BLOCK_POS;
-import static com.equilibrium.server_and_client.server.CropIllnessEvent.updateCropBlockPos;
+import static com.equilibrium.server_and_client.server.event.CropIllnessEvent.CROP_BLOCK_POS;
+import static com.equilibrium.server_and_client.server.event.CropIllnessEvent.updateCropBlockPos;
 
 
 @Mixin(BoneMealItem.class)

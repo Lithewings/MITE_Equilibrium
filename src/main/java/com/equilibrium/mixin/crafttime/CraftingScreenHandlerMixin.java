@@ -290,8 +290,11 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 
 
 			//合成台需要玩家至少拥有200级经验才能合成,用以合成自动合成器
-			if(itemStack.isOf(Items.CRAFTING_TABLE) && player.experienceLevel<50 && !player.isCreative())
+			if(itemStack.isOf(Items.CRAFTING_TABLE) && player.experienceLevel<50 && !player.isCreative()){
 				itemStack = ItemStack.EMPTY;
+				player.sendMessage(Text.of("你需要至少50级经验来合成该工作台"));
+			}
+
 
 			//斧子中,替换铁,金
 			if(itemStack.isIn(ModItemTags.AXES)){

@@ -11,7 +11,7 @@ import java.io.IOException;
 
 import static com.equilibrium.OnServerInitialize.MOD_ID;
 import static com.equilibrium.network.S2CStockChangeGrassColorPacket.BLOCK_POS_INTEGER_CONCURRENT_HASH_MAP;
-import static com.equilibrium.server_and_client.server.CropIllnessEvent.CROP_BLOCK_POS;
+import static com.equilibrium.server_and_client.server.event.CropIllnessEvent.CROP_BLOCK_POS;
 
 public class StateSaverAndLoader extends PersistentState {
     //这里创建你要保存的变量
