@@ -23,7 +23,7 @@ public class DifficultyEntryGetter {
 
 
 
-    //默认均从客户端世界的读取值
+
     //T为继承至Rule类的子类,有BooleanRules类型或IntegerRules类型
 
     public static <T extends GameRules.Rule<T>> T getGameRuleInstanceFromClient(GameRules.Key<T> key){
