@@ -101,9 +101,6 @@ Standard playthrough length: **72 to 128 in-game days**.
 
 This project is licensed under the [MIT License](LICENSE). *(Choose your license and update the link)*
 
-## Credits
 
-- Inspired by the original **MITE** concept.
-- Built for Fabric 1.21.1.
 
  
