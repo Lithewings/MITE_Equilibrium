@@ -1,5 +1,6 @@
 package com.equilibrium.mixin.player;
 
+
 import com.equilibrium.item.Armors;
 import com.equilibrium.item.Tools;
 import com.equilibrium.server_and_client.server.persistent_state.StateSaverAndLoader;
@@ -8,12 +9,14 @@ import com.equilibrium.status.disease_IR.DiabetesEffect;
 import com.equilibrium.status.disease_IR.SugarMap;
 import com.equilibrium.tags.ModItemTags;
 import com.equilibrium.util.*;
+import com.mojang.authlib.GameProfile;
 import net.minecraft.block.BlockState;
 import net.minecraft.component.EnchantmentEffectComponentTypes;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.TrackedData;
@@ -31,9 +34,11 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.tag.FluidTags;
+import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -57,6 +62,7 @@ import static com.equilibrium.status.disease_IR.DiabetesEffect.tryApplyDiabetesE
 import static com.equilibrium.util.ableToMine.getBlockHarvestLevel;
 import static com.equilibrium.util.ableToMine.getItemHarvestLevel;
 import static java.lang.Math.max;
+import static net.minecraft.entity.attribute.EntityAttributes.*;
 import static net.minecraft.registry.tag.EntityTypeTags.SKELETONS;
 import static net.minecraft.registry.tag.EntityTypeTags.UNDEAD;
 import static net.minecraft.util.math.MathHelper.nextBetween;
@@ -67,6 +73,14 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
     }
+
+    @Inject(method = "<init>",at = @At("TAIL"))
+    public void PlayerEntity(World world, BlockPos pos, float yaw, GameProfile gameProfile, CallbackInfo ci) {
+        Objects.requireNonNull(this.getAttributeInstance(GENERIC_ATTACK_DAMAGE),"error:com.equilibrium.mixin.player.PlayerEntityMixin").setBaseValue(1.0F);
+        Objects.requireNonNull(this.getAttributeInstance(GENERIC_MOVEMENT_SPEED),"error:com.equilibrium.mixin.player.PlayerEntityMixin").setBaseValue(0.1F);
+        Objects.requireNonNull(this.getAttributeInstance(PLAYER_ENTITY_INTERACTION_RANGE),"error:com.equilibrium.mixin.player.PlayerEntityMixin").setBaseValue(1.5F);
+    }
+
 
     @Shadow
     protected void vanishCursedItems() {
@@ -123,7 +137,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         }
 
         //非独立乘区
-        this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).setBaseValue(experienceBonus * otherBonus);
+        this.getAttributeInstance(GENERIC_ATTACK_DAMAGE).setBaseValue(experienceBonus * otherBonus);
 
         //例子: 玩家等级为5级,铜短剑的伤害为额外伤害为5点,使用跳斩伤害猪(10点生命)再获得1.5倍率伤害增益
         //基础伤害,面板伤害=(1.25*1.5+5)=6.875
@@ -140,7 +154,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
     @Inject(method = "attack", at = @At("TAIL"))
     public void attackEnd(Entity target, CallbackInfo ci) {
-        this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).setBaseValue(1.0);
+        this.getAttributeInstance(GENERIC_ATTACK_DAMAGE).setBaseValue(1.0);
     }
 
 
@@ -218,7 +232,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
     @Shadow
     public double getEntityInteractionRange() {
-        return this.getAttributeValue(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE);
+        return this.getAttributeValue(PLAYER_ENTITY_INTERACTION_RANGE);
     }
 
     @Shadow
@@ -245,6 +259,13 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
     @Inject(method = "jump", at = @At("TAIL"))
     public void jump(CallbackInfo ci) {
+
+
+//
+//        this.sendMessage(Text.of(""+getAttributeInstance(GENERIC_ATTACK_DAMAGE).getBaseValue()));
+//        this.sendMessage(Text.of(""+getAttributeInstance(GENERIC_MOVEMENT_SPEED).getBaseValue()));
+//        this.sendMessage(Text.of(""+getAttributeInstance(PLAYER_ENTITY_INTERACTION_RANGE).getBaseValue()));
+
 //        this.diabetes=0;
 //        if((PlayerEntity)(Object)this instanceof ServerPlayerEntity serverPlayerEntity)
 //            showAllValuesToServerPlayer(serverPlayerEntity);
@@ -313,30 +334,6 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
     }
 
-
-    //玩家基础属性
-    @Inject(method = "createPlayerAttributes", at = @At("HEAD"), cancellable = true)
-    private static void createPlayerAttributes(CallbackInfoReturnable<DefaultAttributeContainer.Builder> cir) {
-        cir.setReturnValue(
-                LivingEntity.createLivingAttributes()
-                        .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.0)
-                        .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.1F)
-                        .add(EntityAttributes.GENERIC_ATTACK_SPEED)
-                        .add(EntityAttributes.GENERIC_LUCK)
-                        .add(EntityAttributes.GENERIC_MAX_HEALTH, 20)
-                        .add(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE)
-                        .add(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE, 1.5)
-                        .add(EntityAttributes.PLAYER_BLOCK_BREAK_SPEED)
-                        .add(EntityAttributes.PLAYER_SUBMERGED_MINING_SPEED)
-                        .add(EntityAttributes.PLAYER_SNEAKING_SPEED)
-                        .add(EntityAttributes.PLAYER_MINING_EFFICIENCY)
-                        .add(EntityAttributes.PLAYER_SWEEPING_DAMAGE_RATIO)
-
-
-        );
-
-
-    }
 
 
     @Unique
