@@ -152,6 +152,7 @@ public abstract class MixinCraftingScreen extends HandledScreen<CraftingScreenHa
             invSlot = slot.id;
         } else {
             //slot = null时,会触发invSlot=-999index越界错,说明鼠标点击的位置没有slot可用,这里需要额外处理,因为涉及发包
+            ci.cancel();
             return;
         }
 
@@ -160,6 +161,7 @@ public abstract class MixinCraftingScreen extends HandledScreen<CraftingScreenHa
             time++;
 
             //服务端处理,真实逻辑处理
+
             C2SClickTimesPacket.sendClickTimes(time);
             C2STriggerContentChangePacket.sendTrigger();
             player.craftTime$setCraftTime(0);
