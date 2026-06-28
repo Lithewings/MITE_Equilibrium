@@ -1,6 +1,8 @@
 package com.equilibrium.block;
 
 
+import com.equilibrium.block.anvil_block.IronAnvilBlock.IronAnvilBlock;
+import com.equilibrium.block.anvil_block.IronAnvilBlock2;
 import com.equilibrium.block.crop_blocks.OnionBlock;
 import com.equilibrium.block.enchanting_table.EmeraldEnchantingTableBlock;
 import net.minecraft.block.*;
@@ -32,6 +34,15 @@ public class ModBlocksRegistry {
                             .pistonBehavior(PistonBehavior.DESTROY)
     );
 
+    public static final Block IRON_ANVIL =
+            new IronAnvilBlock(
+                    AbstractBlock.Settings.create()
+                            .mapColor(MapColor.IRON_GRAY)
+                            .requiresTool()
+                            .strength(1.0F, 1200.0F)
+                            .sounds(BlockSoundGroup.ANVIL)
+                            .pistonBehavior(PistonBehavior.BLOCK)
+    );
 
     public static final Block EMERALD_ENCHANTING_TABLE = new EmeraldEnchantingTableBlock(AbstractBlock.Settings.create().mapColor(MapColor.RED).instrument(NoteBlockInstrument.BASEDRUM).luminance(state->7).strength(0.01F, 1200.0F).nonOpaque());
 
@@ -83,6 +94,10 @@ public class ModBlocksRegistry {
 //                            .pistonBehavior(PistonBehavior.BLOCK)
 //            );
     public static void registerModBlocks(){
+
+
+        Registry.register(Registries.BLOCK, Identifier.of(MOD_ID, "iron_anvil"), IRON_ANVIL);
+        Registry.register(Registries.ITEM, Identifier.of(MOD_ID, "iron_anvil"), new BlockItem(IRON_ANVIL, new Item.Settings().maxCount(16)));
 
 
         Registry.register(Registries.BLOCK, Identifier.of(MOD_ID, "onion"),ONION_BLOCK);

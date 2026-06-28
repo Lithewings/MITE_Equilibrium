@@ -1,5 +1,6 @@
 package com.equilibrium.block.enchanting_table;
 
+import com.equilibrium.block.ModBlockScreenTypesRegister;
 import com.equilibrium.block.ModBlocksRegistry;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.advancement.criterion.Criteria;
@@ -57,7 +58,7 @@ public class ModEnchantmentScreenHandler extends ScreenHandler {
     }
 
     public ModEnchantmentScreenHandler(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
-        super(ModScreenTypes.EMERALD_ENCHANTING_TABLE, syncId);
+        super(ModBlockScreenTypesRegister.EMERALD_ENCHANTING_TABLE, syncId);
         this.context = context;
         this.addSlot(new Slot(this.inventory, 0, 15, 47) {
             @Override

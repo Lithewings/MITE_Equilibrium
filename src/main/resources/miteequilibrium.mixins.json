@@ -43,8 +43,6 @@
     "vanilla_blocksmixin.FluidBlockMixin",
     "vanilla_blocksmixin.GrassBlockMixin",
     "vanilla_blocksmixin.tables.AbstractFurnaceEntityMixin",
-    "vanilla_blocksmixin.tables.AnvilBlockMixin",
-    "vanilla_blocksmixin.tables.AnvilScreenMixin",
     "vanilla_blocksmixin.tables.BedBlockMixin",
     "vanilla_blocksmixin.tables.PlayerScreenHandlerAccessor",
     "vanilla_blocksmixin.tables.SmithingScreenHandlerMixin",
@@ -118,7 +116,6 @@
     "some_special_rules.EditGameRulesScreenMixin",
     "some_special_rules.EntityRenderDispatcherMixinForRenderHitBox",
     "some_special_rules.KeepBreakingMixin",
-    "vanilla_blocksmixin.GrassBlockColorWithBiomeMixin",
-    "vanilla_blocksmixin.tables.AnvilScreenHandlerMixin"
+    "vanilla_blocksmixin.GrassBlockColorWithBiomeMixin"
   ]
 }

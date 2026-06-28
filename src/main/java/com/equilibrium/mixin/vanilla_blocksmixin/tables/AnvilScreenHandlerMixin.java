@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import static com.equilibrium.util.SharedConstant.ANVIL_DURABILITY;
 
 @Mixin(AnvilScreenHandler.class)
-public abstract  class AnvilScreenHandlerMixin extends ForgingScreenHandler {
+public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
     @Shadow
     private final Property levelCost = Property.create();
     @Shadow
@@ -31,7 +31,7 @@ public abstract  class AnvilScreenHandlerMixin extends ForgingScreenHandler {
         super(type, syncId, playerInventory, context);
     }
 
-    //最大200级就可以无限回复耐久了
+
     @Inject(method = "getNextCost",at = @At("HEAD"), cancellable = true)
     private static void getNextCost(int cost, CallbackInfoReturnable<Integer> cir) {
         cir.setReturnValue ((int)Math.min((long)cost * 2L + 1L, 49));
