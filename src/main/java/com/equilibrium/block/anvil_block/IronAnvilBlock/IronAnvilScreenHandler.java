@@ -2,13 +2,9 @@ package com.equilibrium.block.anvil_block.IronAnvilBlock;
 
 import com.equilibrium.OnServerInitialize;
 import com.equilibrium.block.ModBlockScreenTypesRegister;
-import net.minecraft.screen.*;
-
-
 import com.mojang.logging.LogUtils;
 import it.unimi.dsi.fastutil.objects.Object2IntMap.Entry;
 import net.minecraft.block.AnvilBlock;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.ItemEnchantmentsComponent;
@@ -18,20 +14,26 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.network.packet.s2c.play.ExperienceBarUpdateS2CPacket;
 import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.screen.AnvilScreenHandler;
+import net.minecraft.screen.ForgingScreenHandler;
+import net.minecraft.screen.Property;
+import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.slot.ForgingSlotsManager;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.StringHelper;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.WorldEvents;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
+import org.spongepowered.asm.mixin.Overwrite;
 
-import static com.equilibrium.block.anvil_block.IronAnvilBlock2.*;
-import static com.equilibrium.block.anvil_block.IronAnvilBlock2.IRON_ANVIL_DURABILITY_PROPERTY;
+import static com.equilibrium.block.anvil_block.IronAnvilBlock.IronAnvilBlock.*;
 
-public class IronAnvilScreenHandler extends AnvilScreenHandler {
+
+public class IronAnvilScreenHandler extends ForgingScreenHandler {
     private static final Logger LOGGER = LogUtils.getLogger();
 
     private int repairItemUsage;
@@ -45,12 +47,12 @@ public class IronAnvilScreenHandler extends AnvilScreenHandler {
     }
 
     public IronAnvilScreenHandler(int syncId, PlayerInventory inventory, ScreenHandlerContext context) {
-        super(syncId,inventory,context);
+        super(ModBlockScreenTypesRegister.IRON_ANVIL_SCREEN_TYPE,syncId,inventory,context);
     }
 
     @Override
     protected ForgingSlotsManager getForgingSlotsManager() {
-        return super.getForgingSlotsManager();
+        return ForgingSlotsManager.create().input(0, 27, 47, stack -> true).input(1, 76, 47, stack -> true).output(2, 134, 47).build();
     }
 
     @Override
@@ -73,12 +75,19 @@ public class IronAnvilScreenHandler extends AnvilScreenHandler {
         this.context.run((world, pos) -> {
                     BlockState blockState = world.getBlockState(pos);
                     if (blockState.contains(IRON_ANVIL_DURABILITY_PROPERTY)) {
+                        //铁砧目前的耐久
                         int i = blockState.get(IRON_ANVIL_DURABILITY_PROPERTY);
-                        //将耐久-1写入方块状态中
-                        world.setBlockState(pos,blockState.with(IRON_ANVIL_DURABILITY_PROPERTY,Math.clamp(i-1,0,IRON_ANVIL_MAX_DURABILITY)));
+                        //铁砧破坏进度
+                        int phase = getPhaseFromDurability(IRON_ANVIL_MAX_DURABILITY,blockState.get(IRON_ANVIL_DURABILITY_PROPERTY));
+                        //将耐久-1写入方块状态中,并更新外观状态
+                        world.setBlockState(pos,blockState
+                                .with(IronAnvilBlock.FACING, blockState.get(IronAnvilBlock.FACING))
+                                .with(IRON_ANVIL_DURABILITY_PROPERTY,Math.clamp(i-1,0,IRON_ANVIL_MAX_DURABILITY))
+                                .with(IRON_ANVIL_STAGE,Math.clamp(phase,0,2))
+                        );
                     }
                     else
-                        OnServerInitialize.LOGGER.error("No such Property called"+IRON_ANVIL_DURABILITY_PROPERTY+"at the Anvil");
+                        OnServerInitialize.LOGGER.error("No such Property called"+IRON_ANVIL_DURABILITY_PROPERTY+ "or"+ IRON_ANVIL_STAGE +"at the Anvil");
                 }
         );
         this.input.setStack(0, ItemStack.EMPTY);
@@ -99,16 +108,18 @@ public class IronAnvilScreenHandler extends AnvilScreenHandler {
             BlockState blockState = world.getBlockState(pos);
             if (!player.isInCreativeMode()) {
                 //耐久为1时,直接损坏
-                if(blockState.get(IRON_ANVIL_DURABILITY_PROPERTY)==1) {
+                if(blockState.get(IRON_ANVIL_DURABILITY_PROPERTY)==0) {
                     world.removeBlock(pos, false);
                     world.syncWorldEvent(WorldEvents.ANVIL_DESTROYED, pos, 0);
                 }
-                int phase = getPhaseFromDurability(IRON_ANVIL_MAX_DURABILITY,blockState.get(IRON_ANVIL_DURABILITY_PROPERTY));
-                player.sendMessage(Text.of("铁砧使用状态:"+phase));
-                player.sendMessage(Text.of("铁砧耐久:"+blockState.get(IRON_ANVIL_DURABILITY_PROPERTY)));
                 world.syncWorldEvent(WorldEvents.ANVIL_USED, pos, 0);
             }
+
+
+
+
         });
+
 
     }
 

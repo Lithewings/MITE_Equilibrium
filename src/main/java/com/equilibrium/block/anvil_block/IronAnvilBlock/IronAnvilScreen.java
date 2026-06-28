@@ -93,10 +93,11 @@ public class IronAnvilScreen extends ForgingScreen<IronAnvilScreenHandler> {
         if (i > 0) {
             int j = 8453920;
             Text text;
-            if (i >= 40 && !this.client.player.getAbilities().creativeMode) {
-                text = TOO_EXPENSIVE_TEXT;
-                j = 16736352;
-            } else if (!this.handler.getSlot(2).hasStack()) {
+//            if (i >= 40 && !this.client.player.getAbilities().creativeMode) {
+//                text = TOO_EXPENSIVE_TEXT;
+//                j = 16736352;
+//            } else
+           if (!this.handler.getSlot(2).hasStack()) {
                 text = null;
             } else {
                 text = Text.translatable("container.repair.cost", i);
@@ -109,7 +110,9 @@ public class IronAnvilScreen extends ForgingScreen<IronAnvilScreenHandler> {
                 int k = this.backgroundWidth - 8 - this.textRenderer.getWidth(text) - 2;
                 int l = 69;
                 context.fill(k - 2, 67, this.backgroundWidth - 8, 79, 1325400064);
-                context.drawTextWithShadow(this.textRenderer, text, k, 69, j);
+                int cost = this.handler.getLevelCost();
+
+                context.drawTextWithShadow(this.textRenderer, Text.of( Text.translatable("container.repair.require").getString()+": "+cost), k, 69, j);
             }
         }
     }

@@ -1,7 +1,6 @@
 package com.equilibrium.block;
 
 import com.equilibrium.block.anvil_block.IronAnvilBlock.IronAnvilScreenHandler;
-import com.equilibrium.block.anvil_block.IronAnvilScreenHandler2;
 import com.equilibrium.block.enchanting_table.ModEnchantmentScreenHandler;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;

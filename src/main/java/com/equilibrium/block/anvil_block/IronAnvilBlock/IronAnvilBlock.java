@@ -2,7 +2,7 @@ package com.equilibrium.block.anvil_block.IronAnvilBlock;
 
 
 import com.equilibrium.block.ModBlocksRegistry;
-import com.equilibrium.block.anvil_block.IronAnvilBlock2;
+
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.component.DataComponentTypes;

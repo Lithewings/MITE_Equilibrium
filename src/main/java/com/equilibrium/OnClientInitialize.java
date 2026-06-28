@@ -4,7 +4,6 @@ package com.equilibrium;
 import com.equilibrium.block.ModBlockScreenTypesRegister;
 import com.equilibrium.block.ModBlocksRegistry;
 import com.equilibrium.block.anvil_block.IronAnvilBlock.IronAnvilScreen;
-import com.equilibrium.block.anvil_block.IronAnvilScreen2;
 import com.equilibrium.block.enchanting_table.*;
 import com.equilibrium.server_and_client.client.render.entity.model.BaseEarthElementalEntityModel;
 import com.equilibrium.server_and_client.client.render.entity.renderer.*;

@@ -2,7 +2,7 @@ package com.equilibrium.block;
 
 
 import com.equilibrium.block.anvil_block.IronAnvilBlock.IronAnvilBlock;
-import com.equilibrium.block.anvil_block.IronAnvilBlock2;
+
 import com.equilibrium.block.crop_blocks.OnionBlock;
 import com.equilibrium.block.enchanting_table.EmeraldEnchantingTableBlock;
 import net.minecraft.block.*;
