@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "X": {
+      "item": "miteequilibrium:mithril_block"
+    },
+    "Y": {
+      "item": "miteequilibrium:mithril"
+    }
+  },
+  "pattern": [
+    "XXX",
+    " Y ",
+    "YYY"
+  ],
+  "result": {
+    "count": 1,
+    "id": "miteequilibrium:mithril_anvil"
+  }
+}

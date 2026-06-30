@@ -1,8 +1,10 @@
 package com.equilibrium.block;
 
 
-import com.equilibrium.block.anvil_block.IronAnvilBlock.IronAnvilBlock;
+import com.equilibrium.block.anvil_block.adamantium_anvil_block.AdamantiumAnvilBlock;
+import com.equilibrium.block.anvil_block.iron_anvil_block.IronAnvilBlock;
 
+import com.equilibrium.block.anvil_block.mithril_anvil_block.MithrilAnvilBlock;
 import com.equilibrium.block.crop_blocks.OnionBlock;
 import com.equilibrium.block.enchanting_table.EmeraldEnchantingTableBlock;
 import net.minecraft.block.*;
@@ -38,11 +40,27 @@ public class ModBlocksRegistry {
             new IronAnvilBlock(
                     AbstractBlock.Settings.create()
                             .mapColor(MapColor.IRON_GRAY)
-                            .requiresTool()
-                            .strength(1.0F, 1200.0F)
+                            .strength(0.2F, 1200.0F)
                             .sounds(BlockSoundGroup.ANVIL)
                             .pistonBehavior(PistonBehavior.BLOCK)
     );
+    public static final Block MITHRIL_ANVIL =
+            new MithrilAnvilBlock(
+                    AbstractBlock.Settings.create()
+                            .mapColor(MapColor.IRON_GRAY)
+                            .strength(0.2F, 1200.0F)
+                            .sounds(BlockSoundGroup.ANVIL)
+                            .pistonBehavior(PistonBehavior.BLOCK)
+            );
+
+    public static final Block ADAMANTIUM_ANVIL =
+            new AdamantiumAnvilBlock(
+                    AbstractBlock.Settings.create()
+                            .mapColor(MapColor.IRON_GRAY)
+                            .strength(0.2F, 1200.0F)
+                            .sounds(BlockSoundGroup.ANVIL)
+                            .pistonBehavior(PistonBehavior.BLOCK)
+            );
 
     public static final Block EMERALD_ENCHANTING_TABLE = new EmeraldEnchantingTableBlock(AbstractBlock.Settings.create().mapColor(MapColor.RED).instrument(NoteBlockInstrument.BASEDRUM).luminance(state->7).strength(0.01F, 1200.0F).nonOpaque());
 
@@ -95,6 +113,11 @@ public class ModBlocksRegistry {
 //            );
     public static void registerModBlocks(){
 
+        Registry.register(Registries.BLOCK, Identifier.of(MOD_ID, "adamantium_anvil"), ADAMANTIUM_ANVIL);
+        Registry.register(Registries.ITEM, Identifier.of(MOD_ID, "adamantium_anvil"), new BlockItem(ADAMANTIUM_ANVIL, new Item.Settings().maxCount(16)));
+
+        Registry.register(Registries.BLOCK, Identifier.of(MOD_ID, "mithril_anvil"), MITHRIL_ANVIL);
+        Registry.register(Registries.ITEM, Identifier.of(MOD_ID, "mithril_anvil"), new BlockItem(MITHRIL_ANVIL, new Item.Settings().maxCount(16)));
 
         Registry.register(Registries.BLOCK, Identifier.of(MOD_ID, "iron_anvil"), IRON_ANVIL);
         Registry.register(Registries.ITEM, Identifier.of(MOD_ID, "iron_anvil"), new BlockItem(IRON_ANVIL, new Item.Settings().maxCount(16)));

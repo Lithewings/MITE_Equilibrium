@@ -1,4 +1,4 @@
-package com.equilibrium.block.anvil_block.IronAnvilBlock;
+package com.equilibrium.block.anvil_block.iron_anvil_block;
 
 
 import com.equilibrium.block.ModBlocksRegistry;
@@ -16,7 +16,6 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.loot.context.LootContextParameterSet;
-import net.minecraft.screen.AnvilScreenHandler;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
@@ -41,6 +40,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 import static com.equilibrium.block.UseBlockActionUtil.isTableBlocked;
+import static com.equilibrium.block.anvil_block.util.getPhaseFromDurability;
 import static net.minecraft.sound.SoundCategory.BLOCKS;
 
 public class IronAnvilBlock extends FallingBlock {
@@ -110,23 +110,7 @@ public class IronAnvilBlock extends FallingBlock {
         );
 
     }
-    public static int getPhaseFromDurability(int maxDurability, int durability) {
-        // 最大耐久必须大于0，否则无法划分阶段
-        // 确保耐久度在 [0, maxDurability] 范围内
-        int clamped = Math.max(0, Math.min(durability, maxDurability));
 
-        // 计算两个分割点
-        int oneThird = maxDurability / 3;           // 下1/3边界
-        int twoThird = maxDurability * 2 / 3;       // 上2/3边界
-
-        if (clamped > twoThird) {
-            return 0;   // 高耐久
-        } else if (clamped > oneThird) {
-            return 1;   // 中耐久
-        } else {
-            return 2;   // 低耐久
-        }
-    }
 
 
     @Override
@@ -136,48 +120,48 @@ public class IronAnvilBlock extends FallingBlock {
             return ActionResult.PASS;
         }
 
-        int i = state.get(IRON_ANVIL_DURABILITY_PROPERTY);
 
 
         if (world.isClient) {
             return ActionResult.SUCCESS;
         } else if (player.getMainHandStack().isOf(Items.IRON_BLOCK)) {
 
-            //模拟一次修复
+
+            //修复
+            int durability = state.get(IRON_ANVIL_DURABILITY_PROPERTY);
+
+            int beforePhase = getPhaseFromDurability(IRON_ANVIL_MAX_DURABILITY,durability);
+
+            if (beforePhase==0)
+                return ActionResult.PASS;
+
+            //增加耐久
+            int fixed = Math.clamp((int)(durability +0.33f*(float) IRON_ANVIL_MAX_DURABILITY), 0,IRON_ANVIL_MAX_DURABILITY);
+            int afterPhase = getPhaseFromDurability(IRON_ANVIL_MAX_DURABILITY,fixed);
 
 
-//            BlockState newAnvilBlock = null;
-//            int count = player.getMainHandStack().getCount();
-//            //损坏的第一阶段—>完好无损
-//            if (state.getBlock() == Blocks.CHIPPED_ANVIL){
-//                newAnvilBlock = Blocks.ANVIL.getDefaultState()
-//                        .with(FACING, (Direction) state.get(FACING))
-//                        .with(ANVIL_DURABILITY,Math.clamp(i+24,0,64));
-//                player.playSound(SoundEvents.BLOCK_ANVIL_USE);
-//            }
-//            //损坏的第二阶段—>第一阶段
-//            else if(state.getBlock() == Blocks.DAMAGED_ANVIL){
-//                newAnvilBlock =Blocks.CHIPPED_ANVIL.getDefaultState()
-//                        .with(FACING, (Direction) state.get(FACING))
-//                        .with(ANVIL_DURABILITY,Math.clamp(i+24,0,64));
-//                player.playSound(SoundEvents.BLOCK_ANVIL_USE);
-//            }
-//            else {
-//                //如果是完好无损的铁砧,正常交互
-//                player.openHandledScreen(state.createScreenHandlerFactory(world, pos));
-//                player.incrementStat(Stats.INTERACT_WITH_ANVIL);
-//                return ActionResult.PASS;
-//            }
-//            world.setBlockState(pos, newAnvilBlock);
-//            //消耗一个铁块,若代码执行到这里,一定是有损坏的铁砧进行了修复
-//            //创造模式测试不消耗铁块
-//            if(!player.isCreative())
-//                player.getMainHandStack().setCount(count-1);
+            world.setBlockState(pos, ModBlocksRegistry.IRON_ANVIL.getDefaultState()
+                    //copy facing
+                    .with(IronAnvilBlock.FACING, state.get(IronAnvilBlock.FACING))
+                    //copy damage
+                    .with(IRON_ANVIL_DURABILITY_PROPERTY,fixed)
+                    .with(IRON_ANVIL_STAGE,afterPhase)
+            );
+
+
+            player.sendMessage(Text.of("铁砧使用状态:"+afterPhase));
+            player.sendMessage(Text.of("铁砧耐久:"+fixed));
+
+            //消耗一个铁块,若代码执行到这里,一定是有损坏的铁砧进行了修复
+            //创造模式测试不消耗铁块
+            if(!player.isCreative())
+                player.getMainHandStack().setCount(player.getMainHandStack().getCount()-1);
+
 
 
             //播放声音
             world.playSound(null,pos, SoundEvents.BLOCK_ANVIL_USE,BLOCKS,1f,1f);
-            return ActionResult.PASS;
+            return ActionResult.SUCCESS;
         } else {
             player.openHandledScreen(state.createScreenHandlerFactory(world, pos));
             player.incrementStat(Stats.INTERACT_WITH_ANVIL);

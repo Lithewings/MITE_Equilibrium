@@ -1,10 +1,9 @@
-package com.equilibrium.block.anvil_block.IronAnvilBlock;
+package com.equilibrium.block.anvil_block.adamantium_anvil_block;
 
 import com.equilibrium.OnServerInitialize;
 import com.equilibrium.block.ModBlockScreenTypesRegister;
 import com.mojang.logging.LogUtils;
 import it.unimi.dsi.fastutil.objects.Object2IntMap.Entry;
-import net.minecraft.block.AnvilBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.ItemEnchantmentsComponent;
@@ -14,26 +13,28 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.network.packet.s2c.play.ExperienceBarUpdateS2CPacket;
 import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.screen.AnvilScreenHandler;
 import net.minecraft.screen.ForgingScreenHandler;
 import net.minecraft.screen.Property;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.slot.ForgingSlotsManager;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.StringHelper;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.WorldEvents;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
-import org.spongepowered.asm.mixin.Overwrite;
 
-import static com.equilibrium.block.anvil_block.IronAnvilBlock.IronAnvilBlock.*;
+import static com.equilibrium.block.anvil_block.adamantium_anvil_block.AdamantiumAnvilBlock.*;
+import static com.equilibrium.block.anvil_block.mithril_anvil_block.MithrilAnvilBlock.*;
+import static com.equilibrium.block.anvil_block.util.getPhaseFromDurability;
 
 
-public class IronAnvilScreenHandler extends ForgingScreenHandler {
+public class AdamantiumScreenHandler extends ForgingScreenHandler {
+    public static final int INPUT_1_ID = 0;
+    public static final int INPUT_2_ID = 1;
+    public static final int OUTPUT_ID = 2;
+
     private static final Logger LOGGER = LogUtils.getLogger();
 
     private int repairItemUsage;
@@ -42,12 +43,12 @@ public class IronAnvilScreenHandler extends ForgingScreenHandler {
     private final Property levelCost = Property.create();
 
 
-    public IronAnvilScreenHandler(int syncId, PlayerInventory inventory) {
+    public AdamantiumScreenHandler(int syncId, PlayerInventory inventory) {
         this(syncId, inventory, ScreenHandlerContext.EMPTY);
     }
 
-    public IronAnvilScreenHandler(int syncId, PlayerInventory inventory, ScreenHandlerContext context) {
-        super(ModBlockScreenTypesRegister.IRON_ANVIL_SCREEN_TYPE,syncId,inventory,context);
+    public AdamantiumScreenHandler(int syncId, PlayerInventory inventory, ScreenHandlerContext context) {
+        super(ModBlockScreenTypesRegister.ADAMANTIUM_ANVIL_SCREEN_TYPE,syncId,inventory,context);
     }
 
     @Override
@@ -66,28 +67,36 @@ public class IronAnvilScreenHandler extends ForgingScreenHandler {
         boolean preCondition =  (player.isInCreativeMode() || player.experienceLevel >= this.levelCost.get()) && this.levelCost.get() > 0;
         //以下条件不可以满足,否则不接受本次铁砧操作
         boolean additionalCondition = (this.input.getStack(0).isOf(Items.BUCKET)&&this.input.getStack(0).getCount()>1);
-        return (preCondition && !additionalCondition );
+
+        boolean shouldRejectForIronAnvil = shouldRejectForIronAnvil(this.input.getStack(0),this.input.getStack(1));
+
+        return (preCondition && !additionalCondition && !shouldRejectForIronAnvil);
 
     }
+
+    private boolean shouldRejectForIronAnvil(ItemStack input1, ItemStack input2) {
+        return false;
+    }
+
     @Override
     protected void onTakeOutput(PlayerEntity player, ItemStack stack) {
-        //每次使用,耐久减1
+        //每次使用,耐久不变
         this.context.run((world, pos) -> {
                     BlockState blockState = world.getBlockState(pos);
-                    if (blockState.contains(IRON_ANVIL_DURABILITY_PROPERTY)) {
+                    if (blockState.contains(ADAMANTIUM_ANVIL_DURABILITY_PROPERTY)) {
                         //铁砧目前的耐久
-                        int i = blockState.get(IRON_ANVIL_DURABILITY_PROPERTY);
+                        int i = blockState.get(ADAMANTIUM_ANVIL_DURABILITY_PROPERTY);
                         //铁砧破坏进度
-                        int phase = getPhaseFromDurability(IRON_ANVIL_MAX_DURABILITY,blockState.get(IRON_ANVIL_DURABILITY_PROPERTY));
+                        int phase = getPhaseFromDurability(ADAMANTIUM_ANVIL_MAX_DURABILITY,blockState.get(ADAMANTIUM_ANVIL_DURABILITY_PROPERTY));
                         //将耐久-1写入方块状态中,并更新外观状态
                         world.setBlockState(pos,blockState
-                                .with(IronAnvilBlock.FACING, blockState.get(IronAnvilBlock.FACING))
-                                .with(IRON_ANVIL_DURABILITY_PROPERTY,Math.clamp(i-1,0,IRON_ANVIL_MAX_DURABILITY))
-                                .with(IRON_ANVIL_STAGE,Math.clamp(phase,0,2))
+                                .with(AdamantiumAnvilBlock.FACING, blockState.get(AdamantiumAnvilBlock.FACING))
+                                .with(ADAMANTIUM_ANVIL_DURABILITY_PROPERTY,Math.clamp(i,0, ADAMANTIUM_ANVIL_MAX_DURABILITY))
+                                .with(ADAMANTIUM_ANVIL_STAGE,Math.clamp(phase,0,2))
                         );
                     }
                     else
-                        OnServerInitialize.LOGGER.error("No such Property called"+IRON_ANVIL_DURABILITY_PROPERTY+ "or"+ IRON_ANVIL_STAGE +"at the Anvil");
+                        OnServerInitialize.LOGGER.error("No such Property called"+ ADAMANTIUM_ANVIL_DURABILITY_PROPERTY + "or"+ ADAMANTIUM_ANVIL_STAGE +"at the Anvil");
                 }
         );
         this.input.setStack(0, ItemStack.EMPTY);
@@ -95,7 +104,7 @@ public class IronAnvilScreenHandler extends ForgingScreenHandler {
             ItemStack itemStack = this.input.getStack(1);
             if (!itemStack.isEmpty() && itemStack.getCount() > this.repairItemUsage) {
                 itemStack.decrement(this.repairItemUsage);
-                this.input.setStack(1, itemStack);
+                getSetStack(itemStack);
             } else {
                 this.input.setStack(1, ItemStack.EMPTY);
             }
@@ -108,7 +117,7 @@ public class IronAnvilScreenHandler extends ForgingScreenHandler {
             BlockState blockState = world.getBlockState(pos);
             if (!player.isInCreativeMode()) {
                 //耐久为1时,直接损坏
-                if(blockState.get(IRON_ANVIL_DURABILITY_PROPERTY)==0) {
+                if(blockState.get(ADAMANTIUM_ANVIL_DURABILITY_PROPERTY)==0) {
                     world.removeBlock(pos, false);
                     world.syncWorldEvent(WorldEvents.ANVIL_DESTROYED, pos, 0);
                 }
@@ -121,6 +130,10 @@ public class IronAnvilScreenHandler extends ForgingScreenHandler {
         });
 
 
+    }
+
+    private void getSetStack(ItemStack itemStack) {
+        this.input.setStack(1, itemStack);
     }
 
 

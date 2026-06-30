@@ -3,7 +3,10 @@ package com.equilibrium;
 
 import com.equilibrium.block.ModBlockScreenTypesRegister;
 import com.equilibrium.block.ModBlocksRegistry;
-import com.equilibrium.block.anvil_block.IronAnvilBlock.IronAnvilScreen;
+import com.equilibrium.block.anvil_block.adamantium_anvil_block.AdamantiumAnvilScreen;
+import com.equilibrium.block.anvil_block.adamantium_anvil_block.AdamantiumScreenHandler;
+import com.equilibrium.block.anvil_block.iron_anvil_block.IronAnvilScreen;
+import com.equilibrium.block.anvil_block.mithril_anvil_block.MithrilAnvilScreen;
 import com.equilibrium.block.enchanting_table.*;
 import com.equilibrium.server_and_client.client.render.entity.model.BaseEarthElementalEntityModel;
 import com.equilibrium.server_and_client.client.render.entity.renderer.*;
@@ -90,6 +93,8 @@ public class OnClientInitialize implements ClientModInitializer {
         //将屏幕类型和屏幕组合在一起
         HandledScreens.register(ModBlockScreenTypesRegister.EMERALD_ENCHANTING_TABLE, ModEnchantmentScreen::new);
         HandledScreens.register(ModBlockScreenTypesRegister.IRON_ANVIL_SCREEN_TYPE, IronAnvilScreen::new);
+        HandledScreens.register(ModBlockScreenTypesRegister.MITHRIL_ANVIL_SCREEN_TYPE, MithrilAnvilScreen::new);
+        HandledScreens.register(ModBlockScreenTypesRegister.ADAMANTIUM_ANVIL_SCREEN_TYPE, AdamantiumAnvilScreen::new);
 
 
         BlockEntityRendererFactories.register(ModBlockEntityTypes.ENCHANTING_TABLE_BLOCK_ENTITY_TYPE, ModEnchantingTableBlockEntityRenderer::new);

@@ -12,8 +12,13 @@
   "block.miteequilibrium.emerald_enchanting_table": "绿宝石附魔台",
 
   "block.miteequilibrium.iron_anvil": "铁砧",
+  "block.miteequilibrium.mithril_anvil": "秘银砧",
+  "block.miteequilibrium.adamantium_anvil": "艾德曼砧",
 
+  "item.miteequilibrium.glass_fragment": "玻璃碎片",
 
+  "item.miteequilibrium.diamond_shard": "钻石碎片",
+  "item.miteequilibrium.emerald_shard": "绿宝石碎片",
 
   "item.miteequilibrium.cheese": "奶酪",
   "item.miteequilibrium.salad": "沙拉",
@@ -238,8 +243,9 @@
   "gamerule.enableRestrictVillageGen": "启用更严格的村庄和前哨站生成条件",
   "gamerule.enablePhytonutrient": "启用营养不良机制",
   "gamerule.enableBloodMoonThunder": "启用血月雷电",
-  "gamerule.disablePlayerTeleport": "启用玩家间的传送指令：/teleportToPlayer",
+  "gamerule.disablePlayerTeleport": "禁用玩家间的传送指令：/teleportToPlayer",
 
+  "gamerule.enableAnvilLevel": "启用铁砧等级",
   "gamerule.disableVillageAndPillage": "荒芜：移除了村庄、附属的农田和掠夺者前哨站结构",
   "gamerule.enableMoreSlDamage": "三思而后行：SL行为会损失更多生命值",
   "gamerule.enableNoAnimals": "灭绝：牛、羊、猪、鸡四种动物不再生成",

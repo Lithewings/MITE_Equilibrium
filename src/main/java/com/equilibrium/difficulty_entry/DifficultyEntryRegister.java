@@ -94,6 +94,10 @@ public class DifficultyEntryRegister {
                 onGameRuleChangedForBoolean(server, booleanRule, "enableUniversalAggro");
             }));
 
+    public static final GameRules.Key<GameRules.BooleanRule> ENABLE_ANVIL_LEVEL =
+            GameRuleRegistry.register("enableAnvilLevel", EXTRA_GAMERULE_CATEGORY, GameRuleFactory.createBooleanRule(false, (server, booleanRule) -> {
+                onGameRuleChangedForBoolean(server, booleanRule, "enableAnvilLevel");
+            }));
 
     public static Set<GameRules.Key<GameRules.BooleanRule>> ALL_EXTRA_ENTRY_KEYS =
             Set.of(DISABLE_VILLAGE_AND_PILLAGE,
@@ -101,7 +105,8 @@ public class DifficultyEntryRegister {
                     ENABLE_NO_ANIMALS,
                     ENABLE_MORE_RAIN_WEATHER,
                     DISABLE_CROP_GROW,
-                    ENABLE_UNIVERSAL_AGGRO
+                    ENABLE_UNIVERSAL_AGGRO,
+                    ENABLE_ANVIL_LEVEL
             );
 
 
@@ -133,7 +138,8 @@ public class DifficultyEntryRegister {
             Map.entry("enableNoAnimals", ENABLE_NO_ANIMALS),
             Map.entry("enableMoreRainWeather", ENABLE_MORE_RAIN_WEATHER),
             Map.entry("disableCropGrow", DISABLE_CROP_GROW),
-            Map.entry("enableUniversalAggro", ENABLE_UNIVERSAL_AGGRO)
+            Map.entry("enableUniversalAggro", ENABLE_UNIVERSAL_AGGRO),
+            Map.entry("enableAnvilLevel", ENABLE_ANVIL_LEVEL)
 
     );
 

@@ -1,6 +1,8 @@
 package com.equilibrium.block;
 
-import com.equilibrium.block.anvil_block.IronAnvilBlock.IronAnvilScreenHandler;
+import com.equilibrium.block.anvil_block.adamantium_anvil_block.AdamantiumScreenHandler;
+import com.equilibrium.block.anvil_block.iron_anvil_block.IronAnvilScreenHandler;
+import com.equilibrium.block.anvil_block.mithril_anvil_block.MithrilAnvilScreenHandler;
 import com.equilibrium.block.enchanting_table.ModEnchantmentScreenHandler;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -16,6 +18,8 @@ public class ModBlockScreenTypesRegister {
 
     public static final ScreenHandlerType<ModEnchantmentScreenHandler> EMERALD_ENCHANTING_TABLE = register("miteequilibrium:emerald_enchantment", ModEnchantmentScreenHandler::new);
     public static final ScreenHandlerType<IronAnvilScreenHandler> IRON_ANVIL_SCREEN_TYPE = register("miteequilibrium:iron_anvil",IronAnvilScreenHandler::new);
+    public static final ScreenHandlerType<MithrilAnvilScreenHandler> MITHRIL_ANVIL_SCREEN_TYPE = register("miteequilibrium:mithril_anvil", MithrilAnvilScreenHandler::new);
+    public static final ScreenHandlerType<AdamantiumScreenHandler> ADAMANTIUM_ANVIL_SCREEN_TYPE = register("miteequilibrium:adamantium_anvil", AdamantiumScreenHandler::new);
 
 
     public static void registerScreenHandlers() {

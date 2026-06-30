@@ -35,7 +35,8 @@ public class ScreenHandlerMixin {
             ),
             cancellable = true)
     private void internalOnSlotClick(int slotIndex, int button, SlotActionType actionType, PlayerEntity player, CallbackInfo ci) {
-        if(!player.getWorld().isClient){
+        //试图修复右键容器之外的栏造成异常发包的问题
+        if(!player.getWorld().isClient && slotIndex!=-999){
             Slot slot3 = this.slots.get(slotIndex);
             if(slot3 instanceof CraftingResultSlot && ((ScreenHandler)(Object)this instanceof CraftingScreenHandler || (ScreenHandler)(Object)this instanceof PlayerScreenHandler)){
                 if (actionType == SlotActionType.THROW && slotIndex >= 0) {

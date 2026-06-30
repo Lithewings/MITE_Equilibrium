@@ -48,6 +48,10 @@ public class ModItemGroup {
                                 entries.add(ModBlocksRegistry.SILVER_ORE);
                                 entries.add(ModBlocksRegistry.EMERALD_ENCHANTING_TABLE);
 
+                                entries.add(ModBlocksRegistry.IRON_ANVIL);
+                                entries.add(ModBlocksRegistry.MITHRIL_ANVIL);
+                                entries.add(ModBlocksRegistry.ADAMANTIUM_ANVIL);
+
                                 entries.add(Metal.adamantium);
                                 entries.add(Metal.copper);
                                 entries.add(Metal.ancient_metal);
@@ -76,8 +80,9 @@ public class ModItemGroup {
                                 entries.add(CoinItems.COPPER_COIN);
                                 entries.add(CoinItems.IRON_COIN);
 
-
-
+                                entries.add(OtherItems.DIAMOND_SHARD);
+                                entries.add(OtherItems.EMERALD_SHARD);
+                                entries.add(OtherItems.GLASS_FRAGMENT);
 //                                entries.add(OtherItems.PUDDING_SLIME_BALL);
 
                             }

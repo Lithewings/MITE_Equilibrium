@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "X": {
+      "item": "miteequilibrium:adamantium_block"
+    },
+    "Y": {
+      "item": "miteequilibrium:adamantium"
+    }
+  },
+  "pattern": [
+    "XXX",
+    " Y ",
+    "YYY"
+  ],
+  "result": {
+    "count": 1,
+    "id": "miteequilibrium:adamantium_anvil"
+  }
+}

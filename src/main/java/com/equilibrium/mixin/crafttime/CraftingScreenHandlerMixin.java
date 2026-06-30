@@ -1,6 +1,7 @@
 package com.equilibrium.mixin.crafttime;
 
 
+import com.equilibrium.block.ModBlocksRegistry;
 import com.equilibrium.block.ModBlocksRegistry2;
 import com.equilibrium.item.Tools;
 import com.equilibrium.item.extend_item.CoinItems;
@@ -8,7 +9,6 @@ import com.equilibrium.item.tools_attribute.metal.*;
 import com.equilibrium.network.C2SClickTimesPacket;
 import com.equilibrium.tags.ModItemTags;
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.CraftingTableBlock;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.LoreComponent;
@@ -30,6 +30,7 @@ import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.input.CraftingRecipeInput;
 import net.minecraft.screen.*;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -41,6 +42,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.*;
 
+import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.getGameBooleanRuleFromServer;
+import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_ANVIL_LEVEL;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_CRAFTING_TIME_AND_LEVEL;
 import static com.equilibrium.util.SharedConstant.*;
 
@@ -295,6 +298,9 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 				player.sendMessage(Text.of("你需要至少50级经验来合成该工作台"));
 			}
 
+			if(itemStack.isOf(Items.ANVIL) && getGameBooleanRuleFromServer(ENABLE_ANVIL_LEVEL,world.getServer())){
+				itemStack = ModBlocksRegistry.IRON_ANVIL.asItem().getDefaultStack();
+			}
 
 			//斧子中,替换铁,金
 			if(itemStack.isIn(ModItemTags.AXES)){

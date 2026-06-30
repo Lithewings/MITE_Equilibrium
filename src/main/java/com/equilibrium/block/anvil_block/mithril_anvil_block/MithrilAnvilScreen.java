@@ -1,7 +1,6 @@
-package com.equilibrium.block.anvil_block.IronAnvilBlock;
+package com.equilibrium.block.anvil_block.mithril_anvil_block;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
+import com.equilibrium.tags.ModItemTags;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.ForgingScreen;
@@ -11,7 +10,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.c2s.play.RenameItemC2SPacket;
-import net.minecraft.screen.AnvilScreenHandler;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
@@ -19,7 +17,7 @@ import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 
 
-public class IronAnvilScreen extends ForgingScreen<IronAnvilScreenHandler> {
+public class MithrilAnvilScreen extends ForgingScreen<MithrilAnvilScreenHandler> {
     private static final Identifier TEXT_FIELD_TEXTURE = Identifier.ofVanilla("container/anvil/text_field");
     private static final Identifier TEXT_FIELD_DISABLED_TEXTURE = Identifier.ofVanilla("container/anvil/text_field_disabled");
     private static final Identifier ERROR_TEXTURE = Identifier.ofVanilla("container/anvil/error");
@@ -28,7 +26,7 @@ public class IronAnvilScreen extends ForgingScreen<IronAnvilScreenHandler> {
     private TextFieldWidget nameField;
     private final PlayerEntity player;
 
-    public IronAnvilScreen(IronAnvilScreenHandler handler, PlayerInventory inventory, Text title) {
+    public MithrilAnvilScreen(MithrilAnvilScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title, TEXTURE);
         this.player = inventory.player;
         this.titleX = 60;
@@ -86,6 +84,12 @@ public class IronAnvilScreen extends ForgingScreen<IronAnvilScreenHandler> {
         }
     }
 
+    private boolean shouldRejectForIronAnvil(ItemStack input1, ItemStack input2) {
+        boolean shouldReject1 = input1.isIn(ModItemTags.MITHRIL_ANVIL_REJECTION);
+        boolean shouldReject2 = input2.isIn(ModItemTags.MITHRIL_ANVIL_REJECTION);
+        return shouldReject1 || shouldReject2;
+    }
+
     @Override
     protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
         super.drawForeground(context, mouseX, mouseY);
@@ -93,11 +97,10 @@ public class IronAnvilScreen extends ForgingScreen<IronAnvilScreenHandler> {
         if (i > 0) {
             int j = 8453920;
             Text text;
-//            if (i >= 40 && !this.client.player.getAbilities().creativeMode) {
-//                text = TOO_EXPENSIVE_TEXT;
-//                j = 16736352;
-//            } else
-           if (!this.handler.getSlot(2).hasStack()) {
+            if (shouldRejectForIronAnvil(this.handler.getSlot(0).getStack(),this.handler.getSlot(1).getStack())) {
+                text = TOO_EXPENSIVE_TEXT;
+                j = 16736352;
+            } else if (!this.handler.getSlot(2).hasStack()) {
                 text = null;
             } else {
                 text = Text.translatable("container.repair.cost", i);
@@ -106,7 +109,7 @@ public class IronAnvilScreen extends ForgingScreen<IronAnvilScreenHandler> {
                 }
             }
 
-            if (text != null) {
+            if (text != null && text!=TOO_EXPENSIVE_TEXT) {
                 int k = this.backgroundWidth - 8 - this.textRenderer.getWidth(text) - 2;
                 int l = 69;
                 context.fill(k - 2, 67, this.backgroundWidth - 8, 79, 1325400064);
@@ -114,6 +117,13 @@ public class IronAnvilScreen extends ForgingScreen<IronAnvilScreenHandler> {
 
                 context.drawTextWithShadow(this.textRenderer, Text.of( Text.translatable("container.repair.require").getString()+": "+cost), k, 69, j);
             }
+            else if(text == TOO_EXPENSIVE_TEXT){
+                int k = this.backgroundWidth - 8 - this.textRenderer.getWidth(text) - 2;
+                int l = 69;
+                context.fill(k - 2, 67, this.backgroundWidth - 8, 79, 1325400064);
+                context.drawTextWithShadow(this.textRenderer, text, k, 69, j);
+            }
+
         }
     }
 

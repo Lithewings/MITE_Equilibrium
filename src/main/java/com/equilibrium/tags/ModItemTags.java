@@ -18,6 +18,8 @@ public class ModItemTags {
     public static final TagKey<Item> HARVEST_FIVE = of("tool_harvest_5");
 
 
+    public static final TagKey<Item> IRON_ANVIL_REJECTION = of("iron_anvil_rejection");
+    public static final TagKey<Item> MITHRIL_ANVIL_REJECTION = of("mithril_anvil_rejection");
 
 
 

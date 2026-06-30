@@ -1,7 +1,8 @@
 package com.equilibrium.mixin;
 
-import com.equilibrium.block.anvil_block.IronAnvilBlock.IronAnvilScreenHandler;
-import com.equilibrium.mixin.player.ServerPlayerEntityMixin;
+import com.equilibrium.block.anvil_block.adamantium_anvil_block.AdamantiumScreenHandler;
+import com.equilibrium.block.anvil_block.iron_anvil_block.IronAnvilScreenHandler;
+import com.equilibrium.block.anvil_block.mithril_anvil_block.MithrilAnvilScreenHandler;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.NetworkThreadUtils;
 import net.minecraft.network.listener.ServerPlayPacketListener;
@@ -35,19 +36,37 @@ public abstract class ServerPlayerRenamePacketMixin extends ServerCommonNetworkH
 
 
         if (this.player.currentScreenHandler instanceof ForgingScreenHandler) {
-            if(this.player.currentScreenHandler instanceof AnvilScreenHandler anvilScreenHandler){
-                if (!anvilScreenHandler.canUse(this.player)) {
-                    LOGGER.debug("Player {} interacted with invalid menu {}", this.player, anvilScreenHandler);
-                    return;
+            switch (this.player.currentScreenHandler) {
+                case AnvilScreenHandler anvilScreenHandler -> {
+                    if (!anvilScreenHandler.canUse(this.player)) {
+                        LOGGER.debug("Player {} interacted with invalid menu {}", this.player, anvilScreenHandler);
+                        return;
+                    }
+                    anvilScreenHandler.setNewItemName(packet.getName());
                 }
-                anvilScreenHandler.setNewItemName(packet.getName());
-            }
-            else if(this.player.currentScreenHandler instanceof IronAnvilScreenHandler ironAnvilScreenHandler){
-                if (!ironAnvilScreenHandler.canUse(this.player)) {
-                    LOGGER.debug("Player {} interacted with invalid menu {}", this.player, ironAnvilScreenHandler);
-                    return;
+                case IronAnvilScreenHandler ironAnvilScreenHandler -> {
+                    if (!ironAnvilScreenHandler.canUse(this.player)) {
+                        LOGGER.debug("Player {} interacted with invalid menu {}", this.player, ironAnvilScreenHandler);
+                        return;
+                    }
+                    ironAnvilScreenHandler.setNewItemName(packet.getName());
                 }
-                ironAnvilScreenHandler.setNewItemName(packet.getName());
+                case MithrilAnvilScreenHandler mithrilAnvilScreenHandler -> {
+                    if (!mithrilAnvilScreenHandler.canUse(this.player)) {
+                        LOGGER.debug("Player {} interacted with invalid menu {}", this.player, mithrilAnvilScreenHandler);
+                        return;
+                    }
+                    mithrilAnvilScreenHandler.setNewItemName(packet.getName());
+                }
+                case AdamantiumScreenHandler adamantiumScreenHandler -> {
+                    if (!adamantiumScreenHandler.canUse(this.player)) {
+                        LOGGER.debug("Player {} interacted with invalid menu {}", this.player, adamantiumScreenHandler);
+                        return;
+                    }
+                    adamantiumScreenHandler.setNewItemName(packet.getName());
+                }
+                default -> {
+                }
             }
         }
     }

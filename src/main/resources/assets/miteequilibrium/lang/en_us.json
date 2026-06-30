@@ -18,7 +18,12 @@
 
   "block.miteequilibrium.emerald_enchanting_table": "Emerald Enchanting Table",
   "block.miteequilibrium.iron_anvil": "Anvil",
+  "block.miteequilibrium.mithril_anvil": "Mithril Anvil",
+  "block.miteequilibrium.adamantium_anvil": "Adamantium Anvil",
 
+  "item.miteequilibrium.glass_fragment": "Glass Fragment",
+  "item.miteequilibrium.diamond_shard": "Diamond Shard",
+  "item.miteequilibrium.emerald_shard": "Emerald Shard",
 
   "item.miteequilibrium.cheese": "Cheese",
   "item.miteequilibrium.salad": "Salad",
@@ -315,8 +320,7 @@
   "gamerule.enableBloodMoonThunder": "Enable Weather Effect On BloodMoon",
   "gamerule.disablePlayerTeleport": "Disable Teleport Commands Between Players",
 
-
-
+  "gamerule.enableAnvilLevel": "Enable Anvil Level",
   "gamerule.disableVillageAndPillage": "Desolation: Removes villages, their associated farmlands, and pillager outpost structures.",
   "gamerule.enableMoreSlDamage": "Think Twice Before Action: SL actions cause significantly more health loss.",
   "gamerule.enableNoAnimals": "Extinction: Cows, sheep, pigs, and chickens will no longer spawn.",

@@ -48,7 +48,6 @@ public class BreakBlockEvent implements PlayerBlockBreakEvents.After {
             return;
 
         ItemStack itemStack = player.getMainHandStack();
-
         itemStack.damage(BLOCKS_HARDNESS_HASHMAP.getOrDefault(getStandardBlockName(state.getBlock()),0), player, EquipmentSlot.MAINHAND);
         //提前结束
         if (
