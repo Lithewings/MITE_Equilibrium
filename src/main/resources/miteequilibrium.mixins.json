@@ -88,7 +88,6 @@
     "vanilla_itemsmixin.tool.ArmorMaterialsMixin",
     "vanilla_itemsmixin.tool.ShearsItemMixin",
     "vanilla_itemsmixin.tool.ShovelItemMixin",
-    "world.CreateWorldScreenMixin",
     "world.ServerWorldMixin"
   ],
   "injectors": {
@@ -117,6 +116,7 @@
     "some_special_rules.EditGameRulesScreenMixin",
     "some_special_rules.EntityRenderDispatcherMixinForRenderHitBox",
     "some_special_rules.KeepBreakingMixin",
-    "vanilla_blocksmixin.GrassBlockColorWithBiomeMixin"
+    "vanilla_blocksmixin.GrassBlockColorWithBiomeMixin",
+    "world.CreateWorldScreenMixin"
   ]
 }
