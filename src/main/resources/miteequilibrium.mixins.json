@@ -116,7 +116,6 @@
     "some_special_rules.EditGameRulesScreenMixin",
     "some_special_rules.EntityRenderDispatcherMixinForRenderHitBox",
     "some_special_rules.KeepBreakingMixin",
-    "vanilla_blocksmixin.GrassBlockColorWithBiomeMixin",
-    "world.CreateWorldScreenMixin"
+    "vanilla_blocksmixin.GrassBlockColorWithBiomeMixin"
   ]
 }
