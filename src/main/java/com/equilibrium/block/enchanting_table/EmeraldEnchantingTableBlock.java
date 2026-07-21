@@ -118,7 +118,7 @@ public class EmeraldEnchantingTableBlock extends BlockWithEntity {
         if (blockEntity instanceof ModEnchantingTableBlockEntity) {
             Text text = ((Nameable)blockEntity).getDisplayName();
             return new SimpleNamedScreenHandlerFactory(
-                    (syncId, inventory, player) -> new ModEnchantmentScreenHandler(syncId, inventory, ScreenHandlerContext.create(world, pos)), text
+                    (syncId, inventory, player) -> new ModEnchantmentScreenHandler(syncId, inventory, ScreenHandlerContext.create(world, pos),12), text
             );
         } else {
             return null;

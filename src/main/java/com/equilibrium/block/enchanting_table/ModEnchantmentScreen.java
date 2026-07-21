@@ -113,9 +113,6 @@ public class ModEnchantmentScreen extends HandledScreen<ModEnchantmentScreenHand
             int m = i + 60;
             int n = m + 20;
             int o = this.handler.enchantmentPower[l];
-            if(l>0){
-                o=0;
-            }
             if (o == 0) {
                 RenderSystem.enableBlend();
                 context.drawGuiTexture(ENCHANTMENT_SLOT_DISABLED_TEXTURE, m, j + 14 + 19 * l, 108, 19);
@@ -125,7 +122,8 @@ public class ModEnchantmentScreen extends HandledScreen<ModEnchantmentScreenHand
                 int p = 86 - this.textRenderer.getWidth(string);
                 StringVisitable stringVisitable = EnchantingPhrases.getInstance().generatePhrase(this.textRenderer, p);
                 int q = 6839882;
-                if ((k < l + 1 || this.client.player.experienceLevel < o) && !this.client.player.getAbilities().creativeMode) {
+                //用总经验来比较,渲染结果
+                if ((k < l + 1 || this.client.player.totalExperience < o) && !this.client.player.getAbilities().creativeMode) {
                     RenderSystem.enableBlend();
                     context.drawGuiTexture(ENCHANTMENT_SLOT_DISABLED_TEXTURE, m, j + 14 + 19 * l, 108, 19);
                     context.drawGuiTexture(LEVEL_DISABLED_TEXTURES[l], m + 1, j + 15 + 19 * l, 16, 16);
@@ -200,7 +198,7 @@ public class ModEnchantmentScreen extends HandledScreen<ModEnchantmentScreenHand
                     if (!bl) {
                         list.add(ScreenTexts.EMPTY);
                         if (this.client.player.experienceLevel < k) {
-                            list.add(Text.translatable("container.enchant.level.requirement", this.handler.enchantmentPower[j]).formatted(Formatting.RED));
+                            list.add(Text.translatable("container.emerald_enchant.xp.requirement", this.handler.enchantmentPower[j]).formatted(Formatting.RED));
                         } else {
                             MutableText mutableText;
                             if (m == 1) {

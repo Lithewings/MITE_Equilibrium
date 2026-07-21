@@ -27,7 +27,7 @@ public enum ModToolMaterials implements ToolMaterial {
     GOLD_SHOVEL(BlockTags.AIR, 1600, 2.0F, 0.0F, 25, () -> Ingredient.ofItems(Items.GOLD_NUGGET)),
     IRON_SHOVEL(BlockTags.AIR, 3200, 1.5F, 0.0F, 15, () -> Ingredient.ofItems(Items.IRON_NUGGET)),
     MITHRIL_SHOVEL(BlockTags.AIR, 25600, 2.0F, 0.0F, 25, () -> Ingredient.ofItems(Metal.mithril_nugget)),
-    ADAMANTIUM_SHOVEL(BlockTags.AIR, 102400, 4.0F, 0.0F, 25, () -> Ingredient.ofItems(Metal.adamantium_nugget)),
+    ADAMANTIUM_SHOVEL(BlockTags.AIR, 102400, 4.0F, 0.0F, 18, () -> Ingredient.ofItems(Metal.adamantium_nugget)),
 
 
 
@@ -38,7 +38,7 @@ public enum ModToolMaterials implements ToolMaterial {
     GOLD_AXE(BlockTags.AIR, 4800, 2.0F, 0.0F, 25, () -> Ingredient.ofItems(Items.GOLD_NUGGET)),
     IRON_AXE(BlockTags.AIR, 9600, 1.5F, 0.0F, 15, () -> Ingredient.ofItems(Items.IRON_NUGGET)),
     MITHRIL_AXE(BlockTags.AIR, 76800, 2.0F, 0.0F, 25, () -> Ingredient.ofItems(Metal.mithril_nugget)),
-    ADAMANTIUM_AXE(BlockTags.AIR, 309600, 4.0F, 0.0F, 25, () -> Ingredient.ofItems(Metal.adamantium_nugget)),
+    ADAMANTIUM_AXE(BlockTags.AIR, 309600, 4.0F, 0.0F, 18, () -> Ingredient.ofItems(Metal.adamantium_nugget)),
 
 
 
@@ -48,7 +48,7 @@ public enum ModToolMaterials implements ToolMaterial {
     GOLD_DAGGER(BlockTags.AIR, 1600, 2.0F, 0.0F, 25, () -> Ingredient.ofItems(Items.GOLD_NUGGET)),
     IRON_DAGGER(BlockTags.AIR, 3200, 1.5F, 0.0F, 15, () -> Ingredient.ofItems(Items.IRON_NUGGET)),
     MITHRIL_DAGGER(BlockTags.AIR, 25600, 2.0F, 0.0F, 25, () -> Ingredient.ofItems(Metal.mithril_nugget)),
-    ADAMANTIUM_DAGGER(BlockTags.AIR, 102400, 4.0F, 0.0F, 25, () -> Ingredient.ofItems(Metal.adamantium_nugget)),
+    ADAMANTIUM_DAGGER(BlockTags.AIR, 102400, 4.0F, 0.0F, 18, () -> Ingredient.ofItems(Metal.adamantium_nugget)),
 
 
 
@@ -59,7 +59,7 @@ public enum ModToolMaterials implements ToolMaterial {
     GOLD_PICKAXE(BlockTags.AIR, 4800,  1.0F, 0.0F, 25, () -> Ingredient.ofItems(Items.GOLD_NUGGET)),
     IRON_PICKAXE(BlockTags.AIR, 9600, 0.75F, 0.0F, 15, () -> Ingredient.ofItems(Items.IRON_NUGGET)),
     MITHRIL_PICKAXE(BlockTags.AIR, 76800, 1.0F, 0.0F, 25, () -> Ingredient.ofItems(Metal.mithril_nugget)),
-    ADAMANTIUM_PICKAXE(BlockTags.AIR, 309600, 2.0F, 0.0F, 25, () -> Ingredient.ofItems(Metal.adamantium_nugget)),
+    ADAMANTIUM_PICKAXE(BlockTags.AIR, 309600, 2.0F, 0.0F, 18, () -> Ingredient.ofItems(Metal.adamantium_nugget)),
 
 
     COPPER_HAMMER(BlockTags.AIR, 11200, 0.25F, 0.0F, 15, () -> Ingredient.ofItems(Metal.copper_nugget)),
@@ -67,7 +67,7 @@ public enum ModToolMaterials implements ToolMaterial {
     GOLD_HAMMER(BlockTags.AIR, 11200, 0.5F, 0.0F, 25, () -> Ingredient.ofItems(Items.GOLD_NUGGET)),
     IRON_HAMMER(BlockTags.AIR, 22400, 0.375F, 0.0F, 15, () -> Ingredient.ofItems(Items.IRON_NUGGET)),
     MITHRIL_HAMMER(BlockTags.AIR, 179200, 0.5F, 0.0F, 25, () -> Ingredient.ofItems(Metal.mithril_nugget)),
-    ADAMANTIUM_HAMMER(BlockTags.AIR, 179200, 1.0F, 0.0F, 25, () -> Ingredient.ofItems(Metal.adamantium_nugget)),
+    ADAMANTIUM_HAMMER(BlockTags.AIR, 179200, 1.0F, 0.0F, 18, () -> Ingredient.ofItems(Metal.adamantium_nugget)),
 
 
 
@@ -81,7 +81,7 @@ public enum ModToolMaterials implements ToolMaterial {
     GOLD_SWORD(BlockTags.AIR, 3200, 2.0F, 0.0F, 25, () -> Ingredient.ofItems(Items.GOLD_NUGGET)),
     IRON_SWORD(BlockTags.AIR, 6400, 1.5F, 0.0F, 15, () -> Ingredient.ofItems(Items.IRON_NUGGET)),
     MITHRIL_SWORD(BlockTags.AIR, 51200, 2.0F, 0.0F, 25, () -> Ingredient.ofItems(Metal.mithril_nugget)),
-    ADAMANTIUM_SWORD(BlockTags.AIR, 204800, 4.0F, 0.0F, 25, () -> Ingredient.ofItems(Metal.adamantium_nugget)),
+    ADAMANTIUM_SWORD(BlockTags.AIR, 204800, 4.0F, 0.0F, 18, () -> Ingredient.ofItems(Metal.adamantium_nugget)),
 
 
 
@@ -90,7 +90,7 @@ public enum ModToolMaterials implements ToolMaterial {
     GOLD_HOE(BlockTags.AIR, 3200, 2.0F, 0.0F, 25, () -> Ingredient.ofItems(Items.GOLD_NUGGET)),
     IRON_HOE(BlockTags.AIR, 6400, 1.5F, 0.0F, 15, () -> Ingredient.ofItems(Items.IRON_NUGGET)),
     MITHRIL_HOE(BlockTags.AIR, 51200, 2.0F, 0.0F, 25, () -> Ingredient.ofItems(Metal.mithril_nugget)),
-    ADAMANTIUM_HOE(BlockTags.AIR, 204800, 4.0F, 0.0F, 25, () -> Ingredient.ofItems(Metal.adamantium_nugget));
+    ADAMANTIUM_HOE(BlockTags.AIR, 204800, 4.0F, 0.0F, 18, () -> Ingredient.ofItems(Metal.adamantium_nugget));
 
 
 

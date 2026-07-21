@@ -1,5 +1,5 @@
 accessWidener v1 named
-
+accessible field net/minecraft/entity/player/PlayerEntity enchantmentTableSeed I
 accessible class net/minecraft/world/gen/WorldPresets$Registrar
 
 
