@@ -24,6 +24,8 @@
   "item.miteequilibrium.bowl_milk": "Bowl of Milk",
 
   "block.miteequilibrium.emerald_enchanting_table": "Emerald Enchanting Table",
+  "block.miteequilibrium.diamond_enchanting_table": "Diamond Enchanting Table",
+
   "block.miteequilibrium.iron_anvil": "Anvil",
   "block.miteequilibrium.mithril_anvil": "Mithril Anvil",
   "block.miteequilibrium.adamantium_anvil": "Adamantium Anvil",
@@ -207,6 +209,7 @@
   "item.miteequilibrium.gold_pickaxe": "Golden Pickaxe",
   "item.miteequilibrium.gold_shovel": "Golden Shovel",
   "item.miteequilibrium.gold_sword": "Golden Sword",
+  "item.miteequilibrium.gold_hoe": "Gold Hoe",
 
   "item.miteequilibrium.iron_axe": "Iron Axe",
   "item.miteequilibrium.iron_dagger": "Iron Dagger",
@@ -328,6 +331,7 @@
   "gamerule.disablePlayerTeleport": "Disable Teleport Commands Between Players",
 
   "gamerule.enableAnvilLevel": "Enable Anvil Level",
+  "gamerule.enableAdvancedEnchantingTable": "Enable Advanced Enchanting Table",
   "gamerule.disableVillageAndPillage": "Desolation: Removes villages, their associated farmlands, and pillager outpost structures.",
   "gamerule.enableMoreSlDamage": "Think Twice Before Action: SL actions cause significantly more health loss.",
   "gamerule.enableNoAnimals": "Extinction: Cows, sheep, pigs, and chickens will no longer spawn.",

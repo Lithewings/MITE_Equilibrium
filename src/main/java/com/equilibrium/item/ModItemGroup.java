@@ -47,6 +47,8 @@ public class ModItemGroup {
                                 entries.add(ModBlocksRegistry.MITHRIL_ORE);
                                 entries.add(ModBlocksRegistry.SILVER_ORE);
                                 entries.add(ModBlocksRegistry.EMERALD_ENCHANTING_TABLE);
+                                entries.add(ModBlocksRegistry.DIAMOND_ENCHANTING_TABLE);
+
 
                                 entries.add(ModBlocksRegistry.IRON_ANVIL);
                                 entries.add(ModBlocksRegistry.MITHRIL_ANVIL);

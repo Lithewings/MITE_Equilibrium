@@ -16,6 +16,7 @@
   "item.miteequilibrium.bowl_water": "水碗",
   "item.miteequilibrium.bowl_milk": "牛奶碗",
   "block.miteequilibrium.emerald_enchanting_table": "绿宝石附魔台",
+  "block.miteequilibrium.diamond_enchanting_table": "钻石附魔台",
 
   "block.miteequilibrium.iron_anvil": "铁砧",
   "block.miteequilibrium.mithril_anvil": "秘银砧",
@@ -145,6 +146,8 @@
   "item.miteequilibrium.gold_pickaxe": "金镐",
   "item.miteequilibrium.gold_shovel": "金锹",
   "item.miteequilibrium.gold_sword": "金剑",
+  "item.miteequilibrium.gold_hoe": "金锄",
+
   "item.miteequilibrium.iron_axe": "铁斧",
   "item.miteequilibrium.iron_dagger": "铁短剑",
   "item.miteequilibrium.iron_hoe": "铁锄",
@@ -252,6 +255,7 @@
   "gamerule.disablePlayerTeleport": "禁用玩家间的传送指令：/teleportToPlayer",
 
   "gamerule.enableAnvilLevel": "启用铁砧等级",
+  "gamerule.enableAdvancedEnchantingTable": "启用高级附魔台",
   "gamerule.disableVillageAndPillage": "荒芜：移除了村庄、附属的农田和掠夺者前哨站结构",
   "gamerule.enableMoreSlDamage": "三思而后行：SL行为会损失更多生命值",
   "gamerule.enableNoAnimals": "灭绝：牛、羊、猪、鸡四种动物不再生成",

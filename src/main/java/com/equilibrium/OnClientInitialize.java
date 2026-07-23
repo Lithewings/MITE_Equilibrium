@@ -4,10 +4,11 @@ package com.equilibrium;
 import com.equilibrium.block.ModBlockScreenTypesRegister;
 import com.equilibrium.block.ModBlocksRegistry;
 import com.equilibrium.block.anvil_block.adamantium_anvil_block.AdamantiumAnvilScreen;
-import com.equilibrium.block.anvil_block.adamantium_anvil_block.AdamantiumScreenHandler;
 import com.equilibrium.block.anvil_block.iron_anvil_block.IronAnvilScreen;
 import com.equilibrium.block.anvil_block.mithril_anvil_block.MithrilAnvilScreen;
 import com.equilibrium.block.enchanting_table.*;
+import com.equilibrium.block.enchanting_table.diamond.DiamondEnchantingTableBlockEntityRenderer;
+import com.equilibrium.block.enchanting_table.emerald.EmeraldEnchantingTableBlockEntityRenderer;
 import com.equilibrium.server_and_client.client.render.entity.model.BaseEarthElementalEntityModel;
 import com.equilibrium.server_and_client.client.render.entity.renderer.*;
 import com.equilibrium.server_and_client.client.render.entity.renderer.elemental.EndRockElementalEntityRenderer;
@@ -92,12 +93,16 @@ public class OnClientInitialize implements ClientModInitializer {
 
         //将屏幕类型和屏幕组合在一起
         HandledScreens.register(ModBlockScreenTypesRegister.EMERALD_ENCHANTING_TABLE, ModEnchantmentScreen::new);
+        HandledScreens.register(ModBlockScreenTypesRegister.DIAMOND_ENCHANTING_TABLE, ModEnchantmentScreen::new);
+
         HandledScreens.register(ModBlockScreenTypesRegister.IRON_ANVIL_SCREEN_TYPE, IronAnvilScreen::new);
         HandledScreens.register(ModBlockScreenTypesRegister.MITHRIL_ANVIL_SCREEN_TYPE, MithrilAnvilScreen::new);
         HandledScreens.register(ModBlockScreenTypesRegister.ADAMANTIUM_ANVIL_SCREEN_TYPE, AdamantiumAnvilScreen::new);
 
 
-        BlockEntityRendererFactories.register(ModBlockEntityTypes.ENCHANTING_TABLE_BLOCK_ENTITY_TYPE, ModEnchantingTableBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(ModBlockEntityTypes.EMERALD_ENCHANTING_TABLE_BLOCK_ENTITY_TYPE, EmeraldEnchantingTableBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(ModBlockEntityTypes.DIAMOND_ENCHANTING_TABLE_BLOCK_ENTITY_TYPE, DiamondEnchantingTableBlockEntityRenderer::new);
+
         //注册渲染器(渲染器中包含了实体和模型)
 
 

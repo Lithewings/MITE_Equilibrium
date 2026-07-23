@@ -1,13 +1,13 @@
-package com.equilibrium.block.enchanting_table;
+package com.equilibrium.block.enchanting_table.emerald;
 
+import com.equilibrium.block.enchanting_table.ModBlockEntityTypes;
+import com.equilibrium.block.enchanting_table.ModEnchantmentScreenHandler;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.block.entity.EnchantingTableBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.screen.*;
@@ -78,13 +78,13 @@ public class EmeraldEnchantingTableBlock extends BlockWithEntity {
 
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new ModEnchantingTableBlockEntity(pos, state);
+        return new EmeraldEnchantingTableBlockEntity(pos, state);
 
     }
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return world.isClient ? validateTicker(type, ModBlockEntityTypes.ENCHANTING_TABLE_BLOCK_ENTITY_TYPE, ModEnchantingTableBlockEntity::tick):null;
+        return world.isClient ? validateTicker(type, ModBlockEntityTypes.EMERALD_ENCHANTING_TABLE_BLOCK_ENTITY_TYPE, EmeraldEnchantingTableBlockEntity::tick):null;
     }
 
 
@@ -115,7 +115,7 @@ public class EmeraldEnchantingTableBlock extends BlockWithEntity {
     @Override
     protected NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (blockEntity instanceof ModEnchantingTableBlockEntity) {
+        if (blockEntity instanceof EmeraldEnchantingTableBlockEntity) {
             Text text = ((Nameable)blockEntity).getDisplayName();
             return new SimpleNamedScreenHandlerFactory(
                     (syncId, inventory, player) -> new ModEnchantmentScreenHandler(syncId, inventory, ScreenHandlerContext.create(world, pos),12), text

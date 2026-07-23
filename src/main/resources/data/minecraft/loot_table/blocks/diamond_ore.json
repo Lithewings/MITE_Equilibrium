@@ -2,56 +2,36 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 1.0,
-      "bonus_rolls": 0.0,
-      "conditions": [
+      "bonus_rolls": 0,
+      "entries": [
         {
-          "condition": "minecraft:match_tool",
-          "predicate": {
-            "predicates": {
-              "minecraft:enchantments": [
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "conditions": [
                 {
-                  "enchantments": "minecraft:silk_touch",
-                  "levels": {
-                    "min": 1
+                  "condition": "minecraft:inverted",
+                  "term": {
+                    "condition": "minecraft:match_tool",
+                    "predicate": {
+                      "items": [
+                        "minecraft:diamond_pickaxe",
+                        "miteequilibrium:mithril_pickaxe",
+                        "miteequilibrium:mithril_hammer",
+                        "miteequilibrium:adamantium_pickaxe",
+                        "miteequilibrium:adamantium_hammer"
+                      ]
+                    }
                   }
                 }
-              ]
-            }
-          }
-        }
-      ],
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "name": "minecraft:diamond_ore"
-        }
-      ]
-    },
-    {
-      "rolls": 1.0,
-      "bonus_rolls": 0.0,
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ],
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "name": "miteequilibrium:diamond_shard",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 1.0,
-                "max": 1.0
-              }
+              ],
+              "name": "miteequilibrium:diamond_shard"
             }
           ]
         }
-      ]
+      ],
+      "rolls": 1
     }
   ],
   "random_sequence": "minecraft:blocks/diamond_ore"

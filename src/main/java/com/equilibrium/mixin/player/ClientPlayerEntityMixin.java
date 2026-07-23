@@ -22,7 +22,7 @@ import static net.minecraft.entity.effect.StatusEffects.SLOWNESS;
 
 @Mixin(ClientPlayerEntity.class)
 
-
+//GameMenuScreenMixin中必须让暂停延迟1tick来让这些逻辑生效
 
 
 

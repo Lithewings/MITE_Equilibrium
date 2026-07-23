@@ -18,6 +18,8 @@ public class ModBlockScreenTypesRegister {
 
 
     public static final ScreenHandlerType<ModEnchantmentScreenHandler> EMERALD_ENCHANTING_TABLE = register("miteequilibrium:emerald_enchantment", (syncId, playerInventory)->new ModEnchantmentScreenHandler(syncId,playerInventory,12));
+    public static final ScreenHandlerType<ModEnchantmentScreenHandler> DIAMOND_ENCHANTING_TABLE = register("miteequilibrium:diamond_enchantment", (syncId, playerInventory)->new ModEnchantmentScreenHandler(syncId,playerInventory,24));
+
     public static final ScreenHandlerType<IronAnvilScreenHandler> IRON_ANVIL_SCREEN_TYPE = register("miteequilibrium:iron_anvil",IronAnvilScreenHandler::new);
     public static final ScreenHandlerType<MithrilAnvilScreenHandler> MITHRIL_ANVIL_SCREEN_TYPE = register("miteequilibrium:mithril_anvil", MithrilAnvilScreenHandler::new);
     public static final ScreenHandlerType<AdamantiumScreenHandler> ADAMANTIUM_ANVIL_SCREEN_TYPE = register("miteequilibrium:adamantium_anvil", AdamantiumScreenHandler::new);

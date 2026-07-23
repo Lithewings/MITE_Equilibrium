@@ -22,9 +22,6 @@ import static com.equilibrium.server_and_client.server.event.CropIllnessEvent.up
 @Mixin(BoneMealItem.class)
 public class BoneMealItemMixin {
 
-    @Shadow
-    @Final
-    public static int field_30851;
 
     @Inject(method = "useOnFertilizable", at = @At("HEAD"), cancellable = true)
     private static void useOnFertilizable1(ItemStack stack, World world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {

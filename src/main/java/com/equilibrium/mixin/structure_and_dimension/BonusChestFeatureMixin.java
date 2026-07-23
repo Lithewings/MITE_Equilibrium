@@ -25,6 +25,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import java.util.stream.IntStream;
 
 @Mixin(BonusChestFeature.class)
+//让奖励箱上生成一束信标光柱
 public class BonusChestFeatureMixin extends Feature<DefaultFeatureConfig> {
     public BonusChestFeatureMixin(Codec<DefaultFeatureConfig> configCodec) {
         super(configCodec);

@@ -43,8 +43,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.*;
 
 import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.getGameBooleanRuleFromServer;
-import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_ANVIL_LEVEL;
-import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_CRAFTING_TIME_AND_LEVEL;
+import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.*;
 import static com.equilibrium.util.SharedConstant.*;
 
 
@@ -300,6 +299,10 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 
 			if(itemStack.isOf(Items.ANVIL) && getGameBooleanRuleFromServer(ENABLE_ANVIL_LEVEL,world.getServer())){
 				itemStack = ModBlocksRegistry.IRON_ANVIL.asItem().getDefaultStack();
+			}
+
+			if(itemStack.isOf(Items.ENCHANTING_TABLE) && getGameBooleanRuleFromServer(ENABLE_ADVANCED_ENCHANTING_TABLE,world.getServer())){
+				itemStack = ModBlocksRegistry.DIAMOND_ENCHANTING_TABLE.asItem().getDefaultStack();
 			}
 
 			//斧子中,替换铁,金

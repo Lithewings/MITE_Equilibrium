@@ -118,32 +118,27 @@ public class ModEnchantmentScreenHandler extends ScreenHandler {
             }
 
 
-            int max = bookshelfCount;
+            int max = (int) (bookshelfCount*1.25F);  // 0 ~ 30
             int lower = max / 3;                     // 0 ~ lower 区间
             int upper = 2 * max / 3;                 // lower ~ upper 区间
 
             // 槽位0：0 到 lower 随机
             int levels_0 = 1 + random.nextInt(2)+ random.nextInt(lower + 1);
             // 槽位1：lower 到 upper 随机（确保 upper >= lower）
-            int levels_1 = 2 + random.nextInt(3)+ random.nextInt(upper - lower + 1);
+            int levels_1 = (int) (2 + random.nextInt(3)+ random.nextTriangular((upper - lower)*1.5F,2));
             // 槽位2：固定为 max
             //举例,12个书架最大可达到3+12=15级附魔等级,需要花费5200点经验
-            int levels_2 = random.nextInt(4) + max;
+            //24个满书架最大可达到31级附魔等级.需要花费10000点经验
+            int levels_2 = Math.max(0,random.nextInt(4)-2 + max);
 
             switch (slotIndex){
                 case 0 -> {
-                    //受最大支持等级影响
-                    //取值范围:1~6级
-                    return Math.min(this.maxLevel,levels_0);
+                    return levels_0;
                 }
                 case 1->{
-                    //受最大支持等级影响
-                    //取值范围:1~8级
-                    return Math.min(this.maxLevel,levels_1);
+                    return levels_1;
                 }
                 case 2->{
-                    //取值范围:0(此时该附魔栏为空)~15级
-                    //每次有1/4的概率取到最大经验值
                     return levels_2;
                 }
                 default -> {
@@ -169,11 +164,9 @@ public class ModEnchantmentScreenHandler extends ScreenHandler {
             Map.entry(12,2400),
             Map.entry(13,3200),
             Map.entry(14,4000),
-            Map.entry(15,5200),
+            Map.entry(15,4800),
+            Map.entry(16,5200),
 
-
-            
-            Map.entry(16,5600),
             Map.entry(17,5800),
             Map.entry(18,6000),
             Map.entry(19,6200),
@@ -386,7 +379,9 @@ public class ModEnchantmentScreenHandler extends ScreenHandler {
 
     @Override
     public boolean canUse(PlayerEntity player) {
-        return canUse(this.context, player, ModBlocksRegistry.EMERALD_ENCHANTING_TABLE);
+        return canUse(this.context, player, ModBlocksRegistry.EMERALD_ENCHANTING_TABLE)
+                ||
+               canUse(this.context, player, ModBlocksRegistry.DIAMOND_ENCHANTING_TABLE);
     }
 
     @Override

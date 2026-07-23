@@ -133,27 +133,33 @@ public class BreakBlockEvent implements PlayerBlockBreakEvents.After {
                 world.spawnEntity(itemDrop);
             }
         }
-        if (state.isIn(ModBlockTags.ORE)) {
-            //掉落个数,比如红石就应该多次掉落
-            int dropTime = 1;
-            //获取矿石掉落物
-            Item item = blockToItemConverter.convertBlockToItem(state.getBlock());
-            if (item == Items.LAPIS_LAZULI || item == Items.REDSTONE || item == Items.GOLD_NUGGET)
-                //4~7次掉落
-                dropTime = 4 + random.nextInt(4);
-
-
-            if (random.nextInt(10) >= (10 - furtuneLevel)) {
-                //若时运为3,则表示随机的数字 0 1 2 3 4 5 6 7 8 9 中大于等于7的概率,即0.3
-                //时运触发时,相当于本次产出翻倍
-                dropTime *= 2;
-            }
-            //掉落1次还是4次
-            for (int i = 0; i < dropTime; i++) {
+        if (state.isIn(ModBlockTags.ORE) ) {
+            if(slikTouch==1){
+                Item item = state.getBlock().asItem();
                 world.spawnEntity(new ItemEntity(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
                         new ItemStack(item)));
+            }else{
+                //掉落个数,比如红石就应该多次掉落
+                int dropTime = 1;
+                //获取矿石掉落物
+                Item item = blockToItemConverter.convertBlockToItem(state.getBlock());
+                if (item == Items.LAPIS_LAZULI || item == Items.REDSTONE || item == Items.GOLD_NUGGET)
+                    //4~7次掉落
+                    dropTime = 4 + random.nextInt(4);
 
 
+                if (random.nextInt(10) >= (10 - furtuneLevel)) {
+                    //若时运为3,则表示随机的数字 0 1 2 3 4 5 6 7 8 9 中大于等于7的概率,即0.3
+                    //时运触发时,相当于本次产出翻倍
+                    dropTime *= 2;
+                }
+                //掉落1次还是4次
+                for (int i = 0; i < dropTime; i++) {
+                    world.spawnEntity(new ItemEntity(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
+                            new ItemStack(item)));
+
+
+                }
             }
         }
     }

@@ -6,7 +6,8 @@ import com.equilibrium.block.anvil_block.iron_anvil_block.IronAnvilBlock;
 
 import com.equilibrium.block.anvil_block.mithril_anvil_block.MithrilAnvilBlock;
 import com.equilibrium.block.crop_blocks.OnionBlock;
-import com.equilibrium.block.enchanting_table.EmeraldEnchantingTableBlock;
+import com.equilibrium.block.enchanting_table.diamond.DiamondEnchantingTableBlock;
+import com.equilibrium.block.enchanting_table.emerald.EmeraldEnchantingTableBlock;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.block.piston.PistonBehavior;
@@ -63,7 +64,7 @@ public class ModBlocksRegistry {
             );
 
     public static final Block EMERALD_ENCHANTING_TABLE = new EmeraldEnchantingTableBlock(AbstractBlock.Settings.create().mapColor(MapColor.RED).instrument(NoteBlockInstrument.BASEDRUM).luminance(state->7).strength(0.01F, 1200.0F).nonOpaque());
-
+    public static final Block DIAMOND_ENCHANTING_TABLE = new DiamondEnchantingTableBlock(AbstractBlock.Settings.create().mapColor(MapColor.RED).instrument(NoteBlockInstrument.BASEDRUM).luminance(state->7).strength(0.01F, 1200.0F).nonOpaque());
 
     public static final Block EXAMPLE_BLOCK = new Block(Block.Settings.create().strength(4.0f));
 
@@ -131,6 +132,9 @@ public class ModBlocksRegistry {
 
         Registry.register(Registries.BLOCK, Identifier.of(MOD_ID, "emerald_enchanting_table"), EMERALD_ENCHANTING_TABLE);
         Registry.register(Registries.ITEM, Identifier.of(MOD_ID, "emerald_enchanting_table"), new BlockItem(EMERALD_ENCHANTING_TABLE, new Item.Settings().maxCount(16)));
+
+        Registry.register(Registries.BLOCK, Identifier.of(MOD_ID, "diamond_enchanting_table"), DIAMOND_ENCHANTING_TABLE);
+        Registry.register(Registries.ITEM, Identifier.of(MOD_ID, "diamond_enchanting_table"), new BlockItem(DIAMOND_ENCHANTING_TABLE, new Item.Settings().maxCount(16)));
 
 
         Registry.register(Registries.BLOCK, Identifier.of("miteequilibrium", "example_block"), EXAMPLE_BLOCK);

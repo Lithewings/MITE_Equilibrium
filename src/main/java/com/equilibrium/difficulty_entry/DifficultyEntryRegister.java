@@ -99,6 +99,14 @@ public class DifficultyEntryRegister {
                 onGameRuleChangedForBoolean(server, booleanRule, "enableAnvilLevel");
             }));
 
+    public static final GameRules.Key<GameRules.BooleanRule> ENABLE_ADVANCED_ENCHANTING_TABLE =
+            GameRuleRegistry.register("enableAdvancedEnchantingTable", EXTRA_GAMERULE_CATEGORY, GameRuleFactory.createBooleanRule(false, (server, booleanRule) -> {
+                onGameRuleChangedForBoolean(server, booleanRule, "enableAdvancedEnchantingTable");
+            }));
+
+
+
+
     public static Set<GameRules.Key<GameRules.BooleanRule>> ALL_EXTRA_ENTRY_KEYS =
             Set.of(DISABLE_VILLAGE_AND_PILLAGE,
                     ENABLE_MORE_SL_DAMAGE,
@@ -106,7 +114,8 @@ public class DifficultyEntryRegister {
                     ENABLE_MORE_RAIN_WEATHER,
                     DISABLE_CROP_GROW,
                     ENABLE_UNIVERSAL_AGGRO,
-                    ENABLE_ANVIL_LEVEL
+                    ENABLE_ANVIL_LEVEL,
+                    ENABLE_ADVANCED_ENCHANTING_TABLE
             );
 
 
@@ -139,7 +148,8 @@ public class DifficultyEntryRegister {
             Map.entry("enableMoreRainWeather", ENABLE_MORE_RAIN_WEATHER),
             Map.entry("disableCropGrow", DISABLE_CROP_GROW),
             Map.entry("enableUniversalAggro", ENABLE_UNIVERSAL_AGGRO),
-            Map.entry("enableAnvilLevel", ENABLE_ANVIL_LEVEL)
+            Map.entry("enableAnvilLevel", ENABLE_ANVIL_LEVEL),
+            Map.entry("enableAdvancedEnchantingTable", ENABLE_ADVANCED_ENCHANTING_TABLE)
 
     );
 

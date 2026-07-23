@@ -1,5 +1,6 @@
-package com.equilibrium.block.enchanting_table;
+package com.equilibrium.block.enchanting_table.diamond;
 
+import com.equilibrium.block.enchanting_table.ModBlockEntityTypes;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.component.ComponentMap;
@@ -16,7 +17,7 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class ModEnchantingTableBlockEntity extends BlockEntity implements Nameable {
+public class DiamondEnchantingTableBlockEntity extends BlockEntity implements Nameable {
     public int ticks;
     public float nextPageAngle;
     public float pageAngle;
@@ -31,8 +32,8 @@ public class ModEnchantingTableBlockEntity extends BlockEntity implements Nameab
     @Nullable
     private Text customName;
 
-    public ModEnchantingTableBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntityTypes.ENCHANTING_TABLE_BLOCK_ENTITY_TYPE, pos, state);
+    public DiamondEnchantingTableBlockEntity(BlockPos pos, BlockState state) {
+        super(ModBlockEntityTypes.DIAMOND_ENCHANTING_TABLE_BLOCK_ENTITY_TYPE, pos, state);
     }
 
     @Override
@@ -51,7 +52,7 @@ public class ModEnchantingTableBlockEntity extends BlockEntity implements Nameab
         }
     }
 
-    public static void tick(World world, BlockPos pos, BlockState state, ModEnchantingTableBlockEntity blockEntity) {
+    public static void tick(World world, BlockPos pos, BlockState state, DiamondEnchantingTableBlockEntity blockEntity) {
         blockEntity.pageTurningSpeed = blockEntity.nextPageTurningSpeed;
         blockEntity.lastBookRotation = blockEntity.bookRotation;
         PlayerEntity playerEntity = world.getClosestPlayer((double)pos.getX() + 0.5, (double)pos.getY() + 0.5, (double)pos.getZ() + 0.5, 3.0, false);
@@ -125,7 +126,7 @@ public class ModEnchantingTableBlockEntity extends BlockEntity implements Nameab
     }
 
     @Override
-    protected void readComponents(BlockEntity.ComponentsAccess components) {
+    protected void readComponents(ComponentsAccess components) {
         super.readComponents(components);
         this.customName = components.get(DataComponentTypes.CUSTOM_NAME);
     }

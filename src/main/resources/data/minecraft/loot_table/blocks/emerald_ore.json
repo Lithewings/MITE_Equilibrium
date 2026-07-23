@@ -2,57 +2,50 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 1.0,
-      "bonus_rolls": 0.0,
-      "conditions": [
+      "bonus_rolls": 0,
+      "entries": [
         {
-          "condition": "minecraft:match_tool",
-          "predicate": {
-            "predicates": {
-              "minecraft:enchantments": [
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "conditions": [
                 {
-                  "enchantments": "minecraft:silk_touch",
-                  "levels": {
-                    "min": 1
+                  "condition": "minecraft:inverted",
+                  "term": {
+                    "condition": "minecraft:match_tool",
+                    "predicate": {
+                      "items": [
+                        "minecraft:iron_pickaxe",
+                        "miteequilibrium:iron_pickaxe",
+                        "miteequilibrium:iron_hammer",
+                        "minecraft:diamond_pickaxe",
+                        "miteequilibrium:mithril_pickaxe",
+                        "miteequilibrium:mithril_hammer",
+                        "miteequilibrium:adamantium_pickaxe",
+                        "miteequilibrium:adamantium_hammer"
+                      ]
+                    }
                   }
                 }
-              ]
-            }
-          }
-        }
-      ],
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "name": "minecraft:emerald_ore"
-        }
-      ]
-    },
-    {
-      "rolls": 1.0,
-      "bonus_rolls": 0.0,
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ],
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "name": "miteequilibrium:emerald_shard",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 4.0,
-                "max": 8.0
-              }
+              ],
+              "name": "miteequilibrium:emerald_shard"
             }
           ]
+        }
+      ],
+      "rolls": 1,
+      "functions": [
+        {
+          "function": "minecraft:set_count",
+          "count": {
+            "type": "minecraft:uniform",
+            "min": 4,
+            "max": 8
+          }
         }
       ]
     }
   ],
-  "random_sequence": "minecraft:blocks/emerald_ore"
+  "random_sequence": "minecraft:blocks/diamond_ore"
 }
