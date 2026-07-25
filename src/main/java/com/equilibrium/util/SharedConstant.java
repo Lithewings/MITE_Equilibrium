@@ -1,5 +1,6 @@
 package com.equilibrium.util;
 
+import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
@@ -8,11 +9,6 @@ import net.minecraft.text.TextColor;
 import java.util.Optional;
 
 public class SharedConstant {
-
-
-
-    public static final IntProperty ANVIL_DURABILITY = IntProperty.of("durability",0,64);
-
 
 
     public static Style RED = Style.of(

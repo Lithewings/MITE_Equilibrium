@@ -42,13 +42,4 @@ public abstract class FishEntityMixin extends WaterCreatureEntity implements Buc
         }
         return super.canSpawn(world,spawnReason);
     }
-    
-    @Override
-    public ActionResult interactMob(PlayerEntity player, Hand hand) {
-        if(!player.getMainHandStack().get(ENCHANTMENTS).isEmpty()) {
-            player.sendMessage(Text.of("桶交互失败,该实体无法与附魔物品交互"), true);
-            return ActionResult.PASS;
-        }
-        return (ActionResult)Bucketable.tryBucket(player, hand, this).orElse(super.interactMob(player, hand));
-    }
 }

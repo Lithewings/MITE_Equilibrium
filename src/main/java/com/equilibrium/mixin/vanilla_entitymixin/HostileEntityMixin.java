@@ -24,39 +24,4 @@ public class HostileEntityMixin extends PathAwareEntity implements Monster {
     public int getXpToDrop(){
         return getXpForLevel(1);
     }
-    @Override
-    public void onDeath(DamageSource damageSource) {
-        if (!this.isRemoved() && !this.dead) {
-            Entity entity = damageSource.getAttacker();
-            LivingEntity livingEntity = this.getPrimeAdversary();
-            if (this.scoreAmount >= 0 && livingEntity != null) {
-                livingEntity.updateKilledAdvancementCriterion(this, this.scoreAmount, damageSource);
-            }
-
-            if (this.isSleeping()) {
-                this.wakeUp();
-            }
-
-            if (!this.getWorld().isClient && this.hasCustomName()) {
-                OnServerInitialize.LOGGER.info("Named entity {} died: {}", this, this.getDamageTracker().getDeathMessage().getString());
-            }
-
-            this.dead = true;
-            this.getDamageTracker().update();
-            if (this.getWorld() instanceof ServerWorld serverWorld) {
-                if (entity == null || entity.onKilledOther(serverWorld, this)) {
-                    this.emitGameEvent(GameEvent.ENTITY_DIE);
-                    if(!(damageSource.getAttacker() instanceof IronGolemEntity))
-                        //不被铁傀儡杀死才会掉落物品
-                        //drop
-                        this.drop(serverWorld, damageSource);
-                    this.onKilledBy(livingEntity);
-                }
-
-                this.getWorld().sendEntityStatus(this, EntityStatuses.PLAY_DEATH_SOUND_OR_ADD_PROJECTILE_HIT_PARTICLES);
-            }
-
-            this.setPose(EntityPose.DYING);
-        }
-    }
 }

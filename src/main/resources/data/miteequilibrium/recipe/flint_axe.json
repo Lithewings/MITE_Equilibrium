@@ -7,12 +7,15 @@
     },
     "Y": {
       "item": "minecraft:stick"
+    },
+    "Z": {
+      "item": "miteequilibrium:sinew"
     }
   },
   "pattern": [
     "XX",
     "XY",
-    " Y"
+    "ZY"
   ],
   "result": {
     "count": 1,

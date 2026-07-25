@@ -135,32 +135,6 @@ public class ModPlacementGenerator {
 
         //调用规则:替换UnderWorldDimensionOptions.后面的内容,具体去文件去看
         //CUSTOM_ORE_PLACED_KEY是注册的名字,随便改
-
-
-        //我是如何实现的?
-        //首先重写net.minecraft.world.dimension.DimensionOptions;我命名为UnderWorldDimensionOptions
-        //在这里添加了一条代码:
-        //public static final RegistryKey<DimensionOptions> UNDERWORLD = RegistryKey.of(RegistryKeys.DIMENSION, Identifier.of("miteequilibrium","underworld"));
-        //然后执行BiomeModifications.addFeature(context -> context.canGenerateIn(UnderWorldDimensionOptions.UNDERWORLD), GenerationStep.Feature.UNDERGROUND_ORES, CUSTOM_ORE_PLACED_KEY);即可
-
-        //你会发现这条代码执行的和官网上给出的示例不一样,fabric官网上在主世界添加矿物是这么写的:
-        //BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES, CUSTOM_ORE_PLACED_KEY);
-        //首先我去翻了源码:BiomeSelectors.foundInOverworld()就是return context -> context.canGenerateIn(WorldDimensionOptions.OVERWORLD),于是两者等价
-
-        //但是如果要在自定义维度地下世界添加矿物呢,WorldDimensionOptions里面可没有地下世界成员,况且这个类是不可被修改的,用了record关键字
-        //所以我把这个类复制粘贴重新生成了一个,命名为UnderWorldDimensionOptions
-        //添加了public static final RegistryKey<DimensionOptions> UNDERWORLD = RegistryKey.of(RegistryKeys.DIMENSION, Identifier.ofVanilla("underworld"));
-        //问题又来了,Identifier.ofVanilla(String path)方法里可没有接收"underworld"的参数
-        //好吧,我去翻了Identifier.ofVanilla(String path)源码:
-
-        //public static Identifier ofVanilla(String path) {
-        //		return new Identifier("minecraft", validatePath("minecraft", path));
-        //	}
-        //如果调用了Identifier.ofVanilla("underworld"),则return了一个实例化Identifier对象:始终是等价为Identifier.of("minecraft","underworld")
-        //那我干嘛还要用这个诡异的函数,我自己new一个不就好了
-        //所以我改成:Identifier.of("miteequilibrium","underworld")
-        //很好,编译通过而且也正常生成了,这是1.21数据包想都别想的事情,居然在自定义世界生成自定义矿物,自己写代码去吧!(就是以上我说的这些)
-
     }
 }
 

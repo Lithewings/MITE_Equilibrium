@@ -22,7 +22,7 @@ public class OtherItems {
     public static final Item EMERALD_SHARD = new Item(new Item.Settings().maxCount(64));
 
 
-
+    public static final Item SINEW = new Item(new Item.Settings().maxCount(64));
 
 
 
@@ -49,7 +49,7 @@ public class OtherItems {
         Registry.register(Registries.ITEM, Identifier.of(MOD_ID,"glass_fragment"), GLASS_FRAGMENT);
         Registry.register(Registries.ITEM, Identifier.of(MOD_ID,"diamond_shard"), DIAMOND_SHARD);
         Registry.register(Registries.ITEM, Identifier.of(MOD_ID,"emerald_shard"), EMERALD_SHARD);
-
+        Registry.register(Registries.ITEM, Identifier.of(MOD_ID,"sinew"), SINEW);
     }
 }
 

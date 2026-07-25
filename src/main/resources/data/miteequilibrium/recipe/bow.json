@@ -3,21 +3,19 @@
   "category": "equipment",
   "key": {
     "X": {
-      "item": "minecraft:flint"
+      "item": "miteequilibrium:sinew"
     },
     "Y": {
       "item": "minecraft:stick"
-    },
-    "Z": {
-      "item": "miteequilibrium:sinew"
     }
   },
   "pattern": [
-    "XY",
-    "ZY"
+    " YX",
+    "Y X",
+    " YX"
   ],
   "result": {
     "count": 1,
-    "id": "miteequilibrium:flint_hatchet"
+    "id": "minecraft:bow"
   }
 }

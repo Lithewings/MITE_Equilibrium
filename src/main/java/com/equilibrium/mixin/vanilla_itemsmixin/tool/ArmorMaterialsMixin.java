@@ -1,6 +1,7 @@
 package com.equilibrium.mixin.vanilla_itemsmixin.tool;
 
 
+import com.equilibrium.item.OtherItems;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ArmorMaterials;
@@ -23,7 +24,7 @@ import java.util.function.Supplier;
 
 @Mixin(ArmorMaterials.class)
 public class ArmorMaterialsMixin {
-
+    //6个参数的register
     @ModifyArgs(
             method = "<clinit>",
             at = @At(
@@ -39,6 +40,25 @@ public class ArmorMaterialsMixin {
         } else if ("gold".equals(id)) {
             // 金盔甲 → 金粒
             args.set(6, (Supplier<Ingredient>) () -> Ingredient.ofItems(Items.GOLD_NUGGET));
+        } else if ("leather".equals(id)) {
+            // 皮革装备->皮革线
+            args.set(6, (Supplier<Ingredient>) () -> Ingredient.ofItems(OtherItems.SINEW));
+        }
+
+    }
+    //7个参数的register
+    @ModifyArgs(
+            method = "<clinit>",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/item/ArmorMaterials;register(Ljava/lang/String;Ljava/util/EnumMap;ILnet/minecraft/registry/entry/RegistryEntry;FFLjava/util/function/Supplier;Ljava/util/List;)Lnet/minecraft/registry/entry/RegistryEntry;"
+            )
+    )
+    private static void modifyRepairIngredient1(Args args) {
+        String id = args.get(0);
+        if ("leather".equals(id)) {
+            // 皮革装备->皮革线
+            args.set(6, (Supplier<Ingredient>) () -> Ingredient.ofItems(OtherItems.SINEW));
         }
     }
 
