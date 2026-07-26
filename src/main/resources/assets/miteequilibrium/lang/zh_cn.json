@@ -2,31 +2,54 @@
   "next_respawn": "距离下次可用的重生还有: ",
   "mod_death_text": "不必冒险，你有无限次重来的机会，这个世界永远等待着你",
   "mod.first_day.helloWorld": "在你的附近寻找箱子,取出其中的物品",
+  "container.xp.requirement": "经验需求: %s",
+  "container.xp.cost": "经验花费: %s",
+
+  "difficulty.extra.entry.message": "共 %s 条进阶词条，已开启 %s 条",
+  "difficulty.basic.entry.message": "共 %s 条基础词条，已开启 %s 条",
+  "difficulty.extra.entry.message2": "已开启 %s 条进阶词条",
 
 
-  "container.emerald_enchant.xp.requirement": "经验需求: %s",
+  "miteequilibrium.tooltip.quality.average": "品质：普通",
+  "miteequilibrium.tooltip.quality.excellent": "品质：优秀",
+  "miteequilibrium.tooltip.quality.refined": "品质：精良",
+  "miteequilibrium.tooltip.quality.epic": "品质：史诗",
+  "miteequilibrium.tooltip.quality.master": "品质：大师",
+  "miteequilibrium.tooltip.durability_bonus": "+%s%% 耐久",
+
+
+  "miteequilibrium.message.days_clear": "通关天数：%s",
+  "miteequilibrium.message.world_seed": "世界种子：%s",
+  "miteequilibrium.message.grand_stage_clear": "全词条通关：%s",
+  "miteequilibrium.message.version_info": "版本信息号：%s",
+
+  "miteequilibrium.message.invalid_clear_seed_mismatch": "无效的通关信息，因为在记录的通关信息中，世界种子与当前世界不符",
+  "miteequilibrium.message.invalid_clear_info": "无效的通关信息",
+  "miteequilibrium.message.no_clear_info": "未获取到通关信息",
+
+  "miteequilibrium.message.boolean.true": "是",
+  "miteequilibrium.message.boolean.false": "否",
+
+
+
 
 
   "item.miteequilibrium.sinew": "皮革线",
   "item.miteequilibrium.beef_soup": "牛肉汤",
-  "item.miteequilibrium.vegetable_soup": "蔬菜汤",
   "item.miteequilibrium.chocolate": "巧克力",
+  "item.miteequilibrium.vegetable_soup": "蔬菜汤",
   "item.miteequilibrium.onion": "洋葱",
   "item.miteequilibrium.manure": "肥料",
   "item.miteequilibrium.bowl_water": "水碗",
   "item.miteequilibrium.bowl_milk": "牛奶碗",
   "block.miteequilibrium.emerald_enchanting_table": "绿宝石附魔台",
   "block.miteequilibrium.diamond_enchanting_table": "钻石附魔台",
-
   "block.miteequilibrium.iron_anvil": "铁砧",
   "block.miteequilibrium.mithril_anvil": "秘银砧",
   "block.miteequilibrium.adamantium_anvil": "艾德曼砧",
-
   "item.miteequilibrium.glass_fragment": "玻璃碎片",
-
   "item.miteequilibrium.diamond_shard": "钻石碎片",
   "item.miteequilibrium.emerald_shard": "绿宝石碎片",
-
   "item.miteequilibrium.cheese": "奶酪",
   "item.miteequilibrium.salad": "沙拉",
   "item.miteequilibrium.mashed_potato": "土豆泥",
@@ -48,9 +71,9 @@
   "mod.options.difficulty.normal.info": "敌对生物会生成并造成标准伤害。饥饿条耗尽时会消耗生命值。",
   "mod.selectWorld.mapFeatures.info": "这是完成主要流程的必需选项",
   "mod.selectWorld.bonusItems": "用于生成触发初始成就的物品",
+  "death.attack.fatal_poison": "%1$s 毒发身亡",
   "select.world.wrong.version": "你无法打开不可兼容版本的存档",
   "adventure.get_flint.description": "挖掘沙砾，获得燧石碎片，或是一整块燧石。",
-
   "adventure.brew_potion": "酿造出一瓶药水。\n现在所有药水的持续时间效果翻倍。",
   "adventure.enter_the_end": "来到末地，击败末影龙，希望你没有忘记携带艾德曼镐。",
   "adventure.find_fortress": "找到下界要塞，并获得4个金苹果作为奖励。",
@@ -92,6 +115,7 @@
   "item.miteequilibrium.silver_hammer": "银锤",
   "item.miteequilibrium.silver.tooltip1": "对亡灵生物造成2倍伤害",
   "item.miteequilibrium.silver.tooltip2": "对亡灵生物给予最后一击后，获得5秒的再生II",
+  "item.miteequilibrium.silver.tooltip3": "Deals 1.25x damage to undead mobs.",
   "item.miteequilibrium.hammer.tooltip": "重锤:对骷髅类生物造成1.5倍伤害",
   "item.miteequilibrium.dagger_tooltip": "屠宰:对消极生物造成1.5倍伤害",
   "item.miteequilibrium.gold_hammer": "金锤",
@@ -104,13 +128,6 @@
   "block.miteequilibrium.gold_block": "金块",
   "block.miteequilibrium.mithril_block": "秘银块",
   "block.miteequilibrium.silver_block": "银块",
-
-
-  "block.miteequilibrium.mundane_gravel": "平凡的沙砾",
-
-
-
-
   "item.miteequilibrium.adamantium": "艾德曼锭",
   "item.miteequilibrium.adamantium_axe": "艾德曼斧",
   "item.miteequilibrium.adamantium_dagger": "艾德曼短剑",
@@ -147,7 +164,6 @@
   "item.miteequilibrium.gold_shovel": "金锹",
   "item.miteequilibrium.gold_sword": "金剑",
   "item.miteequilibrium.gold_hoe": "金锄",
-
   "item.miteequilibrium.iron_axe": "铁斧",
   "item.miteequilibrium.iron_dagger": "铁短剑",
   "item.miteequilibrium.iron_hoe": "铁锄",
@@ -183,9 +199,8 @@
   "item.miteequilibrium.copper_coin": "铜币",
   "item.miteequilibrium.iron_coin": "铁币",
   "item.miteequilibrium.pumpkin_soup": "南瓜汤",
-  "item.miteequilibrium.pudding_slime_ball": "黑色史莱姆球",
-
   "enchantment.miteequilibrium.speed": "速度",
+  "item.miteequilibrium.pudding_slime_ball": "黑色史莱姆球",
   "item.miteequilibrium.test": "Test",
   "block.miteequilibrium.example_block": "TestBlock",
   "itemgroup.testgroup": "MITEequilibrium",
@@ -198,16 +213,12 @@
   "block.miteequilibrium.iron_crafting_table": "铁工作台",
   "block.miteequilibrium.diamond_crafting_table": "钻石工作台",
   "block.miteequilibrium.netherite_crafting_table": "下界合金工作台",
-
-
-
   "block.miteequilibrium.gold_ore": "金矿石方块",
   "block.miteequilibrium.adamantium_ore": "艾德曼矿石方块",
   "block.miteequilibrium.copper_ore": "铜矿石方块",
   "block.miteequilibrium.mithril_ore": "秘银矿石方块",
   "block.miteequilibrium.silver_ore": "银矿石方块",
-
-
+  "block.miteequilibrium.mundane_gravel": "平凡的沙砾",
   "container.flint_crafting": "燧石工作台",
   "container.copper_crafting": "铜工作台",
   "container.silver_crafting": "银工作台",
@@ -225,11 +236,7 @@
   "container.obsidian_furnace": "黑曜石熔炉",
   "crafttime.join_info": "工作台及附魔台只能在更低级的工作台上合成",
   "crafttime.group": "合成耗时",
-
   "effect.miteequilibrium.phytonutrient": "营养不良",
-  "effect.miteequilibrium.insulin_resistance": "糖尿病",
-
-
   "item.effect.miteequilibrium.sub_night_vision": "冷萃的夜视药水",
   "sleep.failure.reason_1": "你无法在主世界之外的维度睡觉",
   "sleep.failure.reason_2": "血月让你无法休息.",
@@ -241,10 +248,6 @@
   "mod.itemGroup.armors_and_tools": "工具与盔甲",
   "mod.itemGroup.blocks_and_metallic_items": "方块与金属制品",
   "mod.itemGroup.farm": "农业与食物",
-
-  "death.attack.fatal_poison": "%1$s 毒发身亡",
-
-
   "gamerule.enableCraftingTimeAndLevel": "启用合成耗时和合成台等级",
   "gamerule.enableSlowBreakingSpeed": "启用标准挖掘速度",
   "gamerule.enableCropIllness": "启用作物生病机制",
@@ -253,7 +256,6 @@
   "gamerule.enablePhytonutrient": "启用营养不良机制",
   "gamerule.enableBloodMoonThunder": "启用血月雷电",
   "gamerule.disablePlayerTeleport": "禁用玩家间的传送指令：/teleportToPlayer",
-
   "gamerule.enableAnvilLevel": "启用铁砧等级",
   "gamerule.enableAdvancedEnchantingTable": "启用高级附魔台",
   "gamerule.disableVillageAndPillage": "荒芜：移除了村庄、附属的农田和掠夺者前哨站结构",
@@ -262,10 +264,6 @@
   "gamerule.disableCropGrow": "荒疫：农作物不再自然生长",
   "gamerule.enableMoreRainWeather": "雨季：一段时间后大幅提高世界下雨的时长",
   "gamerule.enableUniversalAggro": "众矢之的：玩家会无条件引起猪人和末影人的仇恨",
-
-  "generator.miteequilibrium.classic_overworld":"默认（经典）"
-
-
-
-
+  "generator.miteequilibrium.classic_overworld": "默认（经典）",
+  "effect.miteequilibrium.insulin_resistance": "糖尿病"
 }

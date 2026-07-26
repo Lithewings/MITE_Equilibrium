@@ -415,8 +415,8 @@ public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHan
 	}
 
 	@Unique
-	private static void rightClickLogicForAdditionalAttribute(double metalSword, int clickTimes, ItemStack itemStack) {
-		double maxDurabilityBoost = Math.min(metalSword, 4);
+	private static void rightClickLogicForAdditionalAttribute(double maxPlayerDurabilityBoostTime, int clickTimes, ItemStack itemStack) {
+		double maxDurabilityBoost = Math.min((int)maxPlayerDurabilityBoostTime, 4);
 
 		int function = (int) (clickTimes % (maxDurabilityBoost + 1));
 

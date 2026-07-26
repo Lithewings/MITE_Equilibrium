@@ -17,10 +17,22 @@ public interface AdditionalAttribute {
 
     default void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type) {
         int durabilityLevel = getDurabilityLevel(stack);
-        Map<Integer,String> map = Map.of(1,"品质：优秀",2,"品质：精良",3,"品质：史诗",4,"品质：大师");
-        tooltip.add(Text.literal(map.getOrDefault(durabilityLevel,"品质：普通")).formatted(Formatting.DARK_GRAY));
-        if(durabilityLevel!=0)
-            tooltip.add(Text.literal(("+"+durabilityLevel*50+"% 耐久")).formatted(Formatting.DARK_GRAY));
+
+        Map<Integer, String> qualityKeys = Map.of(
+                1, "miteequilibrium.tooltip.quality.excellent",
+                2, "miteequilibrium.tooltip.quality.refined",
+                3, "miteequilibrium.tooltip.quality.epic",
+                4, "miteequilibrium.tooltip.quality.master"
+        );
+        String qualityKey = qualityKeys.getOrDefault(durabilityLevel, "miteequilibrium.tooltip.quality.average");
+
+        tooltip.add(Text.translatable(qualityKey).formatted(Formatting.DARK_GRAY));
+
+        if (durabilityLevel != 0) {
+            int bonusPercent = durabilityLevel * 50;
+            tooltip.add(Text.translatable("miteequilibrium.tooltip.durability_bonus", bonusPercent)
+                    .formatted(Formatting.DARK_GRAY));
+        }
     }
 
     // 从 CUSTOM_DATA 获取耐久等级
@@ -55,7 +67,7 @@ public interface AdditionalAttribute {
         double currentLevelExperience = (int)(progress * 10 * (level + 1));
 
         // 总经验 = 累计等级经验 + 当前等级内经验
-        return 10 + cumulativeExperience + currentLevelExperience;
+        return cumulativeExperience + currentLevelExperience;
     }
 
 
@@ -66,13 +78,13 @@ public interface AdditionalAttribute {
 
 
     default int xpCost(ToolMaterial toolMaterial, int durabilityLevel){
-        int xp = (int) (toolMaterial.getDurability()*0.25*(durabilityLevel));
+        int xp = (int) (toolMaterial.getDurability()*0.1*(durabilityLevel));
         return xp;
     }
 
 
     default double maxPlayerDurabilityBoost(ToolMaterial toolMaterial, PlayerEntity player){
-        double i =getTotalExperience(player);
+        double i = getTotalExperience(player);
         double j=  xpCost(toolMaterial,1);
         return i/j;
     }

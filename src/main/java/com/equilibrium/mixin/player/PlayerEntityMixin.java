@@ -35,6 +35,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.screen.PlayerScreenHandler;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
@@ -48,6 +49,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -112,6 +114,44 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         }
     }
 
+    @Redirect(
+            method = "attack",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/entity/Entity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"
+            )
+    )
+    private boolean modifyDamageForStick(Entity target, DamageSource source, float amount) {
+        float otherBonus = 1.0F;
+
+        if (this.getMainHandStack().isIn(ModItemTags.DAGGERS) && target instanceof PassiveEntity) {
+            otherBonus = 1.5F;
+        }
+        if ((this.getMainHandStack().isOf(Tools.SILVER_DAGGER)) && target.getType().isIn(UNDEAD)) {
+            otherBonus = 1.25F;
+        }
+        if ((this.getMainHandStack().isOf(Tools.SILVER_SWORD)) && target.getType().isIn(UNDEAD)) {
+            otherBonus = 1.5F;
+        }
+        if ((this.getMainHandStack().isOf(Tools.SILVER_HAMMER)) && target.getType().isIn(UNDEAD)) {
+            otherBonus = 1.5F;
+        }
+        //锤子独立乘区
+        if ((this.getMainHandStack().isIn(ModItemTags.HAMMERS)) && target.getType().isIn(SKELETONS)) {
+            otherBonus *= 1.5F;
+        }
+        if (source.getAttacker() instanceof ServerPlayerEntity player) {
+            player.sendMessage(Text.of(String.valueOf(amount*otherBonus)),true);
+
+        }
+        return target.damage(source, amount*otherBonus);
+    }
+
+
+
+
+
+
 
     @Inject(method = "attack", at = @At("HEAD"))
     public void attackStart(Entity target, CallbackInfo ci) {
@@ -119,29 +159,9 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         float experienceBonus = getDamageLevel(this.experienceLevel);
         //工具攻击特效
         float otherBonus = 1.0F;
-        if (this.getMainHandStack().isIn(ModItemTags.DAGGERS) && target instanceof PassiveEntity) {
-            otherBonus = 1.5F;
-        }
-        if ((this.getMainHandStack().isOf(Tools.SILVER_DAGGER)) && target.getType().isIn(UNDEAD)) {
-            otherBonus = 1.5F;
-        }
-        if ((this.getMainHandStack().isOf(Tools.SILVER_SWORD)) && target.getType().isIn(UNDEAD)) {
-            otherBonus = 2F;
-        }
-        if ((this.getMainHandStack().isOf(Tools.SILVER_HAMMER)) && target.getType().isIn(UNDEAD)) {
-            otherBonus = 2F;
-        }
-        //锤子独立乘区
-        if ((this.getMainHandStack().isIn(ModItemTags.HAMMERS)) && target.getType().isIn(SKELETONS)) {
-            otherBonus *= 1.5F;
-        }
 
         //非独立乘区
         this.getAttributeInstance(GENERIC_ATTACK_DAMAGE).setBaseValue(experienceBonus * otherBonus);
-
-        //例子: 玩家等级为5级,铜短剑的伤害为额外伤害为5点,使用跳斩伤害猪(10点生命)再获得1.5倍率伤害增益
-        //基础伤害,面板伤害=(1.25*1.5+5)=6.875
-        //最终伤害 = 6.875*1.5 ~ 10.8
 
         //其他逻辑
 

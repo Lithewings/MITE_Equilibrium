@@ -23,6 +23,7 @@ import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.registry.tag.EnchantmentTags;
 import net.minecraft.screen.*;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -56,7 +57,6 @@ public class ModEnchantmentScreenHandler extends ScreenHandler {
     public final int[] enchantmentId = new int[]{-1, -1, -1};
     public final int[] enchantmentLevel = new int[]{-1, -1, -1};
     public final int maxLevel;
-
 
     public ModEnchantmentScreenHandler(int syncId, PlayerInventory playerInventory, int maxLevel) {
         this(syncId, playerInventory, ScreenHandlerContext.EMPTY, maxLevel);
@@ -198,8 +198,39 @@ public class ModEnchantmentScreenHandler extends ScreenHandler {
     }
 
 
+    @Override
+    public void onSlotClick(int slotIndex, int button, SlotActionType actionType, PlayerEntity player) {
 
+        // 自定义右键点击青金石槽消耗一个青金石并扣除经验,至少有附魔时才生效
+        if (slotIndex == 1 && button == 1 && actionType == SlotActionType.PICKUP && (this.enchantmentId[0]!=-1 || this.enchantmentId[1]!=-1||this.enchantmentId[2]!=-1)) {
+            // 注意 actionType 可能为 PICKUP 或 QUICK_MOVE 等，右键通常对应 PICKUP
+            ItemStack lapisStack = this.inventory.getStack(1);
+            if (!lapisStack.isEmpty() && lapisStack.isOf(Items.LAPIS_LAZULI)) {
+                // 检查玩家经验是否足够
+                if (player.totalExperience >= 100 || player.isCreative()) {
+                    // 消耗一个青金石
+                    lapisStack.decrementUnlessCreative(1,player);
+                    if (lapisStack.isEmpty()) {
+                        this.inventory.setStack(1, ItemStack.EMPTY);
+                    }
+                    // 扣除经验（非创造模式）
+                    if (!player.isCreative()) {
+                        player.addExperience(-100);
+                    }
 
+                    this.inventory.markDirty();
+                    player.enchantmentTableSeed = this.random.nextInt();
+                    this.seed.set(player.getEnchantmentTableSeed());
+                    this.onContentChanged(this.inventory);
+                    player.getWorld().playSound(null, player.getBlockPos(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.BLOCKS, 1.0F, player.getWorld().random.nextFloat() * 0.1F + 0.9F);
+
+                    return;
+                }
+            }
+        }
+        // 其他情况按原版处理
+        super.onSlotClick(slotIndex, button, actionType, player);
+    }
 
     @Override
     public void onContentChanged(Inventory inventory) {

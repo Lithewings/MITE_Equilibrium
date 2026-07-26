@@ -13,6 +13,7 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.BookModel;
 import net.minecraft.client.render.entity.model.EntityModelLayers;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentLevelEntry;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.RegistryKeys;
@@ -66,6 +67,8 @@ public class ModEnchantmentScreen extends HandledScreen<ModEnchantmentScreenHand
     public float nextPageTurningSpeed;
     public float pageTurningSpeed;
     private ItemStack stack = ItemStack.EMPTY;
+    // 1. 在类里添加一个数组字段，记录每个栏位当前揭示的条数（初始0，表示一条都不显示）
+    private final int[] revealedCount = new int[]{0, 0, 0};
 
     public ModEnchantmentScreen(ModEnchantmentScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -85,6 +88,7 @@ public class ModEnchantmentScreen extends HandledScreen<ModEnchantmentScreenHand
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
+
         int i = (this.width - this.backgroundWidth) / 2;
         int j = (this.height - this.backgroundHeight) / 2;
 
@@ -197,8 +201,8 @@ public class ModEnchantmentScreen extends HandledScreen<ModEnchantmentScreenHand
                     list.add(Text.translatable("container.enchant.clue", Enchantment.getName((RegistryEntry<Enchantment>)optional.get(), l)).formatted(Formatting.WHITE));
                     if (!bl) {
                         list.add(ScreenTexts.EMPTY);
-                        if (this.client.player.experienceLevel < k) {
-                            list.add(Text.translatable("container.emerald_enchant.xp.requirement", this.handler.enchantmentPower[j]).formatted(Formatting.RED));
+                        if (this.client.player.totalExperience< k) {
+                            list.add(Text.translatable("container.xp.requirement", this.handler.enchantmentPower[j]).formatted(Formatting.RED));
                         } else {
                             MutableText mutableText;
                             if (m == 1) {
@@ -209,11 +213,9 @@ public class ModEnchantmentScreen extends HandledScreen<ModEnchantmentScreenHand
 
                             list.add(mutableText.formatted(i >= m ? Formatting.GRAY : Formatting.RED));
                             MutableText mutableText2;
-                            if (m == 1) {
-                                mutableText2 = Text.translatable("container.enchant.level.one");
-                            } else {
-                                mutableText2 = Text.translatable("container.enchant.level.many", m);
-                            }
+
+                            mutableText2 = Text.translatable("container.xp.cost", k);
+
 
                             list.add(mutableText2.formatted(Formatting.GRAY));
                         }
