@@ -20,7 +20,7 @@ public class SilverDagger extends MetalDagger {
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         super.appendTooltip(stack,context,tooltip,type);
-        tooltip.add(Text.translatable("item.miteequilibrium.silver.tooltip1").formatted(Formatting.AQUA));
+        tooltip.add(Text.translatable("item.miteequilibrium.silver.tooltip3").formatted(Formatting.AQUA));
         tooltip.add(Text.translatable("item.miteequilibrium.silver.tooltip2").formatted(Formatting.AQUA));
     }
 

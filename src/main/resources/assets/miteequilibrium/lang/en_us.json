@@ -6,6 +6,32 @@
 
 
   "container.emerald_enchant.xp.requirement": "Xp Requirement: %s",
+  "difficulty.extra.entry.message": "Total %s extra difficulty entries, %s enabled",
+  "difficulty.basic.entry.message": "Total %s basic difficulty entries, %s enabled",
+  "difficulty.extra.entry.message2": "%s extra difficulty entries enabled",
+
+
+  "miteequilibrium.tooltip.quality.average": "Quality: Average",
+  "miteequilibrium.tooltip.quality.excellent": "Quality: Fine",
+  "miteequilibrium.tooltip.quality.refined": "Quality: Excellent",
+  "miteequilibrium.tooltip.quality.epic": "Quality: Superb",
+  "miteequilibrium.tooltip.quality.master": "Quality: Masterwork",
+  "miteequilibrium.tooltip.durability_bonus": "+%s%% Durability",
+
+  "miteequilibrium.message.days_clear": "Days to clear: %s",
+  "miteequilibrium.message.world_seed": "World seed: %s",
+  "miteequilibrium.message.grand_stage_clear": "All Stage Clear: %s",
+  "miteequilibrium.message.version_info": "Version: %s",
+
+  "miteequilibrium.message.invalid_clear_seed_mismatch": "Invalid clear info: world seed does not match current world",
+  "miteequilibrium.message.invalid_clear_info": "Invalid clear info",
+  "miteequilibrium.message.no_clear_info": "No clear info found",
+
+  "miteequilibrium.message.boolean.true": "true",
+  "miteequilibrium.message.boolean.false": "false",
+
+
+
 
 
 
@@ -143,8 +169,12 @@
   "item.miteequilibrium.silver_hammer": "Silver Hammer",
 
 
-  "item.miteequilibrium.silver.tooltip1": "Deals double damage to undead mobs.",
+  "item.miteequilibrium.silver.tooltip1": "Deals 1.5x damage to undead mobs.",
   "item.miteequilibrium.silver.tooltip2": "Grants 5 seconds of Regeneration II after landing the killing blow on an undead mob.",
+  "item.miteequilibrium.silver.tooltip3": "Deals 1.25x damage to undead mobs.",
+
+
+
   "item.miteequilibrium.hammer.tooltip": "Heavy Hammer: Deals 1.5x damage to skeletons.",
   "item.miteequilibrium.dagger_tooltip": "Slaughter: Deals 1.5x damage to passive mobs.",
 

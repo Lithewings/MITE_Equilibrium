@@ -58,7 +58,7 @@ public class DifficultyEntryGetter {
             }
         }
         if(player!=null){
-            player.sendMessage(Text.of("已开启了"+entryNumber+"条进阶难度词条"));
+            player.sendMessage(Text.translatable("difficulty.extra.entry.message2", entryNumber));
         }
         return entryNumber>0;
     }

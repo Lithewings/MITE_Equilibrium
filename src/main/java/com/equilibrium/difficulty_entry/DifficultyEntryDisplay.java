@@ -45,7 +45,7 @@ public class DifficultyEntryDisplay {
             int allNumber = map.size();
             map.values().removeIf(booleanValue -> booleanValue==false);
             int trueNumber = map.size();
-            player.sendMessage(Text.of("共"+allNumber+"条基础词条,"+"已开启"+trueNumber+"条"));
+            player.sendMessage(Text.translatable("difficulty.basic.entry.message", allNumber, trueNumber));
         }
         else {
             Map<String, Boolean> map = getExtraEntryValues(player.getServerWorld());
@@ -56,7 +56,7 @@ public class DifficultyEntryDisplay {
             int allNumber = map.size();
             map.values().removeIf(booleanValue -> booleanValue == false);
             int trueNumber = map.size();
-            player.sendMessage(Text.of("共" + allNumber + "条进阶词条," + "已开启" + trueNumber + "条"));
+            player.sendMessage(Text.translatable("difficulty.extra.entry.message", allNumber, trueNumber));
         }
     }
 }

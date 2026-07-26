@@ -231,36 +231,53 @@ public class ServerCommands {
                         })
         );
         dispatcher.register(
-                CommandManager.literal("checkAdvancement")
+                CommandManager.literal("showxp")
                         .executes(context -> {
-                            //请确保世界存在
                             PlayerEntity player = context.getSource().getPlayer();
-                            long originalSeed = context.getSource().getServer().getWorld(OVERWORLD).getSeed();
-                            Path path = context.getSource().getServer().getSavePath(WorldSavePath.ROOT).normalize().resolve("WorldInformationRecorder.dat");
-
-                            BooleanStorageUtil.WorldInformationRecorder worldInformationRecorder = loadWorldInformation(path.toString());
-                            if (worldInformationRecorder != null) {
-                                int day = worldInformationRecorder.getFinishDay();
-                                long seed = worldInformationRecorder.getSeed();
-                                boolean isGrandStageClear  = worldInformationRecorder.getIsGrandStageClear();
-                                String version = worldInformationRecorder.getVersion();
-
-                                if (day >= 0 && seed == originalSeed) {
-                                    player.sendMessage(Text.of("通关天数为: " + day));
-                                    player.sendMessage(Text.of("世界种子为: " + seed));
-                                    player.sendMessage(Text.of("Grand Stage Clear ? " + isGrandStageClear));
-                                    player.sendMessage(Text.of("版本信息号为: " + version));
-                                }
-                                else if (day >= 0 && seed != originalSeed)
-                                    player.sendMessage(Text.of("无效的通关信息,因为在记录的通关信息中，世界种子与当前世界不符"));
-                                else
-                                    player.sendMessage(Text.of("无效的通关信息"));
-
-                            } else
-                                player.sendMessage(Text.of("未获取到通关信息"));
+                            player.sendMessage(Text.of("You have "+player.totalExperience+" xp"));
                             return 1;
                         })
         );
+
+
+        dispatcher.register(
+                CommandManager.literal("checkAdvancement")
+                        .executes(context -> {
+                            PlayerEntity player = context.getSource().getPlayer();
+                            long originalSeed = context.getSource().getServer().getWorld(OVERWORLD).getSeed();
+                            Path path = context.getSource().getServer().getSavePath(WorldSavePath.ROOT)
+                                    .normalize().resolve("WorldInformationRecorder.dat");
+
+                            BooleanStorageUtil.WorldInformationRecorder worldInformationRecorder = loadWorldInformation(path.toString());
+
+                            if (worldInformationRecorder != null) {
+                                int day = worldInformationRecorder.getFinishDay();
+                                long seed = worldInformationRecorder.getSeed();
+                                boolean isGrandStageClear = worldInformationRecorder.getIsGrandStageClear();
+                                String version = worldInformationRecorder.getVersion();
+
+                                if (day >= 0 && seed == originalSeed) {
+                                    Text clearStatus = Text.translatable(isGrandStageClear
+                                            ? "miteequilibrium.message.boolean.true"
+                                            : "miteequilibrium.message.boolean.false");
+
+                                    player.sendMessage(Text.translatable("miteequilibrium.message.days_clear", day));
+                                    player.sendMessage(Text.translatable("miteequilibrium.message.world_seed", seed));
+                                    player.sendMessage(Text.translatable("miteequilibrium.message.grand_stage_clear", clearStatus));
+                                    player.sendMessage(Text.translatable("miteequilibrium.message.version_info", version));
+
+                                } else if (day >= 0 && seed != originalSeed) {
+                                    player.sendMessage(Text.translatable("miteequilibrium.message.invalid_clear_seed_mismatch"));
+                                } else {
+                                    player.sendMessage(Text.translatable("miteequilibrium.message.invalid_clear_info"));
+                                }
+                            } else {
+                                player.sendMessage(Text.translatable("miteequilibrium.message.no_clear_info"));
+                            }
+                            return 1;
+                        })
+        );
+
         dispatcher.register(
                 CommandManager.literal("teleportToPlayer")
                         .then(
