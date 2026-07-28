@@ -73,6 +73,7 @@
     "vanilla_entitymixin.goal_mixin.BeeEntityGrowCropsGoalMixin",
     "vanilla_entitymixin.goal_mixin.EscapeDangerGoalMixin",
     "vanilla_itemsmixin.BucketItemMixin",
+    "vanilla_itemsmixin.EnderPearlEntityMixin",
     "vanilla_itemsmixin.FluidBlockMixin",
     "vanilla_itemsmixin.WoodenMaterialsModify",
     "vanilla_itemsmixin.tool.ArmorMaterialsMixin",

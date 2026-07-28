@@ -10,13 +10,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 // 全局配置数据类（包含所有模组配置，此处添加破坏锁定字段）
-public class GlobalModConfig {
+public class  GlobalModConfig {
     // 破坏锁定功能开关，默认开启
     public boolean enableBreakLock = true;
 
     public boolean enableSleepChunksAlwaysLoading = true;
 
     public boolean enableAutoCrafting = true;
+
+    public boolean enableShowDamage = false;
 
     // 静态实例，全局唯一
     private static GlobalModConfig INSTANCE;
@@ -74,6 +76,7 @@ public class GlobalModConfig {
     public static boolean isAutoCraftingEnabled() {
         return getInstance().enableAutoCrafting;
     }
-
-
+    public static boolean isShowDamageEnabled() {
+        return getInstance().enableShowDamage;
+    }
 }

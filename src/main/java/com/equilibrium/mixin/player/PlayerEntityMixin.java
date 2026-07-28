@@ -56,6 +56,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Objects;
 
+import static com.equilibrium.GlobalModConfig.isShowDamageEnabled;
 import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.*;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_PHYTONUTRIENT;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_SLOW_BREAKING_SPEED;
@@ -140,7 +141,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         if ((this.getMainHandStack().isIn(ModItemTags.HAMMERS)) && target.getType().isIn(SKELETONS)) {
             otherBonus *= 1.5F;
         }
-        if (source.getAttacker() instanceof ServerPlayerEntity player) {
+        if (source.getAttacker() instanceof ServerPlayerEntity player && isShowDamageEnabled()) {
             player.sendMessage(Text.of(String.valueOf(amount*otherBonus)),true);
 
         }

@@ -207,7 +207,7 @@ public class ModEnchantmentScreenHandler extends ScreenHandler {
             ItemStack lapisStack = this.inventory.getStack(1);
             if (!lapisStack.isEmpty() && lapisStack.isOf(Items.LAPIS_LAZULI)) {
                 // 检查玩家经验是否足够
-                if (player.totalExperience >= 100 || player.isCreative()) {
+                if (player.totalExperience >= 150 || player.isCreative()) {
                     // 消耗一个青金石
                     lapisStack.decrementUnlessCreative(1,player);
                     if (lapisStack.isEmpty()) {
@@ -215,7 +215,7 @@ public class ModEnchantmentScreenHandler extends ScreenHandler {
                     }
                     // 扣除经验（非创造模式）
                     if (!player.isCreative()) {
-                        player.addExperience(-100);
+                        player.addExperience(-150);
                     }
 
                     this.inventory.markDirty();

@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": "minecraft:enchanting_table"
+            "items": "miteequilibrium:diamond_enchanting_table"
           }
         ]
       },
