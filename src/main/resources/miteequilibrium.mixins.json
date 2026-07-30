@@ -1,0 +1,36 @@
+{
+  "required": true,
+  "package": "com.equilibrium.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "PlayerEntityMixin",
+    "vanilla_entitymixin.AnimalEntityMixin",
+    "vanilla_entitymixin.BlazeEntityMixin",
+    "vanilla_entitymixin.ChickenEntityMixin",
+    "vanilla_entitymixin.CowEntityMixin",
+    "vanilla_entitymixin.DrownedEntityMixin",
+    "vanilla_entitymixin.FishEntityMixin",
+    "vanilla_entitymixin.FishingBobberEntityMixin",
+    "vanilla_entitymixin.HostileEntityMixin",
+    "vanilla_entitymixin.IronGolemEntityMixin",
+    "vanilla_entitymixin.MagmaCubeEntityMixin",
+    "vanilla_entitymixin.MooshroomEntityMixin",
+    "vanilla_entitymixin.PhantomEntityMixin",
+    "vanilla_entitymixin.PigEntityMixin",
+    "vanilla_entitymixin.SheepEntityMixin",
+    "vanilla_entitymixin.SpiderEntityMixin",
+    "vanilla_entitymixin.StriderEntityMixin",
+    "vanilla_entitymixin.VillagerEntityMixin",
+    "vanilla_entitymixin.WitherSkeletonEntityMixin",
+    "vanilla_entitymixin.ZombieEntityMixin",
+    "vanilla_entitymixin.ZombieVillagerEntityMixin",
+    "vanilla_entitymixin.ZombifiedPiglinEntityMixin",
+    "vanilla_entitymixin.goal_mixin.BeeEntityGrowCropsGoalMixin",
+    "vanilla_entitymixin.goal_mixin.EscapeDangerGoalMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+  ]
+}

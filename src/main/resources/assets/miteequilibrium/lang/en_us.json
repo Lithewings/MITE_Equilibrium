@@ -1,0 +1,13 @@
+{
+  "itemGroup.miteequilibrium": "Example Mod Tab",
+  "block.miteequilibrium.example_block": "Example Block",
+  "item.miteequilibrium.example_item": "Example Item",
+
+  "miteequilibrium.configuration.title": "MITE_Equilibrium Configs",
+  "miteequilibrium.configuration.section.miteequilibrium.common.toml": "MITE_Equilibrium Configs",
+  "miteequilibrium.configuration.section.miteequilibrium.common.toml.title": "MITE_Equilibrium Configs",
+  "miteequilibrium.configuration.items": "Item List",
+  "miteequilibrium.configuration.logDirtBlock": "Log Dirt Block",
+  "miteequilibrium.configuration.magicNumberIntroduction": "Magic Number Text",
+  "miteequilibrium.configuration.magicNumber": "Magic Number"
+}
