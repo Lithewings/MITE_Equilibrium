@@ -123,6 +123,8 @@ public class OnServerInitialize implements ModInitializer {
     private int tickCount = 0; // 记录当前 tick
 
 
+
+    @Override
     public void onInitialize() {
 
 

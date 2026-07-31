@@ -17,12 +17,13 @@
     "description": {
       "translate": "adventure.get_flint_craft_table"
     },
-
     "icon": {
       "count": 1,
       "id": "miteequilibrium:flint_crafting_table"
     },
-    "title": "这是,工作台?"
+    "title": {
+      "translate": "adventure.get_flint_craft_table.title"
+    }
   },
   "requirements": [
     [

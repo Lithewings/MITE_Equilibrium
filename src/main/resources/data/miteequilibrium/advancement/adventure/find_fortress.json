@@ -21,14 +21,14 @@
   "display": {
     "announce_to_chat": true,
     "description": {
-      "translate":  "adventure.find_fortress"
+      "translate": "adventure.find_fortress"
     },
     "icon": {
       "count": 1,
       "id": "minecraft:nether_bricks"
     },
     "title": {
-      "translate": "黑暗要塞"
+      "translate": "adventure.find_fortress.title"
     }
   },
   "requirements": [

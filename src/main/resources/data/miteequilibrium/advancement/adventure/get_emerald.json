@@ -21,9 +21,9 @@
       "count": 1,
       "id": "minecraft:emerald"
     },
-    "title":
-      "绿宝石!"
-
+    "title": {
+      "translate": "adventure.get_emerald.title"
+    }
   },
   "requirements": [
     [

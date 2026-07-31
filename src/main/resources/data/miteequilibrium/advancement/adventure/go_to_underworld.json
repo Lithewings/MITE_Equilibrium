@@ -13,12 +13,13 @@
     "description": {
       "translate": "adventure.go_to_underworld"
     },
-
     "icon": {
       "count": 1,
       "id": "minecraft:flint_and_steel"
     },
-    "title": "黑暗洞穴"
+    "title": {
+      "translate": "adventure.go_to_underworld.title"
+    }
   },
   "requirements": [
     [

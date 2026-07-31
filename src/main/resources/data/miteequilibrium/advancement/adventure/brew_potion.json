@@ -14,9 +14,9 @@
       "count": 1,
       "id": "minecraft:potion"
     },
-    "title":
-      "女巫科技"
-
+    "title": {
+      "translate": "adventure.brew_potion.title"
+    }
   },
   "requirements": [
     [

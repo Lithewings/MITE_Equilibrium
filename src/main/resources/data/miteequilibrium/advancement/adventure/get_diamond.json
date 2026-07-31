@@ -17,12 +17,13 @@
     "description": {
       "translate": "adventure.get_diamond"
     },
-
     "icon": {
       "count": 1,
       "id": "minecraft:diamond"
     },
-    "title": "钻石!"
+    "title": {
+      "translate": "adventure.get_diamond.title"
+    }
   },
   "requirements": [
     [

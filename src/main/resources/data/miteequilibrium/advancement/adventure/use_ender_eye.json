@@ -13,17 +13,16 @@
   },
   "display": {
     "announce_to_chat": true,
-
     "description": {
       "translate": "adventure.use_ender_eye"
     },
-
-
     "icon": {
       "count": 1,
       "id": "minecraft:ender_eye"
     },
-    "title": "要塞追寻者"
+    "title": {
+      "translate": "adventure.use_ender_eye.title"
+    }
   },
   "requirements": [
     [

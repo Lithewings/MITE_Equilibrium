@@ -47,13 +47,13 @@
     "description": {
       "translate": "adventure.get_mithril_armor"
     },
-
-
     "icon": {
       "count": 1,
       "id": "miteequilibrium:mithril_chest_plate"
     },
-    "title": "全副武装 III"
+    "title": {
+      "translate": "adventure.get_full_mithril_armor.title"
+    }
   },
   "requirements": [
     [

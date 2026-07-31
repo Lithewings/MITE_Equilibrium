@@ -14,17 +14,16 @@
   },
   "display": {
     "announce_to_chat": true,
-
-
     "description": {
       "translate": "adventure.get_ancient_metal"
     },
-
     "icon": {
       "count": 1,
       "id": "miteequilibrium:ancient_metal"
     },
-    "title": "远古金属!"
+    "title": {
+      "translate": "adventure.get_ancient_metal.title"
+    }
   },
   "requirements": [
     [

@@ -1,6 +1,5 @@
 {
   "parent": "miteequilibrium:adventure/get_copper",
-
   "criteria": {
     "get_metal_pickaxe": {
       "conditions": {
@@ -16,18 +15,16 @@
   "display": {
     "frame": "challenge",
     "announce_to_chat": true,
-
-
     "description": {
       "translate": "adventure.get_metal_pickaxe"
     },
-
-
     "icon": {
       "count": 1,
       "id": "miteequilibrium:copper_pickaxe"
     },
-    "title": "下矿时间到"
+    "title": {
+      "translate": "adventure.get_metal_pickaxe.title"
+    }
   },
   "requirements": [
     [

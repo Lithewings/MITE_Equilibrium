@@ -14,20 +14,17 @@
   "display": {
     "announce_to_chat": true,
     "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
-
-
-
     "description": {
       "translate": "adventure.root"
     },
-
-
     "hidden": true,
     "icon": {
       "count": 1,
       "id": "minecraft:spyglass"
     },
-    "title": "MITE-宁静"
+    "title": {
+      "translate": "adventure.root.title"
+    }
   },
   "requirements": [
     [

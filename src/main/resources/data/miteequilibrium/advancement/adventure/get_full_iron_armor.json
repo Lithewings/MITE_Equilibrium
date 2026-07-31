@@ -44,16 +44,16 @@
   },
   "display": {
     "announce_to_chat": true,
-
     "description": {
       "translate": "adventure.get_full_iron_armor"
     },
-
     "icon": {
       "count": 1,
       "id": "minecraft:iron_chestplate"
     },
-    "title": "全副武装 II"
+    "title": {
+      "translate": "adventure.get_full_iron_armor.title"
+    }
   },
   "requirements": [
     [

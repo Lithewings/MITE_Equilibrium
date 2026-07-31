@@ -14,16 +14,16 @@
   },
   "display": {
     "announce_to_chat": true,
-
     "description": {
       "translate": "adventure.get_netherite_ingot"
     },
-
     "icon": {
       "count": 1,
       "id": "minecraft:netherite_ingot"
     },
-    "title": "科技线的尾声"
+    "title": {
+      "translate": "adventure.get_netherite_ingot.title"
+    }
   },
   "requirements": [
     [

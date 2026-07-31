@@ -27,8 +27,9 @@
       "count": 1,
       "id": "minecraft:end_portal_frame"
     },
-    "title": "隔墙有眼/意外收获?"
-
+    "title": {
+      "translate": "adventure.follow_ender_eye.title"
+    }
   },
   "requirements": [
     [

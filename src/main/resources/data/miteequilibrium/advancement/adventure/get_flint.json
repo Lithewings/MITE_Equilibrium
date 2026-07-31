@@ -31,7 +31,9 @@
       "count": 1,
       "id": "minecraft:gravel"
     },
-    "title": "燧石寻找者"
+    "title": {
+      "translate": "adventure.get_flint.title"
+    }
   },
   "requirements": [
     [

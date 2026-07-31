@@ -1,6 +1,5 @@
 {
   "parent": "miteequilibrium:adventure/go_to_underworld",
-
   "criteria": {
     "go_to_nether": {
       "conditions": {
@@ -12,17 +11,16 @@
   "display": {
     "frame": "challenge",
     "announce_to_chat": true,
-
-
     "description": {
       "translate": "adventure.go_to_nether"
     },
-
     "icon": {
       "count": 1,
       "id": "minecraft:netherrack"
     },
-    "title": "让我们更深入一些"
+    "title": {
+      "translate": "adventure.go_to_nether.title"
+    }
   },
   "requirements": [
     [

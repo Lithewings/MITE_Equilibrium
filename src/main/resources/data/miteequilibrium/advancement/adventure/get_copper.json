@@ -14,20 +14,16 @@
   },
   "display": {
     "announce_to_chat": true,
-
     "description": {
       "translate": "adventure.get_copper"
     },
-
-
-
-
-
     "icon": {
       "count": 1,
       "id": "miteequilibrium:copper_nugget"
     },
-    "title": "怎么是抽卡游戏?"
+    "title": {
+      "translate": "adventure.get_copper.title"
+    }
   },
   "requirements": [
     [

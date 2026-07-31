@@ -1,6 +1,5 @@
 {
   "parent": "miteequilibrium:adventure/get_copper",
-
   "criteria": {
     "get_metal_pickaxe2": {
       "conditions": {
@@ -17,17 +16,16 @@
     "frame": "challenge",
     "announce_to_chat": true,
     "hidden": true,
-
     "description": {
       "translate": "adventure.get_metal_pickaxe2"
     },
-
-
     "icon": {
       "count": 1,
       "id": "miteequilibrium:gold_pickaxe"
     },
-    "title": "未曾设想的道路"
+    "title": {
+      "translate": "adventure.get_gold_pickaxe.title"
+    }
   },
   "requirements": [
     [

@@ -14,18 +14,16 @@
   },
   "display": {
     "announce_to_chat": true,
-
     "description": {
       "translate": "adventure.get_silver"
     },
-
-
-
     "icon": {
       "count": 1,
       "id": "miteequilibrium:silver_nugget"
     },
-    "title": "贵金属"
+    "title": {
+      "translate": "adventure.get_silver.title"
+    }
   },
   "requirements": [
     [

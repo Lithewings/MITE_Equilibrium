@@ -1,6 +1,5 @@
 {
   "parent": "miteequilibrium:adventure/enter_the_end",
-
   "criteria": {
     "killed_dragon": {
       "conditions": {
@@ -23,14 +22,13 @@
     "description": {
       "translate": "adventure.kill_dragon"
     },
-
     "icon": {
       "count": 1,
       "id": "minecraft:dragon_head"
     },
-    "title":
-      "结束了。"
-
+    "title": {
+      "translate": "adventure.kill_dragon.title"
+    }
   },
   "requirements": [
     [

@@ -17,13 +17,13 @@
     "description": {
       "translate": "adventure.get_hatchet"
     },
-
-
     "icon": {
       "count": 1,
       "id": "miteequilibrium:flint_hatchet"
     },
-    "title": "生存达人"
+    "title": {
+      "translate": "adventure.get_hatchet.title"
+    }
   },
   "requirements": [
     [

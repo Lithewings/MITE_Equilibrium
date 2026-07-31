@@ -21,7 +21,9 @@
       "count": 1,
       "id": "miteequilibrium:adamantium_pickaxe"
     },
-    "title": "末影水晶破坏者"
+    "title": {
+      "translate": "adventure.get_adamantium_pickaxe.title"
+    }
   },
   "requirements": [
     [

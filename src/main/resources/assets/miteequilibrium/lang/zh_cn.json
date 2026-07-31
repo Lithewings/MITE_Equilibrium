@@ -1,4 +1,45 @@
 {
+
+
+  "adventure.brew_potion.title": "女巫科技",
+  "adventure.enter_the_end.title": "落地水大考验",
+  "adventure.find_fortress.title": "黑暗要塞",
+  "adventure.follow_ender_eye.title": "隔墙有眼/意外收获?",
+  "adventure.get_adamantium_pickaxe.title": "末影水晶破坏者",
+  "adventure.get_ancient_metal.title": "远古金属!",
+  "adventure.get_copper.title": "怎么是抽卡游戏?",
+  "adventure.get_diamond.title": "钻石!",
+  "adventure.get_diamond_crafting_table.title": "制作钻石工作台",
+  "adventure.get_emerald.title": "绿宝石!",
+  "adventure.get_emerald_enchantment_table.title": "初级附魔师",
+  "adventure.get_enchantment_table.title": "附魔师",
+  "adventure.get_flint.title": "燧石寻找者",
+  "adventure.get_flint_craft_table.title": "这是,工作台?",
+  "adventure.get_full_copper_armor.title": "全副武装 I",
+  "adventure.get_full_iron_armor.title": "全副武装 II",
+  "adventure.get_full_mithril_armor.title": "全副武装 III",
+  "adventure.get_gold_pickaxe.title": "未曾设想的道路",
+  "adventure.get_hatchet.title": "生存达人",
+  "adventure.get_iron_pickaxe.title": "黑曜石采集者",
+  "adventure.get_metal_pickaxe.title": "下矿时间到",
+  "adventure.get_mithril.title": "神话时代",
+  "adventure.get_mithril_pickaxe.title": "采下艾德曼矿石",
+  "adventure.get_netherite_ingot.title": "科技线的尾声",
+  "adventure.get_silver.title": "贵金属",
+  "adventure.go_to_nether.title": "让我们更深入一些",
+  "adventure.go_to_underworld.title": "黑暗洞穴",
+  "adventure.kill_dragon.title": "结束了。",
+  "adventure.root.title": "MITE-宁静",
+  "adventure.use_ender_eye.title": "要塞追寻者",
+
+
+
+
+
+
+
+
+
   "next_respawn": "距离下次可用的重生还有: ",
   "mod_death_text": "不必冒险，你有无限次重来的机会，这个世界永远等待着你",
   "mod.first_day.helloWorld": "在你的附近寻找箱子,取出其中的物品",

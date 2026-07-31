@@ -21,7 +21,9 @@
       "count": 1,
       "id": "miteequilibrium:iron_pickaxe"
     },
-    "title": "黑曜石采集者"
+    "title": {
+      "translate": "adventure.get_iron_pickaxe.title"
+    }
   },
   "requirements": [
     [

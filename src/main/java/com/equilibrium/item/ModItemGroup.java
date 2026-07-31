@@ -85,6 +85,7 @@ public class ModItemGroup {
                                 entries.add(OtherItems.DIAMOND_SHARD);
                                 entries.add(OtherItems.EMERALD_SHARD);
                                 entries.add(OtherItems.GLASS_FRAGMENT);
+                                entries.add(OtherItems.SINEW);
 //                                entries.add(OtherItems.PUDDING_SLIME_BALL);
 
                             }

@@ -17,12 +17,13 @@
     "description": {
       "translate": "adventure.get_mithril"
     },
-
     "icon": {
       "count": 1,
       "id": "miteequilibrium:mithril"
     },
-    "title": "神话时代"
+    "title": {
+      "translate": "adventure.get_mithril.title"
+    }
   },
   "requirements": [
     [

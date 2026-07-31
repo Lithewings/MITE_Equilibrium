@@ -14,22 +14,16 @@
   },
   "display": {
     "announce_to_chat": true,
-
-
     "description": {
       "translate": "adventure.get_diamond_crafting_table"
     },
-
-
-
-
-
-
     "icon": {
       "count": 1,
       "id": "miteequilibrium:diamond_crafting_table"
     },
-    "title": "制作钻石工作台"
+    "title": {
+      "translate": "adventure.get_diamond_crafting_table.title"
+    }
   },
   "requirements": [
     [

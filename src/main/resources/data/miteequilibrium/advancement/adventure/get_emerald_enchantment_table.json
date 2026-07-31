@@ -14,22 +14,16 @@
   },
   "display": {
     "announce_to_chat": true,
-
-
     "description": {
       "translate": "adventure.get_emerald_enchantment_table"
     },
-
-
-
-
-
-
     "icon": {
       "count": 1,
       "id": "miteequilibrium:emerald_enchanting_table"
     },
-    "title": "初级附魔师"
+    "title": {
+      "translate": "adventure.get_emerald_enchantment_table.title"
+    }
   },
   "requirements": [
     [
