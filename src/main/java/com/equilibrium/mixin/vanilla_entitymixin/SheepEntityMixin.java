@@ -39,16 +39,10 @@ public abstract  class SheepEntityMixin extends AnimalEntity implements Shearabl
     }
 
 
-
     @Override
     public boolean canSpawn(WorldAccess world, SpawnReason spawnReason) {
-        if(world instanceof ServerWorld){
-            boolean shouldNotGen = getGameBooleanRuleFromServer(ENABLE_NO_ANIMALS,world.getServer());
-            if(spawnReason==SpawnReason.NATURAL && shouldNotGen){
-                return false;
-            }
-            return true;
-        }
+        if(world.getServer()!=null && getGameBooleanRuleFromServer(ENABLE_NO_ANIMALS, world.getServer()))
+            return false;
         return super.canSpawn(world,spawnReason);
     }
 
