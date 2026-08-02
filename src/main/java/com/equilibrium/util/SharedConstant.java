@@ -8,7 +8,6 @@ import java.util.Optional;
 
 public class SharedConstant {
 
-
     public static Style RED = Style.create(
             Optional.of(TextColor.fromRgb(16733525)),
             Optional.of(false),

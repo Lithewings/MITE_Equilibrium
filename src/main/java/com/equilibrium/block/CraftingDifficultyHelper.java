@@ -1,6 +1,6 @@
 package com.equilibrium.block;
 
-import com.equilibrium.item.Metal;
+import com.equilibrium.item.MaterialItems;
 import com.equilibrium.item.food.FoodOrFarmItems;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -93,18 +93,18 @@ CraftingDifficultyHelper {
 		ITEM_DIFFICULTY.put(Items.GOLD_NUGGET, 1600f / 9f);
 
 		// 秘银相关
-		ITEM_DIFFICULTY.put(Metal.mithril, 25600f);
-		ITEM_DIFFICULTY.put(Metal.mithril_nugget, 25600f / 9f);
+		ITEM_DIFFICULTY.put(MaterialItems.MITHRIL_INGOT.get(), 25600f);
+		ITEM_DIFFICULTY.put(MaterialItems.MITHRIL_NUGGET.get(), 25600f / 9f);
 		ITEM_DIFFICULTY.put(ModBlocksRegistry.MITHRIL_BLOCK.asItem(),25600f * 9f);
 
 		// 银相关
-		ITEM_DIFFICULTY.put(Metal.silver, 1600f);
-		ITEM_DIFFICULTY.put(Metal.silver_nugget, 1600f / 9f);
+		ITEM_DIFFICULTY.put(MaterialItems.SILVER_INGOT.get(), 1600f);
+		ITEM_DIFFICULTY.put(MaterialItems.SILVER_NUGGET.get(), 1600f / 9f);
 		ITEM_DIFFICULTY.put(ModBlocksRegistry.SILVER_BLOCK.asItem(), 1600f * 9f);
 
 		// 铜相关
-		ITEM_DIFFICULTY.put(Metal.copper, 1600f);
-		ITEM_DIFFICULTY.put(Metal.copper_nugget, 1600f / 9f);
+		ITEM_DIFFICULTY.put(MaterialItems.COPPER_INGOT.get(), 1600f);
+		ITEM_DIFFICULTY.put(MaterialItems.COPPER_NUGGET.get(), 1600f / 9f);
 		ITEM_DIFFICULTY.put(ModBlocksRegistry.COPPER_BLOCK.asItem(), 1600f * 9f);
 
 		// 钻石相关
@@ -112,8 +112,8 @@ CraftingDifficultyHelper {
 		ITEM_DIFFICULTY.put(Items.NETHERITE_INGOT, 25600f * 4f);
 
 		// 艾德曼合金相关
-		ITEM_DIFFICULTY.put(Metal.adamantium, 25600f * 4f);
-		ITEM_DIFFICULTY.put(Metal.adamantium_nugget, 25600f * 4f / 9f);
+		ITEM_DIFFICULTY.put(MaterialItems.ADAMANTIUM_INGOT.get(), 25600f * 4f);
+		ITEM_DIFFICULTY.put(MaterialItems.ADAMANTIUM_NUGGET.get(), 25600f * 4f / 9f);
 		ITEM_DIFFICULTY.put(ModBlocksRegistry.ADAMANTIUM_BLOCK.asItem(), 25600f * 4f * 9f);
 
 
