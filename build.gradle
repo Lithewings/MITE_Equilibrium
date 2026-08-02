@@ -134,8 +134,16 @@ dependencies {
     // implementation "blank:coolmod-${mc_version}:${coolmod_version}"
 
     // Example mod dependency using a file as dependency
+
+
+    
+    // I can not find pom
+    // So annoying
+    // I decide to use absolute path
     implementation files("C:\\Users\\Lithewings\\.gradle\\caches\\modules-2\\files-2.1\\org.sinytra\\connector\\2.0.0-beta.14+1.21.1\\6b3188da636ceaeb7c14fc47f09dc43fe327ef92\\connector-2.0.0-beta.14+1.21.1-full.jar")
 
+
+    
     // Example project dependency using a sister or child project:
     // implementation project(":myproject")
 
