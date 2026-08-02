@@ -308,13 +308,13 @@ public abstract class CraftingScreenHandlerMixin extends RecipeBookMenu<Crafting
 			//斧子中,替换铁,金
 			if(itemStack.is(ModItemTags.AXES)){
 				if(itemStack.is(Items.IRON_AXE))
-					itemStack = Tools.IRON_AXE.getDefaultInstance();
+					itemStack = Tools.IRON_AXE.get().getDefaultInstance();
 
 				if(itemStack.is(Items.GOLDEN_AXE))
-					itemStack = Tools.GOLD_AXE.getDefaultInstance();
+					itemStack = Tools.GOLD_AXE.get().getDefaultInstance();
 
 				int clickTimes = C2SClickTimesPacket.getClickTimes(player);
-				if(!itemStack.is(Tools.FLINT_AXE)) {
+				if(!itemStack.is(Tools.FLINT_AXE.get())) {
 					MetalAxe metalAxe = (MetalAxe) itemStack.getItem();
 					rightClickLogicForAdditionalAttribute(metalAxe.maxPlayerDurabilityBoost(metalAxe.getTier(), player), clickTimes, itemStack);
 				}
@@ -323,45 +323,33 @@ public abstract class CraftingScreenHandlerMixin extends RecipeBookMenu<Crafting
 
 			}
 
-
-
 			if(itemStack.is(ModItemTags.DAGGERS)){
 				int clickTimes = C2SClickTimesPacket.getClickTimes(player);
-				if(!itemStack.is(Tools.FLINT_KNIFE)) {
+				if(!itemStack.is(Tools.FLINT_KNIFE.get())) {
 					MetalDagger metalDagger = (MetalDagger) itemStack.getItem();
 					rightClickLogicForAdditionalAttribute(metalDagger.maxPlayerDurabilityBoost(metalDagger.getTier(), player), clickTimes, itemStack);
 				}
 			}
 
-
-
-
-
 			if(itemStack.is(ModItemTags.HOES)){
 				if(itemStack.is(Items.IRON_HOE))
-					itemStack = Tools.IRON_HOE.getDefaultInstance();
+					itemStack = Tools.IRON_HOE.get().getDefaultInstance();
 
 				if(itemStack.is(Items.GOLDEN_HOE))
-					itemStack = Tools.GOLD_HOE.getDefaultInstance();
+					itemStack = Tools.GOLD_HOE.get().getDefaultInstance();
 
 				int clickTimes = C2SClickTimesPacket.getClickTimes(player);
 				MetalHoe metalHoe = (MetalHoe)itemStack.getItem();
 				rightClickLogicForAdditionalAttribute(metalHoe.maxPlayerDurabilityBoost(metalHoe.getTier(), player), clickTimes, itemStack);
-
-
-
-
-
-
 			}
 
 			if(itemStack.is(ModItemTags.SHOVELS)){
-				if(!itemStack.is(Tools.FLINT_SHOVEL) && !itemStack.is(Items.WOODEN_SHOVEL)) {
+				if(!itemStack.is(Tools.FLINT_SHOVEL.get()) && !itemStack.is(Items.WOODEN_SHOVEL)) {
 					if (itemStack.is(Items.IRON_SHOVEL))
-						itemStack = Tools.IRON_SHOVEL.getDefaultInstance();
+						itemStack = Tools.IRON_SHOVEL.get().getDefaultInstance();
 
 					if (itemStack.is(Items.GOLDEN_SHOVEL))
-						itemStack = Tools.GOLD_SHOVEL.getDefaultInstance();
+						itemStack = Tools.GOLD_SHOVEL.get().getDefaultInstance();
 					int clickTimes = C2SClickTimesPacket.getClickTimes(player);
 					MetalShovel metalShovel = (MetalShovel) itemStack.getItem();
 					rightClickLogicForAdditionalAttribute(metalShovel.maxPlayerDurabilityBoost(metalShovel.getTier(), player), clickTimes, itemStack);
@@ -373,10 +361,10 @@ public abstract class CraftingScreenHandlerMixin extends RecipeBookMenu<Crafting
 
 			if(itemStack.is(ModItemTags.SWORDS)) {
 					if (itemStack.is(Items.IRON_SWORD))
-						itemStack = Tools.IRON_SWORD.getDefaultInstance();
+						itemStack = Tools.IRON_SWORD.get().getDefaultInstance();
 
 					if (itemStack.is(Items.GOLDEN_SWORD))
-						itemStack = Tools.GOLD_SWORD.getDefaultInstance();
+						itemStack = Tools.GOLD_SWORD.get().getDefaultInstance();
 					int clickTimes = C2SClickTimesPacket.getClickTimes(player);
 					MetalSword metalSword = (MetalSword) itemStack.getItem();
 					rightClickLogicForAdditionalAttribute(metalSword.maxPlayerDurabilityBoost(metalSword.getTier(), player), clickTimes, itemStack);
@@ -385,12 +373,12 @@ public abstract class CraftingScreenHandlerMixin extends RecipeBookMenu<Crafting
 			if (itemStack.is(ModItemTags.PICKAXES)) {
 
 				if (itemStack.is(Items.IRON_PICKAXE)) {
-					itemStack = Tools.IRON_PICKAXE.getDefaultInstance();
+					itemStack = Tools.IRON_PICKAXE.get().getDefaultInstance();
 
 
 				}
 				if (itemStack.is(Items.GOLDEN_PICKAXE)) {
-					itemStack = Tools.GOLD_PICKAXE.getDefaultInstance();
+					itemStack = Tools.GOLD_PICKAXE.get().getDefaultInstance();
 
 				}
 				int clickTimes = C2SClickTimesPacket.getClickTimes(player);
