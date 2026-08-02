@@ -1,201 +1,138 @@
 package com.equilibrium.item;
 
-import com.equilibrium.OnServerInitialize;
-import com.equilibrium.item.tools_attribute.ModToolMaterials;
+import com.equilibrium.item.tools_attribute.ToolTiers;
 import com.equilibrium.item.tools_attribute.flint.FlintAxeOrHatchet;
 import com.equilibrium.item.tools_attribute.flint.FlintKnife;
 import com.equilibrium.item.tools_attribute.flint.FlintShovel;
 import com.equilibrium.item.tools_attribute.metal.*;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Tier;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.registries.RegisterEvent;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
-@EventBusSubscriber(modid = OnServerInitialize.MOD_ID)
+import java.util.function.Supplier;
+
+import static com.equilibrium.item.Items.ITEMS;
+
+/**
+ * 工具物品注册类，使用 DeferredRegister 统一管理。
+ * 在模组主类中调用 Tools.ITEMS.register(modEventBus) 即可完成注册。
+ */
 public class Tools {
 
-    // ========== 字段声明（不初始化） ==========
-    public static Item FLINT_HATCHET;
-    public static Item FLINT_AXE;
-    public static Item FLINT_KNIFE;
-    public static Item FLINT_SHOVEL;
+    // 2. 使用 ITEMS.register() 注册每个物品，返回 RegistryObject<Item>
+    //    工厂方法保留原样，用于构建物品实例
 
-    public static Item COPPER_AXE;
-    public static Item GOLD_AXE;
-    public static Item SILVER_AXE;
-    public static Item IRON_AXE;
-    public static Item MITHRIL_AXE;
-    public static Item ADAMANTIUM_AXE;
+    // ----- 燧石工具 -----
+    public static final Supplier<Item> FLINT_HATCHET =
+            ITEMS.register("flint_hatchet", () -> createFlintAxeOrHatchetItem(ToolTiers.FLINT_HATCHET, 4, 1f));
+    public static final Supplier<Item> FLINT_AXE =
+            ITEMS.register("flint_axe", () -> createFlintAxeOrHatchetItem(ToolTiers.FLINT_AXE, 5, 1f));
+    public static final Supplier<Item> FLINT_KNIFE =
+            ITEMS.register("flint_knife", () -> createFlintKnifeItem(ToolTiers.FLINT_KNIFE, 3, 2f));
+    public static final Supplier<Item> FLINT_SHOVEL =
+            ITEMS.register("flint_shovel", () -> createFlintShovelItem(ToolTiers.FLINT_SHOVEL, 2, 2f));
 
-    public static Item COPPER_PICKAXE;
-    public static Item GOLD_PICKAXE;
-    public static Item SILVER_PICKAXE;
-    public static Item IRON_PICKAXE;
-    public static Item MITHRIL_PICKAXE;
-    public static Item ADAMANTIUM_PICKAXE;
+    // ----- 斧头 -----
+    public static final Supplier<Item> COPPER_AXE =
+            ITEMS.register("copper_axe", () -> createMetalAxeItem(ToolTiers.COPPER_AXE, 8, 0.7f));
+    public static final Supplier<Item> GOLD_AXE =
+            ITEMS.register("gold_axe", () -> createMetalAxeItem(ToolTiers.GOLD_AXE, 5, 0.5f));
+    public static final Supplier<Item> SILVER_AXE =
+            ITEMS.register("silver_axe", () -> createMetalAxeItem(ToolTiers.SILVER_AXE, 8, 0.7f));
+    public static final Supplier<Item> IRON_AXE =
+            ITEMS.register("iron_axe", () -> createMetalAxeItem(ToolTiers.IRON_AXE, 9, 0.7f));
+    public static final Supplier<Item> MITHRIL_AXE =
+            ITEMS.register("mithril_axe", () -> createMetalAxeItem(ToolTiers.MITHRIL_AXE, 10, 0.8f));
+    public static final Supplier<Item> ADAMANTIUM_AXE =
+            ITEMS.register("adamantium_axe", () -> createMetalAxeItem(ToolTiers.ADAMANTIUM_AXE, 10, 1f));
 
-    public static Item COPPER_HOE;
-    public static Item GOLD_HOE;
-    public static Item SILVER_HOE;
-    public static Item IRON_HOE;
-    public static Item MITHRIL_HOE;
-    public static Item ADAMANTIUM_HOE;
+    // ----- 镐 -----
+    public static final Supplier<Item> COPPER_PICKAXE =
+            ITEMS.register("copper_pickaxe", () -> createMetalPickAxeItem(ToolTiers.COPPER_PICKAXE, 5, 2f));
+    public static final Supplier<Item> GOLD_PICKAXE =
+            ITEMS.register("gold_pickaxe", () -> createMetalPickAxeItem(ToolTiers.GOLD_PICKAXE, 5, 2f));
+    public static final Supplier<Item> SILVER_PICKAXE =
+            ITEMS.register("silver_pickaxe", () -> createMetalPickAxeItem(ToolTiers.SILVER_PICKAXE, 5, 2f));
+    public static final Supplier<Item> IRON_PICKAXE =
+            ITEMS.register("iron_pickaxe", () -> createMetalPickAxeItem(ToolTiers.IRON_PICKAXE, 6, 2f));
+    public static final Supplier<Item> MITHRIL_PICKAXE =
+            ITEMS.register("mithril_pickaxe", () -> createMetalPickAxeItem(ToolTiers.MITHRIL_PICKAXE, 7, 2f));
+    public static final Supplier<Item> ADAMANTIUM_PICKAXE =
+            ITEMS.register("adamantium_pickaxe", () -> createMetalPickAxeItem(ToolTiers.ADAMANTIUM_PICKAXE, 8, 2f));
 
-    public static Item COPPER_HAMMER;
-    public static Item SILVER_HAMMER;
-    public static Item GOLD_HAMMER;
-    public static Item IRON_HAMMER;
-    public static Item MITHRIL_HAMMER;
-    public static Item ADAMANTIUM_HAMMER;
+    // ----- 锄头 -----
+    public static final Supplier<Item> COPPER_HOE =
+            ITEMS.register("copper_hoe", () -> createMetalHoeItem(ToolTiers.COPPER_HOE, 4, 3f));
+    public static final Supplier<Item> GOLD_HOE =
+            ITEMS.register("gold_hoe", () -> createMetalHoeItem(ToolTiers.GOLD_HOE, 4, 3f));
+    public static final Supplier<Item> SILVER_HOE =
+            ITEMS.register("silver_hoe", () -> createMetalHoeItem(ToolTiers.SILVER_HOE, 4, 3f));
+    public static final Supplier<Item> IRON_HOE =
+            ITEMS.register("iron_hoe", () -> createMetalHoeItem(ToolTiers.IRON_HOE, 5, 3f));
+    public static final Supplier<Item> MITHRIL_HOE =
+            ITEMS.register("mithril_hoe", () -> createMetalHoeItem(ToolTiers.MITHRIL_HOE, 6, 3f));
+    public static final Supplier<Item> ADAMANTIUM_HOE =
+            ITEMS.register("adamantium_hoe", () -> createAdamantiumHoeItem(ToolTiers.ADAMANTIUM_HOE, 7, 3f));
 
-    public static Item COPPER_SHOVEL;
-    public static Item GOLD_SHOVEL;
-    public static Item SILVER_SHOVEL;
-    public static Item IRON_SHOVEL;
-    public static Item MITHRIL_SHOVEL;
-    public static Item ADAMANTIUM_SHOVEL;
+    // ----- 锤子 -----
+    public static final Supplier<Item> COPPER_HAMMER =
+            ITEMS.register("copper_hammer", () -> createMetalHammerItem(ToolTiers.COPPER_HAMMER, 6, 3f));
+    public static final Supplier<Item> SILVER_HAMMER =
+            ITEMS.register("silver_hammer", () -> createSilverHammerItem(ToolTiers.SILVER_HAMMER, 6, 3f));
+    public static final Supplier<Item> GOLD_HAMMER =
+            ITEMS.register("gold_hammer", () -> createMetalHammerItem(ToolTiers.GOLD_HAMMER, 6, 3f));
+    public static final Supplier<Item> IRON_HAMMER =
+            ITEMS.register("iron_hammer", () -> createMetalHammerItem(ToolTiers.IRON_HAMMER, 7, 3f));
+    public static final Supplier<Item> MITHRIL_HAMMER =
+            ITEMS.register("mithril_hammer", () -> createMetalHammerItem(ToolTiers.MITHRIL_HAMMER, 8, 3f));
+    public static final Supplier<Item> ADAMANTIUM_HAMMER =
+            ITEMS.register("adamantium_hammer", () -> createMetalHammerItem(ToolTiers.ADAMANTIUM_HAMMER, 9, 4f));
 
-    public static Item COPPER_SWORD;
-    public static Item GOLD_SWORD;
-    public static Item SILVER_SWORD;
-    public static Item IRON_SWORD;
-    public static Item MITHRIL_SWORD;
-    public static Item ADMANTIUM_SWORD;
+    // ----- 铲子 -----
+    public static final Supplier<Item> COPPER_SHOVEL =
+            ITEMS.register("copper_shovel", () -> createMetalShovelItem(ToolTiers.COPPER_SHOVEL, 3, 4f));
+    public static final Supplier<Item> GOLD_SHOVEL =
+            ITEMS.register("gold_shovel", () -> createMetalShovelItem(ToolTiers.GOLD_SHOVEL, 3, 4f));
+    public static final Supplier<Item> SILVER_SHOVEL =
+            ITEMS.register("silver_shovel", () -> createMetalShovelItem(ToolTiers.SILVER_SHOVEL, 3, 4f));
+    public static final Supplier<Item> IRON_SHOVEL =
+            ITEMS.register("iron_shovel", () -> createMetalShovelItem(ToolTiers.IRON_SHOVEL, 4, 4f));
+    public static final Supplier<Item> MITHRIL_SHOVEL =
+            ITEMS.register("mithril_shovel", () -> createMetalShovelItem(ToolTiers.MITHRIL_SHOVEL, 5, 4f));
+    public static final Supplier<Item> ADAMANTIUM_SHOVEL =
+            ITEMS.register("adamantium_shovel", () -> createMetalShovelItem(ToolTiers.ADAMANTIUM_SHOVEL, 6, 4f));
 
-    public static Item COPPER_DAGGER;
-    public static Item GOLD_DAGGER;
-    public static Item SILVER_DAGGER;
-    public static Item IRON_DAGGER;
-    public static Item MITHRIL_DAGGER;
-    public static Item ADMANTIUM_DAGGER;
+    // ----- 剑 -----
+    public static final Supplier<Item> COPPER_SWORD =
+            ITEMS.register("copper_sword", () -> createMetalSwordItem(ToolTiers.COPPER_SWORD, 7, 3f));
+    public static final Supplier<Item> GOLD_SWORD =
+            ITEMS.register("gold_sword", () -> createMetalSwordItem(ToolTiers.GOLD_SWORD, 7, 3f));
+    public static final Supplier<Item> SILVER_SWORD =
+            ITEMS.register("silver_sword", () -> createSilverSwordItem(ToolTiers.SILVER_SWORD, 7, 3f));
+    public static final Supplier<Item> IRON_SWORD =
+            ITEMS.register("iron_sword", () -> createMetalSwordItem(ToolTiers.IRON_SWORD, 8, 3f));
+    public static final Supplier<Item> MITHRIL_SWORD =
+            ITEMS.register("mithril_sword", () -> createMetalSwordItem(ToolTiers.MITHRIL_SWORD, 9, 3f));
+    public static final Supplier<Item> ADMANTIUM_SWORD =
+            ITEMS.register("adamantium_sword", () -> createMetalSwordItem(ToolTiers.ADAMANTIUM_SWORD, 10, 3f));
 
-    // ========== 注册入口 ==========
-    @SubscribeEvent
-    public static void registerTools(RegisterEvent event) {
-        event.register(BuiltInRegistries.ITEM.key(), helper -> {
-            // 创建所有工具实例（此时注册表可写）
-            FLINT_HATCHET = createFlintAxeOrHatchetItem(ModToolMaterials.FLINT_HATCHET, 4, 1f);
-            FLINT_AXE = createFlintAxeOrHatchetItem(ModToolMaterials.FLINT_AXE, 5, 1f);
-            FLINT_KNIFE = createFlintKnifeItem(ModToolMaterials.FLINT_KNIFE, 3, 2f);
-            FLINT_SHOVEL = createFlintShovelItem(ModToolMaterials.FLINT_SHOVEL, 2, 2f);
+    // ----- 匕首 -----
+    public static final Supplier<Item> COPPER_DAGGER =
+            ITEMS.register("copper_dagger", () -> createMetalDaggerItem(ToolTiers.COPPER_DAGGER, 6, 4f));
+    public static final Supplier<Item> GOLD_DAGGER =
+            ITEMS.register("gold_dagger", () -> createMetalDaggerItem(ToolTiers.GOLD_DAGGER, 6, 4f));
+    public static final Supplier<Item> SILVER_DAGGER =
+            ITEMS.register("silver_dagger", () -> createSilverDaggerItem(ToolTiers.SILVER_DAGGER, 6, 4f));
+    public static final Supplier<Item> IRON_DAGGER =
+            ITEMS.register("iron_dagger", () -> createMetalDaggerItem(ToolTiers.IRON_DAGGER, 7, 4f));
+    public static final Supplier<Item> MITHRIL_DAGGER =
+            ITEMS.register("mithril_dagger", () -> createMetalDaggerItem(ToolTiers.MITHRIL_DAGGER, 8, 4f));
+    public static final Supplier<Item> ADMANTIUM_DAGGER =
+            ITEMS.register("adamantium_dagger", () -> createMetalDaggerItem(ToolTiers.ADAMANTIUM_DAGGER, 9, 4f));
 
-            COPPER_AXE = createMetalAxeItem(ModToolMaterials.COPPER_AXE, 8, 0.7f);
-            GOLD_AXE = createMetalAxeItem(ModToolMaterials.GOLD_AXE, 5, 0.5f);
-            SILVER_AXE = createMetalAxeItem(ModToolMaterials.SILVER_AXE, 8, 0.7f);
-            IRON_AXE = createMetalAxeItem(ModToolMaterials.IRON_AXE, 9, 0.7f);
-            MITHRIL_AXE = createMetalAxeItem(ModToolMaterials.MITHRIL_AXE, 10, 0.8f);
-            ADAMANTIUM_AXE = createMetalAxeItem(ModToolMaterials.ADAMANTIUM_AXE, 10, 1f);
-
-            COPPER_PICKAXE = createMetalPickAxeItem(ModToolMaterials.COPPER_PICKAXE, 5, 2f);
-            GOLD_PICKAXE = createMetalPickAxeItem(ModToolMaterials.GOLD_PICKAXE, 5, 2f);
-            SILVER_PICKAXE = createMetalPickAxeItem(ModToolMaterials.SILVER_PICKAXE, 5, 2f);
-            IRON_PICKAXE = createMetalPickAxeItem(ModToolMaterials.IRON_PICKAXE, 6, 2f);
-            MITHRIL_PICKAXE = createMetalPickAxeItem(ModToolMaterials.MITHRIL_PICKAXE, 7, 2f);
-            ADAMANTIUM_PICKAXE = createMetalPickAxeItem(ModToolMaterials.ADAMANTIUM_PICKAXE, 8, 2f);
-
-            COPPER_HOE = createMetalHoeItem(ModToolMaterials.COPPER_HOE, 4, 3f);
-            GOLD_HOE = createMetalHoeItem(ModToolMaterials.GOLD_HOE, 4, 3f);
-            SILVER_HOE = createMetalHoeItem(ModToolMaterials.SILVER_HOE, 4, 3f);
-            IRON_HOE = createMetalHoeItem(ModToolMaterials.IRON_HOE, 5, 3f);
-            MITHRIL_HOE = createMetalHoeItem(ModToolMaterials.MITHRIL_HOE, 6, 3f);
-            ADAMANTIUM_HOE = createAdamantiumHoeItem(ModToolMaterials.ADAMANTIUM_HOE, 7, 3f);
-
-            COPPER_HAMMER = createMetalHammerItem(ModToolMaterials.COPPER_HAMMER, 6, 3f);
-            SILVER_HAMMER = createSilverHammerItem(ModToolMaterials.SILVER_HAMMER, 6, 3f);
-            GOLD_HAMMER = createMetalHammerItem(ModToolMaterials.GOLD_HAMMER, 6, 3f);
-            IRON_HAMMER = createMetalHammerItem(ModToolMaterials.IRON_HAMMER, 7, 3f);
-            MITHRIL_HAMMER = createMetalHammerItem(ModToolMaterials.MITHRIL_HAMMER, 8, 3f);
-            ADAMANTIUM_HAMMER = createMetalHammerItem(ModToolMaterials.ADAMANTIUM_HAMMER, 9, 4f);
-
-            COPPER_SHOVEL = createMetalShovelItem(ModToolMaterials.COPPER_SHOVEL, 3, 4f);
-            GOLD_SHOVEL = createMetalShovelItem(ModToolMaterials.GOLD_SHOVEL, 3, 4f);
-            SILVER_SHOVEL = createMetalShovelItem(ModToolMaterials.SILVER_SHOVEL, 3, 4f);
-            IRON_SHOVEL = createMetalShovelItem(ModToolMaterials.IRON_SHOVEL, 4, 4f);
-            MITHRIL_SHOVEL = createMetalShovelItem(ModToolMaterials.MITHRIL_SHOVEL, 5, 4f);
-            ADAMANTIUM_SHOVEL = createMetalShovelItem(ModToolMaterials.ADAMANTIUM_SHOVEL, 6, 4f);
-
-            COPPER_SWORD = createMetalSwordItem(ModToolMaterials.COPPER_SWORD, 7, 3f);
-            GOLD_SWORD = createMetalSwordItem(ModToolMaterials.GOLD_SWORD, 7, 3f);
-            SILVER_SWORD = createSilverSwordItem(ModToolMaterials.SILVER_SWORD, 7, 3f);
-            IRON_SWORD = createMetalSwordItem(ModToolMaterials.IRON_SWORD, 8, 3f);
-            MITHRIL_SWORD = createMetalSwordItem(ModToolMaterials.MITHRIL_SWORD, 9, 3f);
-            ADMANTIUM_SWORD = createMetalSwordItem(ModToolMaterials.ADAMANTIUM_SWORD, 10, 3f);
-
-            COPPER_DAGGER = createMetalDaggerItem(ModToolMaterials.COPPER_DAGGER, 6, 4f);
-            GOLD_DAGGER = createMetalDaggerItem(ModToolMaterials.GOLD_DAGGER, 6, 4f);
-            SILVER_DAGGER = createSilverDaggerItem(ModToolMaterials.SILVER_DAGGER, 6, 4f);
-            IRON_DAGGER = createMetalDaggerItem(ModToolMaterials.IRON_DAGGER, 7, 4f);
-            MITHRIL_DAGGER = createMetalDaggerItem(ModToolMaterials.MITHRIL_DAGGER, 8, 4f);
-            ADMANTIUM_DAGGER = createMetalDaggerItem(ModToolMaterials.ADAMANTIUM_DAGGER, 9, 4f);
-
-            // 注册所有工具（与原来 registerModItemTools 顺序一致）
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "adamantium_hammer"), ADAMANTIUM_HAMMER);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "copper_hammer"), COPPER_HAMMER);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "silver_hammer"), SILVER_HAMMER);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "gold_hammer"), GOLD_HAMMER);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "iron_hammer"), IRON_HAMMER);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "mithril_hammer"), MITHRIL_HAMMER);
-
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "adamantium_axe"), ADAMANTIUM_AXE);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "mithril_axe"), MITHRIL_AXE);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "iron_axe"), IRON_AXE);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "copper_axe"), COPPER_AXE);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "silver_axe"), SILVER_AXE);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "gold_axe"), GOLD_AXE);
-
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "adamantium_hoe"), ADAMANTIUM_HOE);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "mithril_hoe"), MITHRIL_HOE);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "iron_hoe"), IRON_HOE);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "copper_hoe"), COPPER_HOE);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "silver_hoe"), SILVER_HOE);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "gold_hoe"), GOLD_HOE);
-
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "adamantium_pickaxe"), ADAMANTIUM_PICKAXE);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "mithril_pickaxe"), MITHRIL_PICKAXE);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "iron_pickaxe"), IRON_PICKAXE);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "copper_pickaxe"), COPPER_PICKAXE);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "silver_pickaxe"), SILVER_PICKAXE);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "gold_pickaxe"), GOLD_PICKAXE);
-
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "adamantium_sword"), ADMANTIUM_SWORD);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "mithril_sword"), MITHRIL_SWORD);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "iron_sword"), IRON_SWORD);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "copper_sword"), COPPER_SWORD);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "silver_sword"), SILVER_SWORD);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "gold_sword"), GOLD_SWORD);
-
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "adamantium_shovel"), ADAMANTIUM_SHOVEL);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "mithril_shovel"), MITHRIL_SHOVEL);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "iron_shovel"), IRON_SHOVEL);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "copper_shovel"), COPPER_SHOVEL);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "silver_shovel"), SILVER_SHOVEL);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "gold_shovel"), GOLD_SHOVEL);
-
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "adamantium_dagger"), ADMANTIUM_DAGGER);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "mithril_dagger"), MITHRIL_DAGGER);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "iron_dagger"), IRON_DAGGER);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "copper_dagger"), COPPER_DAGGER);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "silver_dagger"), SILVER_DAGGER);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "gold_dagger"), GOLD_DAGGER);
-
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "flint_hatchet"), FLINT_HATCHET);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "flint_axe"), FLINT_AXE);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "flint_knife"), FLINT_KNIFE);
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "flint_shovel"), FLINT_SHOVEL);
-        });
-    }
-
-    // ========== 以下所有工厂方法保持不变 ==========
-    public static Item createAdamantiumHoeItem(Tier material, int finalDamage, float finalDamageSpeed) {
-        return new AdamantiumHoe(material, new Item.Properties()
-                .attributes(DiggerItem.createAttributes(material, -1 + finalDamage, -4 + finalDamageSpeed)));
-    }
-
+    // ----- 工厂方法（与原来完全一致）-----
     public static Item createFlintShovelItem(Tier material, int finalDamage, float finalDamageSpeed) {
         return new FlintShovel(material, new Item.Properties()
                 .attributes(DiggerItem.createAttributes(material, -1 + finalDamage, -4 + finalDamageSpeed)));
@@ -258,6 +195,11 @@ public class Tools {
 
     public static Item createSilverHammerItem(Tier material, int finalDamage, float finalDamageSpeed) {
         return new SilverHammer(material, new Item.Properties()
+                .attributes(DiggerItem.createAttributes(material, -1 + finalDamage, -4 + finalDamageSpeed)));
+    }
+
+    public static Item createAdamantiumHoeItem(Tier material, int finalDamage, float finalDamageSpeed) {
+        return new AdamantiumHoe(material, new Item.Properties()
                 .attributes(DiggerItem.createAttributes(material, -1 + finalDamage, -4 + finalDamageSpeed)));
     }
 }
