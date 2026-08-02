@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "X": {
+      "item": "miteequilibrium:adamantium"
+    },
+    "Y": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "XX",
+    " Y",
+    " Y"
+  ],
+  "result": {
+    "count": 1,
+    "id": "miteequilibrium:adamantium_hoe"
+  }
+}

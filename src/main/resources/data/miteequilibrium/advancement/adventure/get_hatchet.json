@@ -1,0 +1,34 @@
+{
+  "parent": "miteequilibrium:adventure/get_flint",
+  "criteria": {
+    "get_hatchet": {
+      "conditions": {
+        "items": [
+          {
+            "items": "miteequilibrium:flint_hatchet"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "adventure.get_hatchet"
+    },
+    "icon": {
+      "count": 1,
+      "id": "miteequilibrium:flint_hatchet"
+    },
+    "title": {
+      "translate": "adventure.get_hatchet.title"
+    }
+  },
+  "requirements": [
+    [
+      "get_hatchet"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

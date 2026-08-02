@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/crop",
+  "textures": {
+    "crop": "miteequilibrium:block/onion_stage3"
+  }
+}

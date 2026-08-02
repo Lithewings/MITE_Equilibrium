@@ -1,0 +1,37 @@
+{
+  "parent": "miteequilibrium:adventure/go_to_underworld",
+  "criteria": {
+    "get_mithril": {
+      "conditions": {
+        "items": [
+          {
+            "items": "miteequilibrium:mithril"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "adventure.get_mithril"
+    },
+    "icon": {
+      "count": 1,
+      "id": "miteequilibrium:mithril"
+    },
+    "title": {
+      "translate": "adventure.get_mithril.title"
+    }
+  },
+  "requirements": [
+    [
+      "get_mithril"
+    ]
+  ],
+  "rewards": {
+    "experience": 200
+  },
+  "sends_telemetry_event": true
+}

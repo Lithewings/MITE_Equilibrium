@@ -1,0 +1,37 @@
+{
+  "parent": "miteequilibrium:adventure/get_flint",
+  "criteria": {
+    "get_copper": {
+      "conditions": {
+        "items": [
+          {
+            "items": "miteequilibrium:copper_nugget"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "adventure.get_copper"
+    },
+    "icon": {
+      "count": 1,
+      "id": "miteequilibrium:copper_nugget"
+    },
+    "title": {
+      "translate": "adventure.get_copper.title"
+    }
+  },
+  "requirements": [
+    [
+      "get_copper"
+    ]
+  ],
+  "rewards": {
+    "experience": 20
+  },
+  "sends_telemetry_event": true
+}

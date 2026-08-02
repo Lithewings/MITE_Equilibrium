@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "miteequilibrium:item/ancient_metal_chainmail_helmet",
+    "layer1": "minecraft:trims/items/helmet_trim_gold"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "parent": "miteequilibrium:adventure/go_to_underworld",
+  "criteria": {
+    "go_to_nether": {
+      "conditions": {
+        "to": "minecraft:the_nether"
+      },
+      "trigger": "minecraft:changed_dimension"
+    }
+  },
+  "display": {
+    "frame": "challenge",
+    "announce_to_chat": true,
+    "description": {
+      "translate": "adventure.go_to_nether"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:netherrack"
+    },
+    "title": {
+      "translate": "adventure.go_to_nether.title"
+    }
+  },
+  "requirements": [
+    [
+      "go_to_nether"
+    ]
+  ],
+  "rewards": {
+    "loot": [
+      "miteequilibrium:chests/loot_table_go_to_nether"
+    ],
+    "experience": 200
+  },
+  "sends_telemetry_event": true
+}

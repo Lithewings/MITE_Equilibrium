@@ -4,11 +4,15 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "PlayerEntityMixin",
+    "crafttime.CraftingScreenHandlerMixin",
+    "crafttime.PlayerScreenHandlerMixin",
+    "crafttime.ScreenHandlerMixin",
     "vanilla_entitymixin.AnimalEntityMixin",
     "vanilla_entitymixin.BlazeEntityMixin",
     "vanilla_entitymixin.ChickenEntityMixin",
-    "vanilla_entitymixin.CowEntityMixin",
     "vanilla_entitymixin.DrownedEntityMixin",
+    "vanilla_entitymixin.EnderDragonEntityMixin",
+    "vanilla_entitymixin.EnderManEntity",
     "vanilla_entitymixin.FishEntityMixin",
     "vanilla_entitymixin.FishingBobberEntityMixin",
     "vanilla_entitymixin.HostileEntityMixin",
@@ -17,20 +21,18 @@
     "vanilla_entitymixin.MooshroomEntityMixin",
     "vanilla_entitymixin.PhantomEntityMixin",
     "vanilla_entitymixin.PigEntityMixin",
-    "vanilla_entitymixin.SheepEntityMixin",
-    "vanilla_entitymixin.SpiderEntityMixin",
     "vanilla_entitymixin.StriderEntityMixin",
     "vanilla_entitymixin.VillagerEntityMixin",
     "vanilla_entitymixin.WitherSkeletonEntityMixin",
-    "vanilla_entitymixin.ZombieEntityMixin",
-    "vanilla_entitymixin.ZombieVillagerEntityMixin",
-    "vanilla_entitymixin.ZombifiedPiglinEntityMixin",
-    "vanilla_entitymixin.goal_mixin.BeeEntityGrowCropsGoalMixin",
-    "vanilla_entitymixin.goal_mixin.EscapeDangerGoalMixin"
+    "vanilla_entitymixin.ZombifiedPiglinEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
+    "crafttime.MixinClientPlayerEntity",
+    "crafttime.MixinCraftingScreen",
+    "crafttime.MixinInventoryScreen",
+    "crafttime.RecipeBookMixin"
   ]
 }

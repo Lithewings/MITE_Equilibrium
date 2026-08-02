@@ -1,0 +1,8 @@
+{
+  "values": [
+    "#minecraft:enchantable/mining_loot",
+    "#miteequilibrium:hoe",
+    "#miteequilibrium:pickaxe",
+    "#miteequilibrium:shovel"
+  ]
+}

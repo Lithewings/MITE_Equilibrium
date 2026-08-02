@@ -77,7 +77,7 @@ public abstract class PigEntityMixin extends Animal implements ItemSteerable, Sa
 
 
 
-    @Inject(method = "initGoals",at = @At("HEAD"))
+    @Inject(method = "registerGoals",at = @At("HEAD"))
     public void initGoals(CallbackInfo ci) {
         this.goalSelector.addGoal(0, new FloatGoal(this));
 
@@ -122,12 +122,12 @@ public abstract class PigEntityMixin extends Animal implements ItemSteerable, Sa
         environmentChecker.interactTask(player);
         //后续原版逻辑...
     }
-    @Inject(method = "writeCustomDataToNbt",at = @At("TAIL"))
+    @Inject(method = "addAdditionalSaveData",at = @At("TAIL"))
     public void writeCustomDataToNbt(CompoundTag nbt, CallbackInfo ci) {
         environmentChecker.writeCustomDataToNbt(nbt);
     }
 
-    @Inject(method = "readCustomDataFromNbt",at = @At("TAIL"))
+    @Inject(method = "readAdditionalSaveData",at = @At("TAIL"))
     public void readCustomDataFromNbt(CompoundTag nbt, CallbackInfo ci) {
         environmentChecker.readCustomDataFromNbt(nbt);
     }

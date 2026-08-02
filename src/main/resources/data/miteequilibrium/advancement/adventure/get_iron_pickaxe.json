@@ -1,0 +1,37 @@
+{
+  "parent": "miteequilibrium:adventure/get_metal_pickaxe",
+  "criteria": {
+    "get_iron_pickaxe": {
+      "conditions": {
+        "items": [
+          {
+            "items": "miteequilibrium:iron_pickaxe"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "adventure.get_iron_pickaxe"
+    },
+    "icon": {
+      "count": 1,
+      "id": "miteequilibrium:iron_pickaxe"
+    },
+    "title": {
+      "translate": "adventure.get_iron_pickaxe.title"
+    }
+  },
+  "requirements": [
+    [
+      "get_iron_pickaxe"
+    ]
+  ],
+  "rewards": {
+    "experience": 100
+  },
+  "sends_telemetry_event": true
+}

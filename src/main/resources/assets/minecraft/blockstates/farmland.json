@@ -1,0 +1,67 @@
+{
+  "replace": true,
+  "variants": {
+    "moisture=0,fertilized=true": {
+      "model": "miteequilibrium:block/farmland_dry_fertilized"
+    },
+    "moisture=0,fertilized=false": {
+      "model": "minecraft:block/farmland"
+    },
+    "moisture=1,fertilized=true": {
+      "model": "miteequilibrium:block/farmland_dry_fertilized"
+    },
+    "moisture=1,fertilized=false": {
+      "model": "minecraft:block/farmland"
+    },
+
+    "moisture=2,fertilized=true": {
+      "model": "miteequilibrium:block/farmland_dry_fertilized"
+    },
+    "moisture=2,fertilized=false": {
+      "model": "minecraft:block/farmland"
+    },
+
+    "moisture=3,fertilized=true": {
+      "model": "miteequilibrium:block/farmland_dry_fertilized"
+    },
+    "moisture=3,fertilized=false": {
+      "model": "minecraft:block/farmland"
+    },
+
+
+    "moisture=4,fertilized=true": {
+      "model": "miteequilibrium:block/farmland_dry_fertilized"
+    },
+    "moisture=4,fertilized=false": {
+      "model": "minecraft:block/farmland"
+    },
+
+
+
+
+
+
+    "moisture=5,fertilized=true": {
+      "model": "miteequilibrium:block/farmland_dry_fertilized"
+    },
+    "moisture=5,fertilized=false": {
+      "model": "minecraft:block/farmland"
+    },
+
+
+    "moisture=6,fertilized=true": {
+      "model": "miteequilibrium:block/farmland_dry_fertilized"
+    },
+    "moisture=6,fertilized=false": {
+      "model": "minecraft:block/farmland"
+    },
+
+    "moisture=7,fertilized=true": {
+      "model": "miteequilibrium:block/farmland_wet_fertilized"
+    },
+    "moisture=7,fertilized=false": {
+      "model": "minecraft:block/farmland_moist"
+    }
+  }
+
+}

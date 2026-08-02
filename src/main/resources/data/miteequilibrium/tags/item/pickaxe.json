@@ -1,0 +1,12 @@
+{
+  "values": [
+    "#minecraft:pickaxes",
+
+    "miteequilibrium:gold_pickaxe",
+    "miteequilibrium:silver_pickaxe",
+    "miteequilibrium:mithril_pickaxe",
+    "miteequilibrium:iron_pickaxe",
+    "miteequilibrium:copper_pickaxe",
+    "miteequilibrium:adamantium_pickaxe"
+  ]
+}

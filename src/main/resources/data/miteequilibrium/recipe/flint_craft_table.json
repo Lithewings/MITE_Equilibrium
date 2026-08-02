@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "X": {
+      "item": "miteequilibrium:flint_knife"
+    },
+    "Y": {
+      "tag": "minecraft:logs"
+    }
+  },
+  "pattern": [
+    "X",
+    "Y"
+  ],
+  "result": {
+    "count": 1,
+    "id": "miteequilibrium:flint_crafting_table"
+  }
+}

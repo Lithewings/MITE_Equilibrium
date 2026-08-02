@@ -1,0 +1,11 @@
+{
+  "values": [
+    "#minecraft:enchantable/durability",
+    "#miteequilibrium:axe",
+    "#miteequilibrium:dagger",
+    "#miteequilibrium:hoe",
+    "#miteequilibrium:shovel",
+    "#miteequilibrium:pickaxe"
+
+  ]
+}

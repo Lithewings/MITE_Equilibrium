@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "X": {
+      "item": "miteequilibrium:silver_block"
+    }
+  },
+  "pattern": [
+    "X"
+  ],
+  "result": {
+    "count": 9,
+    "id": "miteequilibrium:silver"
+  }
+}

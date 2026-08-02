@@ -1,0 +1,11 @@
+{
+  "values": [
+    "#minecraft:leaves",
+    "minecraft:glass",
+    "minecraft:dirt",
+    "minecraft:grass_block",
+    "minecraft:gravel",
+    "minecraft:sand",
+    "minecraft:glass_pane"
+  ]
+}

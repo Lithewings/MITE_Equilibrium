@@ -1,0 +1,34 @@
+{
+  "parent": "miteequilibrium:adventure/get_diamond",
+  "criteria": {
+    "get_enchantment_table": {
+      "conditions": {
+        "items": [
+          {
+            "items": "miteequilibrium:diamond_enchanting_table"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "adventure.get_enchantment_table"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:enchanting_table"
+    },
+    "title": {
+      "translate": "adventure.get_enchantment_table.title"
+    }
+  },
+  "requirements": [
+    [
+      "get_enchantment_table"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

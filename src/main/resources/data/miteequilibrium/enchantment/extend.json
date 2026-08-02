@@ -1,0 +1,34 @@
+{
+  "anvil_cost": 20,
+  "description": {
+    "translate": "enchantment.miteequilibrium.extend"
+  },
+  "effects": {
+    "minecraft:attributes": [
+      {
+        "amount": {
+          "type": "minecraft:linear",
+          "base": 0.5,
+          "per_level_above_first": 0.5
+        },
+        "attribute": "minecraft:player.entity_interaction_range",
+        "id": "miteequilibrium:extend",
+        "operation": "add_value"
+      }
+    ]
+  },
+  "max_cost": {
+    "base": 25,
+    "per_level_above_first": 9
+  },
+  "max_level": 3,
+  "min_cost": {
+    "base": 15,
+    "per_level_above_first": 9
+  },
+  "slots": [
+    "mainhand"
+  ],
+  "supported_items": "#minecraft:enchantable/sword_and_dagger",
+  "weight": 10
+}

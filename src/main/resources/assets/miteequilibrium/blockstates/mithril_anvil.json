@@ -1,0 +1,54 @@
+{
+  "variants": {
+    "facing=east,mithril_anvil_stage=0": {
+      "model": "miteequilibrium:block/mithril_anvil",
+      "y": 270
+    },
+    "facing=east,mithril_anvil_stage=1": {
+      "model": "miteequilibrium:block/chipped_mithril_anvil",
+      "y": 270
+    },
+    "facing=east,mithril_anvil_stage=2": {
+      "model": "miteequilibrium:block/damaged_mithril_anvil",
+      "y": 270
+    },
+
+
+    "facing=north,mithril_anvil_stage=0": {
+      "model": "miteequilibrium:block/mithril_anvil",
+      "y": 180
+    },
+    "facing=north,mithril_anvil_stage=1": {
+      "model": "miteequilibrium:block/chipped_mithril_anvil",
+      "y": 180
+    },
+    "facing=north,mithril_anvil_stage=2": {
+      "model":  "miteequilibrium:block/damaged_mithril_anvil",
+      "y": 180
+    },
+
+    "facing=south,mithril_anvil_stage=0": {
+      "model": "miteequilibrium:block/mithril_anvil"
+    },
+    "facing=south,mithril_anvil_stage=1": {
+      "model": "miteequilibrium:block/chipped_mithril_anvil"
+    },
+    "facing=south,mithril_anvil_stage=2": {
+      "model": "miteequilibrium:block/damaged_mithril_anvil"
+    },
+
+
+    "facing=west,mithril_anvil_stage=0": {
+      "model": "miteequilibrium:block/mithril_anvil",
+      "y": 90
+    },
+    "facing=west,mithril_anvil_stage=1": {
+      "model": "miteequilibrium:block/chipped_mithril_anvil",
+      "y": 90
+    },
+    "facing=west,mithril_anvil_stage=2": {
+      "model": "miteequilibrium:block/damaged_mithril_anvil",
+      "y": 90
+    }
+  }
+}

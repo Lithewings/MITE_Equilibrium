@@ -1,0 +1,36 @@
+{
+  "parent": "miteequilibrium:adventure/get_iron_pickaxe",
+  "criteria": {
+    "go_to_underworld": {
+      "conditions": {
+        "to": "miteequilibrium:underworld"
+      },
+      "trigger": "minecraft:changed_dimension"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "adventure.go_to_underworld"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:flint_and_steel"
+    },
+    "title": {
+      "translate": "adventure.go_to_underworld.title"
+    }
+  },
+  "requirements": [
+    [
+      "go_to_underworld"
+    ]
+  ],
+  "rewards": {
+    "loot": [
+      "miteequilibrium:chests/loot_table_go_to_nether"
+    ],
+    "experience": 200
+  },
+  "sends_telemetry_event": true
+}

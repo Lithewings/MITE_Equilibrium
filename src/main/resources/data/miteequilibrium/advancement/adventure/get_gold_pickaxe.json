@@ -1,0 +1,39 @@
+{
+  "parent": "miteequilibrium:adventure/get_copper",
+  "criteria": {
+    "get_metal_pickaxe2": {
+      "conditions": {
+        "items": [
+          {
+            "items": "miteequilibrium:gold_pickaxe"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "frame": "challenge",
+    "announce_to_chat": true,
+    "hidden": true,
+    "description": {
+      "translate": "adventure.get_metal_pickaxe2"
+    },
+    "icon": {
+      "count": 1,
+      "id": "miteequilibrium:gold_pickaxe"
+    },
+    "title": {
+      "translate": "adventure.get_gold_pickaxe.title"
+    }
+  },
+  "requirements": [
+    [
+      "get_metal_pickaxe2"
+    ]
+  ],
+  "rewards": {
+    "experience": 100
+  },
+  "sends_telemetry_event": true
+}

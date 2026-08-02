@@ -1,0 +1,6 @@
+{
+  "parent": "miteequilibrium:block/template_mithril_anvil",
+  "textures": {
+    "top": "miteequilibrium:block/mithril/top_damaged_0"
+  }
+}

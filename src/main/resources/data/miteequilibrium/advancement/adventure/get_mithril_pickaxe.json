@@ -1,0 +1,34 @@
+{
+  "parent": "miteequilibrium:adventure/get_diamond_crafting_table",
+  "criteria": {
+    "get_mithril_pickaxe": {
+      "conditions": {
+        "items": [
+          {
+            "items": "miteequilibrium:mithril_pickaxe"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "adventure.get_mithril_pickaxe"
+    },
+    "icon": {
+      "count": 1,
+      "id": "miteequilibrium:mithril_pickaxe"
+    },
+    "title": {
+      "translate": "adventure.get_mithril_pickaxe.title"
+    }
+  },
+  "requirements": [
+    [
+      "get_mithril_pickaxe"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -31,7 +31,6 @@ import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_NO
 
 @Mixin(Chicken.class)
 public abstract class ChickenEntityMixin extends Animal implements ProduceManureOrSomething {
-    @Shadow public float prevFlapProgress;
 
     protected ChickenEntityMixin(EntityType<? extends Animal> entityType, Level world) {
         super(entityType, world);
@@ -73,7 +72,7 @@ public abstract class ChickenEntityMixin extends Animal implements ProduceManure
         }
     }
 
-    @Inject(method = "initGoals",at = @At("HEAD"), cancellable = true)
+    @Inject(method = "registerGoals",at = @At("HEAD"), cancellable = true)
     public void initGoals(CallbackInfo ci) {
         ci.cancel();
         this.goalSelector.addGoal(0, new FloatGoal(this));
@@ -116,12 +115,12 @@ public abstract class ChickenEntityMixin extends Animal implements ProduceManure
         //后续原版逻辑...
         return super.mobInteract(player,hand);
     }
-    @Inject(method = "writeCustomDataToNbt",at = @At("TAIL"))
+    @Inject(method = "addAdditionalSaveData",at = @At("TAIL"))
     public void writeCustomDataToNbt(CompoundTag nbt, CallbackInfo ci) {
         environmentChecker.writeCustomDataToNbt(nbt);
     }
 
-    @Inject(method = "readCustomDataFromNbt",at = @At("TAIL"))
+    @Inject(method = "readAdditionalSaveData",at = @At("TAIL"))
     public void readCustomDataFromNbt(CompoundTag nbt, CallbackInfo ci) {
         environmentChecker.readCustomDataFromNbt(nbt);
     }

@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:golden_carrot"
+    },
+    {
+      "item": "minecraft:potion"
+    },
+    {
+      "item": "nether_wart"
+    }
+  ],
+  "result": {
+    "components": {
+      "minecraft:potion_contents": {
+        "custom_effects": [
+          {
+            "id": "minecraft:mining_fatigue"
+          },
+          {
+            "id": "minecraft:night_vision"
+          }
+        ]
+      }
+    },
+    "count": 1,
+    "id": "minecraft:potion"
+  }
+}

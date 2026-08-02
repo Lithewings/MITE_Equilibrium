@@ -1,0 +1,37 @@
+{
+  "parent": "miteequilibrium:adventure/get_diamond",
+  "criteria": {
+    "get_diamond_crafting_table": {
+      "conditions": {
+        "items": [
+          {
+            "items": "miteequilibrium:diamond_crafting_table"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "adventure.get_diamond_crafting_table"
+    },
+    "icon": {
+      "count": 1,
+      "id": "miteequilibrium:diamond_crafting_table"
+    },
+    "title": {
+      "translate": "adventure.get_diamond_crafting_table.title"
+    }
+  },
+  "requirements": [
+    [
+      "get_diamond_crafting_table"
+    ]
+  ],
+  "rewards": {
+    "experience": 500
+  },
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:enchanting_table"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "miteequilibrium:diamond_enchanting_table"
+  }
+}

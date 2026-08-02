@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "W": {
+      "tag": "minecraft:logs"
+    },
+    "X": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "Y": {
+      "item": "minecraft:stick"
+    },
+    "Z": {
+      "item": "minecraft:leather"
+    }
+  },
+  "pattern": [
+    "XZ",
+    "YW"
+  ],
+  "result": {
+    "count": 1,
+    "id": "miteequilibrium:netherite_crafting_table"
+  }
+}

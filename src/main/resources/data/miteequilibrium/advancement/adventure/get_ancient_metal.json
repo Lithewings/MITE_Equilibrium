@@ -1,0 +1,37 @@
+{
+  "parent": "miteequilibrium:adventure/go_to_underworld",
+  "criteria": {
+    "get_ancient_metal": {
+      "conditions": {
+        "items": [
+          {
+            "items": "miteequilibrium:ancient_metal"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "adventure.get_ancient_metal"
+    },
+    "icon": {
+      "count": 1,
+      "id": "miteequilibrium:ancient_metal"
+    },
+    "title": {
+      "translate": "adventure.get_ancient_metal.title"
+    }
+  },
+  "requirements": [
+    [
+      "get_ancient_metal"
+    ]
+  ],
+  "rewards": {
+    "experience": 500
+  },
+  "sends_telemetry_event": true
+}

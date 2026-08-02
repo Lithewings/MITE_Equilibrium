@@ -1,0 +1,13 @@
+{
+  "values": [
+    "#minecraft:shovels",
+    "miteequilibrium:flint_shovel",
+
+    "miteequilibrium:silver_shovel",
+    "miteequilibrium:gold_shovel",
+    "miteequilibrium:mithril_shovel",
+    "miteequilibrium:iron_shovel",
+    "miteequilibrium:copper_shovel",
+    "miteequilibrium:adamantium_shovel"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "Z": {
+      "item": "minecraft:book"
+    },
+    "Y": {
+      "item": "minecraft:emerald"
+    },
+    "X": {
+      "item": "minecraft:obsidian"
+    }
+  },
+  "pattern": [
+    " Z ",
+    "YXY",
+    "XXX"
+  ],
+  "result": {
+    "count": 1,
+    "id": "miteequilibrium:emerald_enchanting_table"
+  }
+}

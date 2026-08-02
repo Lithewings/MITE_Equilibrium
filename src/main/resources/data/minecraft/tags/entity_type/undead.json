@@ -1,0 +1,14 @@
+{
+  "values": [
+    "#minecraft:skeletons",
+    "#minecraft:zombies",
+    "minecraft:wither",
+    "minecraft:phantom",
+    "miteequilibrium:longdead",
+    "miteequilibrium:wight",
+    "miteequilibrium:ghoul",
+    "miteequilibrium:invisible_stalker",
+    "miteequilibrium:revenant",
+    "miteequilibrium:bone_lord"
+  ]
+}

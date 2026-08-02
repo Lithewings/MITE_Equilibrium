@@ -1,0 +1,53 @@
+{
+  "replace": true,
+  "variants": {
+    "age=0,crop_illness=false": {
+      "model": "minecraft:block/potatoes_stage0"
+    },
+    "age=1,crop_illness=false": {
+      "model": "minecraft:block/potatoes_stage0"
+    },
+    "age=2,crop_illness=false": {
+      "model": "minecraft:block/potatoes_stage1"
+    },
+    "age=3,crop_illness=false": {
+      "model": "minecraft:block/potatoes_stage1"
+    },
+    "age=4,crop_illness=false": {
+      "model": "minecraft:block/potatoes_stage2"
+    },
+    "age=5,crop_illness=false": {
+      "model": "minecraft:block/potatoes_stage2"
+    },
+    "age=6,crop_illness=false": {
+      "model": "minecraft:block/potatoes_stage2"
+    },
+    "age=7,crop_illness=false": {
+      "model": "minecraft:block/potatoes_stage3"
+    },
+    "age=0,crop_illness=true": {
+      "model": "miteequilibrium:block/potatoes_blighted_stage0"
+    },
+    "age=1,crop_illness=true": {
+      "model": "miteequilibrium:block/potatoes_blighted_stage0"
+    },
+    "age=2,crop_illness=true": {
+      "model": "miteequilibrium:block/potatoes_blighted_stage1"
+    },
+    "age=3,crop_illness=true": {
+      "model": "miteequilibrium:block/potatoes_blighted_stage1"
+    },
+    "age=4,crop_illness=true": {
+      "model": "miteequilibrium:block/potatoes_blighted_stage2"
+    },
+    "age=5,crop_illness=true": {
+      "model": "miteequilibrium:block/potatoes_blighted_stage2"
+    },
+    "age=6,crop_illness=true": {
+      "model": "miteequilibrium:block/potatoes_blighted_stage2"
+    },
+    "age=7,crop_illness=true": {
+      "model": "miteequilibrium:block/potatoes_blighted_stage3"
+    }
+  }
+}

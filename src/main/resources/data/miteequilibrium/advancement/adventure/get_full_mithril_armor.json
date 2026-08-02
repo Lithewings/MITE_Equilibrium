@@ -1,0 +1,76 @@
+{
+  "parent": "miteequilibrium:adventure/get_full_iron_armor",
+  "criteria": {
+    "get_full_mithril_armor1": {
+      "conditions": {
+        "items": [
+          {
+            "items": "miteequilibrium:mithril_boots"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "get_full_mithril_armor2": {
+      "conditions": {
+        "items": [
+          {
+            "items": "miteequilibrium:mithril_helmet"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "get_full_mithril_armor3": {
+      "conditions": {
+        "items": [
+          {
+            "items": "miteequilibrium:mithril_leggings"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "get_full_mithril_armor4": {
+      "conditions": {
+        "items": [
+          {
+            "items": "miteequilibrium:mithril_chest_plate"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "adventure.get_mithril_armor"
+    },
+    "icon": {
+      "count": 1,
+      "id": "miteequilibrium:mithril_chest_plate"
+    },
+    "title": {
+      "translate": "adventure.get_full_mithril_armor.title"
+    }
+  },
+  "requirements": [
+    [
+      "get_full_mithril_armor1"
+    ],
+    [
+      "get_full_mithril_armor2"
+    ],
+    [
+      "get_full_mithril_armor3"
+    ],
+    [
+      "get_full_mithril_armor4"
+    ]
+  ],
+  "rewards": {
+    "experience": 500
+  },
+  "sends_telemetry_event": true
+}

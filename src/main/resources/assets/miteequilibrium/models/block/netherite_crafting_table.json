@@ -1,0 +1,12 @@
+{
+    "parent": "minecraft:block/cube",
+    "textures": {
+        "particle": "miteequilibrium:block/crafting_table/netherite/front",
+        "down": "minecraft:block/oak_planks",
+        "up": "miteequilibrium:block/crafting_table/netherite/top",
+        "north": "miteequilibrium:block/crafting_table/netherite/front",
+        "east": "miteequilibrium:block/crafting_table/netherite/side",
+        "south": "miteequilibrium:block/crafting_table/netherite/side",
+        "west": "miteequilibrium:block/crafting_table/netherite/front"
+    }
+}

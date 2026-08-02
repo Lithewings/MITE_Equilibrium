@@ -1,0 +1,12 @@
+{
+  "values": [
+    "minecraft:ancient_debris",
+    "minecraft:diamond_block",
+    "#minecraft:diamond_ores",
+
+    "miteequilibrium:mithril_block",
+    "miteequilibrium:adamantium_ore",
+    "miteequilibrium:adamantium_block"
+
+  ]
+}

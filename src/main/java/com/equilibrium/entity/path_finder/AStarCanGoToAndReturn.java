@@ -1,0 +1,224 @@
+package com.equilibrium.entity.path_finder;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.pathfinder.PathComputationType;
+
+import java.util.*;
+
+public class AStarCanGoToAndReturn {
+    // 最大搜索范围
+    private static final int MAX_RANGE = 32;
+
+
+    public static List<BlockPos> findSimplePath(Level world, BlockPos start, BlockPos goal) {
+
+        BlockState blockState = world.getBlockState(start);
+        //生物导航时不能在墙里,也就是说不能贴着墙,也不能在墙里窒息
+        if(blockState.is(BlockTags.WALLS )|| blockState.is(BlockTags.FENCES) || blockState.is(BlockTags.FENCE_GATES)){
+            return null;
+        }
+
+
+        // 优先队列，按总代价排序
+        PriorityQueue<Node> openSet = new PriorityQueue<>(Comparator.comparingDouble(Node::fCost));
+        Map<BlockPos, Node> allNodes = new HashMap<>();
+        Set<BlockPos> closedSet = new HashSet<>();
+
+        // 起点
+        Node startNode = new Node(start);
+        startNode.gCost = 0;
+        startNode.hCost = heuristic(start, goal);
+        allNodes.put(start, startNode);
+        openSet.add(startNode);
+
+        while (!openSet.isEmpty()) {
+            Node current = openSet.poll();
+            if (current == null) break;
+
+            // 到达目标
+            if (current.pos.equals(goal)) {
+                return reconstructPath(current);
+            }
+
+            closedSet.add(current.pos);
+
+
+
+            // 获取简单邻居（只有6个方向）
+            for (BlockPos neighborPos : getSimpleNeighbors(current.pos)) {
+                // 超出范围跳过
+                if (heuristic(start, neighborPos) > MAX_RANGE) {
+                    continue;
+                }
+
+                // 是否可以移动到邻居
+
+                int dy = current.pos.getY() - neighborPos.getY();
+
+                // 水平上下移动
+                if (dy == 0 ||dy == 1||dy==-1) {
+                    if(!canStandSimply(world, current.pos) || !isPassable(world,neighborPos))
+                        continue;
+                }
+                else
+                    continue;
+
+                // 已在闭集跳过
+                if (closedSet.contains(neighborPos)) {
+                    continue;
+                }
+
+                // 移动代价：水平=1，上移=2，下移=1
+                double moveCost = 1.0;
+                if (neighborPos.getY() > current.pos.getY()) {
+                    moveCost = 2.0; // 跳跃代价更高
+                }
+
+                double tentativeG = current.gCost + moveCost;
+
+                Node neighborNode = allNodes.get(neighborPos);
+                if (neighborNode == null) {
+                    neighborNode = new Node(neighborPos);
+                    allNodes.put(neighborPos, neighborNode);
+                }
+
+                // 找到更优路径
+                if (tentativeG < neighborNode.gCost) {
+                    neighborNode.gCost = tentativeG;
+                    neighborNode.hCost = heuristic(neighborPos, goal);
+                    neighborNode.parent = current;
+
+                    if (!openSet.contains(neighborNode)) {
+                        openSet.add(neighborNode);
+                    }
+                }
+            }
+        }
+
+        return null; // 没找到路径
+    }
+
+    /**
+     * 简单邻居：只有6个基本方向
+     */
+    private static List<BlockPos> getSimpleNeighbors(BlockPos pos) {
+        List<BlockPos> neighbors = new ArrayList<>(6);
+
+        // 水平四个方向
+        neighbors.add(pos.north());
+        neighbors.add(pos.south());
+        neighbors.add(pos.east());
+        neighbors.add(pos.west());
+
+        // 上方向
+        neighbors.add(pos.above().north());
+        neighbors.add(pos.above().south());
+        neighbors.add(pos.above().east());
+        neighbors.add(pos.above().west());
+
+        //下方向
+        neighbors.add(pos.below().north());
+        neighbors.add(pos.below().south());
+        neighbors.add(pos.below().east());
+        neighbors.add(pos.below().west());
+
+
+        return neighbors;
+    }
+
+
+
+    /**
+     * 简化版站立检查
+     */
+    private static boolean canStandSimply(Level world, BlockPos pos) {
+        // 检查脚下方块是否坚固
+        BlockPos groundPos = pos.below();
+        if (world.getBlockState(groundPos).isAir()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * 方块是否可通过（空气或可穿越）
+     */
+    private static boolean isPassable(Level world, BlockPos pos) {
+
+        BlockState blockState = world.getBlockState(pos);
+        BlockState blockStateUp = world.getBlockState(pos.above());
+        BlockState blockStateDown = world.getBlockState(pos.below());
+        //不能踩在1.5格的栅栏上,同时必须满足1*2的大小空间可以通过
+        if (blockState.isPathfindable(PathComputationType.AIR)
+                && blockStateUp.isPathfindable(PathComputationType.AIR)
+                && !blockStateDown.is(BlockTags.WALLS)
+                && !blockStateDown.is(BlockTags.FENCES)
+                && !blockStateDown.is(BlockTags.FENCE_GATES)
+
+
+        ){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 启发函数（曼哈顿距离）
+     */
+    private static double heuristic(BlockPos a, BlockPos b) {
+        return Math.abs(a.getX() - b.getX()) +
+                Math.abs(a.getY() - b.getY()) +
+                Math.abs(a.getZ() - b.getZ());
+    }
+
+    /**
+     * 重构路径
+     */
+    private static List<BlockPos> reconstructPath(Node goalNode) {
+        List<BlockPos> path = new ArrayList<>();
+        Node current = goalNode;
+
+        while (current != null) {
+            path.add(0, current.pos);
+            current = current.parent;
+        }
+
+        return path;
+    }
+
+    /**
+     * 节点类
+     */
+    private static class Node {
+        BlockPos pos;
+        double gCost = Double.POSITIVE_INFINITY;
+        double hCost = 0;
+        Node parent = null;
+
+        Node(BlockPos pos) {
+            this.pos = pos;
+        }
+
+        double fCost() {
+            return gCost + hCost;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Node node = (Node) o;
+            return pos.equals(node.pos);
+        }
+
+        @Override
+        public int hashCode() {
+            return pos.hashCode();
+        }
+    }
+
+}

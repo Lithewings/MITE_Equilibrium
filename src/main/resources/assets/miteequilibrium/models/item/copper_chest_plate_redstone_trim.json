@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "miteequilibrium:item/copper_chest_plate",
+    "layer1": "minecraft:trims/items/chestplate_trim_redstone"
+  }
+}

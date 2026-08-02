@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/crop",
+  "textures": {
+    "crop": "miteequilibrium:block/wheat_blighted/wheat_blighted_stage6"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 80.0,
+  "group": "mithril_raw",
+  "ingredient": {
+    "item": "miteequilibrium:mithril_raw"
+  },
+  "result": {
+    "id": "miteequilibrium:mithril"
+  }
+}

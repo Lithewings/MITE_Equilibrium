@@ -1,0 +1,12 @@
+{
+  "values": [
+    "#minecraft:hoes",
+
+    "miteequilibrium:silver_hoe",
+    "miteequilibrium:gold_hoe",
+    "miteequilibrium:mithril_hoe",
+    "miteequilibrium:iron_hoe",
+    "miteequilibrium:copper_hoe",
+    "miteequilibrium:adamantium_hoe"
+  ]
+}

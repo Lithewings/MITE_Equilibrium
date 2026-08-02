@@ -1,0 +1,76 @@
+{
+  "parent": "miteequilibrium:adventure/get_metal_pickaxe",
+  "criteria": {
+    "get_full_copper_armor1": {
+      "conditions": {
+        "items": [
+          {
+            "items": "miteequilibrium:copper_boots"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "get_full_copper_armor2": {
+      "conditions": {
+        "items": [
+          {
+            "items": "miteequilibrium:copper_helmet"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "get_full_copper_armor3": {
+      "conditions": {
+        "items": [
+          {
+            "items": "miteequilibrium:copper_leggings"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "get_full_copper_armor4": {
+      "conditions": {
+        "items": [
+          {
+            "items": "miteequilibrium:copper_chest_plate"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "adventure.get_full_copper_armor"
+    },
+    "icon": {
+      "count": 1,
+      "id": "miteequilibrium:copper_chest_plate"
+    },
+    "title": {
+      "translate": "adventure.get_full_copper_armor.title"
+    }
+  },
+  "requirements": [
+    [
+      "get_full_copper_armor1"
+    ],
+    [
+      "get_full_copper_armor2"
+    ],
+    [
+      "get_full_copper_armor3"
+    ],
+    [
+      "get_full_copper_armor4"
+    ]
+  ],
+  "rewards": {
+    "experience": 100
+  },
+  "sends_telemetry_event": true
+}

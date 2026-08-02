@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 100.0,
+  "group": "adamantium_raw",
+  "ingredient": {
+    "item": "miteequilibrium:adamantium_raw"
+  },
+  "result": {
+    "id": "miteequilibrium:adamantium"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "age=0,crop_illness=false": {
+      "model": "miteequilibrium:block/onion_stage0"
+    },
+    "age=1,crop_illness=false": {
+      "model": "miteequilibrium:block/onion_stage0"
+    },
+    "age=2,crop_illness=false": {
+      "model": "miteequilibrium:block/onion_stage1"
+    },
+    "age=3,crop_illness=false": {
+      "model": "miteequilibrium:block/onion_stage1"
+    },
+    "age=4,crop_illness=false": {
+      "model": "miteequilibrium:block/onion_stage2"
+    },
+    "age=5,crop_illness=false": {
+      "model": "miteequilibrium:block/onion_stage2"
+    },
+    "age=6,crop_illness=false": {
+      "model": "miteequilibrium:block/onion_stage3"
+    },
+    "age=7,crop_illness=false": {
+      "model": "miteequilibrium:block/onion_stage4"
+    },
+    "age=0,crop_illness=true": {
+      "model": "miteequilibrium:block/onion_blighted_stage0"
+    },
+    "age=1,crop_illness=true": {
+      "model": "miteequilibrium:block/onion_blighted_stage0"
+    },
+    "age=2,crop_illness=true": {
+      "model": "miteequilibrium:block/onion_blighted_stage1"
+    },
+    "age=3,crop_illness=true": {
+      "model": "miteequilibrium:block/onion_blighted_stage1"
+    },
+    "age=4,crop_illness=true": {
+      "model": "miteequilibrium:block/onion_blighted_stage2"
+    },
+    "age=5,crop_illness=true": {
+      "model": "miteequilibrium:block/onion_blighted_stage2"
+    },
+    "age=6,crop_illness=true": {
+      "model": "miteequilibrium:block/onion_blighted_stage3"
+    },
+    "age=7,crop_illness=true": {
+      "model": "miteequilibrium:block/onion_blighted_stage4"
+    }
+  }
+}

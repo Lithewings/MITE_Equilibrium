@@ -1,0 +1,8 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+        "top": "miteequilibrium:block/furnace/clay/top",
+        "front": "miteequilibrium:block/furnace/clay/front",
+        "side": "miteequilibrium:block/furnace/clay/side"
+    }
+}

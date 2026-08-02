@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "miteequilibrium:bowl_water"
+    },
+    {
+      "item": "minecraft:carrot"
+    },
+    {
+      "item": "minecraft:potato"
+    },
+    {
+      "item": "miteequilibrium:onion"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "miteequilibrium:vegetable_soup"
+  }
+}

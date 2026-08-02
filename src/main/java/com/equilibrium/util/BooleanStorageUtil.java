@@ -56,7 +56,7 @@ public final class BooleanStorageUtil {
         private final int finishDay;
         private final long seed;
         private final boolean isGrandStageClear;
-        private final String version = SharedConstants.CURRENT_VERSION.getName();
+        private final String version = SharedConstants.getCurrentVersion().getName();
 
         WorldInformationRecorder(int finishDay, long seed, boolean isGrandStageClear) {
             this.finishDay = finishDay;

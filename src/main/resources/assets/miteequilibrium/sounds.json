@@ -1,0 +1,92 @@
+{
+  "mob.invisiblestalker.say1": {
+    "sounds": [
+      "miteequilibrium:mob/invisiblestalker/say1"
+    ]
+  },
+  "mob.invisiblestalker.say2": {
+    "sounds": [
+      "miteequilibrium:mob/invisiblestalker/say2"
+    ]
+  },
+  "mob.invisiblestalker.say3": {
+    "sounds": [
+      "miteequilibrium:mob/invisiblestalker/say3"
+    ]
+  },
+
+  "mob.invisiblestalker.hurt1": {
+    "sounds": [
+      "miteequilibrium:mob/invisiblestalker/hurt1"
+    ]
+  },
+
+  "mob.invisiblestalker.hurt2": {
+    "sounds": [
+      "miteequilibrium:mob/invisiblestalker/hurt2"
+    ]
+  },
+
+  "mob.invisiblestalker.death": {
+    "sounds": [
+      "miteequilibrium:mob/invisiblestalker/death"
+    ]
+  },
+
+  "mob.ghoul.say1": {
+    "sounds": [
+      "miteequilibrium:mob/ghoul/say1"
+    ]
+  },
+
+  "mob.ghoul.say2": {
+    "sounds": [
+      "miteequilibrium:mob/ghoul/say2"
+    ]
+  },
+  "mob.ghoul.hurt1": {
+    "sounds": [
+      "miteequilibrium:mob/ghoul/hurt1"
+    ]
+  },
+  "mob.ghoul.hurt2": {
+    "sounds": [
+      "miteequilibrium:mob/ghoul/hurt2"
+    ]
+  },
+  "mob.ghoul.death": {
+    "sounds": [
+      "miteequilibrium:mob/ghoul/death"
+    ]
+  },
+
+
+
+
+  "mob.wight.death": {
+    "sounds": [
+      "miteequilibrium:mob/wight/death"
+    ]
+  },
+  "mob.wight.say1": {
+    "sounds": [
+      "miteequilibrium:mob/ghoul/say1"
+    ]
+  },
+
+  "mob.wight.say2": {
+    "sounds": [
+      "miteequilibrium:mob/ghoul/say2"
+    ]
+  },
+  "mob.wight.hurt1": {
+    "sounds": [
+      "miteequilibrium:mob/ghoul/hurt1"
+    ]
+  },
+  "mob.wight.hurt2": {
+    "sounds": [
+      "miteequilibrium:mob/ghoul/hurt2"
+    ]
+  }
+}

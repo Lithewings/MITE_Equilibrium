@@ -1,0 +1,33 @@
+{
+  "anvil_cost": 20,
+  "description": {
+    "translate": "enchantment.miteequilibrium.reaching"
+  },
+  "effects": {
+    "minecraft:attributes": [
+      {
+        "amount": {
+          "type": "minecraft:levels_squared",
+          "added": 24.0
+        },
+        "attribute": "minecraft:player.block_interaction_range",
+        "id": "miteequilibrium:reaching",
+        "operation": "add_value"
+      }
+    ]
+  },
+  "max_cost": {
+    "base": 65,
+    "per_level_above_first": 9
+  },
+  "max_level": 2,
+  "min_cost": {
+    "base": 15,
+    "per_level_above_first": 9
+  },
+  "slots": [
+    "mainhand"
+  ],
+  "supported_items": "minecraft:bucket",
+  "weight": 1024
+}

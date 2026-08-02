@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:cooked_beef"
+    },
+    {
+      "item": "miteequilibrium:bowl_water"
+    },
+    {
+      "item": "minecraft:carrot"
+    },
+    {
+      "item": "minecraft:potato"
+    },
+    {
+      "item": "miteequilibrium:onion"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "miteequilibrium:beef_soup"
+  }
+}

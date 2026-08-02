@@ -1,13 +1,410 @@
 {
-  "itemGroup.miteequilibrium": "Example Mod Tab",
-  "block.miteequilibrium.example_block": "Example Block",
-  "item.miteequilibrium.example_item": "Example Item",
 
-  "miteequilibrium.configuration.title": "MITE_Equilibrium Configs",
-  "miteequilibrium.configuration.section.miteequilibrium.common.toml": "MITE_Equilibrium Configs",
-  "miteequilibrium.configuration.section.miteequilibrium.common.toml.title": "MITE_Equilibrium Configs",
-  "miteequilibrium.configuration.items": "Item List",
-  "miteequilibrium.configuration.logDirtBlock": "Log Dirt Block",
-  "miteequilibrium.configuration.magicNumberIntroduction": "Magic Number Text",
-  "miteequilibrium.configuration.magicNumber": "Magic Number"
+  "adventure.brew_potion.title": "Witch's Technology",
+  "adventure.enter_the_end.title": "MLG Water Bucket Challenge",
+  "adventure.find_fortress.title": "Dark Fortress",
+  "adventure.follow_ender_eye.title": "Eyes Through Walls / Serendipity?",
+  "adventure.get_adamantium_pickaxe.title": "Ender Crystal Destroyer",
+  "adventure.get_ancient_metal.title": "Ancient Metal!",
+  "adventure.get_copper.title": "Gacha Game?",
+  "adventure.get_diamond.title": "Diamond!",
+  "adventure.get_diamond_crafting_table.title": "Crafting a Diamond Crafting Table",
+  "adventure.get_emerald.title": "Emerald!",
+  "adventure.get_emerald_enchantment_table.title": "Enchanter I",
+  "adventure.get_enchantment_table.title": "Enchanter II",
+  "adventure.get_flint.title": "Flint Seeker",
+  "adventure.get_flint_craft_table.title": "Is This... A Crafting Table?",
+  "adventure.get_full_copper_armor.title": "Fully Armed I",
+  "adventure.get_full_iron_armor.title": "Fully Armed II",
+  "adventure.get_full_mithril_armor.title": "Fully Armed III",
+  "adventure.get_gold_pickaxe.title": "The Road Not Taken",
+  "adventure.get_hatchet.title": "Survival Expert",
+  "adventure.get_iron_pickaxe.title": "Obsidian Collector",
+  "adventure.get_metal_pickaxe.title": "Mining Time!",
+  "adventure.get_mithril.title": "Age of Mythology",
+  "adventure.get_mithril_pickaxe.title": "Mining Adamantium Ore",
+  "adventure.get_netherite_ingot.title": "End of the Tech Tree",
+  "adventure.get_silver.title": "Precious Metal",
+  "adventure.go_to_nether.title": "Let's Go Deeper",
+  "adventure.go_to_underworld.title": "Dark Caves",
+  "adventure.kill_dragon.title": "The End.",
+  "adventure.root.title": "MITE - Equilibrium",
+  "adventure.use_ender_eye.title": "Stronghold Seeker",
+  "next_respawn": "Next respawn in: ",
+  "mod_death_text": "No need to worry about risks. You have infinite chances to return, with endless returns, this world forever awaits.",
+  "mod.first_day.helloWorld": "Find a nearby chest and take the items inside.",
+
+
+
+  "container.xp.requirement": "Xp Requirement: %s",
+  "container.xp.cost": "Xp Cost: %s",
+
+
+  "difficulty.extra.entry.message": "Total %s extra difficulty entries, %s enabled",
+  "difficulty.basic.entry.message": "Total %s basic difficulty entries, %s enabled",
+  "difficulty.extra.entry.message2": "%s extra difficulty entries enabled",
+
+
+  "miteequilibrium.tooltip.quality.average": "Quality: Average",
+  "miteequilibrium.tooltip.quality.excellent": "Quality: Fine",
+  "miteequilibrium.tooltip.quality.refined": "Quality: Excellent",
+  "miteequilibrium.tooltip.quality.epic": "Quality: Superb",
+  "miteequilibrium.tooltip.quality.master": "Quality: Masterwork",
+  "miteequilibrium.tooltip.durability_bonus": "+%s%% Durability",
+
+  "miteequilibrium.message.days_clear": "Days to clear: %s",
+  "miteequilibrium.message.world_seed": "World seed: %s",
+  "miteequilibrium.message.grand_stage_clear": "All Stage Clear: %s",
+  "miteequilibrium.message.version_info": "Version: %s",
+
+  "miteequilibrium.message.invalid_clear_seed_mismatch": "Invalid clear info: world seed does not match current world",
+  "miteequilibrium.message.invalid_clear_info": "Invalid clear info",
+  "miteequilibrium.message.no_clear_info": "No clear info found",
+
+  "miteequilibrium.message.boolean.true": "true",
+  "miteequilibrium.message.boolean.false": "false",
+
+
+
+
+
+
+  "item.miteequilibrium.sinew": "Sinew",
+  "item.miteequilibrium.beef_soup": "Beef Soup",
+
+  "item.miteequilibrium.chocolate": "Chocolate",
+
+  "item.miteequilibrium.vegetable_soup": "Vegetable Soup",
+
+  "item.miteequilibrium.onion": "Onion",
+
+  "item.miteequilibrium.manure": "Manure",
+
+  "item.miteequilibrium.bowl_water": "Bowl of Water",
+  "item.miteequilibrium.bowl_milk": "Bowl of Milk",
+
+  "block.miteequilibrium.emerald_enchanting_table": "Emerald Enchanting Table",
+  "block.miteequilibrium.diamond_enchanting_table": "Diamond Enchanting Table",
+
+  "block.miteequilibrium.iron_anvil": "Anvil",
+  "block.miteequilibrium.mithril_anvil": "Mithril Anvil",
+  "block.miteequilibrium.adamantium_anvil": "Adamantium Anvil",
+
+  "item.miteequilibrium.glass_fragment": "Glass Fragment",
+  "item.miteequilibrium.diamond_shard": "Diamond Shard",
+  "item.miteequilibrium.emerald_shard": "Emerald Shard",
+
+  "item.miteequilibrium.cheese": "Cheese",
+  "item.miteequilibrium.salad": "Salad",
+  "item.miteequilibrium.mashed_potato": "Mashed Potato",
+
+
+  "entity.miteequilibrium.longdead": "Longdead",
+  "entity.miteequilibrium.bone_lord": "Bone Lord",
+  "entity.miteequilibrium.wight": "Wight",
+  "entity.miteequilibrium.ghoul": "Ghoul",
+  "entity.miteequilibrium.shadow": "Shadow",
+  "entity.miteequilibrium.invisible_stalker": "Invisible Stalker",
+  "entity.miteequilibrium.pudding": "Pudding",
+  "entity.miteequilibrium.revenant": "Revenant",
+  "entity.miteequilibrium.wooden_spider": "Wood Spider",
+
+  "entity.miteequilibrium.stone_elemental": "Cobble Stone Elemental",
+  "entity.miteequilibrium.end_rock_elemental": "End Stone Elemental",
+  "entity.miteequilibrium.netherrack_elemental": "Netherrack Elemental",
+  "entity.miteequilibrium.obsidian_elemental": "Obsidian Elemental",
+
+  "mod.selectWorld.seedInfo": "Let the random number decide this",
+  "mod.options.difficulty.easy.info": "Hostile mobs spawn but deal less damage. Hunger bar depletes and drains all health.",
+  "mod.options.difficulty.hard.info": "Hostile mobs spawn and deal more damage. Hunger bar depletes and drains all health.",
+  "mod.options.difficulty.normal.info": "Hostile mobs spawn and deal standard damage. Hunger bar depletes and drains all health.",
+
+  "mod.selectWorld.mapFeatures.info": "Required for completing the main progression.",
+  "mod.selectWorld.bonusItems": "Generates structures which contain items to trigger initial advancements",
+
+
+  "death.attack.fatal_poison": "%1$s died from poison",
+
+
+  "select.world.wrong.version": "You cannot load a world from an incompatible mod version",
+
+  "adventure.get_flint.description": "Mine gravel to get a piece of flint, or a whole flint",
+  "adventure.brew_potion": "Brew a potion.\nAll potions now have doubled duration.",
+
+  "adventure.enter_the_end": "Reach the End and prepare to face the Ender Dragon — hopefully you didn't forget your Adamantium Pickaxe.",
+  "adventure.find_fortress": "Find a Nether Fortress and earn a reward of 4 Golden Apples.",
+  "adventure.follow_ender_eye": "Enter a Stronghold and locate the End Portal room within its maze of corridors. Note that the portal room only generates in Strongholds located over 12,000 blocks from the world's spawn point.",
+
+  "adventure.get_adamantium_pickaxe": "Craft an Adamantium Pickaxe at the Netherite Workbench. It is the only tool capable of destroying the Ender Crystal.",
+  "adventure.get_copper": "Obtain your first Copper Nugget, then collect 27 in total to craft a Copper Pickaxe. Reward: 20 XP.",
+  "adventure.get_diamond": "Loot chests from various locations, collect diamonds, and prepare for crafting an enchanting table and a Diamond Crafting Table.",
+  "adventure.get_emerald": "Loot chests from various locations, or mine emerald ore, collect emeralds to prepare for crafting an enchanting table.",
+
+  "adventure.get_emerald_enchantment_table": "Use it to enchant basic weapons, or to create enchanted golden apples.",
+  "adventure.get_enchantment_table": "Craft enchanted weapons with it - you can now able to deal damage to Blazes.",
+
+  "adventure.get_flint_craft_table": "Continue gathering flint and craft a Flint Knife to create the Flint Craft Table",
+  "adventure.get_full_copper_armor": "Equip a full set of Copper Armor. Reach 10 or more armor points to gain permanent Resistance I and receive 100 XP.",
+
+  "adventure.get_full_iron_armor": "Equip a full set of Iron Armor. Earn you 200 XP.",
+
+  "adventure.get_mithril_armor": "Equip a full set of Mithril Armor. This will make you nearly invulnerable and earn you 500 XP.",
+  "adventure.get_hatchet": "Obtain your first piece of flint and craft a Flint Hatchet to fell trees",
+  "adventure.get_iron_pickaxe": "Craft an Iron Pickaxe, use it to mine Obsidian, and earn 100 XP.",
+
+  "adventure.get_metal_pickaxe": "Craft your first Copper Pickaxe. This is required to unlock Village spawning and will earn you 100 XP.",
+
+  "adventure.get_metal_pickaxe2": "Amazing",
+
+  "adventure.get_mithril": "Smelt Mithril Ore in a Lava-powered Obsidian Furnace to obtain Mithril Ingots and earn 200 XP.",
+
+  "adventure.get_netherite_ingot": "Obtain Netherite Ingots to craft a Netherite Workbench. Mine for Ancient Debris in the depths of the Nether, or search the treasure rooms of Piglin Bastions to gather the required materials.",
+
+  "adventure.get_silver": "Obtain your first Silver Nugget, then collect 9 to craft a Silver Workbench and earn 20 XP.",
+
+
+
+  "adventure.go_to_nether": "Enter the Nether. Journey to the deepest layer of the underground world to construct a portal – a lengthy endeavor that will reward you with 500 XP and 3 Blocks of Iron.",
+
+  "adventure.go_to_underworld": "Construct a portal at the bottom of the Overworld to access the Underworld dimension, and earn 200 XP with 3 Blocks of Iron.",
+
+
+  "adventure.kill_dragon": "Defeat the Ender Dragon and reach the conclusion of your journey.",
+
+  "adventure.root": "A memento — from the chest at your spawn point.",
+
+
+  "adventure.use_ender_eye": "Reach a location at least 12,000 blocks from your spawn point and successfully throw an End Eye",
+
+
+  "adventure.get_ancient_metal": "Safely kill Longdead to collect enough Ancient Chain Armor, uncraft them into Ancient Metal Nuggets and craft into Ancient Metal Ingots, or go venturing out to locate a Longdead spawner.",
+
+  "adventure.get_diamond_crafting_table": "Collect Ancient Metal and Diamonds to create a Diamond Crafting Table, to then forge Mithril Tools.",
+
+
+  "adventure.get_mithril_pickaxe": "Craft a Mithril Pickaxe on the Diamond Crafting Table to mine the Adamantium Ore you've encountered.",
+
+  "item.miteequilibrium.adamantium_hoe.tooltip1": "Grants a 20% movement speed bonus",
+  "item.miteequilibrium.adamantium_hoe.tooltip2": "Walk with swift composure",
+
+  "enchantment.miteequilibrium.reaching": "Reaching",
+  "enchantment.miteequilibrium.extend": "Extending",
+
+
+  "container.repair.require": "Level Requirement",
+
+  "You will transport to nether": "This portal will transport you to the Nether",
+  "You will transport to overworld": "This portal will transport you to the Overworld",
+  "You will transport to underworld": "This portal will transport you to the Underworld",
+
+
+
+
+  "item.miteequilibrium.copper_hammer": "Copper Hammer",
+  "item.miteequilibrium.silver_hammer": "Silver Hammer",
+
+
+  "item.miteequilibrium.silver.tooltip1": "Deals 1.5x damage to undead mobs.",
+  "item.miteequilibrium.silver.tooltip2": "Grants 5 seconds of Regeneration II after landing the killing blow on an undead mob.",
+  "item.miteequilibrium.silver.tooltip3": "Deals 1.25x damage to undead mobs.",
+
+
+
+  "item.miteequilibrium.hammer.tooltip": "Heavy Hammer: Deals 1.5x damage to skeletons.",
+  "item.miteequilibrium.dagger_tooltip": "Slaughter: Deals 1.5x damage to passive mobs.",
+
+
+
+
+
+
+  "item.miteequilibrium.gold_hammer": "Gold Hammer",
+  "item.miteequilibrium.mithril_hammer": "Mithril Hammer",
+  "item.miteequilibrium.adamantium_hammer": "Adamantium Hammer",
+  "item.miteequilibrium.iron_hammer": "Iron Hammer",
+
+
+
+
+  "block.miteequilibrium.adamantium_block": "Block of Adamantium",
+  "block.miteequilibrium.ancient_metal_block": "Block of Ancient Metal",
+  "block.miteequilibrium.copper_block": "Block of Copper",
+  "block.miteequilibrium.gold_block": "Block of Gold",
+  "block.miteequilibrium.mithril_block": "Block of Mithril",
+  "block.miteequilibrium.silver_block": "Block of Silver",
+
+  "item.miteequilibrium.adamantium": "Adamantium Ingot",
+  "item.miteequilibrium.adamantium_axe": "Adamantium Axe",
+  "item.miteequilibrium.adamantium_dagger": "Adamantium Dagger",
+  "item.miteequilibrium.adamantium_hoe": "Adamantium Hoe",
+  "item.miteequilibrium.adamantium_nugget": "Adamantium Nugget",
+  "item.miteequilibrium.adamantium_pickaxe": "Adamantium Pickaxe",
+  "item.miteequilibrium.adamantium_raw": "Raw Adamantium",
+  "item.miteequilibrium.adamantium_shovel": "Adamantium Shovel",
+  "item.miteequilibrium.adamantium_sword": "Adamantium Sword",
+
+  "item.miteequilibrium.ancient_metal": "Ancient Metal Ingot",
+  "item.miteequilibrium.ancient_metal_nugget": "Ancient Metal Nugget",
+
+
+
+  "item.miteequilibrium.copper": "Copper Ingot",
+  "item.miteequilibrium.copper_axe": "Copper Axe",
+  "item.miteequilibrium.copper_boots": "Copper Boots",
+  "item.miteequilibrium.copper_chest_plate": "Copper Chestplate",
+  "item.miteequilibrium.copper_helmet": "Copper Helmet",
+  "item.miteequilibrium.copper_leggings": "Copper Leggings",
+  "item.miteequilibrium.copper_dagger": "Copper Dagger",
+  "item.miteequilibrium.copper_hoe": "Copper Hoe",
+  "item.miteequilibrium.copper_nugget": "Copper Nugget",
+  "item.miteequilibrium.copper_pickaxe": "Copper Pickaxe",
+  "item.miteequilibrium.copper_shovel": "Copper Shovel",
+  "item.miteequilibrium.copper_sword": "Copper Sword",
+
+  "item.miteequilibrium.flint": "Flint Shard",
+  "item.miteequilibrium.flint_axe": "Flint Axe",
+  "item.miteequilibrium.flint_hatchet": "Flint Hatchet",
+  "item.miteequilibrium.flint_knife": "Flint Knife",
+  "item.miteequilibrium.flint_shovel": "Flint Shovel",
+
+  "item.miteequilibrium.gold": "Gold Ingot",
+  "item.miteequilibrium.gold_axe": "Golden Axe",
+  "item.miteequilibrium.gold_dagger": "Golden Dagger",
+  "item.miteequilibrium.gold_nugget": "Gold Nugget",
+  "item.miteequilibrium.gold_pickaxe": "Golden Pickaxe",
+  "item.miteequilibrium.gold_shovel": "Golden Shovel",
+  "item.miteequilibrium.gold_sword": "Golden Sword",
+  "item.miteequilibrium.gold_hoe": "Gold Hoe",
+
+  "item.miteequilibrium.iron_axe": "Iron Axe",
+  "item.miteequilibrium.iron_dagger": "Iron Dagger",
+  "item.miteequilibrium.iron_hoe": "Iron Hoe",
+  "item.miteequilibrium.iron_pickaxe": "Iron Pickaxe",
+  "item.miteequilibrium.iron_shovel": "Iron Shovel",
+  "item.miteequilibrium.iron_sword": "Iron Sword",
+
+  "item.miteequilibrium.mithril": "Mithril Ingot",
+  "item.miteequilibrium.mithril_axe": "Mithril Axe",
+  "item.miteequilibrium.mithril_dagger": "Mithril Dagger",
+  "item.miteequilibrium.mithril_hoe": "Mithril Hoe",
+  "item.miteequilibrium.mithril_nugget": "Mithril Nugget",
+  "item.miteequilibrium.mithril_pickaxe": "Mithril Pickaxe",
+  "item.miteequilibrium.mithril_raw": "Raw Mithril",
+  "item.miteequilibrium.mithril_shovel": "Mithril Shovel",
+  "item.miteequilibrium.mithril_sword": "Mithril Sword",
+  "item.miteequilibrium.mithril_boots": "Mithril Boots",
+  "item.miteequilibrium.mithril_chest_plate": "Mithril Chestplate",
+  "item.miteequilibrium.mithril_helmet": "Mithril Helmet",
+  "item.miteequilibrium.mithril_leggings": "Mithril Leggings",
+
+  "item.miteequilibrium.silver": "Silver Ingot",
+  "item.miteequilibrium.silver_nugget": "Silver Nugget",
+  "item.miteequilibrium.silver_raw": "Raw Silver",
+  "item.miteequilibrium.silver_axe": "Silver Axe",
+  "item.miteequilibrium.silver_dagger": "Silver Dagger",
+  "item.miteequilibrium.silver_hoe": "Silver Hoe",
+  "item.miteequilibrium.silver_pickaxe": "Silver Pickaxe",
+  "item.miteequilibrium.silver_shovel": "Silver Shovel",
+  "item.miteequilibrium.silver_sword": "Silver Sword",
+
+  "item.miteequilibrium.ancient_metal_chainmail_helmet": "Ancient Metal Chainmail Helmet",
+  "item.miteequilibrium.ancient_metal_chainmail_chest_plate": "Ancient Metal Chainmail Chestplate",
+  "item.miteequilibrium.ancient_metal_chainmail_leggings": "Ancient Metal Chainmail Leggings",
+  "item.miteequilibrium.ancient_metal_chainmail_boots": "Ancient Metal Chainmail Boots",
+
+
+
+  "item.miteequilibrium.copper_coin": "Copper Coin",
+
+  "item.miteequilibrium.iron_coin": "Iron Coin",
+
+
+
+
+  "item.miteequilibrium.pumpkin_soup": "pumpkin_soup",
+
+  "enchantment.miteequilibrium.speed": "speed",
+  "item.miteequilibrium.pudding_slime_ball": "Black Slime Ball",
+
+  "item.miteequilibrium.test": "Test",
+  "block.miteequilibrium.example_block": "TestBlock",
+  "itemgroup.testgroup": "MITEequilibrium",
+  "teleport.overworld": "You will teleport to overworld if staying still now",
+  "teleport.underworld": "You will teleport to underworld if staying still now",
+  "teleport.nether": "You will teleport to nether if staying still now",
+
+  "block.miteequilibrium.flint_crafting_table": "Flint Crafting Table",
+  "block.miteequilibrium.copper_crafting_table": "Copper Crafting Table",
+  "block.miteequilibrium.silver_crafting_table": "Silver Crafting Table",
+  "block.miteequilibrium.iron_crafting_table": "Iron Crafting Table",
+  "block.miteequilibrium.diamond_crafting_table": "Diamond Crafting Table",
+  "block.miteequilibrium.netherite_crafting_table": "Netherite Crafting Table",
+
+  "block.miteequilibrium.gold_ore":"Gold Ore Block",
+  "block.miteequilibrium.adamantium_ore":"Adamantium Ore Block",
+  "block.miteequilibrium.copper_ore":"Copper Ore Block",
+  "block.miteequilibrium.mithril_ore":"Mithril Ore Block",
+  "block.miteequilibrium.silver_ore":"Silver Ore Block",
+
+  "block.miteequilibrium.mundane_gravel": "Mundane Gravel",
+
+  "container.flint_crafting": "Flint Crafting Table",
+  "container.copper_crafting": "Copper Crafting Table",
+  "container.silver_crafting": "Silver Crafting Table",
+  "container.iron_crafting": "Iron Crafting Table",
+  "container.diamond_crafting": "Diamond Crafting Table",
+  "container.netherite_crafting": "Netherite Crafting Table",
+
+  "aliveandwell.crafttable.info1": "The workbench is not graded enough to synthesize！！！",
+  "aliveandwell.crafttable.info2": "This item could not be synthesized 32 days ago！！！",
+  "aliveandwell.crafttable.info3": "This item is disabled！！！",
+
+  "block.miteequilibrium.clay_furnace": "Clay Furnace",
+  "block.miteequilibrium.obsidian_furnace": "Obsidian Furnace",
+  "block.miteequilibrium.netherrack_furnace": "Netherrack Furnace",
+  "container.clay_furnace": "Clay Furnace",
+  "container.netherrack_furnace": "Netherrack Furnace",
+  "container.obsidian_furnace": "Obsidian Furnace",
+  "crafttime.join_info": "Crafttable and Dnchantment tablecan be synthesized on low-level workbench.",
+  "crafttime.group": "Craft Time",
+  "effect.miteequilibrium.phytonutrient": "Malnutrition",
+  "item.effect.miteequilibrium.sub_night_vision": "Nightvision Potion(cold brew)",
+
+
+  "sleep.failure.reason_1": "You can only sleep in the Overworld",
+  "sleep.failure.reason_2": "The blood moon prevents you from resting.",
+  "sleep.failure.reason_3": "It is not safe here. Try sealing the area completely with solid blocks.",
+  "sleep.failure.reason_4": "You are not sleepy.",
+  "sleep.failure.reason_5":  "The full moon gives you insomnia.",
+  "sleep.failure.reason_6": "You cannot sleep outdoors.",
+  "info.need.advance.craftingtable": "Need a higher level crafting table",
+
+
+
+  "mod.itemGroup.armors_and_tools": "Tools and Armors",
+  "mod.itemGroup.blocks_and_metallic_items": "Blocks and Metallic Items",
+  "mod.itemGroup.farm": "Farm",
+
+  "gamerule.enableCraftingTimeAndLevel": "Enable Crafting Time And Level",
+
+  "gamerule.enableSlowBreakingSpeed": "Enable Slow Breaking Speed",
+  "gamerule.enableCropIllness": "Enable Crop Illness Function",
+  "gamerule.enableAdvanceAnimalAI": "Enable Animal Advance AI",
+  "gamerule.enableRestrictVillageGen": "Enable Strict Village Generation Conditions",
+  "gamerule.enablePhytonutrient": "Enable Phytonutrient Function",
+  "gamerule.enableBloodMoonThunder": "Enable Weather Effect On BloodMoon",
+  "gamerule.disablePlayerTeleport": "Disable Teleport Commands Between Players",
+
+  "gamerule.enableAnvilLevel": "Enable Anvil Level",
+  "gamerule.enableAdvancedEnchantingTable": "Enable Advanced Enchanting Table",
+  "gamerule.disableVillageAndPillage": "Desolation: Removes villages, their associated farmlands, and pillager outpost structures.",
+  "gamerule.enableMoreSlDamage": "Think Twice Before Action: SL actions cause significantly more health loss.",
+  "gamerule.enableNoAnimals": "Extinction: Cows, sheep, pigs, and chickens will no longer spawn.",
+  "gamerule.disableCropGrow": "Blight: Crops will no longer grow naturally.",
+  "gamerule.enableMoreRainWeather": "Rainy Season: Greatly increases the duration of rainy weather after a period of time.",
+  "gamerule.enableUniversalAggro": "Universal Aggro: Players will unconditionally provoke the aggression of Piglins and Endermen.",
+  "generator.miteequilibrium.classic_overworld":"Classic Overworld",
+
+
+  "effect.miteequilibrium.insulin_resistance": "Diabetes"
 }

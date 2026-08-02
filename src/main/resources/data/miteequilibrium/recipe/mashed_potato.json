@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "miteequilibrium:bowl_milk"
+    },
+    {
+      "item": "minecraft:baked_potato"
+    },
+    {
+      "item": "miteequilibrium:cheese"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "miteequilibrium:mashed_potato"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "parent": "miteequilibrium:adventure/root",
+  "criteria": {
+    "get_flint": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:flint"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "get_flint_small": {
+      "conditions": {
+        "items": [
+          {
+            "items": "miteequilibrium:flint"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "adventure.get_flint.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:gravel"
+    },
+    "title": {
+      "translate": "adventure.get_flint.title"
+    }
+  },
+  "requirements": [
+    [
+      "get_flint_small",
+      "get_flint"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

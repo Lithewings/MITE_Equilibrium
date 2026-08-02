@@ -32,8 +32,7 @@ import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ALL_EXTRA
 
 @Mixin(EnderDragon.class)
 public abstract class EnderDragonEntityMixin extends Mob implements Enemy {
-    @Shadow
-    public float prevWingPosition;
+
 
     @Shadow
     public abstract boolean hurt(DamageSource source, float amount);

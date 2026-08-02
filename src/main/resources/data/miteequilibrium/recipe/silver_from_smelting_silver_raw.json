@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 30.0,
+  "group": "silver_raw",
+  "ingredient": {
+    "item": "miteequilibrium:silver_raw"
+  },
+  "result": {
+    "id": "miteequilibrium:silver"
+  }
+}

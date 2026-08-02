@@ -1,0 +1,34 @@
+{
+  "parent": "miteequilibrium:adventure/go_to_nether",
+  "criteria": {
+    "get_netherite_ingot": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:netherite_ingot"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "adventure.get_netherite_ingot"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:netherite_ingot"
+    },
+    "title": {
+      "translate": "adventure.get_netherite_ingot.title"
+    }
+  },
+  "requirements": [
+    [
+      "get_netherite_ingot"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

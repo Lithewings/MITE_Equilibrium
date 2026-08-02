@@ -1,0 +1,11 @@
+{
+  "type": "miteequilibrium:underworld",
+  "generator": {
+    "type": "minecraft:noise",
+    "settings": "miteequilibrium:underworld",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "miteequilibrium:underworld"
+    }
+  }
+}

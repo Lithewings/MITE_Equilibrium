@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "L": {
+      "tag": "minecraft:logs"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "F": {
+      "item": "minecraft:leather"
+    },
+    "A": {
+      "item": "miteequilibrium:ancient_metal"
+    }
+  },
+  "pattern": [
+    "DF ",
+    "SL ",
+    "  A"
+  ],
+  "result": {
+    "count": 1,
+    "id": "miteequilibrium:diamond_crafting_table"
+  }
+}

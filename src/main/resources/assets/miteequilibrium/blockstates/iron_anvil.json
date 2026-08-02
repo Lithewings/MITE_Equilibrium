@@ -1,0 +1,54 @@
+{
+  "variants": {
+    "facing=east,iron_anvil_stage=0": {
+      "model": "minecraft:block/anvil",
+      "y": 270
+    },
+    "facing=east,iron_anvil_stage=1": {
+      "model": "minecraft:block/chipped_anvil",
+      "y": 270
+    },
+    "facing=east,iron_anvil_stage=2": {
+      "model": "minecraft:block/damaged_anvil",
+      "y": 270
+    },
+
+
+    "facing=north,iron_anvil_stage=0": {
+      "model": "minecraft:block/anvil",
+      "y": 180
+    },
+    "facing=north,iron_anvil_stage=1": {
+      "model": "minecraft:block/chipped_anvil",
+      "y": 180
+    },
+    "facing=north,iron_anvil_stage=2": {
+      "model": "minecraft:block/damaged_anvil",
+      "y": 180
+    },
+
+    "facing=south,iron_anvil_stage=0": {
+      "model": "minecraft:block/anvil"
+    },
+    "facing=south,iron_anvil_stage=1": {
+      "model": "minecraft:block/chipped_anvil"
+    },
+    "facing=south,iron_anvil_stage=2": {
+      "model": "minecraft:block/damaged_anvil"
+    },
+
+
+    "facing=west,iron_anvil_stage=0": {
+      "model": "minecraft:block/anvil",
+      "y": 90
+    },
+    "facing=west,iron_anvil_stage=1": {
+      "model":"minecraft:block/chipped_anvil",
+      "y": 90
+    },
+    "facing=west,iron_anvil_stage=2": {
+      "model": "minecraft:block/damaged_anvil",
+      "y": 90
+    }
+  }
+}

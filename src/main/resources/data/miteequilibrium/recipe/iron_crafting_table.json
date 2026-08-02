@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "W": {
+      "tag": "minecraft:logs"
+    },
+    "X": {
+      "item": "minecraft:iron_ingot"
+    },
+    "Y": {
+      "item": "minecraft:stick"
+    },
+    "Z": {
+      "item": "minecraft:leather"
+    }
+  },
+  "pattern": [
+    "XZ",
+    "YW"
+  ],
+  "result": {
+    "count": 1,
+    "id": "miteequilibrium:iron_crafting_table"
+  }
+}

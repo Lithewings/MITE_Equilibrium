@@ -1,0 +1,33 @@
+{
+  "parent": "miteequilibrium:adventure/get_adamantium_pickaxe",
+  "criteria": {
+    "use_ender_eye": {
+      "conditions": {
+        "distance": {
+          "max": 3200.0,
+          "min": 0.0
+        }
+      },
+      "trigger": "minecraft:used_ender_eye"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "adventure.use_ender_eye"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:ender_eye"
+    },
+    "title": {
+      "translate": "adventure.use_ender_eye.title"
+    }
+  },
+  "requirements": [
+    [
+      "use_ender_eye"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

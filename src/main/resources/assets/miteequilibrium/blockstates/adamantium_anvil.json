@@ -1,0 +1,54 @@
+{
+  "variants": {
+    "facing=east,adamantium_anvil_stage=0": {
+      "model": "miteequilibrium:block/adamantium_anvil",
+      "y": 270
+    },
+    "facing=east,adamantium_anvil_stage=1": {
+      "model": "miteequilibrium:block/chipped_adamantium_anvil",
+      "y": 270
+    },
+    "facing=east,adamantium_anvil_stage=2": {
+      "model": "miteequilibrium:block/damaged_adamantium_anvil",
+      "y": 270
+    },
+
+
+    "facing=north,adamantium_anvil_stage=0": {
+      "model": "miteequilibrium:block/adamantium_anvil",
+      "y": 180
+    },
+    "facing=north,adamantium_anvil_stage=1": {
+      "model": "miteequilibrium:block/chipped_adamantium_anvil",
+      "y": 180
+    },
+    "facing=north,adamantium_anvil_stage=2": {
+      "model":  "miteequilibrium:block/damaged_adamantium_anvil",
+      "y": 180
+    },
+
+    "facing=south,adamantium_anvil_stage=0": {
+      "model": "miteequilibrium:block/adamantium_anvil"
+    },
+    "facing=south,adamantium_anvil_stage=1": {
+      "model": "miteequilibrium:block/chipped_adamantium_anvil"
+    },
+    "facing=south,adamantium_anvil_stage=2": {
+      "model": "miteequilibrium:block/damaged_adamantium_anvil"
+    },
+
+
+    "facing=west,adamantium_anvil_stage=0": {
+      "model": "miteequilibrium:block/adamantium_anvil",
+      "y": 90
+    },
+    "facing=west,adamantium_anvil_stage=1": {
+      "model": "miteequilibrium:block/chipped_adamantium_anvil",
+      "y": 90
+    },
+    "facing=west,adamantium_anvil_stage=2": {
+      "model": "miteequilibrium:block/damaged_adamantium_anvil",
+      "y": 90
+    }
+  }
+}

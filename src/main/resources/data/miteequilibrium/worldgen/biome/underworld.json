@@ -1,0 +1,134 @@
+{
+  "temperature": 0.8,
+  "downfall": 0.4,
+  "has_precipitation": false,
+  "effects": {
+    "sky_color": 0,
+    "fog_color": 986896,
+    "water_color": 4159204,
+    "water_fog_color": 329011
+  },
+  "spawners": {
+    "ambient": [
+      {
+        "type": "minecraft:bat",
+        "maxCount": 1,
+        "minCount": 1,
+        "weight": 10
+      }
+    ],
+    "axolotls": [],
+    "creature": [],
+    "misc": [],
+    "monster": [
+      {
+        "type": "minecraft:spider",
+        "maxCount": 1,
+        "minCount": 1,
+        "weight": 20
+      },
+
+      {
+        "type": "miteequilibrium:longdead",
+        "maxCount": 3,
+        "minCount": 2,
+        "weight": 20
+      },
+      {
+        "type": "miteequilibrium:pudding",
+        "maxCount": 3,
+        "minCount": 1,
+        "weight": 20
+      },
+      {
+        "type": "miteequilibrium:invisible_stalker",
+        "maxCount": 1,
+        "minCount": 1,
+        "weight": 20
+      },
+      {
+        "type": "miteequilibrium:wight",
+        "maxCount": 1,
+        "minCount": 1,
+        "weight": 20
+      },
+
+      {
+        "type": "miteequilibrium:ghoul",
+        "maxCount": 1,
+        "minCount": 1,
+        "weight": 33
+      },
+      {
+        "type": "minecraft:skeleton",
+        "maxCount": 1,
+        "minCount": 1,
+        "weight": 50
+      },
+      {
+        "type": "minecraft:creeper",
+        "maxCount": 1,
+        "minCount": 1,
+        "weight": 33
+      },
+      {
+        "type": "minecraft:enderman",
+        "maxCount": 1,
+        "minCount": 1,
+        "weight": 10
+      },
+      {
+        "type": "miteequilibrium:bone_lord",
+        "maxCount": 1,
+        "minCount": 1,
+        "weight": 10
+      },
+      {
+        "type": "minecraft:witch",
+        "maxCount": 1,
+        "minCount": 1,
+        "weight": 5
+      },
+      {
+        "type": "miteequilibrium:shadow",
+        "maxCount": 1,
+        "minCount": 1,
+        "weight": 35
+      }
+    ],
+    "underground_water_creature": [
+      {
+        "type": "minecraft:glow_squid",
+        "maxCount": 1,
+        "minCount": 1,
+        "weight": 10
+      }
+    ],
+    "water_ambient": [],
+    "water_creature": []
+  },
+  "spawn_costs": {},
+  "carvers": {},
+  "features": [
+    [],
+    [
+    ],
+    [
+    ],
+    [
+    ],
+    [],
+    [],
+    [
+    ],
+    [],
+    [
+      "minecraft:spring_water",
+      "minecraft:spring_lava"
+    ],
+    [
+    ],
+    [
+    ]
+  ]
+}

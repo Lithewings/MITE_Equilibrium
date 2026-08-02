@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "X": {
+      "item": "minecraft:flint"
+    },
+    "Y": {
+      "item": "minecraft:stick"
+    },
+    "Z": {
+      "item": "miteequilibrium:sinew"
+    }
+  },
+  "pattern": [
+    " X",
+    "ZY",
+    " Y"
+  ],
+  "result": {
+    "count": 1,
+    "id": "miteequilibrium:flint_shovel"
+  }
+}

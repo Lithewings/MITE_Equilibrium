@@ -1,0 +1,34 @@
+{
+  "anvil_cost": 19,
+  "description": {
+    "translate": "enchantment.miteequilibrium.speed"
+  },
+  "effects": {
+    "minecraft:attributes": [
+      {
+        "amount": {
+          "type": "minecraft:linear",
+          "base": 0.0205,
+          "per_level_above_first": 0.0105
+        },
+        "attribute": "minecraft:generic.movement_speed",
+        "id": "miteequilibrium:speed",
+        "operation": "add_value"
+      }
+    ]
+  },
+  "max_cost": {
+    "base": 51,
+    "per_level_above_first": 10
+  },
+  "max_level": 5,
+  "min_cost": {
+    "base": 1,
+    "per_level_above_first": 10
+  },
+  "slots": [
+    "armor"
+  ],
+  "supported_items": "minecraft:leather_boots",
+  "weight": 10
+}

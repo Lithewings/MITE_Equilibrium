@@ -1,0 +1,9 @@
+{
+  "values": [
+    "#minecraft:enchantable/mining",
+    "#miteequilibrium:hatchet",
+    "#miteequilibrium:axe",
+    "#miteequilibrium:shovel",
+    "#miteequilibrium:pickaxe"
+  ]
+}

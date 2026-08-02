@@ -1,0 +1,6 @@
+{
+  "parent": "miteequilibrium:block/template_adamantium_anvil",
+  "textures": {
+    "top": "miteequilibrium:block/adamantium/top_damaged_1"
+  }
+}

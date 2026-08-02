@@ -1,0 +1,51 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0,
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "condition": "minecraft:inverted",
+                  "term": {
+                    "condition": "minecraft:match_tool",
+                    "predicate": {
+                      "items": [
+                        "minecraft:iron_pickaxe",
+                        "miteequilibrium:iron_pickaxe",
+                        "miteequilibrium:iron_hammer",
+                        "minecraft:diamond_pickaxe",
+                        "miteequilibrium:mithril_pickaxe",
+                        "miteequilibrium:mithril_hammer",
+                        "miteequilibrium:adamantium_pickaxe",
+                        "miteequilibrium:adamantium_hammer"
+                      ]
+                    }
+                  }
+                }
+              ],
+              "name": "miteequilibrium:emerald_shard"
+            }
+          ]
+        }
+      ],
+      "rolls": 1,
+      "functions": [
+        {
+          "function": "minecraft:set_count",
+          "count": {
+            "type": "minecraft:uniform",
+            "min": 4,
+            "max": 8
+          }
+        }
+      ]
+    }
+  ],
+  "random_sequence": "minecraft:blocks/diamond_ore"
+}

@@ -1,0 +1,34 @@
+{
+  "parent": "miteequilibrium:adventure/get_netherite_ingot",
+  "criteria": {
+    "get_adamantium_pickaxe": {
+      "conditions": {
+        "items": [
+          {
+            "items": "miteequilibrium:adamantium_pickaxe"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "adventure.get_adamantium_pickaxe"
+    },
+    "icon": {
+      "count": 1,
+      "id": "miteequilibrium:adamantium_pickaxe"
+    },
+    "title": {
+      "translate": "adventure.get_adamantium_pickaxe.title"
+    }
+  },
+  "requirements": [
+    [
+      "get_adamantium_pickaxe"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

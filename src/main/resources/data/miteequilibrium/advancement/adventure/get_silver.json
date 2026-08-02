@@ -1,0 +1,37 @@
+{
+  "parent": "miteequilibrium:adventure/get_flint",
+  "criteria": {
+    "get_silver": {
+      "conditions": {
+        "items": [
+          {
+            "items": "miteequilibrium:silver_nugget"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "adventure.get_silver"
+    },
+    "icon": {
+      "count": 1,
+      "id": "miteequilibrium:silver_nugget"
+    },
+    "title": {
+      "translate": "adventure.get_silver.title"
+    }
+  },
+  "requirements": [
+    [
+      "get_silver"
+    ]
+  ],
+  "rewards": {
+    "experience": 20
+  },
+  "sends_telemetry_event": true
+}
