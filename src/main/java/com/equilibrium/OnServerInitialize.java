@@ -1,30 +1,11 @@
 package com.equilibrium;
 
 import com.equilibrium.block.CraftingDifficultyHelper;
-import com.equilibrium.block.ModBlocksRegistry;
-import com.equilibrium.item.ModItemGroup;
-import com.equilibrium.item.OtherItems;
 import com.equilibrium.network.*;
 import com.equilibrium.server_and_client.server.persistent_state.StateSaverAndLoader;
-import net.fabricmc.api.ModInitializer;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import org.slf4j.Logger;
-
-import com.mojang.logging.LogUtils;
-
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.MapColor;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
