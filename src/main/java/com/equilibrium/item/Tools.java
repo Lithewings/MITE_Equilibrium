@@ -202,4 +202,9 @@ public class Tools {
         return new AdamantiumHoe(material, new Item.Properties()
                 .attributes(DiggerItem.createAttributes(material, -1 + finalDamage, -4 + finalDamageSpeed)));
     }
+
+    public static void deferredRegisterLoadTools(){}
+
+
+
 }

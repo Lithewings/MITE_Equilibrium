@@ -25,7 +25,7 @@ public class ModArmorMaterials {
         map.put(ArmorItem.Type.CHESTPLATE, 4);
         map.put(ArmorItem.Type.HELMET, 2);
         map.put(ArmorItem.Type.BODY, 4);
-    }), 16, SoundEvents.ARMOR_EQUIP_CHAIN, 0F, 0.0F, () -> Ingredient.of(Metal.copper_nugget));
+    }), 16, SoundEvents.ARMOR_EQUIP_CHAIN, 0F, 0.0F, () -> Ingredient.of(MaterialItems.COPPER_NUGGET.get()));
 
     public static final Holder<ArmorMaterial> MITHRIL = register("mithril", Util.make(new EnumMap(ArmorItem.Type.class), map -> {
         map.put(ArmorItem.Type.BOOTS, 3);
@@ -33,7 +33,7 @@ public class ModArmorMaterials {
         map.put(ArmorItem.Type.CHESTPLATE, 8);
         map.put(ArmorItem.Type.HELMET, 3);
         map.put(ArmorItem.Type.BODY, 11);
-    }), 24, SoundEvents.ARMOR_EQUIP_DIAMOND, 2.0F, 0.0F, () -> Ingredient.of(Metal.mithril_nugget));
+    }), 24, SoundEvents.ARMOR_EQUIP_DIAMOND, 2.0F, 0.0F, () -> Ingredient.of(MaterialItems.MITHRIL_NUGGET.get()));
 
 
 

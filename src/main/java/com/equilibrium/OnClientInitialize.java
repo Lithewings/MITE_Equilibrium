@@ -1,6 +1,7 @@
 package com.equilibrium;
 
 import com.equilibrium.block.ModBlockScreenTypesRegister;
+import com.equilibrium.block.ModBlocksRegistry;
 import com.equilibrium.block.anvil_block.adamantium_anvil_block.AdamantiumAnvilScreen;
 import com.equilibrium.block.anvil_block.iron_anvil_block.IronAnvilScreen;
 import com.equilibrium.block.anvil_block.mithril_anvil_block.MithrilAnvilScreen;
@@ -11,8 +12,10 @@ import com.equilibrium.block.enchanting_table.emerald.EmeraldEnchantingTableBloc
 import com.equilibrium.network.S2CGameRuleSyncPayloadForBooleanPacket;
 import com.equilibrium.network.S2CIllnessTextureBooleanPacket;
 import com.equilibrium.network.S2CStockChangeGrassColorPacket;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -38,6 +41,8 @@ public class OnClientInitialize {
         S2CStockChangeGrassColorPacket.registerOnClient();
         S2CIllnessTextureBooleanPacket.registerOnClient();
         S2CGameRuleSyncPayloadForBooleanPacket.registerOnClient();
+
+
     }
 
     @SubscribeEvent
@@ -55,6 +60,13 @@ public class OnClientInitialize {
                     EmeraldEnchantingTableBlockEntityRenderer::new);
             BlockEntityRenderers.register(ModBlockEntityTypes.DIAMOND_ENCHANTING_TABLE_BLOCK_ENTITY_TYPE,
                     DiamondEnchantingTableBlockEntityRenderer::new);
+
+
+            BlockRenderLayerMap.INSTANCE.putBlocks(RenderType.cutout(), ModBlocksRegistry.ONION_BLOCK);
+
+
+
+
         });
     }
 }

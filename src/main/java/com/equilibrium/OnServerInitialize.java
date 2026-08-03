@@ -1,6 +1,10 @@
 package com.equilibrium;
 
 import com.equilibrium.block.CraftingDifficultyHelper;
+import com.equilibrium.item.Items;
+import com.equilibrium.item.MaterialItems;
+import com.equilibrium.item.ModItemGroup;
+import com.equilibrium.item.extend_item.CoinItems;
 import com.equilibrium.network.*;
 import com.equilibrium.server_and_client.server.persistent_state.StateSaverAndLoader;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -26,6 +30,13 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import static com.equilibrium.block.CraftingDifficultyHelper.initCraftingDifficulties;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.initGameRules;
+import static com.equilibrium.item.Items.ITEMS;
+import static com.equilibrium.item.MaterialItems.deferredRegisterLoadMaterialItems;
+import static com.equilibrium.item.Tools.deferredRegisterLoadTools;
+import static com.equilibrium.item.extend_item.CoinItems.deferredRegisterLoadCoinItems;
+import static com.equilibrium.tags.ModBlockTags.registerModBlockTags;
+import static com.equilibrium.tags.ModEntityTags.registerModEntityTags;
+import static com.equilibrium.tags.ModItemTags.registerModItemTags;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(OnServerInitialize.MOD_ID)
@@ -46,9 +57,6 @@ public class OnServerInitialize {
         //初始化游戏规则
         initGameRules();
 
-
-
-
         //S->C,发包
         S2CStockChangeGrassColorPacket.registerOnServer();
         S2CIllnessTextureBooleanPacket.registerOnServer();
@@ -59,8 +67,29 @@ public class OnServerInitialize {
         C2STriggerContentChangePacket.registerOnServer();
 
 
+        //DeferredRegister风格下,所有要注册的物品,先触发类加载
+        //方块等注册暂时使用@EventBusSubscriber + helper.register方法
 
-        modEventBus.register(this);
+        deferredRegisterLoadTools();
+        deferredRegisterLoadMaterialItems();
+        deferredRegisterLoadCoinItems();
+
+
+
+
+        //物品注册
+        Items.ITEMS.register(modEventBus);
+
+
+        //物品栏注册
+        ModItemGroup.TABS.register(modEventBus);
+
+
+
+
+
+
+
     }
 
     /**
@@ -70,6 +99,12 @@ public class OnServerInitialize {
     public void onCommonSetup(FMLCommonSetupEvent event) {
         // 此时所有物品、方块均已注册，字段非 null
         event.enqueueWork(CraftingDifficultyHelper::initCraftingDifficulties);
+
+
+
+        registerModBlockTags();
+        registerModEntityTags();
+        registerModItemTags();
     }
 
 

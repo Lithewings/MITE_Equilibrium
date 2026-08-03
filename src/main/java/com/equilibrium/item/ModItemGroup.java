@@ -7,26 +7,20 @@ import com.equilibrium.item.extend_item.CoinItems;
 import com.equilibrium.item.food.FoodOrFarmItems;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.registries.RegisterEvent;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
-@EventBusSubscriber(modid = OnServerInitialize.MOD_ID)
+import java.util.function.Supplier;
+
 public class ModItemGroup {
+    // 创建一个 DeferredRegister 专门管理创意标签页
+    public static final DeferredRegister<CreativeModeTab> TABS =
+            DeferredRegister.create(BuiltInRegistries.CREATIVE_MODE_TAB, OnServerInitialize.MOD_ID);
 
-    // 创意标签实例（供其他类引用）
-    public static CreativeModeTab BLOCKS;
-    public static CreativeModeTab TOOLS;
-    public static CreativeModeTab FARM;
-
-    @SubscribeEvent
-    public static void registerCreativeTabs(RegisterEvent event) {
-        event.register(BuiltInRegistries.CREATIVE_MODE_TAB.key(), helper -> {
-            // 方块 / 金属 / 杂项
-            BLOCKS = CreativeModeTab.builder()
+    // 方块 / 金属 / 杂项
+    public static final Supplier<CreativeModeTab> BLOCKS = TABS.register("blockgroup", () ->
+            CreativeModeTab.builder()
                     .title(Component.translatable("mod.itemGroup.blocks_and_metallic_items"))
                     .icon(() -> new ItemStack(ModBlocksRegistry2.FLINT_CRAFTING_TABLE))
                     .displayItems((params, output) -> {
@@ -61,24 +55,25 @@ public class ModItemGroup {
                         output.accept(ModBlocksRegistry.MITHRIL_ANVIL);
                         output.accept(ModBlocksRegistry.ADAMANTIUM_ANVIL);
 
-                        output.accept(MaterialItems.ADAMANTIUM_INGOT);
-                        output.accept(MaterialItems.COPPER_INGOT);
-                        output.accept(MaterialItems.ANCIENT_METAL_INGOT);
-                        output.accept(MaterialItems.GOLD_INGOT);
-                        output.accept(MaterialItems.MITHRIL_INGOT);
-                        output.accept(MaterialItems.SILVER_INGOT);
-                        output.accept(MaterialItems.FLINT);
+                        // DeferredItem 需要 .get()；普通 Item 直接引用
+                        output.accept(MaterialItems.ADAMANTIUM_INGOT.get());
+                        output.accept(MaterialItems.COPPER_INGOT.get());
+                        output.accept(MaterialItems.ANCIENT_METAL_INGOT.get());
+                        output.accept(MaterialItems.GOLD_INGOT.get());
+                        output.accept(MaterialItems.MITHRIL_INGOT.get());
+                        output.accept(MaterialItems.SILVER_INGOT.get());
+                        output.accept(MaterialItems.FLINT.get());
 
-                        output.accept(MaterialItems.ADAMANTIUM_NUGGET);
-                        output.accept(MaterialItems.ANCIENT_METAL_NUGGET);
-                        output.accept(MaterialItems.COPPER_NUGGET);
-                        output.accept(MaterialItems.GOLD_NUGGET);
-                        output.accept(MaterialItems.SILVER_NUGGET);
-                        output.accept(MaterialItems.MITHRIL_NUGGET);
+                        output.accept(MaterialItems.ADAMANTIUM_NUGGET.get());
+                        output.accept(MaterialItems.ANCIENT_METAL_NUGGET.get());
+                        output.accept(MaterialItems.COPPER_NUGGET.get());
+                        output.accept(MaterialItems.GOLD_NUGGET.get());
+                        output.accept(MaterialItems.SILVER_NUGGET.get());
+                        output.accept(MaterialItems.MITHRIL_NUGGET.get());
 
-                        output.accept(MaterialItems.RAW_ADAMANTIUM);
-                        output.accept(MaterialItems.RAW_MITHRIL);
-                        output.accept(MaterialItems.RAW_SILVER);
+                        output.accept(MaterialItems.RAW_ADAMANTIUM.get());
+                        output.accept(MaterialItems.RAW_MITHRIL.get());
+                        output.accept(MaterialItems.RAW_SILVER.get());
 
                         output.accept(CoinItems.COPPER_COIN);
                         output.accept(CoinItems.IRON_COIN);
@@ -87,13 +82,14 @@ public class ModItemGroup {
                         output.accept(OtherItems.EMERALD_SHARD);
                         output.accept(OtherItems.GLASS_FRAGMENT);
                     })
-                    .build();
-            helper.register(ResourceLocation.fromNamespaceAndPath(OnServerInitialize.MOD_ID, "blockgroup"), BLOCKS);
+                    .build()
+    );
 
-            // 工具栏
-            TOOLS = CreativeModeTab.builder()
+    // 工具栏
+    public static final Supplier<CreativeModeTab> TOOLS = TABS.register("toolsgroup", () ->
+            CreativeModeTab.builder()
                     .title(Component.translatable("mod.itemGroup.armors_and_tools"))
-                    .icon(() -> new ItemStack(Tools.ADAMANTIUM_PICKAXE.get()))
+                    .icon(() -> new ItemStack(Tools.ADAMANTIUM_PICKAXE.get()))   // 若 Tools 已改为 DeferredItem 则需 .get()
                     .displayItems((params, output) -> {
                         output.accept(Tools.FLINT_AXE.get());
                         output.accept(Tools.FLINT_HATCHET.get());
@@ -104,50 +100,51 @@ public class ModItemGroup {
                         output.accept(Tools.COPPER_DAGGER.get());
                         output.accept(Tools.COPPER_HAMMER.get());
                         output.accept(Tools.COPPER_HOE.get());
-                        output.accept(Tools.COPPER_PICKAXE.get());      
-                        output.accept(Tools.COPPER_SHOVEL.get());       
-                        output.accept(Tools.COPPER_SWORD.get());        
+                        output.accept(Tools.COPPER_PICKAXE.get());
+                        output.accept(Tools.COPPER_SHOVEL.get());
+                        output.accept(Tools.COPPER_SWORD.get());
 
-                        output.accept(Tools.GOLD_AXE.get());            
-                        output.accept(Tools.GOLD_DAGGER.get());         
-                        output.accept(Tools.GOLD_HAMMER.get());         
-                        output.accept(Tools.GOLD_HOE.get());            
-                        output.accept(Tools.GOLD_PICKAXE.get());        
-                        output.accept(Tools.GOLD_SHOVEL.get());         
-                        output.accept(Tools.GOLD_SWORD.get());          
+                        output.accept(Tools.GOLD_AXE.get());
+                        output.accept(Tools.GOLD_DAGGER.get());
+                        output.accept(Tools.GOLD_HAMMER.get());
+                        output.accept(Tools.GOLD_HOE.get());
+                        output.accept(Tools.GOLD_PICKAXE.get());
+                        output.accept(Tools.GOLD_SHOVEL.get());
+                        output.accept(Tools.GOLD_SWORD.get());
 
-                        output.accept(Tools.SILVER_AXE.get());          
-                        output.accept(Tools.SILVER_DAGGER.get());       
-                        output.accept(Tools.SILVER_HAMMER.get());       
-                        output.accept(Tools.SILVER_HOE.get());          
-                        output.accept(Tools.SILVER_PICKAXE.get());      
-                        output.accept(Tools.SILVER_SHOVEL.get());       
-                        output.accept(Tools.SILVER_SWORD.get());        
+                        output.accept(Tools.SILVER_AXE.get());
+                        output.accept(Tools.SILVER_DAGGER.get());
+                        output.accept(Tools.SILVER_HAMMER.get());
+                        output.accept(Tools.SILVER_HOE.get());
+                        output.accept(Tools.SILVER_PICKAXE.get());
+                        output.accept(Tools.SILVER_SHOVEL.get());
+                        output.accept(Tools.SILVER_SWORD.get());
 
-                        output.accept(Tools.IRON_AXE.get());            
-                        output.accept(Tools.IRON_DAGGER.get());         
-                        output.accept(Tools.IRON_HAMMER.get());         
-                        output.accept(Tools.IRON_HOE.get());            
-                        output.accept(Tools.IRON_PICKAXE.get());        
-                        output.accept(Tools.IRON_SHOVEL.get());         
-                        output.accept(Tools.IRON_SWORD.get());          
+                        output.accept(Tools.IRON_AXE.get());
+                        output.accept(Tools.IRON_DAGGER.get());
+                        output.accept(Tools.IRON_HAMMER.get());
+                        output.accept(Tools.IRON_HOE.get());
+                        output.accept(Tools.IRON_PICKAXE.get());
+                        output.accept(Tools.IRON_SHOVEL.get());
+                        output.accept(Tools.IRON_SWORD.get());
 
-                        output.accept(Tools.MITHRIL_AXE.get());         
-                        output.accept(Tools.MITHRIL_DAGGER.get());      
-                        output.accept(Tools.MITHRIL_HAMMER.get());      
-                        output.accept(Tools.MITHRIL_HOE.get());         
-                        output.accept(Tools.MITHRIL_SHOVEL.get());      
-                        output.accept(Tools.MITHRIL_SWORD.get());       
-                        output.accept(Tools.MITHRIL_PICKAXE.get());     
+                        output.accept(Tools.MITHRIL_AXE.get());
+                        output.accept(Tools.MITHRIL_DAGGER.get());
+                        output.accept(Tools.MITHRIL_HAMMER.get());
+                        output.accept(Tools.MITHRIL_HOE.get());
+                        output.accept(Tools.MITHRIL_SHOVEL.get());
+                        output.accept(Tools.MITHRIL_SWORD.get());
+                        output.accept(Tools.MITHRIL_PICKAXE.get());
 
-                        output.accept(Tools.ADAMANTIUM_AXE.get());      
+                        output.accept(Tools.ADAMANTIUM_AXE.get());
                         output.accept(Tools.ADMANTIUM_DAGGER.get());
-                        output.accept(Tools.ADAMANTIUM_HOE.get());      
-                        output.accept(Tools.ADAMANTIUM_HAMMER.get());   
-                        output.accept(Tools.ADAMANTIUM_SHOVEL.get());   
-                        output.accept(Tools.ADMANTIUM_SWORD.get());     
-                        output.accept(Tools.ADAMANTIUM_PICKAXE.get());  
+                        output.accept(Tools.ADAMANTIUM_HOE.get());
+                        output.accept(Tools.ADAMANTIUM_HAMMER.get());
+                        output.accept(Tools.ADAMANTIUM_SHOVEL.get());
+                        output.accept(Tools.ADMANTIUM_SWORD.get());
+                        output.accept(Tools.ADAMANTIUM_PICKAXE.get());
 
+                        // Armors 为普通 Item 字段，无需 .get()
                         output.accept(Armors.COPPER_HELMET);
                         output.accept(Armors.COPPER_CHEST_PLATE);
                         output.accept(Armors.COPPER_LEGGINGS);
@@ -163,11 +160,12 @@ public class ModItemGroup {
                         output.accept(Armors.ANCIENT_METAL_CHAINMAIL_LEGGINGS);
                         output.accept(Armors.ANCIENT_METAL_CHAINMAIL_BOOTS);
                     })
-                    .build();
-            helper.register(ResourceLocation.fromNamespaceAndPath(OnServerInitialize.MOD_ID, "toolsgroup"), TOOLS);
+                    .build()
+    );
 
-            // 农业
-            FARM = CreativeModeTab.builder()
+    // 农业
+    public static final Supplier<CreativeModeTab> FARM = TABS.register("farmgroup", () ->
+            CreativeModeTab.builder()
                     .title(Component.translatable("mod.itemGroup.farm"))
                     .icon(() -> new ItemStack(FoodOrFarmItems.SALAD))
                     .displayItems((params, output) -> {
@@ -183,8 +181,6 @@ public class ModItemGroup {
                         output.accept(FoodOrFarmItems.SALAD);
                         output.accept(FoodOrFarmItems.MANURE);
                     })
-                    .build();
-            helper.register(ResourceLocation.fromNamespaceAndPath(OnServerInitialize.MOD_ID, "farmgroup"), FARM);
-        });
-    }
+                    .build()
+    );
 }

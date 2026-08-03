@@ -8,29 +8,35 @@ import static com.equilibrium.item.Items.ITEMS;
 
 public class MaterialItems {
 
+    //为了匹配assets和data中的注册名,这里按照Fabric版本的习惯来命名
+    //adamantium_ingot->adamantium
+    //raw_adamantium->adamantium_raw
+    //或者一起提供配套的assets和data
+
+
     // ---------- 锭（堆叠 16） ----------
     public static final DeferredItem<Item> ADAMANTIUM_INGOT = ITEMS.registerItem(
-            "adamantium_ingot",
+            "adamantium",
             properties -> new Item(properties.stacksTo(16))
     );
     public static final DeferredItem<Item> ANCIENT_METAL_INGOT = ITEMS.registerItem(
-            "ancient_metal_ingot",
+            "ancient_metal",
             properties -> new Item(properties.stacksTo(16))
     );
     public static final DeferredItem<Item> COPPER_INGOT = ITEMS.registerItem(
-            "copper_ingot",
+            "copper",
             properties -> new Item(properties.stacksTo(16))
     );
     public static final DeferredItem<Item> GOLD_INGOT = ITEMS.registerItem(
-            "gold_ingot",
+            "gold",
             properties -> new Item(properties.stacksTo(16))
     );
     public static final DeferredItem<Item> MITHRIL_INGOT = ITEMS.registerItem(
-            "mithril_ingot",
+            "mithril",
             properties -> new Item(properties.stacksTo(16))
     );
     public static final DeferredItem<Item> SILVER_INGOT = ITEMS.registerItem(
-            "silver_ingot",
+            "silver",
             properties -> new Item(properties.stacksTo(16))
     );
 
@@ -60,17 +66,17 @@ public class MaterialItems {
             properties -> new Item(properties.stacksTo(64))
     );
 
-    // ---------- 粗矿（堆叠 32）变量名改为 RAW_XXX，注册 ID 为 raw_xxx ----------
+    // ---------- 粗矿（堆叠 32）
     public static final DeferredItem<Item> RAW_ADAMANTIUM = ITEMS.registerItem(
-            "raw_adamantium",
+            "adamantium_raw",
             properties -> new Item(properties.stacksTo(32))
     );
     public static final DeferredItem<Item> RAW_MITHRIL = ITEMS.registerItem(
-            "raw_mithril",
+            "mithril_raw",
             properties -> new Item(properties.stacksTo(32))
     );
     public static final DeferredItem<Item> RAW_SILVER = ITEMS.registerItem(
-            "raw_silver",
+            "silver_raw",
             properties -> new Item(properties.stacksTo(32))
     );
 
@@ -79,4 +85,5 @@ public class MaterialItems {
             "flint",
             properties -> new Item(properties.stacksTo(64))
     );
+    public static void deferredRegisterLoadMaterialItems(){}
 }
