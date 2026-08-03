@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.7-SNAPSHOT'
+	id 'fabric-loom' version '1.8.9'
 	id 'maven-publish'
 }
 
@@ -11,6 +11,18 @@ base {
 }
 
 repositories {
+	exclusiveContent {
+		forRepository {
+			maven {
+				name = "Modrinth"
+				url = "https://api.modrinth.com/maven"
+			}
+		}
+		// forRepositories(fg.repository) // Uncomment when using ForgeGradle
+		filter {
+			includeGroup "maven.modrinth"
+		}
+	}
 	// Add repositories to retrieve artifacts from in here.
 	// You should only use this when depending on other mods because
 	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.

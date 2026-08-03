@@ -96,6 +96,7 @@ public class MixinClientPlayerEntity extends AbstractClientPlayerEntity implemen
 	}
 
 	@Unique
+	//利用玩家经验进行合成加速
 	public float getCraftingSpeed(PlayerEntity player) {
 		float speed = 1F;
 		speed += 0.05F * Math.min(200, player.experienceLevel);
