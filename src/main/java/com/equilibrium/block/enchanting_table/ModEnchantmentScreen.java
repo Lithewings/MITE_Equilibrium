@@ -5,8 +5,6 @@ import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -26,19 +24,14 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 import java.util.List;
 import java.util.Optional;
 
-@Environment(EnvType.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ModEnchantmentScreen extends AbstractContainerScreen<ModEnchantmentScreenHandler> {
-    //写好ScreenHandler,用type来指代,在在服务端注册
-
-    //写好Screen,在客户端把handler和screen连在一起,注册
-
-
-
-
 
     private static final ResourceLocation[] LEVEL_TEXTURES = new ResourceLocation[]{
             ResourceLocation.withDefaultNamespace("container/enchanting_table/level_1"),
@@ -65,7 +58,6 @@ public class ModEnchantmentScreen extends AbstractContainerScreen<ModEnchantment
     public float nextPageTurningSpeed;
     public float pageTurningSpeed;
     private ItemStack stack = ItemStack.EMPTY;
-    // 1. 在类里添加一个数组字段，记录每个栏位当前揭示的条数（初始0，表示一条都不显示）
     private final int[] revealedCount = new int[]{0, 0, 0};
 
     public ModEnchantmentScreen(ModEnchantmentScreenHandler handler, Inventory inventory, Component title) {
@@ -86,7 +78,6 @@ public class ModEnchantmentScreen extends AbstractContainerScreen<ModEnchantment
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-
         int i = (this.width - this.imageWidth) / 2;
         int j = (this.height - this.imageHeight) / 2;
 
@@ -98,7 +89,6 @@ public class ModEnchantmentScreen extends AbstractContainerScreen<ModEnchantment
                 return true;
             }
         }
-
         return super.mouseClicked(mouseX, mouseY, button);
     }
 
@@ -124,7 +114,6 @@ public class ModEnchantmentScreen extends AbstractContainerScreen<ModEnchantment
                 int p = 86 - this.font.width(string);
                 FormattedText stringVisitable = EnchantmentNames.getInstance().getRandomName(this.font, p);
                 int q = 6839882;
-                //用总经验来比较,渲染结果
                 if ((k < l + 1 || this.minecraft.player.totalExperience < o) && !this.minecraft.player.getAbilities().instabuild) {
                     RenderSystem.enableBlend();
                     context.blitSprite(ENCHANTMENT_SLOT_DISABLED_TEXTURE, m, j + 14 + 19 * l, 108, 19);
@@ -142,13 +131,11 @@ public class ModEnchantmentScreen extends AbstractContainerScreen<ModEnchantment
                     } else {
                         context.blitSprite(ENCHANTMENT_SLOT_TEXTURE, m, j + 14 + 19 * l, 108, 19);
                     }
-
                     context.blitSprite(LEVEL_TEXTURES[l], m + 1, j + 15 + 19 * l, 16, 16);
                     RenderSystem.disableBlend();
                     context.drawWordWrap(this.font, stringVisitable, n, j + 16 + 19 * l, p, q);
                     q = 8453920;
                 }
-
                 context.drawString(this.font, string, n + 86 - this.font.width(string), j + 16 + 19 * l + 7, q);
             }
         }
@@ -191,16 +178,18 @@ public class ModEnchantmentScreen extends AbstractContainerScreen<ModEnchantment
                     .registryAccess()
                     .registryOrThrow(Registries.ENCHANTMENT)
                     .getHolder(this.menu.enchantmentId[j]);
-            if (!optional.isEmpty()) {
+            if (optional.isPresent()) {
                 int l = this.menu.enchantmentLevel[j];
                 int m = j + 1;
-                if (this.isHovering(60, 14 + 19 * j, 108, 17, (double)mouseX, (double)mouseY) && k > 0 && l >= 0 && optional != null) {
-                    List<Component> list = Lists.<Component>newArrayList();
-                    list.add(Component.translatable("container.enchant.clue", Enchantment.getFullname((Holder<Enchantment>)optional.get(), l)).withStyle(ChatFormatting.WHITE));
+                if (this.isHovering(60, 14 + 19 * j, 108, 17, (double)mouseX, (double)mouseY) && k > 0 && l >= 0) {
+                    List<Component> list = Lists.newArrayList();
+                    list.add(Component.translatable("container.enchant.clue",
+                            Enchantment.getFullname(optional.get(), l)).withStyle(ChatFormatting.WHITE));
                     if (!bl) {
                         list.add(CommonComponents.EMPTY);
-                        if (this.minecraft.player.totalExperience< k) {
-                            list.add(Component.translatable("container.xp.requirement", this.menu.enchantmentPower[j]).withStyle(ChatFormatting.RED));
+                        if (this.minecraft.player.totalExperience < k) {
+                            list.add(Component.translatable("container.xp.requirement", this.menu.enchantmentPower[j])
+                                    .withStyle(ChatFormatting.RED));
                         } else {
                             MutableComponent mutableText;
                             if (m == 1) {
@@ -208,17 +197,11 @@ public class ModEnchantmentScreen extends AbstractContainerScreen<ModEnchantment
                             } else {
                                 mutableText = Component.translatable("container.enchant.lapis.many", m);
                             }
-
                             list.add(mutableText.withStyle(i >= m ? ChatFormatting.GRAY : ChatFormatting.RED));
-                            MutableComponent mutableText2;
-
-                            mutableText2 = Component.translatable("container.xp.cost", k);
-
-
+                            MutableComponent mutableText2 = Component.translatable("container.xp.cost", k);
                             list.add(mutableText2.withStyle(ChatFormatting.GRAY));
                         }
                     }
-
                     context.renderComponentTooltip(this.font, list, mouseX, mouseY);
                     break;
                 }
@@ -230,7 +213,6 @@ public class ModEnchantmentScreen extends AbstractContainerScreen<ModEnchantment
         ItemStack itemStack = this.menu.getSlot(0).getItem();
         if (!ItemStack.matches(itemStack, this.stack)) {
             this.stack = itemStack;
-
             do {
                 this.approximatePageAngle = this.approximatePageAngle + (float)(this.random.nextInt(4) - this.random.nextInt(4));
             } while (this.nextPageAngle <= this.approximatePageAngle + 1.0F && this.nextPageAngle >= this.approximatePageAngle - 1.0F);
@@ -240,19 +222,16 @@ public class ModEnchantmentScreen extends AbstractContainerScreen<ModEnchantment
         this.pageAngle = this.nextPageAngle;
         this.pageTurningSpeed = this.nextPageTurningSpeed;
         boolean bl = false;
-
         for (int i = 0; i < 3; i++) {
             if (this.menu.enchantmentPower[i] != 0) {
                 bl = true;
             }
         }
-
         if (bl) {
             this.nextPageTurningSpeed += 0.2F;
         } else {
             this.nextPageTurningSpeed -= 0.2F;
         }
-
         this.nextPageTurningSpeed = Mth.clamp(this.nextPageTurningSpeed, 0.0F, 1.0F);
         float f = (this.approximatePageAngle - this.nextPageAngle) * 0.4F;
         float g = 0.2F;
