@@ -1,9 +1,9 @@
 plugins {
-	id 'fabric-loom' version '1.8.9'
+	id 'fabric-loom' version '1.'
 	id 'maven-publish'
 }
 
-version = "1.1.0.620260801_Beta"
+version = "1.1.0.720260803_Beta"
 group = project.maven_group
 
 base {
@@ -52,7 +52,7 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-
+	modImplementation "maven.modrinth:gvQqBUqZ:XQJtuOTA"
 	implementation files('lib/artifacts-fabric-13.2.1-sources.jar')
 }
 
