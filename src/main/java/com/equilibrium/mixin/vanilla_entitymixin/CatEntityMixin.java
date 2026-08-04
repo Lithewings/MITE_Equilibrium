@@ -21,7 +21,7 @@ public abstract class CatEntityMixin extends TamableAnimal implements VariantHol
         super(entityType, world);
     }
 
-    @Inject(method = "mobTick",at = @At("HEAD"))
+    @Inject(method = "customServerAiStep",at = @At("HEAD"))
     public void mobTick(CallbackInfo ci) {
         if(this.isTame())
             if(!this.hasEffect(MobEffects.DAMAGE_RESISTANCE))

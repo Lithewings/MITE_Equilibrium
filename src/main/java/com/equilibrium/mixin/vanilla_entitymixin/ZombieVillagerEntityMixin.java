@@ -32,22 +32,18 @@ public abstract class ZombieVillagerEntityMixin extends Zombie implements Villag
     }
     @Shadow
     @Final
-    private static EntityDataAccessor<Boolean> CONVERTING;
+    private static EntityDataAccessor<Boolean> DATA_CONVERTING_ID;
     @Shadow
-    private int conversionTimer;
+    private int villagerConversionTime;
     @Shadow
-    private UUID converter;
-    @Shadow
-    private Tag gossipData;
-    @Nullable
-    @Shadow
-    private MerchantOffers offerData;
+    private UUID conversionStarter;
 
-@Shadow
-    private void setConverting(@Nullable UUID uuid, int delay) {
-        this.converter = uuid;
-        this.conversionTimer = delay;
-        this.getEntityData().set(CONVERTING, true);
+
+    @Shadow
+    private void startConverting(@Nullable UUID uuid, int delay) {
+        this.conversionStarter = uuid;
+        this.villagerConversionTime = delay;
+        this.getEntityData().set(DATA_CONVERTING_ID, true);
         this.removeEffect(MobEffects.WEAKNESS);
         this.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, delay, Math.min(this.level().getDifficulty().getId() - 1, 0)));
         this.level().broadcastEntityEvent(this, EntityEvent.ZOMBIE_CONVERTING);
@@ -70,7 +66,7 @@ public abstract class ZombieVillagerEntityMixin extends Zombie implements Villag
             if (this.hasEffect(MobEffects.WEAKNESS)) {
                 itemStack.consume(1, player);
                 if (!this.level().isClientSide) {
-                    this.setConverting(player.getUUID(), this.random.nextInt(2401) + 3600);
+                    this.startConverting(player.getUUID(), this.random.nextInt(2401) + 3600);
                 }
 
                 return InteractionResult.SUCCESS;
@@ -81,7 +77,7 @@ public abstract class ZombieVillagerEntityMixin extends Zombie implements Villag
             if (this.hasEffect(MobEffects.WEAKNESS)) {
                 itemStack.consume(1, player);
                 if (!this.level().isClientSide) {
-                    this.setConverting(player.getUUID(), 5);
+                    this.startConverting(player.getUUID(), 5);
                 }
 
                 return InteractionResult.SUCCESS;

@@ -27,7 +27,10 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.gameevent.GameEvent;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -214,15 +217,17 @@ public abstract class CowEntityMixin extends Animal implements ProduceManureOrSo
         this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
     }
-    @Unique
-    @Override
-    public DamageSource getLastDamageSource() {
-        if (this.level().getGameTime() -this.lastDamageStamp > 1600L) {
-            this.lastDamageSource = null;
-        }
-        return this.lastDamageSource;
-    }
 
+
+    @Override
+    @Nullable
+    public DamageSource getLastDamageSource() {
+        CowEntityMixinAccessor accessor = (CowEntityMixinAccessor) this;
+        if (this.level().getGameTime() - accessor.getLastDamageStamp() > 1600L) {
+            accessor.setLastDamageSource(null);
+        }
+        return accessor.getLastDamageSource();
+    }
 
 
     @Override

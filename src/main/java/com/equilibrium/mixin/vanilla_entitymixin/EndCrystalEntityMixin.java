@@ -16,15 +16,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(EndCrystal.class)
 public abstract class EndCrystalEntityMixin extends Entity {
-    @Shadow public int endCrystalAge;
+    @Shadow public int time;
 
     public EndCrystalEntityMixin(EntityType<?> type, Level world) {
         super(type, world);
     }
 
-    @Inject(method = "damage",at = @At("HEAD"),cancellable = true)
+    @Inject(method = "hurt",at = @At("HEAD"),cancellable = true)
     public void damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
-        if(source.getEntity() instanceof Player player && player.getMainHandItem().is(Tools.ADAMANTIUM_PICKAXE))
+        if(source.getEntity() instanceof Player player && player.getMainHandItem().is(Tools.ADAMANTIUM_PICKAXE.get()))
             return;
         else{
             cir.setReturnValue(false);

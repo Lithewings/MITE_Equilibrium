@@ -59,7 +59,7 @@ public abstract  class SheepEntityMixin extends Animal implements Shearable , Pr
     private final EnvironmentChecker environmentChecker =new EnvironmentChecker((Sheep)(Object)this,6000);
 
 
-    @Inject(method = "mobTick",at = @At("HEAD"))
+    @Inject(method = "customServerAiStep",at = @At("HEAD"))
     protected void mobTick(CallbackInfo ci) {
         environmentChecker.tickTask();
     }
@@ -94,7 +94,7 @@ public abstract  class SheepEntityMixin extends Animal implements Shearable , Pr
     //			this.eatGrassTimer = Math.max(0, this.eatGrassTimer - 1);
     //		}
     //将被忽视
-    @Inject(method = "tickMovement",at = @At("HEAD"))
+    @Inject(method = "aiStep",at = @At("HEAD"))
     public void tickMovement(CallbackInfo ci) {
         this.produceManure(this);
     }
@@ -114,21 +114,21 @@ public abstract  class SheepEntityMixin extends Animal implements Shearable , Pr
     }
 
 
-    @Inject(method = "writeCustomDataToNbt",at = @At("TAIL"))
+    @Inject(method = "addAdditionalSaveData",at = @At("TAIL"))
     public void writeCustomDataToNbt(CompoundTag nbt, CallbackInfo ci) {
         environmentChecker.writeCustomDataToNbt(nbt);
     }
 
-    @Inject(method = "readCustomDataFromNbt",at = @At("TAIL"))
+    @Inject(method = "readAdditionalSaveData",at = @At("TAIL"))
     public void readCustomDataFromNbt(CompoundTag nbt, CallbackInfo ci) {
         environmentChecker.readCustomDataFromNbt(nbt);
     }
     @Shadow
-    private EatBlockGoal eatGrassGoal;
+    private EatBlockGoal eatBlockGoal;
 
     @Override
     public void registerGoals() {
-        this.eatGrassGoal = new EatBlockGoal(this);
+        this.eatBlockGoal = new EatBlockGoal(this);
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(0, new BreedGoal(this, 1.0));
 
@@ -140,7 +140,7 @@ public abstract  class SheepEntityMixin extends Animal implements Shearable , Pr
 
         this.goalSelector.addGoal(3, new TemptGoal(this, 1.5, stack -> stack.is(ItemTags.SHEEP_FOOD), false));
         this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.1));
-        this.goalSelector.addGoal(5, this.eatGrassGoal);
+        this.goalSelector.addGoal(5, this.eatBlockGoal);
         this.goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 1.0));
         this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
