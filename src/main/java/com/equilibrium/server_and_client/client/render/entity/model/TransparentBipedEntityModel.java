@@ -2,8 +2,8 @@ package com.equilibrium.server_and_client.client.render.entity.model;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.client.model.AgeableListModel;
 import net.minecraft.client.model.AnimationUtils;
 import net.minecraft.client.model.ArmedModel;
@@ -21,6 +21,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
+
 import java.util.function.Function;
 
 /**
@@ -55,9 +56,8 @@ import java.util.function.Function;
  * </tr>
  * </table>
  * </div>
- *
  */
-@Environment(EnvType.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class TransparentBipedEntityModel<T extends LivingEntity> extends AgeableListModel<T> implements ArmedModel, HeadedModel {
     public static final float field_32505 = 0.25F;
     public static final float field_32506 = 0.5F;
@@ -177,7 +177,7 @@ public class TransparentBipedEntityModel<T extends LivingEntity> extends Ageable
         this.leftArm.x = 5.0F;
         float k = 1.0F;
         if (bl) {
-            k = (float)livingEntity.getDeltaMovement().lengthSqr();
+            k = (float) livingEntity.getDeltaMovement().lengthSqr();
             k /= 0.2F;
             k *= k * k;
         }
@@ -480,7 +480,7 @@ public class TransparentBipedEntityModel<T extends LivingEntity> extends Ageable
         return entity.swingingArm == InteractionHand.MAIN_HAND ? arm : arm.getOpposite();
     }
 
-    @Environment(EnvType.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public static enum ArmPose {
         EMPTY(false),
         ITEM(false),
