@@ -1,12 +1,11 @@
 package com.equilibrium.server_and_client.client.render.entity.model;
-
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.model.AnimationUtils;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.world.entity.monster.Monster;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
-@Environment(EnvType.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public abstract class TransparentAbstractMobModel<T extends Monster> extends TransparentBipedEntityModel<T> {
     protected TransparentAbstractMobModel(ModelPart modelPart) {
         super(modelPart);

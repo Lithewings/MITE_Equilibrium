@@ -1,12 +1,12 @@
 package com.equilibrium.server_and_client.client.render.entity.renderer;
 
 import com.equilibrium.server_and_client.client.render.entity.model.TransparentZombieEntityModelAbstractMobModel;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.entity.monster.Zombie;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
-@Environment(EnvType.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public abstract class AbstractTransparentZombieEntityRendererTransparent<T extends Zombie, M extends TransparentZombieEntityModelAbstractMobModel<T>> extends ModTransparentBipedEntityRenderer<T, M> {
 
 

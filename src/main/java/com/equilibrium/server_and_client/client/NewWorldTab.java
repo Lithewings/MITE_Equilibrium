@@ -1,7 +1,7 @@
 package com.equilibrium.server_and_client.client;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.Button;
@@ -19,12 +19,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import java.util.function.BooleanSupplier;
-import java.util.function.Consumer;
 
+@OnlyIn(Dist.CLIENT)
 public class NewWorldTab extends GridLayoutTab {
     private static final Component WORLD_TAB_TITLE_TEXT = Component.translatable("createWorld.tab.world.title");
     private static final Component AMPLIFIED_GENERATOR_INFO_TEXT = Component.translatable("generator.minecraft.amplified.info");
@@ -39,30 +36,29 @@ public class NewWorldTab extends GridLayoutTab {
     private final EditBox seedField;
     private final Button customizeButton;
 
-
     public static boolean alwaysTrue() {
         return true;
     }
+
     public static boolean alwaysFalse() {
         return false;
     }
 
-
-
-
     public NewWorldTab(CreateWorldScreen createWorldScreen, Font textRenderer) {
         super(WORLD_TAB_TITLE_TEXT);
         GridLayout.RowHelper adder = this.layout.columnSpacing(10).rowSpacing(8).createRowHelper(2);
+
         CycleButton<WorldCreationUiState.WorldTypeEntry> cyclingButtonWidget = adder.addChild(
                 CycleButton.<WorldCreationUiState.WorldTypeEntry>builder(WorldCreationUiState.WorldTypeEntry::describePreset)
                         .withValues(createWorldScreen.getUiState().getNormalPresetList().getFirst())
                         .create(0, 0, 150, 20, Component.translatable("selectWorld.mapType"), (button, worldType) -> createWorldScreen.getUiState().setWorldType(worldType))
         );
         cyclingButtonWidget.setValue(createWorldScreen.getUiState().getWorldType());
+        cyclingButtonWidget.active = false;
 
-        cyclingButtonWidget.active=false;
         this.customizeButton = adder.addChild(Button.builder(Component.translatable("selectWorld.customizeType"), button -> this.openCustomizeScreen(createWorldScreen)).build());
         createWorldScreen.getUiState().addListener(creator -> this.customizeButton.active = !creator.isDebug() && creator.getPresetEditor() != null);
+
         this.seedField = new EditBox(textRenderer, 308, 20, Component.translatable("selectWorld.enterSeed")) {
             @Override
             protected MutableComponent createNarrationMessage() {
@@ -72,28 +68,25 @@ public class NewWorldTab extends GridLayoutTab {
         this.seedField.setHint(SEED_INFO_TEXT);
         this.seedField.setValue(createWorldScreen.getUiState().getSeed());
         this.seedField.setResponder(seed -> createWorldScreen.getUiState().setSeed(this.seedField.getValue()));
-        this.seedField.active=false;
+        this.seedField.active = false;
 
         adder.addChild(CommonLayouts.labeledElement(textRenderer, this.seedField, ENTER_SEED_TEXT), 2);
+
         SwitchGrid.Builder builder = SwitchGrid.builder(310);
-        //我可以保证这个屏幕只会在非调试模式下使用,奖励箱无论何时一定生成;结构也一定会生成,默认在所有模式下都生成结构,调式模式下不调用这个屏幕
+        // 强制禁用结构生成和奖励箱开关，并强制开启奖励箱
         builder.addSwitch(MAP_FEATURES_TEXT, createWorldScreen.getUiState()::isGenerateStructures, createWorldScreen.getUiState()::setGenerateStructures)
-                .withIsActiveCondition(()->false)
+                .withIsActiveCondition(() -> false)
                 .withInfo(MAP_FEATURES_INFO_TEXT);
         builder.addSwitch(BONUS_ITEMS_TEXT, NewWorldTab::alwaysTrue, null)
                 .withIsActiveCondition(() -> false)
                 .withInfo(BONUS_ITEMS_INFO_TEXT);
         createWorldScreen.getUiState().setBonusChest(true);
+
         SwitchGrid worldScreenOptionGrid = builder.build(widget ->
-            adder.addChild(widget, 2)
+                adder.addChild(widget, 2)
         );
 
-
-
-
         createWorldScreen.getUiState().addListener(creator -> worldScreenOptionGrid.refreshStates());
-
-
     }
 
     private void openCustomizeScreen(CreateWorldScreen createWorldScreen) {
@@ -103,5 +96,4 @@ public class NewWorldTab extends GridLayoutTab {
                     .setScreen(levelScreenProvider.createEditScreen(createWorldScreen, createWorldScreen.getUiState().getSettings()));
         }
     }
-
 }
