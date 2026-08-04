@@ -7,17 +7,17 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(LivingEntity.class)
-public interface CowEntityMixinAccessor {
+public interface LivingEntityAccessor {
     @Accessor("lastDamageStamp")
-    long getLastDamageStamp();
+    long getPrivateLastDamageStamp();
 
     @Accessor("lastDamageStamp")
-    void setLastDamageStamp(long stamp);
+    void setPrivateLastDamageStamp(long stamp);
 
     @Accessor("lastDamageSource")
     @Nullable
-    DamageSource getLastDamageSource();
+    DamageSource getPrivateLastDamageSource();
 
     @Accessor("lastDamageSource")
-    void setLastDamageSource(@Nullable DamageSource source);
+    void setPrivateLastDamageSource(@Nullable DamageSource source);
 }

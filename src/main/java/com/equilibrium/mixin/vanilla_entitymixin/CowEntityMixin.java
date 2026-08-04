@@ -222,11 +222,11 @@ public abstract class CowEntityMixin extends Animal implements ProduceManureOrSo
     @Override
     @Nullable
     public DamageSource getLastDamageSource() {
-        CowEntityMixinAccessor accessor = (CowEntityMixinAccessor) this;
-        if (this.level().getGameTime() - accessor.getLastDamageStamp() > 1600L) {
-            accessor.setLastDamageSource(null);
+        LivingEntityAccessor accessor = (LivingEntityAccessor) this;
+        if (this.level().getGameTime() - accessor.getPrivateLastDamageStamp() > 1600L) {
+            accessor.setPrivateLastDamageSource(null);
         }
-        return accessor.getLastDamageSource();
+        return accessor.getPrivateLastDamageSource();
     }
 
 

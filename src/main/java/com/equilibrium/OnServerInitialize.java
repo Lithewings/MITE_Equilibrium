@@ -1,11 +1,13 @@
 package com.equilibrium;
 
 import com.equilibrium.block.CraftingDifficultyHelper;
+import com.equilibrium.entity.ModEntities;
 import com.equilibrium.item.Items;
 import com.equilibrium.item.MaterialItems;
 import com.equilibrium.item.ModItemGroup;
 import com.equilibrium.item.extend_item.CoinItems;
 import com.equilibrium.network.*;
+import com.equilibrium.server_and_client.server.SoundEventRegistry;
 import com.equilibrium.server_and_client.server.persistent_state.StateSaverAndLoader;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
@@ -30,6 +32,7 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import static com.equilibrium.block.CraftingDifficultyHelper.initCraftingDifficulties;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.initGameRules;
+
 import static com.equilibrium.item.Items.ITEMS;
 import static com.equilibrium.item.MaterialItems.deferredRegisterLoadMaterialItems;
 import static com.equilibrium.item.Tools.deferredRegisterLoadTools;
@@ -85,9 +88,8 @@ public class OnServerInitialize {
         ModItemGroup.TABS.register(modEventBus);
 
 
-
-
-
+        // 注册声音事件
+        SoundEventRegistry.SOUND_EVENTS.register(modEventBus);
 
 
     }
@@ -105,6 +107,7 @@ public class OnServerInitialize {
         registerModBlockTags();
         registerModEntityTags();
         registerModItemTags();
+
     }
 
 
