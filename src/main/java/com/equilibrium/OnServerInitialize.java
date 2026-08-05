@@ -38,6 +38,7 @@ import com.equilibrium.util.XpHashMap;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
@@ -81,12 +82,14 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import static com.equilibrium.GlobalModConfig.initConfig;
+import static com.equilibrium.GlobalModConfig.isSleepChunksAlwaysLoading;
 import static com.equilibrium.block.CraftingDifficultyHelper.initCraftingDifficulties;
 import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.isAnyExtraEntryExisting;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.initGameRules;
 
 import static com.equilibrium.item.vanilla_modify.FoodComponentModifier.foodComponentModify;
 import static com.equilibrium.server_and_client.server.event.CropIllnessEvent.updateCropBlockPos;
+import static com.equilibrium.server_and_client.server.event.SleepChunkLoaderEvents.registerSleepEvents;
 import static com.equilibrium.server_and_client.server.moonphase_tasks.MoonPhaseEvent.moonPhaseEvent;
 import static com.equilibrium.structure.ModPlacementGenerator.registerModOre;
 import static com.equilibrium.tags.ModBlockTags.registerModBlockTags;
@@ -291,6 +294,10 @@ public class OnServerInitialize {
             );
         });
 
+        //注册事件
+        PlayerBlockBreakEvents.AFTER.register(new BreakBlockEvent());
+        if (isSleepChunksAlwaysLoading())
+            registerSleepEvents();
 
         // 注册服务器 tick 事件
         ServerTickEvents.START_SERVER_TICK.register(server -> {

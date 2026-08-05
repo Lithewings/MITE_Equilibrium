@@ -345,12 +345,12 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
 
     //修改挖掘速度
-    @Inject(method = "getDestroySpeed", at = @At("HEAD"), cancellable = true)
-    public void getBlockBreakingSpeed(BlockState block, CallbackInfoReturnable<Float> cir) {
+    @Inject(method = "getDigSpeed", at = @At("HEAD"), cancellable = true)
+    public void getBlockBreakingSpeed(BlockState p_36282_, BlockPos pos, CallbackInfoReturnable<Float> cir) {
         cir.cancel();
         this.causeFoodExhaustion(0.0005f);
         ItemStack stack = this.getMainHandItem();
-        float f = this.inventory.getDestroySpeed(block);
+        float f = this.inventory.getDestroySpeed(p_36282_);
         if (f > 1.0F) {
             f += (float) this.getAttributeValue(Attributes.MINING_EFFICIENCY);
         }
@@ -376,7 +376,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         if (!this.onGround()) {
             f /= 5.0F;
         }
-        if (stack.isCorrectToolForDrops(block)) {
+        if (stack.isCorrectToolForDrops(p_36282_)) {
             f = f * 16;
         }
 
@@ -393,7 +393,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         }
 
         this.itemHarvest = getItemHarvestLevel(stack);
-        this.blockHarvest = getBlockHarvestLevel(block);
+        this.blockHarvest = getBlockHarvestLevel(p_36282_);
         if (this.itemHarvest >= this.blockHarvest) {
 
             cir.setReturnValue(f * (0.040F) * (this.experienceLevel < 35 ? 1 + this.experienceLevel * 0.1F : 1.35F + this.experienceLevel * 0.1F));
