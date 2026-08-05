@@ -26,6 +26,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 
+import static com.equilibrium.GlobalModConfig.isAutoCraftingEnabled;
 import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.getGameBooleanRuleFromClient;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_CRAFTING_TIME_AND_LEVEL;
 import static com.equilibrium.network.C2STriggerContentChangePacket.sendTrigger;
@@ -107,10 +108,6 @@ public abstract class MixinInventoryScreen extends EffectRenderingInventoryScree
 		}
 		else player.craftTime$stopCraft();
 
-	}
-	//temp
-	private boolean isAutoCraftingEnabled() {
-		return true;
 	}
 
 	@Shadow

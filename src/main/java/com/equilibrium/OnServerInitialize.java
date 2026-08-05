@@ -11,8 +11,12 @@ import com.equilibrium.item.tool.ToolItems;
 import com.equilibrium.network.*;
 import com.equilibrium.server_and_client.server.SoundEventRegistry;
 import com.equilibrium.server_and_client.server.persistent_state.StateSaverAndLoader;
+import com.equilibrium.status.RegisterStatusEffect;
+import com.equilibrium.structure.StructureRegister;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 import org.slf4j.Logger;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -24,8 +28,15 @@ import org.slf4j.LoggerFactory;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
+import static com.equilibrium.GlobalModConfig.initConfig;
+import static com.equilibrium.block.CraftingDifficultyHelper.initCraftingDifficulties;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.initGameRules;
 
+import static com.equilibrium.structure.ModPlacementGenerator.registerModOre;
+import static com.equilibrium.structure.StructureRegister.addFeatureToBiomes;
+import static com.equilibrium.tags.ModBlockTags.registerModBlockTags;
+import static com.equilibrium.tags.ModEntityTags.registerModEntityTags;
+import static com.equilibrium.tags.ModItemTags.registerModItemTags;
 import static com.equilibrium.tags.ModBlockTags.registerModBlockTags;
 import static com.equilibrium.tags.ModEntityTags.registerModEntityTags;
 import static com.equilibrium.tags.ModItemTags.registerModItemTags;
@@ -46,6 +57,9 @@ public class OnServerInitialize {
 
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     public OnServerInitialize(IEventBus modEventBus,ModContainer modContainer){
+
+
+
         //初始化游戏规则
         initGameRules();
 
@@ -71,6 +85,18 @@ public class OnServerInitialize {
 
         // 注册声音事件
         SoundEventRegistry.SOUND_EVENTS.register(modEventBus);
+
+
+        // 注册矿物(Fabric)
+        registerModOre();
+
+        //注册结构
+        NeoForge.EVENT_BUS.addListener(OnServerInitialize::onServerAboutToStart);
+        StructureRegister.FEATURES.register(modEventBus);
+
+        //效果注册
+        RegisterStatusEffect.MOB_EFFECTS.register(modEventBus);
+
     }
 
     /**
@@ -80,14 +106,16 @@ public class OnServerInitialize {
     public void onCommonSetup(FMLCommonSetupEvent event) {
         // 此时所有物品、方块均已注册，字段非 null
         event.enqueueWork(CraftingDifficultyHelper::initCraftingDifficulties);
-
-
-
         registerModBlockTags();
         registerModEntityTags();
         registerModItemTags();
+        initConfig();
 
     }
-
+    @SubscribeEvent
+    //需要进行手动注册到addListener中
+    public static void onServerAboutToStart(ServerAboutToStartEvent event) {
+        StructureRegister.addFeatureToBiomes();
+    }
 
 }
