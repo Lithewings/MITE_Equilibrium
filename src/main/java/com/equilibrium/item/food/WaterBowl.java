@@ -1,5 +1,6 @@
 package com.equilibrium.item.food;
 
+import com.equilibrium.item.material.MaterialItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -57,9 +58,9 @@ public class WaterBowl extends Item {
                     //减一
                     itemStack.setCount(itemStack.getCount() - 1);
                     //加一
-                    user.getInventory().add(FoodOrFarmItems.WATER_BOWL.getDefaultInstance());
+                    user.getInventory().add(FoodItems.WATER_BOWL.get().getDefaultInstance());
                     //只是增加一次使用次数而已
-                    user.awardStat(Stats.ITEM_USED.get(FoodOrFarmItems.WATER_BOWL));
+                    user.awardStat(Stats.ITEM_USED.get(FoodItems.WATER_BOWL.get()));
                     return InteractionResultHolder.sidedSuccess(itemStack, world.isClientSide());
                 }
             }

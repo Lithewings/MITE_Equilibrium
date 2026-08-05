@@ -1,8 +1,8 @@
 package com.equilibrium.entity.mob;
 
 import com.equilibrium.OnServerInitialize;
-import com.equilibrium.item.Armors;
-import com.equilibrium.item.Tools;
+import com.equilibrium.item.armor.ArmorItems;
+import com.equilibrium.item.tool.ToolItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -63,7 +63,7 @@ public class BoneLordEntity extends LongDeadEntity {
     public BoneLordEntity(EntityType<? extends ModAbstractSkeletonEntity> entityType, Level world) {
         super(entityType, world);
         int hammerOrSword = this.getRandom().nextInt(2);
-        meleeInventory.addItem(hammerOrSword == 0 ? new ItemStack(Tools.MITHRIL_SWORD.get()) : new ItemStack(Tools.MITHRIL_HAMMER.get()));
+        meleeInventory.addItem(hammerOrSword == 0 ? new ItemStack(ToolItems.MITHRIL_SWORD.get()) : new ItemStack(ToolItems.MITHRIL_HAMMER.get()));
         rangeAttackInventory.addItem(new ItemStack(Items.BOW));
 
     }
@@ -82,10 +82,10 @@ public class BoneLordEntity extends LongDeadEntity {
 
 
         this.setItemSlot(EquipmentSlot.MAINHAND, rangeAttackInventory.getItem(0));
-        this.setItemSlot(EquipmentSlot.CHEST, new ItemStack(Armors.MITHRIL_CHEST_PLATE));
-        this.setItemSlot(EquipmentSlot.FEET, new ItemStack(Armors.MITHRIL_BOOTS));
-        this.setItemSlot(EquipmentSlot.LEGS, new ItemStack(Armors.MITHRIL_LEGGINGS));
-        this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Armors.MITHRIL_HELMET));
+        this.setItemSlot(EquipmentSlot.CHEST, new ItemStack(ArmorItems.MITHRIL_CHEST_PLATE.get()));
+        this.setItemSlot(EquipmentSlot.FEET, new ItemStack(ArmorItems.MITHRIL_BOOTS.get()));
+        this.setItemSlot(EquipmentSlot.LEGS, new ItemStack(ArmorItems.MITHRIL_LEGGINGS.get()));
+        this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ArmorItems.MITHRIL_HELMET.get()));
     }
 
     @Override
@@ -158,7 +158,7 @@ public class BoneLordEntity extends LongDeadEntity {
     @Override
     public void setLastHurtMob(Entity target) {
         super.setLastHurtMob(target);
-        if(target instanceof Player player && this.getMainHandItem().is(Tools.MITHRIL_HAMMER.get())){
+        if(target instanceof Player player && this.getMainHandItem().is(ToolItems.MITHRIL_HAMMER.get())){
             player.addEffect(new MobEffectInstance(MOVEMENT_SLOWDOWN,100,2));
         }
     }

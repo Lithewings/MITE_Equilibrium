@@ -1,6 +1,6 @@
 package com.equilibrium.entity.mob.earth_elemental;
 
-import com.equilibrium.item.Tools;
+import com.equilibrium.item.tool.ToolItems;
 import com.equilibrium.tags.ModItemTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
@@ -178,11 +178,11 @@ public abstract class AbstractEarthElementalEntity extends Monster {
     private static int getWeaponHardness(ItemStack mainHandItemstack) {
         int weaponHardness = 1;
 
-        if (mainHandItemstack.is(Tools.IRON_PICKAXE.get()) || mainHandItemstack.is(Tools.IRON_HAMMER.get()))
+        if (mainHandItemstack.is(ToolItems.IRON_PICKAXE.get()) || mainHandItemstack.is(ToolItems.IRON_HAMMER.get()))
             weaponHardness = 2;
-        else if (mainHandItemstack.is(Tools.MITHRIL_PICKAXE.get()) || mainHandItemstack.is(Tools.MITHRIL_HAMMER.get()))
+        else if (mainHandItemstack.is(ToolItems.MITHRIL_PICKAXE.get()) || mainHandItemstack.is(ToolItems.MITHRIL_HAMMER.get()))
             weaponHardness = 3;
-        else if (mainHandItemstack.is(Tools.ADAMANTIUM_PICKAXE.get()) || mainHandItemstack.is(Tools.ADAMANTIUM_HAMMER.get()))
+        else if (mainHandItemstack.is(ToolItems.ADAMANTIUM_PICKAXE.get()) || mainHandItemstack.is(ToolItems.ADAMANTIUM_HAMMER.get()))
             weaponHardness = 4;
         return weaponHardness;
     }

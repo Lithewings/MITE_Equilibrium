@@ -1,6 +1,6 @@
 package com.equilibrium.entity.mob;
 
-import com.equilibrium.item.Tools;
+import com.equilibrium.item.tool.ToolItems;
 import com.google.common.annotations.VisibleForTesting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
@@ -44,13 +44,10 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.phys.Vec3;
-import org.spongepowered.asm.mixin.Unique;
 
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
-
-import static com.equilibrium.util.XpHashMap.getXpForLevel;
 
 public class BaseSlimeEntity extends Mob implements Enemy {
     private static final EntityDataAccessor<Integer> SLIME_SIZE = SynchedEntityData.defineId(BaseSlimeEntity.class, EntityDataSerializers.INT);
@@ -74,12 +71,12 @@ public class BaseSlimeEntity extends Mob implements Enemy {
         isCorruptibleItems.add(Items.IRON_HELMET);
         isCorruptibleItems.add(Items.IRON_BOOTS);
         isCorruptibleItems.add(Items.IRON_LEGGINGS);
-        isCorruptibleItems.add(Tools.IRON_AXE.get());
-        isCorruptibleItems.add(Tools.IRON_HOE.get());
-        isCorruptibleItems.add(Tools.IRON_PICKAXE.get());
-        isCorruptibleItems.add(Tools.IRON_DAGGER.get());
-        isCorruptibleItems.add(Tools.IRON_SWORD.get());
-        isCorruptibleItems.add(Tools.IRON_SHOVEL.get());
+        isCorruptibleItems.add(ToolItems.IRON_AXE.get());
+        isCorruptibleItems.add(ToolItems.IRON_HOE.get());
+        isCorruptibleItems.add(ToolItems.IRON_PICKAXE.get());
+        isCorruptibleItems.add(ToolItems.IRON_DAGGER.get());
+        isCorruptibleItems.add(ToolItems.IRON_SWORD.get());
+        isCorruptibleItems.add(ToolItems.IRON_SHOVEL.get());
     }
 
     @Override

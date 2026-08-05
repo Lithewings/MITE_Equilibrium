@@ -1,8 +1,8 @@
 package com.equilibrium.mixin.player;
 
 
-import com.equilibrium.item.Armors;
-import com.equilibrium.item.Tools;
+import com.equilibrium.item.armor.ArmorItems;
+import com.equilibrium.item.tool.ToolItems;
 import com.equilibrium.server_and_client.server.persistent_state.StateSaverAndLoader;
 import com.equilibrium.status.RegisterStatusEffect;
 import com.equilibrium.status.disease_IR.DiabetesEffect;
@@ -61,7 +61,7 @@ import static com.equilibrium.GlobalModConfig.isShowDamageEnabled;
 import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.*;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_PHYTONUTRIENT;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_SLOW_BREAKING_SPEED;
-import static com.equilibrium.item.tools_attribute.ExtraDamageFromExperienceLevel.getDamageLevel;
+import static com.equilibrium.item.tool.ExtraDamageFromExperienceLevel.getDamageLevel;
 import static com.equilibrium.status.disease_IR.DiabetesEffect.tryApplyDiabetesEffect;
 import static com.equilibrium.util.ableToMine.getBlockHarvestLevel;
 import static com.equilibrium.util.ableToMine.getItemHarvestLevel;

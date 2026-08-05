@@ -1,6 +1,7 @@
 package com.equilibrium.block.crop_blocks;
 
-import com.equilibrium.item.food.FoodOrFarmItems;
+import com.equilibrium.item.food.FoodItems;
+import com.equilibrium.item.material.MaterialItems;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
@@ -36,7 +37,7 @@ public class OnionBlock extends CropBlock{
 
     @Override
     protected ItemLike getBaseSeedId() {
-        return FoodOrFarmItems.ONION;
+        return FoodItems.ONION;
     }
 
     @Override

@@ -9,7 +9,7 @@ import com.equilibrium.block.enchanting_table.ModBlockEntityTypes;
 import com.equilibrium.block.enchanting_table.ModEnchantmentScreen;
 import com.equilibrium.block.enchanting_table.diamond.DiamondEnchantingTableBlockEntityRenderer;
 import com.equilibrium.block.enchanting_table.emerald.EmeraldEnchantingTableBlockEntityRenderer;
-import com.equilibrium.item.Armors;
+import com.equilibrium.item.armor.ArmorItems;
 import com.equilibrium.network.S2CGameRuleSyncPayloadForBooleanPacket;
 import com.equilibrium.network.S2CIllnessTextureBooleanPacket;
 import com.equilibrium.network.S2CStockChangeGrassColorPacket;
@@ -25,7 +25,6 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallba
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
@@ -106,7 +105,7 @@ public class OnClientInitialize {
                 if (stack.getItem() == Items.GOLDEN_APPLE) {
                     lines.add(Component.literal("Regeneration I（00:20）").withStyle(ChatFormatting.BLUE));
                 }
-                if (stack.getItem() == Armors.MITHRIL_CHEST_PLATE) {
+                if (stack.getItem() == ArmorItems.MITHRIL_CHEST_PLATE.get()) {
                     lines.add(Component.literal("Regeneration: Doubles the natural health recovery rate").withStyle(ChatFormatting.BLUE));
                 }
             });

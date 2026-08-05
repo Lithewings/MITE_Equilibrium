@@ -1,7 +1,7 @@
 package com.equilibrium.block;
 
-import com.equilibrium.item.MaterialItems;
-import com.equilibrium.item.food.FoodOrFarmItems;
+import com.equilibrium.item.food.FoodItems;
+import com.equilibrium.item.material.MaterialItems;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.RecipeBookMenu;
@@ -117,7 +117,7 @@ CraftingDifficultyHelper {
 		ITEM_DIFFICULTY.put(ModBlocksRegistry.ADAMANTIUM_BLOCK.asItem(), 25600f * 4f * 9f);
 
 
-		ITEM_DIFFICULTY_CONSTANT.put(FoodOrFarmItems.MILK_BOWL, 3200f);
+		ITEM_DIFFICULTY_CONSTANT.put(FoodItems.MILK_BOWL.get(), 3200f);
 		ITEM_DIFFICULTY_CONSTANT.put(Items.MILK_BUCKET, 3200f * 4);
 
 
