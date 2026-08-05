@@ -1,7 +1,11 @@
 package com.equilibrium.block.furnace;
 
 import com.equilibrium.OnServerInitialize;
+import com.mojang.datafixers.DataFixUtils;
+import net.minecraft.SharedConstants;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.util.datafix.DataFixers;
+import net.minecraft.util.datafix.fixes.References;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -23,6 +27,8 @@ public class FurnaceEntityRegistry {
                             CLAY_FURNACE.get(),
                             OBSIDIAN_FURNACE.get(),
                             NETHERRACK_FURNACE.get()
-                    ).build(null)
+                    ).build(DataFixers.getDataFixer()
+                            .getSchema(DataFixUtils.makeKey(SharedConstants.getCurrentVersion().getDataVersion().getVersion()))
+                            .getType(References.BLOCK_ENTITY))
             );
 }

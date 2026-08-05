@@ -92,6 +92,7 @@
     "screens.DeathScreenMixin",
     "screens.DeleteBackUpScreen",
     "screens.GameMenuScreenMixin",
+    "screens.OpenToLanScreenMixin",
     "some_special_rules.EditGameRulesScreenMixin",
     "some_special_rules.EntityRenderDispatcherMixinForRenderHitBox",
     "some_special_rules.KeepBreakingMixin",
