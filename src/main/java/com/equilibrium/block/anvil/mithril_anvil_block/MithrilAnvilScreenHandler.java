@@ -1,7 +1,8 @@
-package com.equilibrium.block.anvil_block.adamantium_anvil_block;
+package com.equilibrium.block.anvil.mithril_anvil_block;
 
 import com.equilibrium.OnServerInitialize;
 import com.equilibrium.block.ModBlockScreenTypesRegister;
+import com.equilibrium.tags.ModItemTags;
 import com.mojang.logging.LogUtils;
 import it.unimi.dsi.fastutil.objects.Object2IntMap.Entry;
 import net.minecraft.core.Holder;
@@ -25,11 +26,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
-import static com.equilibrium.block.anvil_block.adamantium_anvil_block.AdamantiumAnvilBlock.*;
-import static com.equilibrium.block.anvil_block.util.getPhaseFromDurability;
+import static com.equilibrium.block.anvil.mithril_anvil_block.MithrilAnvilBlock.*;
+import static com.equilibrium.util.AnvilPhase.getPhaseFromDurability;
 
 
-public class AdamantiumScreenHandler extends ItemCombinerMenu {
+public class MithrilAnvilScreenHandler extends ItemCombinerMenu {
     public static final int INPUT_1_ID = 0;
     public static final int INPUT_2_ID = 1;
     public static final int OUTPUT_ID = 2;
@@ -42,12 +43,12 @@ public class AdamantiumScreenHandler extends ItemCombinerMenu {
     private final DataSlot levelCost = DataSlot.standalone();
 
 
-    public AdamantiumScreenHandler(int syncId, Inventory inventory) {
+    public MithrilAnvilScreenHandler(int syncId, Inventory inventory) {
         this(syncId, inventory, ContainerLevelAccess.NULL);
     }
 
-    public AdamantiumScreenHandler(int syncId, Inventory inventory, ContainerLevelAccess context) {
-        super(ModBlockScreenTypesRegister.ADAMANTIUM_ANVIL_SCREEN_TYPE,syncId,inventory,context);
+    public MithrilAnvilScreenHandler(int syncId, Inventory inventory, ContainerLevelAccess context) {
+        super(ModBlockScreenTypesRegister.MITHRIL_ANVIL_SCREEN_TYPE,syncId,inventory,context);
     }
 
     @Override
@@ -74,28 +75,30 @@ public class AdamantiumScreenHandler extends ItemCombinerMenu {
     }
 
     private boolean shouldRejectForIronAnvil(ItemStack input1, ItemStack input2) {
-        return false;
+        boolean shouldReject1 = input1.is(ModItemTags.MITHRIL_ANVIL_REJECTION);
+        boolean shouldReject2 = input2.is(ModItemTags.MITHRIL_ANVIL_REJECTION);
+        return shouldReject1 || shouldReject2;
     }
 
     @Override
     protected void onTake(Player player, ItemStack stack) {
-        //每次使用,耐久不变
+        //每次使用,耐久减1
         this.access.execute((world, pos) -> {
                     BlockState blockState = world.getBlockState(pos);
-                    if (blockState.hasProperty(ADAMANTIUM_ANVIL_DURABILITY_PROPERTY)) {
+                    if (blockState.hasProperty(MITHRIL_ANVIL_DURABILITY_PROPERTY)) {
                         //铁砧目前的耐久
-                        int i = blockState.getValue(ADAMANTIUM_ANVIL_DURABILITY_PROPERTY);
+                        int i = blockState.getValue(MITHRIL_ANVIL_DURABILITY_PROPERTY);
                         //铁砧破坏进度
-                        int phase = getPhaseFromDurability(ADAMANTIUM_ANVIL_MAX_DURABILITY,blockState.getValue(ADAMANTIUM_ANVIL_DURABILITY_PROPERTY));
+                        int phase = getPhaseFromDurability(MITHRIL_ANVIL_MAX_DURABILITY,blockState.getValue(MITHRIL_ANVIL_DURABILITY_PROPERTY));
                         //将耐久-1写入方块状态中,并更新外观状态
                         world.setBlockAndUpdate(pos,blockState
-                                .setValue(AdamantiumAnvilBlock.FACING, blockState.getValue(AdamantiumAnvilBlock.FACING))
-                                .setValue(ADAMANTIUM_ANVIL_DURABILITY_PROPERTY,Math.clamp(i,0, ADAMANTIUM_ANVIL_MAX_DURABILITY))
-                                .setValue(ADAMANTIUM_ANVIL_STAGE,Math.clamp(phase,0,2))
+                                .setValue(MithrilAnvilBlock.FACING, blockState.getValue(MithrilAnvilBlock.FACING))
+                                .setValue(MITHRIL_ANVIL_DURABILITY_PROPERTY,Math.clamp(i-1,0, MITHRIL_ANVIL_MAX_DURABILITY))
+                                .setValue(MITHRIL_ANVIL_STAGE,Math.clamp(phase,0,2))
                         );
                     }
                     else
-                        OnServerInitialize.LOGGER.error("No such Property called"+ ADAMANTIUM_ANVIL_DURABILITY_PROPERTY + "or"+ ADAMANTIUM_ANVIL_STAGE +"at the Anvil");
+                        OnServerInitialize.LOGGER.error("No such Property called"+ MITHRIL_ANVIL_DURABILITY_PROPERTY + "or"+ MITHRIL_ANVIL_STAGE +"at the Anvil");
                 }
         );
         this.inputSlots.setItem(0, ItemStack.EMPTY);
@@ -116,7 +119,7 @@ public class AdamantiumScreenHandler extends ItemCombinerMenu {
             BlockState blockState = world.getBlockState(pos);
             if (!player.hasInfiniteMaterials()) {
                 //耐久为1时,直接损坏
-                if(blockState.getValue(ADAMANTIUM_ANVIL_DURABILITY_PROPERTY)==0) {
+                if(blockState.getValue(MITHRIL_ANVIL_DURABILITY_PROPERTY)==0) {
                     world.removeBlock(pos, false);
                     world.levelEvent(LevelEvent.SOUND_ANVIL_BROKEN, pos, 0);
                 }

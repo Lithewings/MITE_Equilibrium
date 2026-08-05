@@ -1,7 +1,7 @@
 package com.equilibrium.block.enchanting_table;
 
 import com.equilibrium.OnServerInitialize;
-import com.equilibrium.block.ModBlocksRegistry;
+import com.equilibrium.block.miscellaneous.MiscellaneousBlocks;
 import com.equilibrium.block.enchanting_table.diamond.DiamondEnchantingTableBlockEntity;
 import com.equilibrium.block.enchanting_table.emerald.EmeraldEnchantingTableBlockEntity;
 import com.mojang.datafixers.DataFixUtils;
@@ -31,7 +31,7 @@ public class ModBlockEntityTypes {
                     ResourceLocation.fromNamespaceAndPath(OnServerInitialize.MOD_ID, "emerald_enchanting_table"),
                     BlockEntityType.Builder.of(
                             EmeraldEnchantingTableBlockEntity::new,
-                            ModBlocksRegistry.EMERALD_ENCHANTING_TABLE  // 获取已注册的方块
+                            EnchantingTableBlocks.EMERALD_ENCHANTING_TABLE.get()  // 获取已注册的方块
                     ).build(
                             DataFixers.getDataFixer()
                                     .getSchema(DataFixUtils.makeKey(SharedConstants.getCurrentVersion().getDataVersion().getVersion()))
@@ -44,7 +44,7 @@ public class ModBlockEntityTypes {
                     ResourceLocation.fromNamespaceAndPath(OnServerInitialize.MOD_ID, "diamond_enchanting_table"),
                     BlockEntityType.Builder.of(
                             DiamondEnchantingTableBlockEntity::new,
-                            ModBlocksRegistry.DIAMOND_ENCHANTING_TABLE
+                            EnchantingTableBlocks.DIAMOND_ENCHANTING_TABLE.get()
                     ).build(
                             DataFixers.getDataFixer()
                                     .getSchema(DataFixUtils.makeKey(SharedConstants.getCurrentVersion().getDataVersion().getVersion()))

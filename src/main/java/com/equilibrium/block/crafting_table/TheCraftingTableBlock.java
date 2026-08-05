@@ -1,7 +1,7 @@
 package com.equilibrium.block.crafting_table;
 
 
-import com.equilibrium.block.ModBlocksRegistry2;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
@@ -40,28 +40,28 @@ public class TheCraftingTableBlock extends CraftingTableBlock {
 
     public MenuProvider getMenuProvider(BlockState state, Level world, BlockPos pos) {
         Block block = state.getBlock();
-        if(block == ModBlocksRegistry2.FLINT_CRAFTING_TABLE){
+        if(block == CraftingTableBlocks.FLINT_CRAFTING_TABLE.get()){
             return new SimpleMenuProvider((syncId, inventory, player) -> {
                 return new CraftingMenu(syncId, inventory, ContainerLevelAccess.create(world, pos));
             }, TITLE1);
 
-        }else if(block == ModBlocksRegistry2.COPPER_CRAFTING_TABLE){
+        }else if(block == CraftingTableBlocks.COPPER_CRAFTING_TABLE.get()){
             return new SimpleMenuProvider((syncId, inventory, player) -> {
                 return new CraftingMenu(syncId, inventory, ContainerLevelAccess.create(world, pos));
             }, TITLE2);
-        }else if(block == ModBlocksRegistry2.SILVER_CRAFTING_TABLE){
+        }else if(block == CraftingTableBlocks.SILVER_CRAFTING_TABLE.get()){
             return new SimpleMenuProvider((syncId, inventory, player) -> {
                 return new CraftingMenu(syncId, inventory, ContainerLevelAccess.create(world, pos));
             }, TITLE_SILVER);
-        }else if(block == ModBlocksRegistry2.IRON_CRAFTING_TABLE){
+        }else if(block == CraftingTableBlocks.IRON_CRAFTING_TABLE.get()){
             return new SimpleMenuProvider((syncId, inventory, player) -> {
                 return new CraftingMenu(syncId, inventory, ContainerLevelAccess.create(world, pos));
             }, TITLE3);
-        }else if(block == ModBlocksRegistry2.DIAMOND_CRAFTING_TABLE){
+        }else if(block == CraftingTableBlocks.DIAMOND_CRAFTING_TABLE.get()){
             return new SimpleMenuProvider((syncId, inventory, player) -> {
                 return new CraftingMenu(syncId, inventory, ContainerLevelAccess.create(world, pos));
             }, TITLE4);
-        }else if(block == ModBlocksRegistry2.NETHERITE_CRAFTING_TABLE){
+        }else if(block == CraftingTableBlocks.NETHERITE_CRAFTING_TABLE.get()){
             return new SimpleMenuProvider((syncId, inventory, player) -> {
                 return new CraftingMenu(syncId, inventory, ContainerLevelAccess.create(world, pos));
             }, TITLE5);

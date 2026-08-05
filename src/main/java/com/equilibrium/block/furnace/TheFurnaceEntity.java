@@ -1,6 +1,5 @@
-package com.equilibrium.block.furnace_and_its_entity;
+package com.equilibrium.block.furnace;
 
-import com.equilibrium.block.ModBlocksRegistry2;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
@@ -20,13 +19,13 @@ public class TheFurnaceEntity extends AbstractFurnaceBlockEntity {
     @Override
     public Component getDefaultName() {
         Block block = this.level.getBlockState(this.getBlockPos()).getBlock();
-        if(block == ModBlocksRegistry2.CLAY_FURNACE){
+        if(block == FurnaceBlocks.CLAY_FURNACE.get()){
             return Component.translatable("container.clay_furnace");
         }
-        if(block == ModBlocksRegistry2.NETHERRACK_FURNACE){
+        if(block == FurnaceBlocks.NETHERRACK_FURNACE.get()){
             return Component.translatable("container.netherrack_furnace");
         }
-        if(block == ModBlocksRegistry2.OBSIDIAN_FURNACE){
+        if(block == FurnaceBlocks.OBSIDIAN_FURNACE.get()){
             return Component.translatable("container.obsidian_furnace");
         }
         return Component.translatable("container.furnace");
@@ -42,13 +41,13 @@ public class TheFurnaceEntity extends AbstractFurnaceBlockEntity {
         //此处world必须判断是否为null，否则熔炉数据无法保存。
         if(this.getLevel() != null){
             Block block = this.level.getBlockState(this.getBlockPos()).getBlock();
-            if(block == ModBlocksRegistry2.CLAY_FURNACE){
+            if(block == FurnaceBlocks.CLAY_FURNACE.get()){
                 return (int) (super.getBurnDuration(fuel));
             }
-            if(block == ModBlocksRegistry2.OBSIDIAN_FURNACE){
+            if(block == FurnaceBlocks.OBSIDIAN_FURNACE.get()){
                 return (int) (super.getBurnDuration(fuel) / 5);
             }
-            if(block == ModBlocksRegistry2.NETHERRACK_FURNACE){
+            if(block == FurnaceBlocks.NETHERRACK_FURNACE.get()){
                 return (int) (super.getBurnDuration(fuel) / 10);
             }
         }

@@ -1,8 +1,13 @@
 package com.equilibrium.item;
 
 import com.equilibrium.OnServerInitialize;
-import com.equilibrium.block.ModBlocksRegistry;
-import com.equilibrium.block.ModBlocksRegistry2;
+import com.equilibrium.block.anvil.AnvilBlocks;
+import com.equilibrium.block.crafting_table.CraftingTableBlocks;
+import com.equilibrium.block.enchanting_table.EnchantingTableBlocks;
+import com.equilibrium.block.furnace.FurnaceBlocks;
+import com.equilibrium.block.material.MaterialBlocks;
+import com.equilibrium.block.miscellaneous.MiscellaneousBlocks;
+import com.equilibrium.block.ore.OreBlocks;
 import com.equilibrium.item.armor.ArmorItems;
 import com.equilibrium.item.coin.CoinItems;
 import com.equilibrium.item.food.FoodItems;
@@ -13,6 +18,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.FurnaceBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.function.Supplier;
@@ -26,38 +32,38 @@ public class ModItemGroups {
     public static final Supplier<CreativeModeTab> BLOCKS = TABS.register("blockgroup", () ->
             CreativeModeTab.builder()
                     .title(Component.translatable("mod.itemGroup.blocks_and_metallic_items"))
-                    .icon(() -> new ItemStack(ModBlocksRegistry2.FLINT_CRAFTING_TABLE))
+                    .icon(() -> new ItemStack(CraftingTableBlocks.FLINT_CRAFTING_TABLE))
                     .displayItems((params, output) -> {
-                        output.accept(ModBlocksRegistry.MUNDANE_GRAVEL);
-                        output.accept(ModBlocksRegistry2.FLINT_CRAFTING_TABLE);
-                        output.accept(ModBlocksRegistry2.COPPER_CRAFTING_TABLE);
-                        output.accept(ModBlocksRegistry2.SILVER_CRAFTING_TABLE);
-                        output.accept(ModBlocksRegistry2.IRON_CRAFTING_TABLE);
-                        output.accept(ModBlocksRegistry2.DIAMOND_CRAFTING_TABLE);
-                        output.accept(ModBlocksRegistry2.NETHERITE_CRAFTING_TABLE);
+                        output.accept(MiscellaneousBlocks.MUNDANE_GRAVEL);
+                        output.accept(CraftingTableBlocks.FLINT_CRAFTING_TABLE);
+                        output.accept(CraftingTableBlocks.COPPER_CRAFTING_TABLE);
+                        output.accept(CraftingTableBlocks.SILVER_CRAFTING_TABLE);
+                        output.accept(CraftingTableBlocks.IRON_CRAFTING_TABLE);
+                        output.accept(CraftingTableBlocks.DIAMOND_CRAFTING_TABLE);
+                        output.accept(CraftingTableBlocks.NETHERITE_CRAFTING_TABLE);
 
-                        output.accept(ModBlocksRegistry2.CLAY_FURNACE);
-                        output.accept(ModBlocksRegistry2.OBSIDIAN_FURNACE);
-                        output.accept(ModBlocksRegistry2.NETHERRACK_FURNACE);
+                        output.accept(FurnaceBlocks.CLAY_FURNACE);
+                        output.accept(FurnaceBlocks.OBSIDIAN_FURNACE);
+                        output.accept(FurnaceBlocks.NETHERRACK_FURNACE);
 
-                        output.accept(ModBlocksRegistry.SILVER_BLOCK);
-                        output.accept(ModBlocksRegistry.COPPER_BLOCK);
-                        output.accept(ModBlocksRegistry.ADAMANTIUM_BLOCK);
-                        output.accept(ModBlocksRegistry.ANCIENT_METAL_BLOCK);
-                        output.accept(ModBlocksRegistry.MITHRIL_BLOCK);
-                        output.accept(ModBlocksRegistry.GOLD_BLOCK);
+                        output.accept(MaterialBlocks.SILVER_BLOCK);
+                        output.accept(MaterialBlocks.COPPER_BLOCK);
+                        output.accept(MaterialBlocks.ADAMANTIUM_BLOCK);
+                        output.accept(MaterialBlocks.ANCIENT_METAL_BLOCK);
+                        output.accept(MaterialBlocks.MITHRIL_BLOCK);
+                        output.accept(MaterialBlocks.GOLD_BLOCK);
 
-                        output.accept(ModBlocksRegistry.GOLD_ORE);
-                        output.accept(ModBlocksRegistry.ADAMANTIUM_ORE);
-                        output.accept(ModBlocksRegistry.COPPER_ORE);
-                        output.accept(ModBlocksRegistry.MITHRIL_ORE);
-                        output.accept(ModBlocksRegistry.SILVER_ORE);
-                        output.accept(ModBlocksRegistry.EMERALD_ENCHANTING_TABLE);
-                        output.accept(ModBlocksRegistry.DIAMOND_ENCHANTING_TABLE);
+                        output.accept(OreBlocks.GOLD_ORE);
+                        output.accept(OreBlocks.ADAMANTIUM_ORE);
+                        output.accept(OreBlocks.COPPER_ORE);
+                        output.accept(OreBlocks.MITHRIL_ORE);
+                        output.accept(OreBlocks.SILVER_ORE);
+                        output.accept(EnchantingTableBlocks.EMERALD_ENCHANTING_TABLE);
+                        output.accept(EnchantingTableBlocks.DIAMOND_ENCHANTING_TABLE);
 
-                        output.accept(ModBlocksRegistry.IRON_ANVIL);
-                        output.accept(ModBlocksRegistry.MITHRIL_ANVIL);
-                        output.accept(ModBlocksRegistry.ADAMANTIUM_ANVIL);
+                        output.accept(AnvilBlocks.IRON_ANVIL);
+                        output.accept(AnvilBlocks.MITHRIL_ANVIL);
+                        output.accept(AnvilBlocks.ADAMANTIUM_ANVIL);
 
                         output.accept(MaterialItems.ADAMANTIUM_INGOT.get());
                         output.accept(MaterialItems.COPPER_INGOT.get());

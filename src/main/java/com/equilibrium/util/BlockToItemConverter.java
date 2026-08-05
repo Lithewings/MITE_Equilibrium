@@ -1,6 +1,6 @@
 package com.equilibrium.util;
 
-import com.equilibrium.block.ModBlocksRegistry;
+import com.equilibrium.block.ore.OreBlocks;
 import com.equilibrium.item.material.MaterialItems;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -35,13 +35,13 @@ public class BlockToItemConverter {
         blockItemMap.put(Blocks.EMERALD_ORE, Items.EMERALD);
         blockItemMap.put(Blocks.DEEPSLATE_EMERALD_ORE, Items.EMERALD);
 
-        blockItemMap.put(ModBlocksRegistry.ADAMANTIUM_ORE,MaterialItems.RAW_ADAMANTIUM.get());
+        blockItemMap.put(OreBlocks.ADAMANTIUM_ORE.get(),MaterialItems.RAW_ADAMANTIUM.get());
 
-        blockItemMap.put(ModBlocksRegistry.COPPER_ORE, Items.RAW_COPPER);
+        blockItemMap.put(OreBlocks.COPPER_ORE.get(), Items.RAW_COPPER);
 
-        blockItemMap.put(ModBlocksRegistry.GOLD_ORE, Items.RAW_GOLD);
-        blockItemMap.put(ModBlocksRegistry.SILVER_ORE, MaterialItems.RAW_SILVER.get());
-        blockItemMap.put(ModBlocksRegistry.MITHRIL_ORE,  MaterialItems.RAW_MITHRIL.get());
+        blockItemMap.put(OreBlocks.GOLD_ORE.get(), Items.RAW_GOLD);
+        blockItemMap.put(OreBlocks.SILVER_ORE.get(), MaterialItems.RAW_SILVER.get());
+        blockItemMap.put(OreBlocks.MITHRIL_ORE.get(),  MaterialItems.RAW_MITHRIL.get());
 
         //多次掉落
         blockItemMap.put(Blocks.REDSTONE_ORE, Items.REDSTONE);

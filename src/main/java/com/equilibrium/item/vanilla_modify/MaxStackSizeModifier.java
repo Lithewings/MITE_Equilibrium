@@ -7,8 +7,8 @@ import net.minecraft.world.item.Items;
 
 import java.util.Map;
 
-import static com.equilibrium.item.vanilla_modify.FoodComponentModifier.ItemMaxStackSize.ITEM_MAX_STACK_SIZE;
-import static com.equilibrium.item.vanilla_modify.FoodComponentModifier.ItemMaxStackSize.itemMaxStackSizeInit;
+import static com.equilibrium.item.vanilla_modify.ItemMaxStackSize.ITEM_MAX_STACK_SIZE;
+import static com.equilibrium.item.vanilla_modify.ItemMaxStackSize.itemMaxStackSizeInit;
 
 public class MaxStackSizeModifier implements DefaultItemComponentEvents.ModifyCallback {
     @Override

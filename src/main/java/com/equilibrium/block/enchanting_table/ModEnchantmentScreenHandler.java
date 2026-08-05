@@ -1,7 +1,7 @@
 package com.equilibrium.block.enchanting_table;
 
 import com.equilibrium.block.ModBlockScreenTypesRegister;
-import com.equilibrium.block.ModBlocksRegistry;
+import com.equilibrium.block.miscellaneous.MiscellaneousBlocks;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.Util;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -403,9 +403,9 @@ public class ModEnchantmentScreenHandler extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return stillValid(this.context, player, ModBlocksRegistry.EMERALD_ENCHANTING_TABLE)
+        return stillValid(this.context, player, EnchantingTableBlocks.EMERALD_ENCHANTING_TABLE.get())
                 ||
-               stillValid(this.context, player, ModBlocksRegistry.DIAMOND_ENCHANTING_TABLE);
+               stillValid(this.context, player, EnchantingTableBlocks.DIAMOND_ENCHANTING_TABLE.get());
     }
 
     @Override
