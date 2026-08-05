@@ -49,16 +49,12 @@ import static com.equilibrium.tags.ModItemTags.registerModItemTags;
 public class OnServerInitialize {
     public static final String MOD_ID = "miteequilibrium";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+    public static final BooleanProperty FERTILIZED = BooleanProperty.create("fertilized");
+    public static final IntegerProperty GRASSBLOCK_POLLUTED = IntegerProperty.create("grassblock_polluted", 0, 7);
+    public static final BooleanProperty CROP_IS_ILLNESS = BooleanProperty.create("crop_illness");
+    private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     //服务器状态
     public StateSaverAndLoader serverState;
-
-    public static final BooleanProperty FERTILIZED = BooleanProperty.create("fertilized");
-
-    public static final IntegerProperty GRASSBLOCK_POLLUTED = IntegerProperty.create("grassblock_polluted", 0, 7);
-
-    public static final BooleanProperty CROP_IS_ILLNESS = BooleanProperty.create("crop_illness");
-
-    private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     public OnServerInitialize(IEventBus modEventBus,ModContainer modContainer){
         //初始化游戏规则
         initGameRules();
@@ -102,6 +98,12 @@ public class OnServerInitialize {
         RegisterStatusEffect.MOB_EFFECTS.register(modEventBus);
     }
 
+    @SubscribeEvent
+    //需要进行手动注册到addListener中
+    public static void onServerAboutToStart(ServerAboutToStartEvent event) {
+        StructureRegister.addFeatureToBiomes();
+    }
+
     /**
      * 在所有注册完成后初始化依赖物品/方块的逻辑
      */
@@ -117,11 +119,6 @@ public class OnServerInitialize {
         registerModItemTags();
         initConfig();
 
-    }
-    @SubscribeEvent
-    //需要进行手动注册到addListener中
-    public static void onServerAboutToStart(ServerAboutToStartEvent event) {
-        StructureRegister.addFeatureToBiomes();
     }
 
 
