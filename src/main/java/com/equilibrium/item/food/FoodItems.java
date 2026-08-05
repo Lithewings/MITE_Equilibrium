@@ -1,7 +1,6 @@
 package com.equilibrium.item.food;
 
-import com.equilibrium.block.ModBlocksRegistry;
-import net.minecraft.core.registries.BuiltInRegistries;
+import com.equilibrium.block.miscellaneous.MiscellaneousBlocks;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemNameBlockItem;
@@ -40,7 +39,7 @@ public class FoodItems {
                 () -> new VegetableSoup(new Item.Properties().food(VegetableSoup.VEGETABLE_SOUP).stacksTo(16)));
 
         public static final DeferredItem<Item> ONION = ITEMS.register("onion",
-                () -> new ItemNameBlockItem(ModBlocksRegistry.ONION_BLOCK,
+                () -> new ItemNameBlockItem(MiscellaneousBlocks.ONION_BLOCK.get(),
                         new Item.Properties()
                                 .food(new FoodProperties(1, 1f, false, 1.6F, Optional.empty(), List.of()))
                                 .stacksTo(32)));

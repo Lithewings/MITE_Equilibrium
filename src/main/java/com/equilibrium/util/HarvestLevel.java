@@ -5,7 +5,7 @@ import com.equilibrium.tags.ModItemTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class ableToMine {
+public class HarvestLevel {
     public static int getBlockHarvestLevel(BlockState block){
         if(block.is(ModBlockTags.HARVEST_ONE)){
             return 1;

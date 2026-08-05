@@ -1,4 +1,4 @@
-package com.equilibrium.block.anvil_block.iron_anvil_block;
+package com.equilibrium.block.anvil.mithril_anvil_block;
 
 import com.equilibrium.tags.ModItemTags;
 import net.minecraft.client.Minecraft;
@@ -17,7 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import org.lwjgl.glfw.GLFW;
 
 
-public class IronAnvilScreen extends ItemCombinerScreen<IronAnvilScreenHandler> {
+public class MithrilAnvilScreen extends ItemCombinerScreen<MithrilAnvilScreenHandler> {
     private static final ResourceLocation TEXT_FIELD_TEXTURE = ResourceLocation.withDefaultNamespace("container/anvil/text_field");
     private static final ResourceLocation TEXT_FIELD_DISABLED_TEXTURE = ResourceLocation.withDefaultNamespace("container/anvil/text_field_disabled");
     private static final ResourceLocation ERROR_TEXTURE = ResourceLocation.withDefaultNamespace("container/anvil/error");
@@ -26,7 +26,7 @@ public class IronAnvilScreen extends ItemCombinerScreen<IronAnvilScreenHandler> 
     private EditBox nameField;
     private final Player player;
 
-    public IronAnvilScreen(IronAnvilScreenHandler handler, Inventory inventory, Component title) {
+    public MithrilAnvilScreen(MithrilAnvilScreenHandler handler, Inventory inventory, Component title) {
         super(handler, inventory, title, TEXTURE);
         this.player = inventory.player;
         this.titleLabelX = 60;
@@ -85,8 +85,8 @@ public class IronAnvilScreen extends ItemCombinerScreen<IronAnvilScreenHandler> 
     }
 
     private boolean shouldRejectForIronAnvil(ItemStack input1, ItemStack input2) {
-        boolean shouldReject1 = input1.is(ModItemTags.IRON_ANVIL_REJECTION);
-        boolean shouldReject2 = input2.is(ModItemTags.IRON_ANVIL_REJECTION);
+        boolean shouldReject1 = input1.is(ModItemTags.MITHRIL_ANVIL_REJECTION);
+        boolean shouldReject2 = input2.is(ModItemTags.MITHRIL_ANVIL_REJECTION);
         return shouldReject1 || shouldReject2;
     }
 

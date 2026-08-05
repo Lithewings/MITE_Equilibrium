@@ -1,10 +1,10 @@
 package com.equilibrium;
 
 import com.equilibrium.block.ModBlockScreenTypesRegister;
-import com.equilibrium.block.ModBlocksRegistry;
-import com.equilibrium.block.anvil_block.adamantium_anvil_block.AdamantiumAnvilScreen;
-import com.equilibrium.block.anvil_block.iron_anvil_block.IronAnvilScreen;
-import com.equilibrium.block.anvil_block.mithril_anvil_block.MithrilAnvilScreen;
+import com.equilibrium.block.miscellaneous.MiscellaneousBlocks;
+import com.equilibrium.block.anvil.adamantium_anvil_block.AdamantiumAnvilScreen;
+import com.equilibrium.block.anvil.iron_anvil_block.IronAnvilScreen;
+import com.equilibrium.block.anvil.mithril_anvil_block.MithrilAnvilScreen;
 import com.equilibrium.block.enchanting_table.ModBlockEntityTypes;
 import com.equilibrium.block.enchanting_table.ModEnchantmentScreen;
 import com.equilibrium.block.enchanting_table.diamond.DiamondEnchantingTableBlockEntityRenderer;
@@ -80,7 +80,7 @@ public class OnClientInitialize {
                     DiamondEnchantingTableBlockEntityRenderer::new);
 
 
-            BlockRenderLayerMap.INSTANCE.putBlocks(RenderType.cutout(), ModBlocksRegistry.ONION_BLOCK);
+            BlockRenderLayerMap.INSTANCE.putBlocks(RenderType.cutout(), MiscellaneousBlocks.ONION_BLOCK.get());
 
             ItemTooltipCallback.EVENT.register((stack, context, type, lines) -> {
                 // 判断物品是青金石（Lapis Lazuli）或其他物品

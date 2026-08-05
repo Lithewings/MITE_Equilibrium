@@ -1,6 +1,6 @@
-package com.equilibrium.block.anvil_block;
+package com.equilibrium.util;
 
-public class util {
+public class AnvilPhase {
     public static int getPhaseFromDurability(int maxDurability, int durability) {
         // 最大耐久必须大于0，否则无法划分阶段
         // 确保耐久度在 [0, maxDurability] 范围内

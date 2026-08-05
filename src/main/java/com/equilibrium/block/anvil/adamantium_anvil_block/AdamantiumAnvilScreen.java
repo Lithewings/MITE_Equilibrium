@@ -1,4 +1,4 @@
-package com.equilibrium.block.anvil_block.adamantium_anvil_block;
+package com.equilibrium.block.anvil.adamantium_anvil_block;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -16,7 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import org.lwjgl.glfw.GLFW;
 
 
-public class AdamantiumAnvilScreen extends ItemCombinerScreen<AdamantiumScreenHandler> {
+public class AdamantiumAnvilScreen extends ItemCombinerScreen<AdamantiumAnvilScreenHandler> {
     private static final ResourceLocation TEXT_FIELD_TEXTURE = ResourceLocation.withDefaultNamespace("container/anvil/text_field");
     private static final ResourceLocation TEXT_FIELD_DISABLED_TEXTURE = ResourceLocation.withDefaultNamespace("container/anvil/text_field_disabled");
     private static final ResourceLocation ERROR_TEXTURE = ResourceLocation.withDefaultNamespace("container/anvil/error");
@@ -25,7 +25,7 @@ public class AdamantiumAnvilScreen extends ItemCombinerScreen<AdamantiumScreenHa
     private EditBox nameField;
     private final Player player;
 
-    public AdamantiumAnvilScreen(AdamantiumScreenHandler handler, Inventory inventory, Component title) {
+    public AdamantiumAnvilScreen(AdamantiumAnvilScreenHandler handler, Inventory inventory, Component title) {
         super(handler, inventory, title, TEXTURE);
         this.player = inventory.player;
         this.titleLabelX = 60;

@@ -1,7 +1,9 @@
-package com.equilibrium.block.anvil_block.mithril_anvil_block;
+package com.equilibrium.block.anvil.mithril_anvil_block;
 
 
-import com.equilibrium.block.ModBlocksRegistry;
+
+import com.equilibrium.block.anvil.AnvilBlocks;
+import com.equilibrium.block.material.MaterialBlocks;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -38,7 +40,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 import static com.equilibrium.block.UseBlockActionUtil.isTableBlocked;
-import static com.equilibrium.block.anvil_block.util.getPhaseFromDurability;
+import static com.equilibrium.util.AnvilPhase.getPhaseFromDurability;
 import static net.minecraft.sounds.SoundSource.BLOCKS;
 
 public class MithrilAnvilBlock extends FallingBlock {
@@ -99,7 +101,7 @@ public class MithrilAnvilBlock extends FallingBlock {
             placer.sendSystemMessage(Component.nullToEmpty("砧耐久:"+durability));
         }
         //根据物品耐久,将耐久值放入方块状态中
-        world.setBlockAndUpdate(pos, ModBlocksRegistry.MITHRIL_ANVIL.defaultBlockState()
+        world.setBlockAndUpdate(pos, AnvilBlocks.MITHRIL_ANVIL.get().defaultBlockState()
                 //copy facing
                 .setValue(MithrilAnvilBlock.FACING, state.getValue(MithrilAnvilBlock.FACING))
                 //copy damage
@@ -123,7 +125,7 @@ public class MithrilAnvilBlock extends FallingBlock {
 
         if (world.isClientSide) {
             return InteractionResult.SUCCESS;
-        } else if (player.getMainHandItem().is(ModBlocksRegistry.MITHRIL_BLOCK.asItem())) {
+        } else if (player.getMainHandItem().is(MaterialBlocks.MITHRIL_BLOCK.asItem())) {
 
 
             //修复
@@ -139,7 +141,7 @@ public class MithrilAnvilBlock extends FallingBlock {
             int afterPhase = getPhaseFromDurability(MITHRIL_ANVIL_MAX_DURABILITY,fixed);
 
 
-            world.setBlockAndUpdate(pos, ModBlocksRegistry.MITHRIL_ANVIL.defaultBlockState()
+            world.setBlockAndUpdate(pos, AnvilBlocks.MITHRIL_ANVIL.get().defaultBlockState()
                     //copy facing
                     .setValue(MithrilAnvilBlock.FACING, state.getValue(MithrilAnvilBlock.FACING))
                     //copy damage

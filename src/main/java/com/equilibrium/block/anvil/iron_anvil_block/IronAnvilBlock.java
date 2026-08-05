@@ -1,7 +1,8 @@
-package com.equilibrium.block.anvil_block.adamantium_anvil_block;
+package com.equilibrium.block.anvil.iron_anvil_block;
 
 
-import com.equilibrium.block.ModBlocksRegistry;
+
+import com.equilibrium.block.anvil.AnvilBlocks;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -19,6 +20,7 @@ import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -38,11 +40,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 import static com.equilibrium.block.UseBlockActionUtil.isTableBlocked;
-import static com.equilibrium.block.anvil_block.util.getPhaseFromDurability;
+import static com.equilibrium.util.AnvilPhase.getPhaseFromDurability;
 import static net.minecraft.sounds.SoundSource.BLOCKS;
 
-public class AdamantiumAnvilBlock extends FallingBlock {
-    public static final MapCodec<AdamantiumAnvilBlock> CODEC = simpleCodec(AdamantiumAnvilBlock::new);
+public class IronAnvilBlock extends FallingBlock {
+    public static final MapCodec<IronAnvilBlock> CODEC = simpleCodec(IronAnvilBlock::new);
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
     private static final VoxelShape BASE_SHAPE = Block.box(2.0, 0.0, 2.0, 14.0, 4.0, 14.0);
     private static final VoxelShape X_STEP_SHAPE = Block.box(3.0, 4.0, 4.0, 13.0, 5.0, 12.0);
@@ -58,22 +60,22 @@ public class AdamantiumAnvilBlock extends FallingBlock {
     private static final int FALLING_BLOCK_ENTITY_MAX_DAMAGE = 40;
 
 
-    public static final int ADAMANTIUM_ANVIL_MAX_DURABILITY = 1;
-    public static final IntegerProperty ADAMANTIUM_ANVIL_DURABILITY_PROPERTY = IntegerProperty.create("adamantium_anvil_durability",0, ADAMANTIUM_ANVIL_MAX_DURABILITY);
-    public static final IntegerProperty ADAMANTIUM_ANVIL_STAGE = IntegerProperty.create("adamantium_anvil_stage",0,2);
+    public static final int IRON_ANVIL_MAX_DURABILITY = 64;
+    public static final IntegerProperty IRON_ANVIL_DURABILITY_PROPERTY = IntegerProperty.create("iron_anvil_durability",0, IRON_ANVIL_MAX_DURABILITY);
+    public static final IntegerProperty IRON_ANVIL_STAGE = IntegerProperty.create("iron_anvil_stage",0,2);
 
 
     @Override
-    public MapCodec<AdamantiumAnvilBlock> codec() {
+    public MapCodec<IronAnvilBlock> codec() {
         return CODEC;
     }
 
-    public AdamantiumAnvilBlock(Properties settings) {
+    public IronAnvilBlock(Properties settings) {
         super(settings);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(FACING, Direction.NORTH)
-                .setValue(ADAMANTIUM_ANVIL_DURABILITY_PROPERTY, ADAMANTIUM_ANVIL_MAX_DURABILITY)
-                .setValue(ADAMANTIUM_ANVIL_STAGE,0));
+                .setValue(IRON_ANVIL_DURABILITY_PROPERTY, IRON_ANVIL_MAX_DURABILITY)
+                .setValue(IRON_ANVIL_STAGE,0));
     }
 
     //掉落物品的耐久是什么?
@@ -81,8 +83,8 @@ public class AdamantiumAnvilBlock extends FallingBlock {
     protected List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
         ItemStack drop = super.getDrops(state, builder).getFirst();
         drop.set(DataComponents.MAX_STACK_SIZE,1);
-//        drop.set(DataComponentTypes.MAX_DAMAGE, ADAMANTIUM_ANVIL_MAX_DURABILITY);
-        drop.set(DataComponents.DAMAGE, ADAMANTIUM_ANVIL_MAX_DURABILITY - state.getValue(ADAMANTIUM_ANVIL_DURABILITY_PROPERTY));
+        drop.set(DataComponents.MAX_DAMAGE,IRON_ANVIL_MAX_DURABILITY);
+        drop.set(DataComponents.DAMAGE,IRON_ANVIL_MAX_DURABILITY - state.getValue(IRON_ANVIL_DURABILITY_PROPERTY));
         return List.of(drop);
     }
 
@@ -92,23 +94,22 @@ public class AdamantiumAnvilBlock extends FallingBlock {
         if(world.isClientSide())
             return;
 
-        int durability = ADAMANTIUM_ANVIL_MAX_DURABILITY - itemStack.getDamageValue();
-        int phase = getPhaseFromDurability(ADAMANTIUM_ANVIL_MAX_DURABILITY,durability);
-//        if (placer != null) {
-//            placer.sendMessage(Text.of("砧使用状态:"+phase));
-//            placer.sendMessage(Text.of("砧耐久:"+durability));
-//        }
+        int durability = IRON_ANVIL_MAX_DURABILITY - itemStack.getDamageValue();
+        int phase = getPhaseFromDurability(IRON_ANVIL_MAX_DURABILITY,durability);
+        if (placer != null) {
+            placer.sendSystemMessage(Component.nullToEmpty("铁砧使用状态:"+phase));
+            placer.sendSystemMessage(Component.nullToEmpty("铁砧耐久:"+durability));
+        }
         //根据物品耐久,将耐久值放入方块状态中
-        world.setBlockAndUpdate(pos, ModBlocksRegistry.ADAMANTIUM_ANVIL.defaultBlockState()
+        world.setBlockAndUpdate(pos, AnvilBlocks.IRON_ANVIL.get().defaultBlockState()
                 //copy facing
-                .setValue(AdamantiumAnvilBlock.FACING, state.getValue(AdamantiumAnvilBlock.FACING))
+                .setValue(IronAnvilBlock.FACING, state.getValue(IronAnvilBlock.FACING))
                 //copy damage
-                .setValue(ADAMANTIUM_ANVIL_DURABILITY_PROPERTY, durability)
-                .setValue(ADAMANTIUM_ANVIL_STAGE,phase)
+                .setValue(IRON_ANVIL_DURABILITY_PROPERTY, durability)
+                .setValue(IRON_ANVIL_STAGE,phase)
         );
 
     }
-
 
 
 
@@ -123,33 +124,33 @@ public class AdamantiumAnvilBlock extends FallingBlock {
 
         if (world.isClientSide) {
             return InteractionResult.SUCCESS;
-        } else if (player.getMainHandItem().is(ModBlocksRegistry.ADAMANTIUM_BLOCK.asItem())) {
+        } else if (player.getMainHandItem().is(Items.IRON_BLOCK)) {
 
 
             //修复
-            int durability = state.getValue(ADAMANTIUM_ANVIL_DURABILITY_PROPERTY);
+            int durability = state.getValue(IRON_ANVIL_DURABILITY_PROPERTY);
 
-            int beforePhase = getPhaseFromDurability(ADAMANTIUM_ANVIL_MAX_DURABILITY,durability);
+            int beforePhase = getPhaseFromDurability(IRON_ANVIL_MAX_DURABILITY,durability);
 
             if (beforePhase==0)
                 return InteractionResult.PASS;
 
             //增加耐久
-            int fixed = Math.clamp((int)(durability +0.33f*(float) ADAMANTIUM_ANVIL_MAX_DURABILITY), 0, ADAMANTIUM_ANVIL_MAX_DURABILITY);
-            int afterPhase = getPhaseFromDurability(ADAMANTIUM_ANVIL_MAX_DURABILITY,fixed);
+            int fixed = Math.clamp((int)(durability +0.33f*(float) IRON_ANVIL_MAX_DURABILITY), 0,IRON_ANVIL_MAX_DURABILITY);
+            int afterPhase = getPhaseFromDurability(IRON_ANVIL_MAX_DURABILITY,fixed);
 
 
-            world.setBlockAndUpdate(pos, ModBlocksRegistry.ADAMANTIUM_ANVIL.defaultBlockState()
+            world.setBlockAndUpdate(pos, AnvilBlocks.IRON_ANVIL.get().defaultBlockState()
                     //copy facing
-                    .setValue(AdamantiumAnvilBlock.FACING, state.getValue(AdamantiumAnvilBlock.FACING))
+                    .setValue(IronAnvilBlock.FACING, state.getValue(IronAnvilBlock.FACING))
                     //copy damage
-                    .setValue(ADAMANTIUM_ANVIL_DURABILITY_PROPERTY,fixed)
-                    .setValue(ADAMANTIUM_ANVIL_STAGE,afterPhase)
+                    .setValue(IRON_ANVIL_DURABILITY_PROPERTY,fixed)
+                    .setValue(IRON_ANVIL_STAGE,afterPhase)
             );
 
 
-//            player.sendMessage(Text.of("铁砧使用状态:"+afterPhase));
-//            player.sendMessage(Text.of("铁砧耐久:"+fixed));
+            player.sendSystemMessage(Component.nullToEmpty("铁砧使用状态:"+afterPhase));
+            player.sendSystemMessage(Component.nullToEmpty("铁砧耐久:"+fixed));
 
             //消耗一个铁块,若代码执行到这里,一定是有损坏的铁砧进行了修复
             //创造模式测试不消耗铁块
@@ -171,7 +172,7 @@ public class AdamantiumAnvilBlock extends FallingBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, ADAMANTIUM_ANVIL_DURABILITY_PROPERTY, ADAMANTIUM_ANVIL_STAGE);
+        builder.add(FACING,IRON_ANVIL_DURABILITY_PROPERTY,IRON_ANVIL_STAGE);
     }
 
 
@@ -204,7 +205,7 @@ public class AdamantiumAnvilBlock extends FallingBlock {
     @Override
     protected MenuProvider getMenuProvider(BlockState state, Level world, BlockPos pos) {
         return new SimpleMenuProvider(
-                (syncId, inventory, player) -> new AdamantiumScreenHandler(syncId, inventory, ContainerLevelAccess.create(world, pos)), TITLE
+                (syncId, inventory, player) -> new IronAnvilScreenHandler(syncId, inventory, ContainerLevelAccess.create(world, pos)), TITLE
         );
     }
 

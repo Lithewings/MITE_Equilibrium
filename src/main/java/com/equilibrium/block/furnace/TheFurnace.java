@@ -1,4 +1,4 @@
-package com.equilibrium.block.furnace_and_its_entity;
+package com.equilibrium.block.furnace;
 
 
 import com.mojang.serialization.MapCodec;
@@ -142,7 +142,7 @@ public class TheFurnace extends BaseEntityBlock {
 
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type) {
-        return validateTicker(world, type, FurnaceEntityRegistry.THE_FURNACE.get());
+        return validateTicker(world, type, FurnaceEntityRegistry.THE_FURNACE);
     }
 
     private void openScreen(Level world, BlockPos blockPos, Player playerEntity) {

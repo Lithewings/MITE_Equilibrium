@@ -1,8 +1,10 @@
 package com.equilibrium.mixin.crafttime;
 
 
-import com.equilibrium.block.ModBlocksRegistry;
-import com.equilibrium.block.ModBlocksRegistry2;
+import com.equilibrium.block.anvil.AnvilBlocks;
+import com.equilibrium.block.crafting_table.CraftingTableBlocks;
+import com.equilibrium.block.enchanting_table.EnchantingTableBlocks;
+import com.equilibrium.block.miscellaneous.MiscellaneousBlocks;
 import com.equilibrium.item.tool.ToolItems;
 import com.equilibrium.item.coin.CoinItems;
 import com.equilibrium.item.tool.metal.*;
@@ -66,12 +68,12 @@ public abstract class CraftingScreenHandlerMixin extends RecipeBookMenu<Crafting
 
 	@Unique
 	private static final Map<Block, Integer> TABLE_LEVELS = Map.of(
-			ModBlocksRegistry2.FLINT_CRAFTING_TABLE, 1,
-			ModBlocksRegistry2.COPPER_CRAFTING_TABLE, 2,
-			ModBlocksRegistry2.SILVER_CRAFTING_TABLE, 2,
-			ModBlocksRegistry2.IRON_CRAFTING_TABLE, 3,
-			ModBlocksRegistry2.DIAMOND_CRAFTING_TABLE, 4,
-			ModBlocksRegistry2.NETHERITE_CRAFTING_TABLE, 5
+			CraftingTableBlocks.FLINT_CRAFTING_TABLE.get(), 1,
+			CraftingTableBlocks.COPPER_CRAFTING_TABLE.get(), 2,
+			CraftingTableBlocks.SILVER_CRAFTING_TABLE.get(), 2,
+			CraftingTableBlocks.IRON_CRAFTING_TABLE.get(), 3,
+			CraftingTableBlocks.DIAMOND_CRAFTING_TABLE.get(), 4,
+			CraftingTableBlocks.NETHERITE_CRAFTING_TABLE.get(), 5
 	);
 
 
@@ -298,11 +300,11 @@ public abstract class CraftingScreenHandlerMixin extends RecipeBookMenu<Crafting
 			}
 
 			if(itemStack.is(Items.ANVIL) && getGameBooleanRuleFromServer(ENABLE_ANVIL_LEVEL,world.getServer())){
-				itemStack = ModBlocksRegistry.IRON_ANVIL.asItem().getDefaultInstance();
+				itemStack = AnvilBlocks.IRON_ANVIL.asItem().getDefaultInstance();
 			}
 
 			if(itemStack.is(Items.ENCHANTING_TABLE) && getGameBooleanRuleFromServer(ENABLE_ADVANCED_ENCHANTING_TABLE,world.getServer())){
-				itemStack = ModBlocksRegistry.DIAMOND_ENCHANTING_TABLE.asItem().getDefaultInstance();
+				itemStack = EnchantingTableBlocks.DIAMOND_ENCHANTING_TABLE.asItem().getDefaultInstance();
 			}
 
 			//斧子中,替换铁,金
