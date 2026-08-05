@@ -27,6 +27,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 
+import static com.equilibrium.GlobalModConfig.isAutoCraftingEnabled;
 import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.getGameBooleanRuleFromClient;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_CRAFTING_TIME_AND_LEVEL;
 import static com.equilibrium.network.C2STriggerContentChangePacket.sendTrigger;
@@ -131,11 +132,6 @@ public abstract class MixinCraftingScreen extends AbstractContainerScreen<Crafti
 
 
     }
-    //temp
-    private boolean isAutoCraftingEnabled() {
-        return true;
-    }
-
 
     @Unique
     int time = 0;
