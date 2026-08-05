@@ -120,13 +120,13 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         if (this.getMainHandItem().is(ModItemTags.DAGGERS) && target instanceof AgeableMob) {
             otherBonus = 1.5F;
         }
-        if ((this.getMainHandItem().is(ToolItems.SILVER_DAGGER.get())) && target.getType().is(UNDEAD)) {
+        if ((this.getMainHandItem().is(Tools.SILVER_DAGGER.get())) && target.getType().is(UNDEAD)) {
             otherBonus = 1.25F;
         }
-        if ((this.getMainHandItem().is(ToolItems.SILVER_SWORD.get())) && target.getType().is(UNDEAD)) {
+        if ((this.getMainHandItem().is(Tools.SILVER_SWORD.get())) && target.getType().is(UNDEAD)) {
             otherBonus = 1.5F;
         }
-        if ((this.getMainHandItem().is(ToolItems.SILVER_HAMMER.get())) && target.getType().is(UNDEAD)) {
+        if ((this.getMainHandItem().is(Tools.SILVER_HAMMER.get())) && target.getType().is(UNDEAD)) {
             otherBonus = 1.5F;
         }
         //锤子独立乘区
@@ -515,7 +515,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         //更新回血速率
         this.regerationFactor = this.regerationFactor * this.phytonutrient < 100 ? 4 : 1;
         //秘银胸甲提供两倍回血速率
-        if (this.getItemBySlot(EquipmentSlot.CHEST).is(ArmorItems.MITHRIL_CHEST_PLATE))
+        if (this.getItemBySlot(EquipmentSlot.CHEST).is(Armors.MITHRIL_CHEST_PLATE))
             this.regerationFactor = this.regerationFactor * 0.5f;
 
         int maxHealth = PlayerMaxHealthOrFoodLevelHelper.getMaxHealthOrFoodLevel((Player) (Object) this);
