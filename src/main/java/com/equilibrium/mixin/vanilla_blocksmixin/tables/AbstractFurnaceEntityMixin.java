@@ -2,7 +2,8 @@ package com.equilibrium.mixin.vanilla_blocksmixin.tables;
 
 
 
-import com.equilibrium.block.ModBlocksRegistry2;
+
+import com.equilibrium.block.furnace.FurnaceBlocks;
 import com.equilibrium.tags.ModItemTags;
 import com.google.common.collect.Maps;
 import net.minecraft.SharedConstants;
@@ -98,15 +99,15 @@ public abstract class AbstractFurnaceEntityMixin extends BlockEntity {
     private static int getFurnaceLevel(Block furnace) {
         int furnaceLevel = 0;
         //燃料等级大于该熔炉等级不可燃烧:原版熔炉和高炉为一级熔炉
-        if (furnace == ModBlocksRegistry2.CLAY_FURNACE) {
+        if (furnace == FurnaceBlocks.CLAY_FURNACE.get()) {
             furnaceLevel = 0;
         } else if (furnace == Blocks.FURNACE || furnace == Blocks.BLAST_FURNACE) {
             //原版熔炉的最大承受热值为1
             furnaceLevel = 1;
-        } else if (furnace == ModBlocksRegistry2.OBSIDIAN_FURNACE) {
+        } else if (furnace == FurnaceBlocks.OBSIDIAN_FURNACE.get()) {
             //黑曜石熔炉的最大承受热值为2
             furnaceLevel = 2;
-        } else if (furnace == ModBlocksRegistry2.NETHERRACK_FURNACE) {
+        } else if (furnace == FurnaceBlocks.NETHERRACK_FURNACE.get()) {
             furnaceLevel = 3;
         }
         return furnaceLevel;
@@ -228,13 +229,13 @@ public abstract class AbstractFurnaceEntityMixin extends BlockEntity {
 //                time = CommonConfig.itemCooktimeMap.get(name0);
 //            }
 
-            if (block == Blocks.FURNACE || block == ModBlocksRegistry2.CLAY_FURNACE) {
+            if (block == Blocks.FURNACE || block == FurnaceBlocks.CLAY_FURNACE.get()) {
                 ca.setReturnValue(time);
             }
-            if (block == ModBlocksRegistry2.OBSIDIAN_FURNACE) {
+            if (block == FurnaceBlocks.OBSIDIAN_FURNACE.get()) {
                 ca.setReturnValue(time/5);
             }
-            if (block == ModBlocksRegistry2.NETHERRACK_FURNACE) {
+            if (block == FurnaceBlocks.NETHERRACK_FURNACE.get()) {
                 ca.setReturnValue(time/10);
             }
 
