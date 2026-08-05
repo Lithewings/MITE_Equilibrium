@@ -3,6 +3,8 @@
   "package": "com.equilibrium.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "advancement.AdvancementManagerMixin",
+    "advancement.PlayerAdvancementTrackerMixin",
     "crafttime.CraftingScreenHandlerMixin",
     "crafttime.PlayerScreenHandlerMixin",
     "crafttime.ScreenHandlerMixin",
