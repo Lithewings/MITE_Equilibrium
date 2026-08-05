@@ -5,6 +5,7 @@ import com.equilibrium.block.anvil.AnvilBlocks;
 import com.equilibrium.block.crafting_table.CraftingTableBlocks;
 import com.equilibrium.block.enchanting_table.EnchantingTableBlocks;
 import com.equilibrium.block.furnace.FurnaceBlocks;
+import com.equilibrium.block.furnace.FurnaceEntityRegistry;
 import com.equilibrium.block.material.MaterialBlocks;
 import com.equilibrium.block.miscellaneous.MiscellaneousBlocks;
 import com.equilibrium.block.ore.OreBlocks;
@@ -119,6 +120,8 @@ public class OnServerInitialize {
 
         //效果注册
         RegisterStatusEffect.MOB_EFFECTS.register(modEventBus);
+        //熔炉实体注册
+        FurnaceEntityRegistry.BLOCK_ENTITY_TYPES.register(modEventBus);
     }
 
     @SubscribeEvent
