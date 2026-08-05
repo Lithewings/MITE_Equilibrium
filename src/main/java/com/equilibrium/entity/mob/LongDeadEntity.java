@@ -1,7 +1,7 @@
 package com.equilibrium.entity.mob;
 
-import com.equilibrium.item.Armors;
-import com.equilibrium.item.Tools;
+import com.equilibrium.item.armor.ArmorItems;
+import com.equilibrium.item.tool.ToolItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -111,11 +111,11 @@ public class LongDeadEntity extends ModAbstractSkeletonEntity {
         if(this.getRandom().nextInt(2)==0)
             this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.BOW));
         else
-            this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Tools.IRON_DAGGER.get()));
-        this.setItemSlot(EquipmentSlot.CHEST, new ItemStack(Armors.ANCIENT_METAL_CHAINMAIL_CHEST_PLATE));
-        this.setItemSlot(EquipmentSlot.FEET, new ItemStack(Armors.ANCIENT_METAL_CHAINMAIL_BOOTS));
-        this.setItemSlot(EquipmentSlot.LEGS, new ItemStack(Armors.ANCIENT_METAL_CHAINMAIL_LEGGINGS));
-        this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Armors.ANCIENT_METAL_CHAINMAIL_HELMET));
+            this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(ToolItems.IRON_DAGGER.get()));
+        this.setItemSlot(EquipmentSlot.CHEST, new ItemStack(ArmorItems.ANCIENT_METAL_CHAINMAIL_CHEST_PLATE.get()));
+        this.setItemSlot(EquipmentSlot.FEET, new ItemStack(ArmorItems.ANCIENT_METAL_CHAINMAIL_BOOTS.get()));
+        this.setItemSlot(EquipmentSlot.LEGS, new ItemStack(ArmorItems.ANCIENT_METAL_CHAINMAIL_LEGGINGS.get()));
+        this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ArmorItems.ANCIENT_METAL_CHAINMAIL_HELMET.get()));
     }
 
     @Nullable

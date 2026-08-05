@@ -1,8 +1,8 @@
 package com.equilibrium.mixin.player;
 
 
-import com.equilibrium.item.Armors;
-import com.equilibrium.item.Tools;
+import com.equilibrium.item.armor.ArmorItems;
+import com.equilibrium.item.tool.ToolItems;
 import com.equilibrium.server_and_client.server.persistent_state.StateSaverAndLoader;
 import com.equilibrium.status.RegisterStatusEffect;
 import com.equilibrium.status.disease_IR.DiabetesEffect;
@@ -60,7 +60,7 @@ import static com.equilibrium.GlobalModConfig.isShowDamageEnabled;
 import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.*;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_PHYTONUTRIENT;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_SLOW_BREAKING_SPEED;
-import static com.equilibrium.item.tools_attribute.ExtraDamageFromExperienceLevel.getDamageLevel;
+import static com.equilibrium.item.tool.ExtraDamageFromExperienceLevel.getDamageLevel;
 import static com.equilibrium.status.disease_IR.DiabetesEffect.tryApplyDiabetesEffect;
 import static com.equilibrium.util.ableToMine.getBlockHarvestLevel;
 import static com.equilibrium.util.ableToMine.getItemHarvestLevel;
@@ -120,13 +120,13 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         if (this.getMainHandItem().is(ModItemTags.DAGGERS) && target instanceof AgeableMob) {
             otherBonus = 1.5F;
         }
-        if ((this.getMainHandItem().is(Tools.SILVER_DAGGER.get())) && target.getType().is(UNDEAD)) {
+        if ((this.getMainHandItem().is(ToolItems.SILVER_DAGGER.get())) && target.getType().is(UNDEAD)) {
             otherBonus = 1.25F;
         }
-        if ((this.getMainHandItem().is(Tools.SILVER_SWORD.get())) && target.getType().is(UNDEAD)) {
+        if ((this.getMainHandItem().is(ToolItems.SILVER_SWORD.get())) && target.getType().is(UNDEAD)) {
             otherBonus = 1.5F;
         }
-        if ((this.getMainHandItem().is(Tools.SILVER_HAMMER.get())) && target.getType().is(UNDEAD)) {
+        if ((this.getMainHandItem().is(ToolItems.SILVER_HAMMER.get())) && target.getType().is(UNDEAD)) {
             otherBonus = 1.5F;
         }
         //锤子独立乘区
@@ -515,7 +515,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         //更新回血速率
         this.regerationFactor = this.regerationFactor * this.phytonutrient < 100 ? 4 : 1;
         //秘银胸甲提供两倍回血速率
-        if (this.getItemBySlot(EquipmentSlot.CHEST).is(Armors.MITHRIL_CHEST_PLATE))
+        if (this.getItemBySlot(EquipmentSlot.CHEST).is(ArmorItems.MITHRIL_CHEST_PLATE))
             this.regerationFactor = this.regerationFactor * 0.5f;
 
         int maxHealth = PlayerMaxHealthOrFoodLevelHelper.getMaxHealthOrFoodLevel((Player) (Object) this);

@@ -1,6 +1,6 @@
 package com.equilibrium.entity.mob;
 
-import com.equilibrium.item.OtherItems;
+import com.equilibrium.item.miscellaneous.MiscellaneousItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
@@ -35,7 +35,7 @@ public class PuddingSlimeEntity extends BaseSlimeEntity{
     private boolean onGroundLastTick;
     @Override
     protected ParticleOptions getParticles() {
-        return new ItemParticleOption(ParticleTypes.ITEM, OtherItems.PUDDING_SLIME_BALL.getDefaultInstance());
+        return new ItemParticleOption(ParticleTypes.ITEM, MiscellaneousItems.PUDDING_SLIME_BALL.get().getDefaultInstance());
     }
 
 

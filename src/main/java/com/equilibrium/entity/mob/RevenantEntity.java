@@ -2,7 +2,7 @@ package com.equilibrium.entity.mob;
 
 
 import com.equilibrium.entity.goal.MeleeAttackGoalApplyAttackRange;
-import com.equilibrium.item.Tools;
+import com.equilibrium.item.tool.ToolItems;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.EntityType;
@@ -63,7 +63,7 @@ public class RevenantEntity extends Zombie {
     @Override
     protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance localDifficulty) {
         super.populateDefaultEquipmentSlots(random, localDifficulty);
-        this.setItemSlot(EquipmentSlot.MAINHAND, this.hammerOrSword==0 ? new ItemStack(Tools.IRON_SWORD.get()): new ItemStack(Tools.IRON_HAMMER.get()));
+        this.setItemSlot(EquipmentSlot.MAINHAND, this.hammerOrSword==0 ? new ItemStack(ToolItems.IRON_SWORD.get()): new ItemStack(ToolItems.IRON_HAMMER.get()));
 
         this.setItemSlot(EquipmentSlot.CHEST, new ItemStack(Items.IRON_CHESTPLATE));
         this.setItemSlot(EquipmentSlot.FEET, new ItemStack(Items.IRON_BOOTS));

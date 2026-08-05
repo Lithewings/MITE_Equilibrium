@@ -5,7 +5,8 @@ import com.equilibrium.entity.EnvironmentChecker;
 import com.equilibrium.entity.ProduceManureOrSomething;
 import com.equilibrium.entity.goal.BreakGrassGoal;
 import com.equilibrium.entity.goal.ConstantFleePlayerGoal;
-import com.equilibrium.item.food.FoodOrFarmItems;
+import com.equilibrium.item.food.FoodItems;
+import com.equilibrium.item.material.MaterialItems;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -29,8 +30,6 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -173,7 +172,7 @@ public abstract class CowEntityMixin extends Animal implements ProduceManureOrSo
 
         }
         else if(this.milkCoolDown>=0 && this.milkCoolDown<18000 && itemStack.is(Items.BOWL) &&!this.isBaby()){
-            ItemStack itemStack2 = ItemUtils.createFilledResult(itemStack, player, FoodOrFarmItems.MILK_BOWL.getDefaultInstance());
+            ItemStack itemStack2 = ItemUtils.createFilledResult(itemStack, player, FoodItems.MILK_BOWL.get().getDefaultInstance());
             player.setItemInHand(hand, itemStack2);
             milkCoolDown += 6000;
 

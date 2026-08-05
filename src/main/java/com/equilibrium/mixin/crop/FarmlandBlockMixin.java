@@ -1,6 +1,7 @@
 package com.equilibrium.mixin.crop;
 
-import com.equilibrium.item.food.FoodOrFarmItems;
+import com.equilibrium.item.food.FoodItems;
+import com.equilibrium.item.material.MaterialItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -61,7 +62,7 @@ public abstract class FarmlandBlockMixin extends Block {
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
         ItemStack itemStack = player.getItemInHand(InteractionHand.MAIN_HAND);
-        if (itemStack.is(FoodOrFarmItems.MANURE)) {
+        if (itemStack.is(FoodItems.MANURE)) {
             if (!world.isClientSide) {
                 // 设置施肥状态为 true
 

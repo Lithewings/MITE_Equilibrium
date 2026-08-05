@@ -1,7 +1,7 @@
 package com.equilibrium.util;
 
 import com.equilibrium.block.ModBlocksRegistry;
-import com.equilibrium.item.MaterialItems;
+import com.equilibrium.item.material.MaterialItems;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
