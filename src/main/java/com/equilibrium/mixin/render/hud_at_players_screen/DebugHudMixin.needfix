@@ -1,0 +1,325 @@
+package com.equilibrium.mixin.render.hud_at_players_screen;
+
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
+import com.mojang.blaze3d.platform.GlUtil;
+import com.mojang.datafixers.DataFixUtils;
+import it.unimi.dsi.fastutil.longs.LongSet;
+import it.unimi.dsi.fastutil.longs.LongSets;
+import net.minecraft.SharedConstants;
+import net.minecraft.Util;
+import net.minecraft.client.ClientBrandRetriever;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.DebugScreenOverlay;
+import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.client.server.IntegratedServer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.network.Connection;
+import net.minecraft.server.ServerTickRateManager;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.TickRateManager;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.chunk.status.ChunkStatus;
+import net.minecraft.world.level.levelgen.Heightmap;
+import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
+
+@Mixin(DebugScreenOverlay.class)
+
+public abstract class DebugHudMixin {
+    //没有加入mixin配置,若需要再加入
+
+    @Shadow
+    @Final
+    private Minecraft client;
+@Shadow
+    private boolean showDebugHud;
+@Shadow
+    private boolean renderingChartVisible;
+@Shadow
+    private boolean renderingAndTickChartsVisible;
+@Shadow
+    private boolean packetSizeAndPingChartsVisible;
+
+
+@Shadow
+@Final
+    private Font textRenderer;
+
+
+
+
+
+
+
+
+
+
+    @Shadow
+    private ChunkPos pos;
+    @Shadow
+    private CompletableFuture<LevelChunk> chunkFuture;
+    @Shadow
+    private LevelChunk chunk;
+
+
+
+    public void resetChunk() {
+        this.chunkFuture = null;
+        this.chunk = null;
+    }
+
+
+    private Level getWorld() {
+        return DataFixUtils.orElse(
+                Optional.ofNullable(this.client.getSingleplayerServer()).flatMap(server -> Optional.ofNullable(server.getLevel(this.client.level.dimension()))), this.client.level
+        );
+    }
+
+    private String getServerWorldDebugString() {
+        ServerLevel serverWorld = this.getServerWorld();
+        return serverWorld != null ? serverWorld.gatherChunkSourceStats() : null;
+    }
+
+    @Nullable
+    private ServerLevel getServerWorld() {
+        IntegratedServer integratedServer = this.client.getSingleplayerServer();
+        return integratedServer != null ? integratedServer.getLevel(this.client.level.dimension()) : null;
+    }
+
+    private LevelChunk getClientChunk() {
+        if (this.chunk == null) {
+            this.chunk = this.client.level.getChunk(this.pos.x, this.pos.z);
+        }
+
+        return this.chunk;
+    }
+
+    @Nullable
+    private LevelChunk getChunk() {
+        if (this.chunkFuture == null) {
+            ServerLevel serverWorld = this.getServerWorld();
+            if (serverWorld == null) {
+                return null;
+            }
+
+            this.chunkFuture = serverWorld.getChunkSource()
+                    .getChunkFuture(this.pos.x, this.pos.z, ChunkStatus.FULL, false)
+                    .thenApply(optionalChunk -> (LevelChunk)optionalChunk.orElse(null));
+        }
+
+        return (LevelChunk)this.chunkFuture.getNow(null);
+    }
+    @Shadow
+    private static final Map<Heightmap.Types, String> HEIGHT_MAP_TYPES = Util.make(new EnumMap(Heightmap.Types.class), types -> {
+        types.put(Heightmap.Types.WORLD_SURFACE_WG, "SW");
+        types.put(Heightmap.Types.WORLD_SURFACE, "S");
+        types.put(Heightmap.Types.OCEAN_FLOOR_WG, "OW");
+        types.put(Heightmap.Types.OCEAN_FLOOR, "O");
+        types.put(Heightmap.Types.MOTION_BLOCKING, "M");
+        types.put(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, "ML");
+    });
+
+
+    @Shadow
+    private static String getBiomeString(Holder<Biome> biome) {
+        return biome.unwrap().map(biomeKey -> biomeKey.location().toString(), biome_ -> "[unregistered " + biome_ + "]");
+    }
+
+    public List<String> getLeftText() {
+
+        IntegratedServer integratedServer = this.client.getSingleplayerServer();
+        ClientPacketListener clientPlayNetworkHandler = this.client.getConnection();
+        Connection clientConnection = clientPlayNetworkHandler.getConnection();
+        float f = clientConnection.getAverageSentPackets();
+        float g = clientConnection.getAverageReceivedPackets();
+        TickRateManager tickManager = this.getWorld().tickRateManager();
+        String string;
+        if (tickManager.isSteppingForward()) {
+            string = " (frozen - stepping)";
+        } else if (tickManager.isFrozen()) {
+            string = " (frozen)";
+        } else {
+            string = "";
+        }
+
+        String string3;
+        if (integratedServer != null) {
+            ServerTickRateManager serverTickManager = integratedServer.tickRateManager();
+            boolean bl = serverTickManager.isSprinting();
+            if (bl) {
+                string = " (sprinting)";
+            }
+
+            String string2 = bl ? "-" : String.format(Locale.ROOT, "%.1f", tickManager.millisecondsPerTick());
+            string3 = String.format(Locale.ROOT, "Integrated server @ %.1f/%s ms%s, %.0f tx, %.0f rx", integratedServer.getCurrentSmoothedTickTime(), string2, string, f, g);
+        } else {
+            string3 = String.format(Locale.ROOT, "\"%s\" server%s, %.0f tx, %.0f rx", clientPlayNetworkHandler.serverBrand(), string, f, g);
+        }
+
+        BlockPos blockPos = this.client.getCameraEntity().blockPosition();
+        if (this.client.showOnlyReducedInfo()) {
+            return Lists.<String>newArrayList(
+                    "Minecraft " + SharedConstants.getCurrentVersion().getName() + " (" + this.client.getLaunchedVersion() + "/" + ClientBrandRetriever.getClientModName() + ")",
+                    this.client.fpsString,
+                    string3,
+                    this.client.levelRenderer.getSectionStatistics(),
+                    this.client.levelRenderer.getEntityStatistics(),
+                    "P: " + this.client.particleEngine.countParticles() + ". T: " + this.client.level.getEntityCount(),
+                    this.client.level.gatherChunkSourceStats(),
+                    "",
+                    String.format(Locale.ROOT, "Chunk-relative: %d %d %d", blockPos.getX() & 15, blockPos.getY() & 15, blockPos.getZ() & 15)
+            );
+        } else {
+            Level world = this.getWorld();
+            LongSet longSet = (LongSet)(world instanceof ServerLevel ? ((ServerLevel)world).getForcedChunks() : LongSets.EMPTY_SET);
+            List<String> list = Lists.<String>newArrayList(
+                    "Minecraft " + SharedConstants.getCurrentVersion().getName() + " ("
+                            + this.client.getLaunchedVersion()
+                            + "/"
+                            + ClientBrandRetriever.getClientModName()
+                            + ("release".equalsIgnoreCase(this.client.getVersionType()) ? "" : "/" + this.client.getVersionType())
+                            + ")",
+                    this.client.fpsString,
+                    string3
+
+            );
+            //坐标显示
+//            list.add(
+//                    String.format(
+//                            Locale.ROOT, "X: %.1f",this.client.getCameraEntity().getX()
+//                    )
+//
+//            );
+//            list.add(
+//                    String.format(
+//                            Locale.ROOT, "Y: %.1f",this.client.getCameraEntity().getY()
+//                    )
+//
+//            );
+//            list.add(
+//                    String.format(
+//                            Locale.ROOT, "Z: %.1f", this.client.getCameraEntity().getZ()
+//                    )
+
+//            );
+            return list;
+        }
+
+    }
+
+
+    @Unique
+    public void drawText(GuiGraphics context, List<String> text, boolean left) {
+        int i = 9;
+
+        for (int j = 0; j < text.size(); j++) {
+            String string = (String)text.get(j);
+            if (!Strings.isNullOrEmpty(string)) {
+                int k = this.textRenderer.width(string);
+                int l = left ? 2 : context.guiWidth() - 2 - k;
+                int m = 2 + i * j;
+                context.fill(l - 1, m - 1, l + k + 1, m + i - 1, -1873784752);
+            }
+        }
+
+        for (int jx = 0; jx < text.size(); jx++) {
+            String string = (String)text.get(jx);
+            if (!Strings.isNullOrEmpty(string)) {
+                int k = this.textRenderer.width(string);
+                int l = left ? 2 : context.guiWidth() - 2 - k;
+                int m = 2 + i * jx;
+                context.drawString(this.textRenderer, string, l, m, 14737632, false);
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    @Inject(method = "drawLeftText",at = @At(value = "HEAD"),cancellable = true)
+    protected void drawLeftText(GuiGraphics context, CallbackInfo ci) {
+        ci.cancel();
+
+        List<String> list = this.getLeftText();
+        this.drawText(context, list, true);
+    }
+
+
+    private static long toMiB(long bytes) {
+        return bytes / 1024L / 1024L;
+    }
+
+
+
+@Shadow
+@Final
+private DebugScreenOverlay.AllocationRateCalculator allocationRateCalculator;
+
+    @Inject(method = "getRightText",at = @At(value = "HEAD"),cancellable = true)
+    protected void getRightText(CallbackInfoReturnable<List<String>> cir) {
+        cir.cancel();
+        long l = Runtime.getRuntime().maxMemory();
+        long m = Runtime.getRuntime().totalMemory();
+        long n = Runtime.getRuntime().freeMemory();
+        long o = m - n;
+        List<String> list = Lists.<String>newArrayList(
+                String.format(Locale.ROOT, "Java: %s", System.getProperty("java.version")),
+                String.format(Locale.ROOT, "Mem: %2d%% %03d/%03dMB", o * 100L / l, toMiB(o), toMiB(l)),
+                String.format(Locale.ROOT, "Allocation rate: %03dMB/s", toMiB(allocationRateCalculator.bytesAllocatedPerSecond(o))),
+                String.format(Locale.ROOT, "Allocated: %2d%% %03dMB", m * 100L / l, toMiB(m)),
+                "",
+                String.format(Locale.ROOT, "CPU: %s", GlUtil.getCpuInfo()),
+                "",
+                String.format(
+                        Locale.ROOT,
+                        "Display: %dx%d (%s)",
+                        Minecraft.getInstance().getWindow().getWidth(),
+                        Minecraft.getInstance().getWindow().getHeight(),
+                        GlUtil.getVendor()
+                ),
+                GlUtil.getRenderer(),
+                GlUtil.getOpenGLVersion()
+        );
+
+        cir.setReturnValue(list);
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+}
+
+

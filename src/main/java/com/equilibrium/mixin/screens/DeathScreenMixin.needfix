@@ -1,0 +1,157 @@
+package com.equilibrium.mixin.screens;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.DeathScreen;
+import net.minecraft.client.gui.screens.GenericMessageScreen;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.TitleScreen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.resources.ResourceLocation;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.List;
+
+@Mixin(DeathScreen.class)
+public abstract class DeathScreenMixin extends Screen {
+    protected DeathScreenMixin(Component title) {
+        super(title);
+    }
+    @Shadow
+    private Component scoreText;
+    @Shadow
+    private int ticksSinceDeath;
+    @Shadow
+    @Final
+    private static ResourceLocation DRAFT_REPORT_ICON_TEXTURE;
+
+    @Shadow
+    @Final
+    private Component message;
+    @Shadow
+    @Final
+    private boolean isHardcore;
+
+    @Shadow
+    private Button titleScreenButton;
+    @Shadow
+    @Final
+    private List<Button> buttons;
+
+
+
+    @Shadow
+    private Style getTextComponentUnderMouse(int mouseX) {
+        if (this.message == null) {
+            return null;
+        } else {
+            int i = this.minecraft.font.width(this.message);
+            int j = this.width / 2 - i / 2;
+            int k = this.width / 2 + i / 2;
+            return mouseX >= j && mouseX <= k ? this.minecraft.font.getSplitter().componentStyleAtWidth(this.message, mouseX - j) : null;
+        }
+    }
+
+
+    @Unique
+    private int nextReviveTime =5*20;
+
+    @Unique
+    public int getNextReviveTime(){
+        return Math.max((nextReviveTime-this.ticksSinceDeath)/20, 0);
+    }
+    @Shadow
+    private void quitLevel() {
+        if (this.minecraft.level != null) {
+            this.minecraft.level.disconnect();
+        }
+
+        this.minecraft.disconnect(new GenericMessageScreen(Component.translatable("menu.savingLevel")));
+        this.minecraft.setScreen(new TitleScreen());
+    }
+
+    @Inject(method = "onTitleScreenButtonClicked",at = @At("HEAD"),cancellable = true)
+    private void onTitleScreenButtonClicked(CallbackInfo ci) {
+        ci.cancel();
+        this.quitLevel();
+    }
+
+
+
+
+
+
+    @Override
+    public void tick() {
+        super.tick();
+        this.ticksSinceDeath++;
+        if (getNextReviveTime()==0) {
+            this.setButtonsActive(true);
+        }
+        else
+            for (Button buttonWidget : this.buttons) {
+                if(!buttonWidget.getMessage().contains(Component.translatable("deathScreen.respawn")))
+                    buttonWidget.active=true;
+            }
+
+    }
+
+    @Override
+    public void resize(Minecraft client, int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
+
+    @Shadow
+    private void setButtonsActive(boolean active) {
+        for (Button buttonWidget : this.buttons) {
+            buttonWidget.active = active;
+        }
+    }
+
+
+    @Shadow public abstract void render(GuiGraphics context, int mouseX, int mouseY, float delta);
+
+    @Inject(method = "render",at = @At("HEAD"), cancellable = true)
+    public void render(GuiGraphics context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+        ci.cancel();
+        super.render(context, mouseX, mouseY, delta);
+        context.pose().pushPose();
+        context.pose().scale(2.0F, 2.0F, 2.0F);
+        context.drawCenteredString(this.font, this.title, this.width / 2 / 2, 30, 16777215);
+        context.pose().popPose();
+        if (this.message != null) {
+            context.drawCenteredString(this.font, this.message, this.width / 2, 85, 16777215);
+        }
+
+        if(!isHardcore) {
+            String nextReviveTime = Component.translatable("next_respawn").getString()+getNextReviveTime()+" s";
+            String deathText = Component.translatable("mod_death_text").getString();
+            context.drawCenteredString(this.font, nextReviveTime, this.width / 2, 100, 16777215);
+            context.drawCenteredString(this.font, deathText, this.width / 2, 115, 16777215);
+        }
+        if (this.message != null && mouseY > 85 && mouseY < 85 + 9) {
+            Style style = this.getTextComponentUnderMouse(mouseX);
+            context.renderComponentHoverEffect(this.font, style, mouseX, mouseY);
+        }
+
+        if (this.titleScreenButton != null && this.minecraft.getReportingContext().hasDraftReport()) {
+            context.blitSprite(
+                    DRAFT_REPORT_ICON_TEXTURE, this.titleScreenButton.getX() + this.titleScreenButton.getWidth() - 17, this.titleScreenButton.getY() + 3, 15, 15
+            );
+        }
+
+
+
+    }
+
+
+}

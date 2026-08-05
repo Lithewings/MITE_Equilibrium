@@ -10,5 +10,5 @@ import org.spongepowered.asm.mixin.Shadow;
 public abstract class EscapeDangerGoalMixin extends Goal {
     @Shadow
     @Final
-    protected double speed = 2;
+    protected double speedModifier = 2;
 }

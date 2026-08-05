@@ -1,0 +1,420 @@
+package com.equilibrium.mixin.render.new_sky;
+
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.*;
+import com.mojang.math.Axis;
+import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.chunk.SectionRenderDispatcher;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.FogType;
+import net.minecraft.world.phys.Vec3;
+import org.joml.Matrix4f;
+import org.slf4j.Logger;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.Objects;
+
+import static com.equilibrium.server_and_client.server.moonphase_tasks.MoonPhaseEvent.getMoonType;
+
+
+@Mixin(LevelRenderer.class)
+public abstract class NewMoonNewLight {
+
+    private static final ResourceLocation MOON_PHASES = ResourceLocation.fromNamespaceAndPath("miteequilibrium","textures/environment/moon_phases.png");
+    private static final ResourceLocation END_SKY = ResourceLocation.withDefaultNamespace("textures/environment/end_sky.png");
+
+    private static final ResourceLocation BLOOD_MOON = ResourceLocation.fromNamespaceAndPath("miteequilibrium","textures/environment/blood_moon.png");
+    private static final ResourceLocation BLUE_MOON = ResourceLocation.fromNamespaceAndPath("miteequilibrium","textures/environment/blue_moon.png");
+    private static final ResourceLocation HARVEST_MOON = ResourceLocation.fromNamespaceAndPath("miteequilibrium","textures/environment/harvest_moon.png");
+    private static final ResourceLocation HALO_MOON = ResourceLocation.fromNamespaceAndPath("miteequilibrium","textures/environment/halo_moon.png");
+
+
+
+
+    @Shadow
+    @Final
+    private Minecraft minecraft;
+    @Shadow
+    private ClientLevel level;
+    @Shadow
+    private VertexBuffer skyBuffer;
+    @Shadow
+    private static final ResourceLocation SUN_LOCATION = ResourceLocation.withDefaultNamespace("textures/environment/sun.png");
+
+    @Shadow
+    private VertexBuffer starBuffer;
+    @Shadow
+    private VertexBuffer darkBuffer;
+
+
+    @Unique
+    private void renderEndSkyMixin(PoseStack matrices) {
+        RenderSystem.enableBlend();
+        RenderSystem.depthMask(false);
+        RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
+        RenderSystem.setShaderTexture(0, END_SKY);
+        Tesselator tessellator = Tesselator.getInstance();
+
+        for (int i = 0; i < 6; i++) {
+            matrices.pushPose();
+            if (i == 1) {
+                matrices.mulPose(Axis.XP.rotationDegrees(90.0F));
+            }
+
+            if (i == 2) {
+                matrices.mulPose(Axis.XP.rotationDegrees(-90.0F));
+            }
+
+            if (i == 3) {
+                matrices.mulPose(Axis.XP.rotationDegrees(180.0F));
+            }
+
+            if (i == 4) {
+                matrices.mulPose(Axis.ZP.rotationDegrees(90.0F));
+            }
+
+            if (i == 5) {
+                matrices.mulPose(Axis.ZP.rotationDegrees(-90.0F));
+            }
+
+            Matrix4f matrix4f = matrices.last().pose();
+            BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
+            bufferBuilder.addVertex(matrix4f, -100.0F, -100.0F, -100.0F).setUv(0.0F, 0.0F).setColor(-14145496);
+            bufferBuilder.addVertex(matrix4f, -100.0F, -100.0F, 100.0F).setUv(0.0F, 16.0F).setColor(-14145496);
+            bufferBuilder.addVertex(matrix4f, 100.0F, -100.0F, 100.0F).setUv(16.0F, 16.0F).setColor(-14145496);
+            bufferBuilder.addVertex(matrix4f, 100.0F, -100.0F, -100.0F).setUv(16.0F, 0.0F).setColor(-14145496);
+            BufferUploader.drawWithShader(bufferBuilder.buildOrThrow());
+            matrices.popPose();
+        }
+
+        RenderSystem.depthMask(true);
+        RenderSystem.disableBlend();
+    }
+    @Unique
+    private boolean hasBlindnessOrDarknessMixin(Camera camera) {
+        return !(camera.getEntity() instanceof LivingEntity livingEntity)
+                ? false
+                : livingEntity.hasEffect(MobEffects.BLINDNESS) || livingEntity.hasEffect(MobEffects.DARKNESS);
+    }
+    @Inject(method = "renderClouds",at = @At(value = "HEAD"),cancellable = true)
+    public void renderClouds(PoseStack matrices, Matrix4f matrix4f, Matrix4f matrix4f2, float tickDelta, double cameraX, double cameraY, double cameraZ, CallbackInfo ci) {
+        if(this.level.dimension()!= Level.OVERWORLD)
+            ci.cancel();
+    }
+
+
+
+
+
+
+
+
+
+
+    @Inject(method = "renderSky",at = @At(value = "HEAD"),cancellable = true)
+    public void renderSky(Matrix4f matrix4f, Matrix4f projectionMatrix, float tickDelta, Camera camera, boolean thickFog, Runnable fogCallback, CallbackInfo ci) {
+        ci.cancel();
+        if(this.minecraft.level.dimension()== ResourceKey.create(Registries.DIMENSION, ResourceLocation.fromNamespaceAndPath("miteequilibrium", "underworld")))
+            return;
+        fogCallback.run();
+        if (!thickFog) {
+            FogType cameraSubmersionType = camera.getFluidInCamera();
+            if (cameraSubmersionType != FogType.POWDER_SNOW && cameraSubmersionType != FogType.LAVA && !this.hasBlindnessOrDarknessMixin(camera)) {
+                PoseStack matrixStack = new PoseStack();
+                matrixStack.mulPose(matrix4f);
+                if (this.minecraft.level.effects().skyType() == DimensionSpecialEffects.SkyType.END) {
+                    this.renderEndSkyMixin(matrixStack);
+                } else if (this.minecraft.level.effects().skyType() == DimensionSpecialEffects.SkyType.NORMAL) {
+                    Vec3 vec3d = this.level.getSkyColor(this.minecraft.gameRenderer.getMainCamera().getPosition(), tickDelta);
+                    float f = (float)vec3d.x;
+                    float g = (float)vec3d.y;
+                    float h = (float)vec3d.z;
+                    FogRenderer.levelFogColor();
+                    Tesselator tessellator = Tesselator.getInstance();
+                    RenderSystem.depthMask(false);
+                    RenderSystem.setShaderColor(f, g, h, 1.0F);
+                    ShaderInstance shaderProgram = RenderSystem.getShader();
+                    this.skyBuffer.bind();
+                    this.skyBuffer.drawWithShader(matrixStack.last().pose(), projectionMatrix, shaderProgram);
+                    VertexBuffer.unbind();
+                    RenderSystem.enableBlend();
+                    // 获取日出/日落雾色数组（原有代码）
+                    float[] fs = this.level.effects().getSunriseColor(this.level.getTimeOfDay(tickDelta), tickDelta);
+
+                    // 1. 计算渐变系数（核心：雨强/维度决定渐变程度）
+                    float rainGradient = this.level.getRainLevel(tickDelta); // 0=无雨，1=大雨
+                    //非主世界不渲染朝霞晚霞光环
+                    //朝霞晚霞雾气颜色在DimensionEffectsMixin中定义
+                    boolean isOverworld = minecraft.level.dimension()== Level.OVERWORLD;
+
+
+                    float fadeFactor = isOverworld ? (1.0F - rainGradient) : 0.0F;
+                    // 限制渐变系数在0~1之间，避免负数
+                    fadeFactor = Mth.clamp(fadeFactor, 0.0F, 1.0F);
+
+                    // 2. 只有当有雾色、渐变系数>0.01时才渲染（避免极淡的残留）
+                    if (fs != null && fadeFactor > 0.01F) {
+                        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+                        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+                        matrixStack.pushPose();
+                        matrixStack.mulPose(Axis.XP.rotationDegrees(90.0F));
+
+                        float i = Mth.sin(this.level.getSunAngle(tickDelta)) < 0.0F ? 180.0F : 0.0F;
+                        matrixStack.mulPose(Axis.ZP.rotationDegrees(i));
+                        matrixStack.mulPose(Axis.ZP.rotationDegrees(90.0F));
+
+                        // 3. 应用渐变系数到颜色和透明度（核心：让颜色/透明度随雨强渐变）
+                        float j = fs[0] * fadeFactor; // 红色通道 × 渐变系数
+                        float k = fs[1] * fadeFactor; // 绿色通道 × 渐变系数
+                        float l = fs[2] * fadeFactor; // 蓝色通道 × 渐变系数
+                        float alpha = fs[3] * fadeFactor; // 透明度 × 渐变系数
+
+                        Matrix4f matrix4f2 = matrixStack.last().pose();
+                        BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.Mode.TRIANGLE_FAN, DefaultVertexFormat.POSITION_COLOR);
+                        // 中心点：颜色和透明度都乘渐变系数
+                        bufferBuilder.addVertex(matrix4f2, 0.0F, 100.0F, 0.0F).setColor(j, k, l, alpha);
+                        int m = 16;
+
+                        for (int n = 0; n <= 16; n++) {
+                            float o = (float)n * (float) (Math.PI * 2) / 16.0F;
+                            float p = Mth.sin(o);
+                            float q = Mth.cos(o);
+                            // 外围顶点：颜色乘渐变系数，透明度固定为0（保持渐变效果）
+                            bufferBuilder.addVertex(matrix4f2, p * 120.0F, q * 120.0F, -q * 40.0F * alpha).setColor(fs[0]*fadeFactor, fs[1]*fadeFactor, fs[2]*fadeFactor, 0.0F);
+                        }
+
+                        BufferUploader.drawWithShader(bufferBuilder.buildOrThrow());
+                        matrixStack.popPose();
+                    }
+
+                    RenderSystem.blendFuncSeparate(
+                            GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO
+                    );
+                    matrixStack.pushPose();
+                    float i = 1.0F - this.level.getRainLevel(tickDelta);
+                    RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, i);
+                    matrixStack.mulPose(Axis.YP.rotationDegrees(-90.0F));
+                    matrixStack.mulPose(Axis.XP.rotationDegrees(this.level.getTimeOfDay(tickDelta) * 360.0F));
+                    Matrix4f matrix4f3 = matrixStack.last().pose();
+                    float k = 30.0F;
+                    RenderSystem.setShader(GameRenderer::getPositionTexShader);
+                    RenderSystem.setShaderTexture(0, SUN_LOCATION);
+                    BufferBuilder bufferBuilder2 = tessellator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+                    bufferBuilder2.addVertex(matrix4f3, -k, 100.0F, -k).setUv(0.0F, 0.0F);
+                    bufferBuilder2.addVertex(matrix4f3, k, 100.0F, -k).setUv(1.0F, 0.0F);
+                    bufferBuilder2.addVertex(matrix4f3, k, 100.0F, k).setUv(1.0F, 1.0F);
+                    bufferBuilder2.addVertex(matrix4f3, -k, 100.0F, k).setUv(0.0F, 1.0F);
+                    BufferUploader.drawWithShader(bufferBuilder2.buildOrThrow());
+
+//获取月相
+                    String moonType =getMoonType(this.level);
+//                    LOGGER.info(moonType);
+
+                    //非特殊材质的月相时:
+                    if(!Objects.equals(moonType, "harvestMoon") && !Objects.equals(moonType, "haloMoon") && !Objects.equals(moonType, "bloodMoon") && !Objects.equals(moonType, "blueMoon"))
+                    { //尺寸大小
+//                        LOGGER.info("Not special moon!");
+                        k=20.0F;
+                        //一般的月相图
+                        RenderSystem.setShaderTexture(0,MOON_PHASES);
+                        //用自带的函数获取即可
+                        int r = this.level.getMoonPhase();
+                        int s = r % 4;
+                        int m = r / 4 % 2;
+                        float t = (float)(s + 0) / 4.0F;
+                        float o = (float)(m + 0) / 2.0F;
+                        float p = (float)(s + 1) / 4.0F;
+                        float q = (float)(m + 1) / 2.0F;
+                        bufferBuilder2 = tessellator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+                        bufferBuilder2.addVertex(matrix4f3, -k, -100.0F, k).setUv(p, q);
+                        bufferBuilder2.addVertex(matrix4f3, k, -100.0F, k).setUv(t, q);
+                        bufferBuilder2.addVertex(matrix4f3, k, -100.0F, -k).setUv(t, o);
+                        bufferBuilder2.addVertex(matrix4f3, -k, -100.0F, -k).setUv(p, o);
+                        BufferUploader.drawWithShader(bufferBuilder2.buildOrThrow());
+                    }else if(moonType.equals("bloodMoon")){
+                        //尺寸大小
+                        k=160.0F;
+                        RenderSystem.setShaderTexture(0,BLOOD_MOON);
+
+                        //用来确定行和列
+                        int s = 0;
+                        int m = 0;
+                        //左右比例,取得左侧
+                        float t = (float)(s + 0) / 1.0F;
+
+                        //上下比例,取得上侧
+                        float o = (float)(m + 0) / 1.0F;
+
+                        //左右空间所占比例,取到右侧
+                        float p = (float)(s + 1) / 1.0F;
+
+                        //上下空间所占比例,取到下侧
+                        float q = (float)(m + 1) / 1.0F;
+
+
+                        bufferBuilder2 = tessellator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+
+                        bufferBuilder2.addVertex(matrix4f3, -k, -100.0F, k).setUv(p, q);
+
+                        bufferBuilder2.addVertex(matrix4f3, k, -100.0F, k).setUv(t, q);
+
+                        bufferBuilder2.addVertex(matrix4f3, k, -100.0F, -k).setUv(t, o);
+
+                        bufferBuilder2.addVertex(matrix4f3, -k, -100.0F, -k).setUv(p, o);
+                        BufferUploader.drawWithShader(bufferBuilder2.buildOrThrow());
+                    }else if(moonType.equals("blueMoon"))
+                    {
+                        //尺寸大小
+                        k=160.0F;
+                        RenderSystem.setShaderTexture(0,BLUE_MOON);
+
+
+                        //用来确定行和列
+                        int s = 0;
+                        int m = 0;
+                        //左右比例,取得左侧
+                        float t = (float)(s + 0) / 1.0F;
+
+                        //上下比例,取得上侧
+                        float o = (float)(m + 0) / 1.0F;
+
+                        //左右空间所占比例,取到右侧
+                        float p = (float)(s + 1) / 1.0F;
+
+                        //上下空间所占比例,取到下侧
+                        float q = (float)(m + 1) / 1.0F;
+
+
+                        bufferBuilder2 = tessellator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+                        bufferBuilder2.addVertex(matrix4f3, -k, -100.0F, k).setUv(p, q);
+                        bufferBuilder2.addVertex(matrix4f3, k, -100.0F, k).setUv(t, q);
+                        bufferBuilder2.addVertex(matrix4f3, k, -100.0F, -k).setUv(t, o);
+                        bufferBuilder2.addVertex(matrix4f3, -k, -100.0F, -k).setUv(p, o);
+                        BufferUploader.drawWithShader(bufferBuilder2.buildOrThrow());
+                    }
+                    else if(moonType.equals("harvestMoon")){
+                        //尺寸大小
+                        k=160.0F;
+                        RenderSystem.setShaderTexture(0,HARVEST_MOON);
+
+                        //用来确定行和列
+                        int s = 0;
+                        int m = 0;
+                        //左右比例,取得左侧
+                        float t = (float)(s + 0) / 1.0F;
+
+                        //上下比例,取得上侧
+                        float o = (float)(m + 0) / 1.0F;
+
+                        //左右空间所占比例,取到右侧
+                        float p = (float)(s + 1) / 1.0F;
+
+                        //上下空间所占比例,取到下侧
+                        float q = (float)(m + 1) / 1.0F;
+
+
+                        bufferBuilder2 = tessellator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+                        bufferBuilder2.addVertex(matrix4f3, -k, -100.0F, k).setUv(p, q);
+                        bufferBuilder2.addVertex(matrix4f3, k, -100.0F, k).setUv(t, q);
+                        bufferBuilder2.addVertex(matrix4f3, k, -100.0F, -k).setUv(t, o);
+                        bufferBuilder2.addVertex(matrix4f3, -k, -100.0F, -k).setUv(p, o);
+                        BufferUploader.drawWithShader(bufferBuilder2.buildOrThrow());
+                    } else if (moonType.equals("haloMoon")){
+
+                        //尺寸大小
+                        k=80.0F;
+                        RenderSystem.setShaderTexture(0,HALO_MOON);
+
+
+                        //用来确定行和列
+                        int s = 0;
+                        int m = 0;
+                        //左右比例,取得左侧
+                        float t = (float)(s + 0) / 1.0F;
+
+                        //上下比例,取得上侧
+                        float o = (float)(m + 0) / 1.0F;
+
+                        //左右空间所占比例,取到右侧
+                        float p = (float)(s + 1) / 1.0F;
+
+                        //上下空间所占比例,取到下侧
+                        float q = (float)(m + 1) / 1.0F;
+
+
+                        bufferBuilder2 = tessellator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+                        bufferBuilder2.addVertex(matrix4f3, -k, -100.0F, k).setUv(p, q);
+                        bufferBuilder2.addVertex(matrix4f3, k, -100.0F, k).setUv(t, q);
+                        bufferBuilder2.addVertex(matrix4f3, k, -100.0F, -k).setUv(t, o);
+                        bufferBuilder2.addVertex(matrix4f3, -k, -100.0F, -k).setUv(p, o);
+                        BufferUploader.drawWithShader(bufferBuilder2.buildOrThrow());
+                    }
+
+
+//                    int r =(int)(time / 24000L % 8L + 8L) % 8;
+
+//                    int r =(int)(time / 24000L) % 128;
+//                    //用来确定行和列
+//                    int s = r % 4;
+//                    int m = r / 4 % 32;
+//                    //左右比例,取得左侧
+//                    float t = (float)(s + 0) / 4.0F;
+//
+//                    //上下比例,取得上侧
+//                    float o = (float)(m + 0) / 32.0F;
+//
+//                    //左右空间所占比例,取到右侧
+//                    float p = (float)(s + 1) / 4.0F;
+//
+//                    //上下空间所占比例,取到下侧
+//                    float q = (float)(m + 1) / 32.0F;
+
+
+                    float u = this.level.getStarBrightness(tickDelta) * i;
+                    if (u > 0.0F) {
+                        RenderSystem.setShaderColor(u, u, u, u);
+                        FogRenderer.setupNoFog();
+                        this.starBuffer.bind();
+                        this.starBuffer.drawWithShader(matrixStack.last().pose(), projectionMatrix, GameRenderer.getPositionShader());
+                        VertexBuffer.unbind();
+                        fogCallback.run();
+                    }
+
+                    RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+                    RenderSystem.disableBlend();
+                    RenderSystem.defaultBlendFunc();
+                    matrixStack.popPose();
+                    RenderSystem.setShaderColor(0.0F, 0.0F, 0.0F, 1.0F);
+                    double d = this.minecraft.player.getEyePosition(tickDelta).y - this.level.getLevelData().getHorizonHeight(this.level);
+                    if (d < 0.0) {
+                        matrixStack.pushPose();
+                        matrixStack.translate(0.0F, 12.0F, 0.0F);
+                        this.darkBuffer.bind();
+                        this.darkBuffer.drawWithShader(matrixStack.last().pose(), projectionMatrix, shaderProgram);
+                        VertexBuffer.unbind();
+                        matrixStack.popPose();
+                    }
+
+                    RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+                    RenderSystem.depthMask(true);
+                }
+            }
+        }
+    }
+}
