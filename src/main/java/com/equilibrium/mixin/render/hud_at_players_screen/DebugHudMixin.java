@@ -7,7 +7,6 @@ import com.mojang.datafixers.DataFixUtils;
 import it.unimi.dsi.fastutil.longs.LongSet;
 import it.unimi.dsi.fastutil.longs.LongSets;
 import net.minecraft.SharedConstants;
-import net.minecraft.Util;
 import net.minecraft.client.ClientBrandRetriever;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -16,140 +15,51 @@ import net.minecraft.client.gui.components.DebugScreenOverlay;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.server.IntegratedServer;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
 import net.minecraft.network.Connection;
 import net.minecraft.server.ServerTickRateManager;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.TickRateManager;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraft.world.level.chunk.status.ChunkStatus;
-import net.minecraft.world.level.levelgen.Heightmap;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
 
 @Mixin(DebugScreenOverlay.class)
 
 public abstract class DebugHudMixin {
-    //没有加入mixin配置,若需要再加入
 
     @Shadow
     @Final
-    private Minecraft client;
-@Shadow
-    private boolean showDebugHud;
-@Shadow
-    private boolean renderingChartVisible;
-@Shadow
-    private boolean renderingAndTickChartsVisible;
-@Shadow
-    private boolean packetSizeAndPingChartsVisible;
-
-
-@Shadow
-@Final
-    private Font textRenderer;
-
-
-
-
-
-
-
-
+    private Minecraft minecraft;
 
 
     @Shadow
-    private ChunkPos pos;
+    @Final
+    private Font font;
+
     @Shadow
-    private CompletableFuture<LevelChunk> chunkFuture;
-    @Shadow
-    private LevelChunk chunk;
-
-
-
-    public void resetChunk() {
-        this.chunkFuture = null;
-        this.chunk = null;
-    }
-
-
-    private Level getWorld() {
+    private Level getLevel() {
         return DataFixUtils.orElse(
-                Optional.ofNullable(this.client.getSingleplayerServer()).flatMap(server -> Optional.ofNullable(server.getLevel(this.client.level.dimension()))), this.client.level
+                Optional.ofNullable(this.minecraft.getSingleplayerServer()).flatMap(server -> Optional.ofNullable(server.getLevel(this.minecraft.level.dimension()))), this.minecraft.level
         );
     }
 
-    private String getServerWorldDebugString() {
-        ServerLevel serverWorld = this.getServerWorld();
-        return serverWorld != null ? serverWorld.gatherChunkSourceStats() : null;
-    }
 
-    @Nullable
-    private ServerLevel getServerWorld() {
-        IntegratedServer integratedServer = this.client.getSingleplayerServer();
-        return integratedServer != null ? integratedServer.getLevel(this.client.level.dimension()) : null;
-    }
-
-    private LevelChunk getClientChunk() {
-        if (this.chunk == null) {
-            this.chunk = this.client.level.getChunk(this.pos.x, this.pos.z);
-        }
-
-        return this.chunk;
-    }
-
-    @Nullable
-    private LevelChunk getChunk() {
-        if (this.chunkFuture == null) {
-            ServerLevel serverWorld = this.getServerWorld();
-            if (serverWorld == null) {
-                return null;
-            }
-
-            this.chunkFuture = serverWorld.getChunkSource()
-                    .getChunkFuture(this.pos.x, this.pos.z, ChunkStatus.FULL, false)
-                    .thenApply(optionalChunk -> (LevelChunk)optionalChunk.orElse(null));
-        }
-
-        return (LevelChunk)this.chunkFuture.getNow(null);
-    }
-    @Shadow
-    private static final Map<Heightmap.Types, String> HEIGHT_MAP_TYPES = Util.make(new EnumMap(Heightmap.Types.class), types -> {
-        types.put(Heightmap.Types.WORLD_SURFACE_WG, "SW");
-        types.put(Heightmap.Types.WORLD_SURFACE, "S");
-        types.put(Heightmap.Types.OCEAN_FLOOR_WG, "OW");
-        types.put(Heightmap.Types.OCEAN_FLOOR, "O");
-        types.put(Heightmap.Types.MOTION_BLOCKING, "M");
-        types.put(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, "ML");
-    });
-
-
-    @Shadow
-    private static String getBiomeString(Holder<Biome> biome) {
-        return biome.unwrap().map(biomeKey -> biomeKey.location().toString(), biome_ -> "[unregistered " + biome_ + "]");
-    }
-
+    @Unique
     public List<String> getLeftText() {
 
-        IntegratedServer integratedServer = this.client.getSingleplayerServer();
-        ClientPacketListener clientPlayNetworkHandler = this.client.getConnection();
+        IntegratedServer integratedServer = this.minecraft.getSingleplayerServer();
+        ClientPacketListener clientPlayNetworkHandler = this.minecraft.getConnection();
         Connection clientConnection = clientPlayNetworkHandler.getConnection();
         float f = clientConnection.getAverageSentPackets();
         float g = clientConnection.getAverageReceivedPackets();
-        TickRateManager tickManager = this.getWorld().tickRateManager();
+        TickRateManager tickManager = this.getLevel().tickRateManager();
         String string;
         if (tickManager.isSteppingForward()) {
             string = " (frozen - stepping)";
@@ -173,30 +83,30 @@ public abstract class DebugHudMixin {
             string3 = String.format(Locale.ROOT, "\"%s\" server%s, %.0f tx, %.0f rx", clientPlayNetworkHandler.serverBrand(), string, f, g);
         }
 
-        BlockPos blockPos = this.client.getCameraEntity().blockPosition();
-        if (this.client.showOnlyReducedInfo()) {
+        BlockPos blockPos = this.minecraft.getCameraEntity().blockPosition();
+        if (this.minecraft.showOnlyReducedInfo()) {
             return Lists.<String>newArrayList(
-                    "Minecraft " + SharedConstants.getCurrentVersion().getName() + " (" + this.client.getLaunchedVersion() + "/" + ClientBrandRetriever.getClientModName() + ")",
-                    this.client.fpsString,
+                    "Minecraft " + SharedConstants.getCurrentVersion().getName() + " (" + this.minecraft.getLaunchedVersion() + "/" + ClientBrandRetriever.getClientModName() + ")",
+                    this.minecraft.fpsString,
                     string3,
-                    this.client.levelRenderer.getSectionStatistics(),
-                    this.client.levelRenderer.getEntityStatistics(),
-                    "P: " + this.client.particleEngine.countParticles() + ". T: " + this.client.level.getEntityCount(),
-                    this.client.level.gatherChunkSourceStats(),
+                    this.minecraft.levelRenderer.getSectionStatistics(),
+                    this.minecraft.levelRenderer.getEntityStatistics(),
+                    "P: " + this.minecraft.particleEngine.countParticles() + ". T: " + this.minecraft.level.getEntityCount(),
+                    this.minecraft.level.gatherChunkSourceStats(),
                     "",
                     String.format(Locale.ROOT, "Chunk-relative: %d %d %d", blockPos.getX() & 15, blockPos.getY() & 15, blockPos.getZ() & 15)
             );
         } else {
-            Level world = this.getWorld();
+            Level world = this.getLevel();
             LongSet longSet = (LongSet)(world instanceof ServerLevel ? ((ServerLevel)world).getForcedChunks() : LongSets.EMPTY_SET);
             List<String> list = Lists.<String>newArrayList(
                     "Minecraft " + SharedConstants.getCurrentVersion().getName() + " ("
-                            + this.client.getLaunchedVersion()
+                            + this.minecraft.getLaunchedVersion()
                             + "/"
                             + ClientBrandRetriever.getClientModName()
-                            + ("release".equalsIgnoreCase(this.client.getVersionType()) ? "" : "/" + this.client.getVersionType())
+                            + ("release".equalsIgnoreCase(this.minecraft.getVersionType()) ? "" : "/" + this.minecraft.getVersionType())
                             + ")",
-                    this.client.fpsString,
+                    this.minecraft.fpsString,
                     string3
 
             );
@@ -232,7 +142,7 @@ public abstract class DebugHudMixin {
         for (int j = 0; j < text.size(); j++) {
             String string = (String)text.get(j);
             if (!Strings.isNullOrEmpty(string)) {
-                int k = this.textRenderer.width(string);
+                int k = this.font.width(string);
                 int l = left ? 2 : context.guiWidth() - 2 - k;
                 int m = 2 + i * j;
                 context.fill(l - 1, m - 1, l + k + 1, m + i - 1, -1873784752);
@@ -242,10 +152,10 @@ public abstract class DebugHudMixin {
         for (int jx = 0; jx < text.size(); jx++) {
             String string = (String)text.get(jx);
             if (!Strings.isNullOrEmpty(string)) {
-                int k = this.textRenderer.width(string);
+                int k = this.font.width(string);
                 int l = left ? 2 : context.guiWidth() - 2 - k;
                 int m = 2 + i * jx;
-                context.drawString(this.textRenderer, string, l, m, 14737632, false);
+                context.drawString(this.font, string, l, m, 14737632, false);
             }
         }
     }
@@ -256,31 +166,26 @@ public abstract class DebugHudMixin {
 
 
 
-
-
-
-
-
-    @Inject(method = "drawLeftText",at = @At(value = "HEAD"),cancellable = true)
-    protected void drawLeftText(GuiGraphics context, CallbackInfo ci) {
-        ci.cancel();
-
+    @Inject(method = "collectGameInformationText",at = @At(value = "HEAD"), cancellable = true)
+    protected void collectGameInformationText(CallbackInfoReturnable<List<String>> cir) {
+        cir.cancel();
         List<String> list = this.getLeftText();
-        this.drawText(context, list, true);
+        cir.setReturnValue(list);
     }
 
 
+    @Unique
     private static long toMiB(long bytes) {
         return bytes / 1024L / 1024L;
     }
 
 
 
-@Shadow
-@Final
-private DebugScreenOverlay.AllocationRateCalculator allocationRateCalculator;
+    @Shadow
+    @Final
+    private DebugScreenOverlay.AllocationRateCalculator allocationRateCalculator;
 
-    @Inject(method = "getRightText",at = @At(value = "HEAD"),cancellable = true)
+    @Inject(method = "getSystemInformation",at = @At(value = "HEAD"),cancellable = true)
     protected void getRightText(CallbackInfoReturnable<List<String>> cir) {
         cir.cancel();
         long l = Runtime.getRuntime().maxMemory();

@@ -56,7 +56,7 @@ public abstract class ZombieEntityMixin extends Monster {
 //    public boolean canPickupItem(ItemStack stack) {
 //        return stack.isOf(Items.EGG) && this.isBaby() && this.hasVehicle() ? false : true;
 //    }
-    @Inject(method = "canPickupItem",at = @At(value = "HEAD"),cancellable = true)
+    @Inject(method = "canHoldItem",at = @At(value = "HEAD"),cancellable = true)
     public void canPickupItem(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(true);
     }
@@ -74,7 +74,7 @@ public abstract class ZombieEntityMixin extends Monster {
 //    }
 
 
-    @Inject(method = "initGoals", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ai/goal/LookAtEntityGoal;<init>(Lnet/minecraft/entity/mob/MobEntity;Ljava/lang/Class;F)V"))
+    @Inject(method = "registerGoals", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ai/goal/LookAtPlayerGoal;<init>(Lnet/minecraft/world/entity/Mob;Ljava/lang/Class;F)V"))
     protected void initGoals(CallbackInfo ci) {
         this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, AgeableMob.class, 8.0F,0.02f,true));
         this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 8.0F,0.02f,true));
@@ -87,7 +87,7 @@ public abstract class ZombieEntityMixin extends Monster {
 
 
 
-    @Inject(method = "initCustomGoals", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ai/goal/MoveThroughVillageGoal;<init>(Lnet/minecraft/entity/mob/PathAwareEntity;DZILjava/util/function/BooleanSupplier;)V", shift = At.Shift.AFTER), cancellable = true)
+    @Inject(method = "addBehaviourGoals", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ai/goal/MoveThroughVillageGoal;<init>(Lnet/minecraft/world/entity/PathfinderMob;DZILjava/util/function/BooleanSupplier;)V", shift = At.Shift.AFTER), cancellable = true)
     protected void initCustomGoalss(CallbackInfo ci) {
         ci.cancel();
 
@@ -205,7 +205,7 @@ public abstract class ZombieEntityMixin extends Monster {
         return inventory;
     }
 
-    @Inject(method = "initialize",at = @At(value = "TAIL"))
+    @Inject(method = "finalizeSpawn",at = @At(value = "TAIL"))
     public void initialize(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, SpawnGroupData entityData, CallbackInfoReturnable<SpawnGroupData> cir) {
         this.setCanPickUpLoot(true);
 

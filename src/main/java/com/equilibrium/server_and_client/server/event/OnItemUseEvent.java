@@ -1,6 +1,7 @@
 package com.equilibrium.server_and_client.server.event;
 
-import com.equilibrium.item.Metal;
+
+import com.equilibrium.item.material.MaterialItems;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -79,7 +80,7 @@ public class OnItemUseEvent {
         }
 
 
-        if (itemStack.getItem() == Metal.ancient_metal) {
+        if (itemStack.getItem() == MaterialItems.ANCIENT_METAL_INGOT.get().asItem()) {
             //对于远古金属,无条件加经验
             return onUseCrystalItem(itemStack, player, world, 250);
         }

@@ -25,38 +25,37 @@ public abstract class DeathScreenMixin extends Screen {
     protected DeathScreenMixin(Component title) {
         super(title);
     }
+
     @Shadow
-    private Component scoreText;
-    @Shadow
-    private int ticksSinceDeath;
+    private int delayTicker;
     @Shadow
     @Final
-    private static ResourceLocation DRAFT_REPORT_ICON_TEXTURE;
+    private static ResourceLocation DRAFT_REPORT_SPRITE;
 
     @Shadow
     @Final
-    private Component message;
+    private Component deathScore;
     @Shadow
     @Final
-    private boolean isHardcore;
+    private boolean hardcore;
 
     @Shadow
-    private Button titleScreenButton;
+    private Button exitToTitleButton;
     @Shadow
     @Final
-    private List<Button> buttons;
+    private List<Button> exitButtons;
 
 
 
     @Shadow
-    private Style getTextComponentUnderMouse(int mouseX) {
-        if (this.message == null) {
+    private Style getClickedComponentStyleAt(int mouseX) {
+        if (this.deathScore == null) {
             return null;
         } else {
-            int i = this.minecraft.font.width(this.message);
+            int i = this.minecraft.font.width(this.deathScore);
             int j = this.width / 2 - i / 2;
             int k = this.width / 2 + i / 2;
-            return mouseX >= j && mouseX <= k ? this.minecraft.font.getSplitter().componentStyleAtWidth(this.message, mouseX - j) : null;
+            return mouseX >= j && mouseX <= k ? this.minecraft.font.getSplitter().componentStyleAtWidth(this.deathScore, mouseX - j) : null;
         }
     }
 
@@ -66,10 +65,10 @@ public abstract class DeathScreenMixin extends Screen {
 
     @Unique
     public int getNextReviveTime(){
-        return Math.max((nextReviveTime-this.ticksSinceDeath)/20, 0);
+        return Math.max((nextReviveTime-this.delayTicker)/20, 0);
     }
     @Shadow
-    private void quitLevel() {
+    private void exitToTitleScreen() {
         if (this.minecraft.level != null) {
             this.minecraft.level.disconnect();
         }
@@ -78,10 +77,10 @@ public abstract class DeathScreenMixin extends Screen {
         this.minecraft.setScreen(new TitleScreen());
     }
 
-    @Inject(method = "onTitleScreenButtonClicked",at = @At("HEAD"),cancellable = true)
+    @Inject(method = "handleExitToTitleScreen",at = @At("HEAD"),cancellable = true)
     private void onTitleScreenButtonClicked(CallbackInfo ci) {
         ci.cancel();
-        this.quitLevel();
+        this.exitToTitleScreen();
     }
 
 
@@ -92,12 +91,12 @@ public abstract class DeathScreenMixin extends Screen {
     @Override
     public void tick() {
         super.tick();
-        this.ticksSinceDeath++;
+        this.delayTicker++;
         if (getNextReviveTime()==0) {
             this.setButtonsActive(true);
         }
         else
-            for (Button buttonWidget : this.buttons) {
+            for (Button buttonWidget : this.exitButtons) {
                 if(!buttonWidget.getMessage().contains(Component.translatable("deathScreen.respawn")))
                     buttonWidget.active=true;
             }
@@ -112,7 +111,7 @@ public abstract class DeathScreenMixin extends Screen {
 
     @Shadow
     private void setButtonsActive(boolean active) {
-        for (Button buttonWidget : this.buttons) {
+        for (Button buttonWidget : this.exitButtons) {
             buttonWidget.active = active;
         }
     }
@@ -128,24 +127,24 @@ public abstract class DeathScreenMixin extends Screen {
         context.pose().scale(2.0F, 2.0F, 2.0F);
         context.drawCenteredString(this.font, this.title, this.width / 2 / 2, 30, 16777215);
         context.pose().popPose();
-        if (this.message != null) {
-            context.drawCenteredString(this.font, this.message, this.width / 2, 85, 16777215);
+        if (this.deathScore != null) {
+            context.drawCenteredString(this.font, this.deathScore, this.width / 2, 85, 16777215);
         }
 
-        if(!isHardcore) {
+        if(!hardcore) {
             String nextReviveTime = Component.translatable("next_respawn").getString()+getNextReviveTime()+" s";
             String deathText = Component.translatable("mod_death_text").getString();
             context.drawCenteredString(this.font, nextReviveTime, this.width / 2, 100, 16777215);
             context.drawCenteredString(this.font, deathText, this.width / 2, 115, 16777215);
         }
-        if (this.message != null && mouseY > 85 && mouseY < 85 + 9) {
-            Style style = this.getTextComponentUnderMouse(mouseX);
+        if (this.deathScore != null && mouseY > 85 && mouseY < 85 + 9) {
+            Style style = this.getClickedComponentStyleAt(mouseX);
             context.renderComponentHoverEffect(this.font, style, mouseX, mouseY);
         }
 
-        if (this.titleScreenButton != null && this.minecraft.getReportingContext().hasDraftReport()) {
+        if (this.exitToTitleButton != null && this.minecraft.getReportingContext().hasDraftReport()) {
             context.blitSprite(
-                    DRAFT_REPORT_ICON_TEXTURE, this.titleScreenButton.getX() + this.titleScreenButton.getWidth() - 17, this.titleScreenButton.getY() + 3, 15, 15
+                    DRAFT_REPORT_SPRITE, this.exitToTitleButton.getX() + this.exitToTitleButton.getWidth() - 17, this.exitToTitleButton.getY() + 3, 15, 15
             );
         }
 
