@@ -1,6 +1,7 @@
 package com.equilibrium.server_and_client.server.event;
 
-import com.equilibrium.item.Metal;
+
+import com.equilibrium.item.material.MaterialItems;
 import com.equilibrium.tags.ModBlockTags;
 import com.equilibrium.util.BlockToItemConverter;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
@@ -112,7 +113,7 @@ public class BreakBlockEvent implements PlayerBlockBreakEvents.After {
             } else if (randomNumber2 <= 100) {
                 //1-100,共100个 10%
                 itemDrop = new ItemEntity(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
-                        new ItemStack(Metal.silver_nugget));
+                        new ItemStack(MaterialItems.SILVER_NUGGET.get()));
                 world.addFreshEntity(itemDrop);
 
             } else if (randomNumber2 <= 240) {
@@ -124,13 +125,13 @@ public class BreakBlockEvent implements PlayerBlockBreakEvents.After {
             } else if (randomNumber2 <= 400) {
                 //241-400,共160个 16%
                 itemDrop = new ItemEntity(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
-                        new ItemStack(Metal.copper_nugget));
+                        new ItemStack(MaterialItems.COPPER_NUGGET.get()));
                 world.addFreshEntity(itemDrop);
 
             } else {
                 //401-999,共599个 59.9%
                 itemDrop = new ItemEntity(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
-                        new ItemStack(Metal.FLINT));
+                        new ItemStack(MaterialItems.FLINT.get()));
                 world.addFreshEntity(itemDrop);
             }
         }

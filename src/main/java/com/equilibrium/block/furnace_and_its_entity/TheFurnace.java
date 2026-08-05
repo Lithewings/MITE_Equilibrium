@@ -142,7 +142,7 @@ public class TheFurnace extends BaseEntityBlock {
 
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type) {
-        return validateTicker(world, type, FurnaceEntityRegistry.THE_FURNACE);
+        return validateTicker(world, type, FurnaceEntityRegistry.THE_FURNACE.get());
     }
 
     private void openScreen(Level world, BlockPos blockPos, Player playerEntity) {

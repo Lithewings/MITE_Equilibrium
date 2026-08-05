@@ -1,6 +1,7 @@
 package com.equilibrium.item.vanilla_modify;
 
 import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -22,11 +23,27 @@ public class MaxStackSizeModifier implements DefaultItemComponentEvents.ModifyCa
                     builder.set(DataComponents.MAX_STACK_SIZE, maxStackSize);
             });
         };
-        context.modify(Items.FISHING_ROD, builder -> {
-            builder.set(DataComponents.MAX_DAMAGE, 16);
+        context.modify(Items.TORCH, builder -> {
+            builder.set(DataComponents.MAX_STACK_SIZE, 32);
         });
-        context.modify(Items.WOODEN_SHOVEL, builder -> {
-            builder.set(DataComponents.MAX_DAMAGE, 240);
+
+        context.modify(Items.TORCH, builder -> {
+            builder.set(DataComponents.MAX_STACK_SIZE, 32);
+        });
+        context.modify(Items.WHEAT_SEEDS, builder -> {
+            builder.set(DataComponents.MAX_STACK_SIZE, 64);
+        });
+        context.modify(Items.NETHER_WART, builder -> {
+            builder.set(DataComponents.MAX_STACK_SIZE, 32);
+        });
+        context.modify(Items.MELON_SEEDS, builder -> {
+            builder.set(DataComponents.MAX_STACK_SIZE, 64);
+        });
+        context.modify(Items.PUMPKIN_SEEDS, builder -> {
+            builder.set(DataComponents.MAX_STACK_SIZE, 64);
+        });
+        context.modify(Items.DANDELION, builder -> {
+            builder.set(DataComponents.MAX_STACK_SIZE, 32);
         });
     }
 }
