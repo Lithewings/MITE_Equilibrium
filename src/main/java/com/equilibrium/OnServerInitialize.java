@@ -1,11 +1,8 @@
 package com.equilibrium;
 
 import com.equilibrium.block.CraftingDifficultyHelper;
-import com.equilibrium.entity.ModEntities;
 import com.equilibrium.item.Items;
-import com.equilibrium.item.MaterialItems;
 import com.equilibrium.item.ModItemGroup;
-import com.equilibrium.item.extend_item.CoinItems;
 import com.equilibrium.network.*;
 import com.equilibrium.server_and_client.server.SoundEventRegistry;
 import com.equilibrium.server_and_client.server.persistent_state.StateSaverAndLoader;
@@ -13,36 +10,22 @@ import com.equilibrium.status.RegisterStatusEffect;
 import com.equilibrium.structure.StructureRegister;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
-import org.slf4j.Logger;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
-import net.neoforged.neoforge.event.server.ServerStartingEvent;
-import net.neoforged.neoforge.registries.DeferredBlock;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredItem;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
 import static com.equilibrium.GlobalModConfig.initConfig;
-import static com.equilibrium.block.CraftingDifficultyHelper.initCraftingDifficulties;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.initGameRules;
-
-import static com.equilibrium.item.Items.ITEMS;
-import static com.equilibrium.item.MaterialItems.deferredRegisterLoadMaterialItems;
-import static com.equilibrium.item.Tools.deferredRegisterLoadTools;
-import static com.equilibrium.item.extend_item.CoinItems.deferredRegisterLoadCoinItems;
 import static com.equilibrium.structure.ModPlacementGenerator.registerModOre;
-import static com.equilibrium.structure.StructureRegister.addFeatureToBiomes;
 import static com.equilibrium.tags.ModBlockTags.registerModBlockTags;
 import static com.equilibrium.tags.ModEntityTags.registerModEntityTags;
 import static com.equilibrium.tags.ModItemTags.registerModItemTags;
@@ -81,12 +64,6 @@ public class OnServerInitialize {
 
         //DeferredRegister风格下,所有要注册的物品,先触发类加载
         //方块等注册暂时使用@EventBusSubscriber + helper.register方法
-
-        deferredRegisterLoadTools();
-        deferredRegisterLoadMaterialItems();
-        deferredRegisterLoadCoinItems();
-
-
 
 
         //物品注册
