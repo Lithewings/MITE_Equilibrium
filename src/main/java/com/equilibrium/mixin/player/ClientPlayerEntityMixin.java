@@ -1,7 +1,6 @@
 package com.equilibrium.mixin.player;
 
 import com.mojang.authlib.GameProfile;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -26,7 +25,7 @@ import static net.minecraft.world.effect.MobEffects.MOVEMENT_SLOWDOWN;
 
 
 public abstract class ClientPlayerEntityMixin extends AbstractClientPlayer {
-    @Shadow @Final protected Minecraft client;
+    @Shadow @Final protected Minecraft minecraft;
 
     @Shadow public abstract boolean isTextFilteringEnabled();
 
@@ -91,18 +90,18 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayer {
 
     public void tick(CallbackInfo ci) {
 
-        if(this.client.screen!=null){
+        if(this.minecraft.screen!=null){
          //存在界面时,将鼠标灵敏度恢复到记录之前的值
             if(shouldRecoverSoon) {
                 //设置的值是缓慢之前的鼠标灵敏度
-                this.client.options.sensitivity().set(mouseSensitivityBefore);
+                this.minecraft.options.sensitivity().set(mouseSensitivityBefore);
             }
             return;
         }
         if (this.isDeadOrDying()) {
             if (shouldRecoverSoon) {
                 //设置的值是缓慢之前的鼠标灵敏度
-                this.client.options.sensitivity().set(mouseSensitivityBefore);
+                this.minecraft.options.sensitivity().set(mouseSensitivityBefore);
             }
             //死了之后还会有一些tick处于缓慢之中,此刻不应该再修改鼠标灵敏度了
             return;
@@ -113,20 +112,20 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayer {
 
             //可以保证,在降低鼠标灵敏度之前,鼠标灵敏度已经被存储中
             if(shouldTrigger) {
-                mouseSensitivityBefore = this.client.options.sensitivity().get();
+                mouseSensitivityBefore = this.minecraft.options.sensitivity().get();
                 shouldTrigger = false;
                 //当效果结束时恢复玩家灵敏度
                 shouldRecoverSoon =true;
             }
             //一旦覆盖了,就找不到原来的灵敏度值了
-            this.client.options.sensitivity().set(0d);
+            this.minecraft.options.sensitivity().set(0d);
             //带着缓慢死亡时,应该恢复到原来的灵敏度,死亡后这个函数就不会再被执行了
         } else {
             //如果一开始玩家就没有缓慢效果,那么这段逻辑跳过
             //这段逻辑是恢复,但注意死亡后tick函数不再执行
             if(shouldRecoverSoon) {
                 //设置的值是缓慢之前的鼠标灵敏度
-                this.client.options.sensitivity().set(mouseSensitivityBefore);
+                this.minecraft.options.sensitivity().set(mouseSensitivityBefore);
                 shouldTrigger = true;
                 shouldRecoverSoon =false;
             }
@@ -135,7 +134,7 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayer {
 
     }
 
-    @Inject(method = "canSprint",at = @At("HEAD"),cancellable = true)
+    @Inject(method = "hasEnoughFoodToStartSprinting",at = @At("HEAD"),cancellable = true)
     private void canSprint(CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(this.isPassenger() || (float)this.getFoodData().getFoodLevel() > 0.0F || this.getAbilities().mayfly);
 

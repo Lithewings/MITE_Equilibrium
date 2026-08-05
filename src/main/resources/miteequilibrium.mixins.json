@@ -83,6 +83,7 @@
     "crafttime.MixinCraftingScreen",
     "crafttime.MixinInventoryScreen",
     "crafttime.RecipeBookMixin",
+    "player.ClientPlayerEntityMixin",
     "render.hud_at_players_screen.DebugHudMixin",
     "render.hud_at_players_screen.InGameHudMixin",
     "render.moonlight_renderer.LightmapTextureManagerMixin",
