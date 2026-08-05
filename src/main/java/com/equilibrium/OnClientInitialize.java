@@ -43,6 +43,7 @@ import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 
 import static com.equilibrium.entity.ModEntities.*;
 import static com.equilibrium.entity.ModEntities.OBSIDIAN_ELEMENTAL;
+import static com.equilibrium.util.RenderBeaconBeam.RenderBeaconInit;
 
 // This class will not load on dedicated servers. Accessing client side code from here is safe.
 @Mod(value = OnServerInitialize.MOD_ID, dist = Dist.CLIENT)
@@ -150,8 +151,8 @@ public class OnClientInitialize {
                 ClientCommands.registerClientAllCommands(dispatcher);
             });
 
-
-
+            //信标柱渲染
+            RenderBeaconInit();
         });
     }
 }
