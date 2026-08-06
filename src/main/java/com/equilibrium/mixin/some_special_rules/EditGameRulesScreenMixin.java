@@ -34,7 +34,7 @@ public class EditGameRulesScreenMixin {
 
 //        //只有布尔型规则
         map.get(GameRules.Category.MISC).keySet().removeIf(key->
-            key!=GameRules.RULE_GLOBAL_SOUND_EVENTS && !(DifficultyEntryRegister.ALL_BASIC_ENTRY_KEYS.contains(key)||DifficultyEntryRegister.ALL_EXTRA_ENTRY_KEYS.contains(key))
+            !(DifficultyEntryRegister.ALL_BASIC_ENTRY_KEYS.contains(key)||DifficultyEntryRegister.ALL_EXTRA_ENTRY_KEYS.contains(key))
         );
 
 

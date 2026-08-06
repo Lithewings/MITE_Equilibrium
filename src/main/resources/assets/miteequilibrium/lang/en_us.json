@@ -385,25 +385,25 @@
   "mod.itemGroup.blocks_and_metallic_items": "Blocks and Metallic Items",
   "mod.itemGroup.farm": "Farm",
 
-  "gamerule.enableCraftingTimeAndLevel": "Enable Crafting Time And Level",
+  "gamerule.01enableCraftingTimeAndLevel": "Enable Crafting Time And Level",
 
-  "gamerule.enableSlowBreakingSpeed": "Enable Slow Breaking Speed",
-  "gamerule.enableCropIllness": "Enable Crop Illness Function",
-  "gamerule.enableAdvanceAnimalAI": "Enable Animal Advance AI",
-  "gamerule.enableRestrictVillageGen": "Enable Strict Village Generation Conditions",
-  "gamerule.enablePhytonutrient": "Enable Phytonutrient Function",
-  "gamerule.enableBloodMoonThunder": "Enable Weather Effect On BloodMoon",
-  "gamerule.disablePlayerTeleport": "Disable Teleport Commands Between Players",
+  "gamerule.02enableSlowBreakingSpeed": "Enable Slow Breaking Speed",
+  "gamerule.03enableCropIllness": "Enable Crop Illness Function",
+  "gamerule.04enableAdvanceAnimalAI": "Enable Animal Advance AI",
+  "gamerule.05enableRestrictVillageGen": "Enable Strict Village Generation Conditions",
+  "gamerule.06enablePhytonutrient": "Enable Phytonutrient Function",
+  "gamerule.07enableBloodMoonThunder": "Enable Weather Effect On BloodMoon",
+  "gamerule.08disablePlayerTeleport": "Disable Teleport Commands Between Players",
 
-  "gamerule.enableAnvilLevel": "Enable Anvil Level",
-  "gamerule.enableAdvancedEnchantingTable": "Enable Advanced Enchanting Table",
-  "gamerule.disableVillageAndPillage": "Desolation: Removes villages, their associated farmlands, and pillager outpost structures.",
-  "gamerule.enableMoreSlDamage": "Think Twice Before Action: SL actions cause significantly more health loss.",
-  "gamerule.enableNoAnimals": "Extinction: Cows, sheep, pigs, and chickens will no longer spawn.",
-  "gamerule.disableCropGrow": "Blight: Crops will no longer grow naturally.",
-  "gamerule.enableMoreRainWeather": "Rainy Season: Greatly increases the duration of rainy weather after a period of time.",
-  "gamerule.enableUniversalAggro": "Universal Aggro: Players will unconditionally provoke the aggression of Piglins and Endermen.",
-  "generator.miteequilibrium.classic_overworld":"Classic Overworld",
+
+  "gamerule.001disableVillageAndPillage": "Desolation: Removes villages, their associated farmlands, and pillager outpost structures.",
+  "gamerule.002enableMoreSlDamage": "Think Twice Before Action: SL actions cause significantly more health loss.",
+  "gamerule.003enableNoAnimals":  "Extinction: Cows, sheep, pigs, and chickens will no longer spawn.",
+  "gamerule.004enableMoreRainWeather": "Rainy Season: Greatly increases the duration of rainy weather after a period of time.",
+  "gamerule.005disableCropGrow": "Blight: Crops will no longer grow naturally.",
+  "gamerule.006enableUniversalAggro": "Universal Aggro: Players will unconditionally provoke the aggression of Piglins and Endermen.",
+  "gamerule.007enableAnvilLevel": "Enable Anvil Level",
+  "gamerule.008enableAdvancedEnchantingTable": "Enable Advanced Enchanting Table",
 
 
   "effect.miteequilibrium.insulin_resistance": "Diabetes"
