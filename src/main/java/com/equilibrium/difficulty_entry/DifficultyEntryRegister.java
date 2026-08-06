@@ -118,6 +118,7 @@ public class DifficultyEntryRegister {
             );
 
     // ---------- 名称 -> Key 映射 ----------
+    // 供客户端网络通信同步数据使用
     public static final Map<String, GameRules.Key<GameRules.BooleanValue>> GET_ALL_ENTRY_KEY = Map.ofEntries(
             Map.entry("enableCraftingTimeAndLevel", ENABLE_CRAFTING_TIME_AND_LEVEL),
             Map.entry("enableSlowBreakingSpeed", ENABLE_SLOW_BREAKING_SPEED),
