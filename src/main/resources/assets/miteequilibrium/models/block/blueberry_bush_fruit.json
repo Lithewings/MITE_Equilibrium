@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "miteequilibrium:block/blueberry_bush_fruit"
+  },
+  "render_type": "cutout"
+}

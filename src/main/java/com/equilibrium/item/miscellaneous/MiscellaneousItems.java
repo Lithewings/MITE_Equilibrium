@@ -26,4 +26,6 @@ public class MiscellaneousItems {
 
     public static final DeferredItem<Item> SINEW = ITEMS.register("sinew",
             () -> new Item(new Item.Properties().stacksTo(64)));
+
+
 }

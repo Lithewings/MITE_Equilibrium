@@ -1,0 +1,15 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": [
+    "minecraft:jungle",
+    "minecraft:sparse_jungle",
+    "minecraft:bamboo_jungle",
+    "minecraft:forest",
+    "minecraft:flower_forest",
+    "minecraft:dark_forest",
+    "minecraft:birch_forest",
+    "minecraft:old_growth_birch_forest"
+  ],
+  "features": "miteequilibrium:blueberry_bush_placed",
+  "step": "vegetal_decoration"
+}

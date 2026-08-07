@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "fruit=true": {
+      "model": "miteequilibrium:block/blueberry_bush_fruit"
+    },
+    "fruit=false": {
+      "model": "miteequilibrium:block/blueberry_bush"
+    }
+  }
+}
