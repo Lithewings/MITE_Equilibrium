@@ -3,7 +3,6 @@
     "icon": "miteequilibrium:adamantium_pickaxe",
     "category": "miteequilibrium:equipment",
     "sortnum": 2,
-    "secret": true,
     "pages": [
         {
             "type": "patchouli:text",
