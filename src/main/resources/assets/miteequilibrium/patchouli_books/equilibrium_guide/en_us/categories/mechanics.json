@@ -1,0 +1,6 @@
+{
+    "name": "Core Mechanics",
+    "description": "Dive deep into the core systems and mechanics of $(mod_name).",
+    "icon": "minecraft:crafting_table",
+    "sortnum": 1
+}

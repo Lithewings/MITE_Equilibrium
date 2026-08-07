@@ -1,0 +1,83 @@
+{
+    "name": "Creatures & Enemies",
+    "icon": "minecraft:zombie_head",
+    "category": "miteequilibrium:world",
+    "sortnum": 1,
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "New Hostile Mobs",
+            "text": "$(mod_name) introduces a greater variety of monsters to test your PVE skills."
+        },
+        {
+            "type": "patchouli:text",
+            "title": "New Hostile Mobs",
+            "text": "Know your enemies — each has unique abilities, drops, and weaknesses. For example, using $(item)Silver weapons$() against undead grants bonus damage and regeneration. Using $(item)Hammer weapons$() against skeletons deals 1.5x damage, and both bonuses can stack multiplicatively."
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "miteequilibrium:longdead{ArmorItems:[{id:\"miteequilibrium:ancient_metal_chainmail_boots\",count:1},{id:\"miteequilibrium:ancient_metal_chainmail_leggings\",count:1},{id:\"miteequilibrium:ancient_metal_chainmail_chest_plate\",count:1},{id:\"miteequilibrium:ancient_metal_chainmail_helmet\",count:1}]}",
+            "scale": 0.8,
+            "name": "Longdead (Ancient Skeleton)",
+            "text": "$(bold)Drop:$() $(item)Ancient Metal Chainmail Armor$() — the primary source of Ancient Metal.$(note)Spawns only in the Underworld."
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Longdead (Ancient Skeleton)",
+            "text": "Randomly spawns in two different types: ranged and melee.$(br2)The ranged type holds a bow and will try to keep its distance from the player.$(br2)The melee type holds an iron short sword and will actively approach the player."
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "miteequilibrium:bone_lord{ArmorItems:[{id:\"miteequilibrium:mithril_boots\",count:1},{id:\"miteequilibrium:mithril_leggings\",count:1},{id:\"miteequilibrium:mithril_chest_plate\",count:1},{id:\"miteequilibrium:mithril_helmet\",count:1}]}",
+            "scale": 0.8,
+            "name": "Bone Lord",
+            "text": "A more powerful skeleton variant. More dangerous than regular Longdead.$(note)Spawns only in the Underworld."
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Bone Lord",
+            "text": "When the player is far away, it will attack with a bow. Once the player approaches, it switches to a melee weapon.$(br2)When holding a Mithril Sword, it has an extremely long attack range and high damage. When holding a Mithril Hammer, it can stun the player, inflicting Slowness.$(br2)Upon detecting the player, it summons four enhanced Longdead to assist in combat."
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Zombie Variants",
+            "text": "$(li2)$(item)Wight$() — A white undead creature whose attacks drain the player's XP.$(li2)$(item)Ghoul$() — A standard ghoul enemy whose attacks inflict Slowness.$(li2)$(item)Shadow$() — A black ghoul that destroys nearby torches along its path.$(li2)$(item)Invisible Stalker$() — Nearly silent and invisible, inflicting Blindness on attack.$(li2)$(item)Revenant$() — A zombie variant with powerful attacks.$(br2)"
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "miteequilibrium:pudding",
+            "scale": 0.8,
+            "name": "Pudding (Black Slime)",
+            "text": "A highly corrosive creature that rapidly corrodes your iron armor and weapons.$(note)Spawns only in the Underworld."
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "miteequilibrium:wooden_spider",
+            "scale": 0.5,
+            "name": "Wood Spider",
+            "text": "Spawns rarely near trees. Its attacks inflict Poison."
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Elementals",
+            "text": "Four elemental golems guard their respective domains, requiring pickaxes and war hammers to deal damage.$(br)$(li2)$(item)Cobblestone Elemental$() — Found in cobblestone-rich areas$(li2)$(item)End Stone Elemental$() — Guards the End$(li2)$(item)Netherrack Elemental$() — Roams the Nether wastes$(li2)$(item)Obsidian Elemental$() — The toughest elemental, requires at least an Iron Pickaxe or War Hammer to attack"
+        },
+        {
+            "type": "patchouli:text",
+            "entity": "minecraft:enderman",
+            "scale": 0.8,
+            "title": "Enderman",
+            "text": "$(bold)Caution$(): Besides not looking into its eyes, do not approach it while holding an Ender Pearl.$(br2)If you die too many times, Endermen will become permanently hostile, making the End extremely dangerous.$(br)$(note)When the Universal Aggro gamerule is enabled, Endermen will also be permanently hostile."
+        },
+        {
+            "type": "patchouli:relations",
+            "entries": [
+                "miteequilibrium:equipment/weapons",
+                "miteequilibrium:equipment/armor",
+                "miteequilibrium:world/biomes"
+            ],
+            "title": "Prepare for Battle",
+            "text": "Learn about weapons and armor to face these threats."
+        }
+    ]
+}

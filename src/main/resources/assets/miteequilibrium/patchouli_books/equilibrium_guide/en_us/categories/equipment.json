@@ -1,0 +1,6 @@
+{
+    "name": "Equipment & Items",
+    "description": "A comprehensive guide to all weapons, armor, tools, and artifacts in $(mod_name).",
+    "icon": "miteequilibrium:adamantium_pickaxe",
+    "sortnum": 3
+}

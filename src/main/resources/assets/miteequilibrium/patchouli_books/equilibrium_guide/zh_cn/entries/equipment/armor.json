@@ -1,0 +1,68 @@
+{
+    "name": "护甲套装",
+    "icon": "miteequilibrium:mithril_chest_plate",
+    "category": "miteequilibrium:equipment",
+    "sortnum": 1,
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "护甲递进",
+            "text": "$(thing)护甲设定$()，当你至少拥有10点护甲值时，可获得永久性的抗性提升 I 效果。"
+        },
+        {
+            "type": "patchouli:spotlight",
+            "item": "miteequilibrium:copper_helmet",
+            "title": "铜套装奖励",
+            "link_recipe": false,
+            "text": "第一个金属盔甲。$(br2)$(bold)要求：$() 制作所有的铜质盔甲。$(br2)$(bold)奖励：$() 100 经验值。"
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "miteequilibrium:copper_helmet",
+            "recipe2": "miteequilibrium:copper_chest_plate",
+            "text": "铜头盔与胸甲。"
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "miteequilibrium:copper_leggings",
+            "recipe2": "miteequilibrium:copper_boots",
+            "text": "铜护腿与靴子。全套 → 抗性 I。"
+        },
+        {
+            "type": "patchouli:spotlight",
+            "item": "miteequilibrium:mithril_chest_plate",
+            "title": "秘银套装奖励",
+            "link_recipe": false,
+            "text": "秘银胸甲让你的自然生命回复速率翻倍。$(important)全套装备均需要在钻石工作台(或更高等级)上制作。$()"
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "miteequilibrium:mithril_helmet",
+            "recipe2": "miteequilibrium:mithril_chest_plate",
+            "text": "秘银头盔与胸甲。"
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "miteequilibrium:mithril_leggings",
+            "recipe2": "miteequilibrium:mithril_boots",
+            "text": "秘银护腿与靴子。全套 → 近乎无敌。"
+        },
+        {
+            "type": "patchouli:spotlight",
+            "item": "miteequilibrium:ancient_metal_chainmail_chest_plate",
+            "title": "远古金属锁链护甲",
+            "link_recipe": false,
+            "text": "由 $(item)古尸$() 掉落 —— $(thing)不可合成$()。$(br2)逆向合成为 $(item)远古金属粒$()，用它来获取锭以合成钻石工作台。"
+        },
+        {
+            "type": "patchouli:relations",
+            "entries": [
+                "miteequilibrium:equipment/weapons",
+                "miteequilibrium:equipment/artifacts",
+                "miteequilibrium:world/structures"
+            ],
+            "title": "继续学习",
+            "text": "了解武器、特殊物品和生物。"
+        }
+    ]
+}
