@@ -3,7 +3,6 @@
     "icon": "miteequilibrium:flint_hatchet",
     "category": "miteequilibrium:getting_started",
     "sortnum": 0,
-    "advancement": "miteequilibrium:adventure/get_flint",
     "pages": [
         {
             "type": "patchouli:text",

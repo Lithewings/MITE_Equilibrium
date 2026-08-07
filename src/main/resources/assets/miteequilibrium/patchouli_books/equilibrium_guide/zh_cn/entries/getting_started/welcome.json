@@ -4,7 +4,6 @@
     "category": "miteequilibrium:getting_started",
     "priority": true,
     "sortnum": -1,
-    "advancement": "miteequilibrium:adventure/root",
     "pages": [
         {
             "type": "patchouli:text",

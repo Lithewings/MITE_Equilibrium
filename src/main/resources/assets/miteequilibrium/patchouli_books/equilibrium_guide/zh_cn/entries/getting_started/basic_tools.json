@@ -3,7 +3,6 @@
     "icon": "miteequilibrium:copper_pickaxe",
     "category": "miteequilibrium:getting_started",
     "sortnum": 1,
-    "advancement": "miteequilibrium:adventure/get_metal_pickaxe",
     "pages": [
         {
             "type": "patchouli:text",
