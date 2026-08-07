@@ -10,6 +10,7 @@ import com.equilibrium.block.furnace.FurnaceEntityRegistry;
 import com.equilibrium.block.material.MaterialBlocks;
 import com.equilibrium.block.miscellaneous.MiscellaneousBlocks;
 import com.equilibrium.block.ore.OreBlocks;
+import com.equilibrium.block.reference.BlocksHardnessList;
 import com.equilibrium.entity.goal.BreakBlockGoal;
 import com.equilibrium.item.armor.ArmorItems;
 import com.equilibrium.item.coin.CoinItems;
@@ -84,6 +85,7 @@ import java.util.concurrent.TimeUnit;
 import static com.equilibrium.GlobalModConfig.initConfig;
 import static com.equilibrium.GlobalModConfig.isSleepChunksAlwaysLoading;
 import static com.equilibrium.block.CraftingDifficultyHelper.initCraftingDifficulties;
+import static com.equilibrium.block.reference.BlocksHardnessList.initVanillaBlocksHardnessHashMap;
 import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.isAnyExtraEntryExisting;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.initGameRules;
 
@@ -396,6 +398,8 @@ public class OnServerInitialize {
         event.enqueueWork(ModItemTags::registerModItemTags);
         event.enqueueWork(GlobalModConfig::initConfig);
         event.enqueueWork(OnServerInitialize::initXpMap);
+        event.enqueueWork(BlocksHardnessList::initVanillaBlocksHardnessHashMap);
+        event.enqueueWork(BlocksHardnessList::initModBlocksHardnessHashMap);
 
         //原版物品修改
         DefaultItemComponentEvents.MODIFY.register(new MaxStackSizeModifier());

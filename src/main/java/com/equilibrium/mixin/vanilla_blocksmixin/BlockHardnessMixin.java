@@ -20,7 +20,7 @@ public class BlockHardnessMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;instabreak()Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;")
     )
     private static BlockBehaviour.Properties shortGrassHardness(BlockBehaviour.Properties settings) {
-        return settings.strength(0.1F);
+        return settings.strength(0.01F);
     }
     @Redirect(
             method = "<clinit>",
@@ -31,7 +31,7 @@ public class BlockHardnessMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;instabreak()Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;")
     )
     private static BlockBehaviour.Properties tallGrassHardness(BlockBehaviour.Properties settings) {
-        return settings.strength(0.1F);
+        return settings.strength(0.01F);
     }
     @Redirect(
             method = "<clinit>",
@@ -42,7 +42,7 @@ public class BlockHardnessMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;instabreak()Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;")
     )
     private static BlockBehaviour.Properties sugarCaneHardness(BlockBehaviour.Properties settings) {
-        return settings.strength(0.1F);
+        return settings.strength(0.01F);
     }
 
     // ========== 以下方法保持不变，NeoForge 未修改这些调用 ==========

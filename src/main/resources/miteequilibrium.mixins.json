@@ -72,6 +72,7 @@
     "vanilla_itemsmixin.BucketItemMixin",
     "vanilla_itemsmixin.EnderPearlEntityMixin",
     "vanilla_itemsmixin.FluidBlockMixin",
+    "vanilla_itemsmixin.WoodenMaterialsModify",
     "vanilla_itemsmixin.tool.ArmorMaterialsMixin",
     "vanilla_itemsmixin.tool.ShearsItemMixin",
     "vanilla_itemsmixin.tool.ShovelItemMixin",
