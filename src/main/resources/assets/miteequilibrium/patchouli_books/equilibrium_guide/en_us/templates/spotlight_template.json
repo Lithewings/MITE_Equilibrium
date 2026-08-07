@@ -1,0 +1,20 @@
+{
+    "components": [
+        {
+            "type": "header",
+            "text": "#title"
+        },
+        {
+            "type": "item",
+            "item": "#item",
+            "x": 10,
+            "y": 10
+        },
+        {
+            "type": "text",
+            "text": "#text",
+            "x": 30,
+            "y": 10
+        }
+    ]
+}

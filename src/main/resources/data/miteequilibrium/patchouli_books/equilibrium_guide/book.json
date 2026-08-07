@@ -1,0 +1,28 @@
+{
+    "name": "book.miteequilibrium.equilibrium_guide.name",
+    "landing_text": "book.miteequilibrium.equilibrium_guide.landing_text",
+    "subtitle": "book.miteequilibrium.equilibrium_guide.subtitle",
+    "version": 20260807,
+    "creative_tab": "minecraft:tools_and_utilities",
+    "use_resource_pack": true,
+    "i18n": true,
+    "show_progress": true,
+    "show_toasts": true,
+    "book_texture": "patchouli:textures/gui/book_purple.png",
+    "model": "patchouli:book_purple",
+    "text_color": "1A1A2E",
+    "header_color": "4A0E4E",
+    "nameplate_color": "E6B800",
+    "link_color": "7B2D8E",
+    "link_hover_color": "B44CC6",
+    "progress_bar_color": "9B59B6",
+    "progress_bar_background": "DDDDDD",
+    "text_overflow_mode": "overflow",
+    "macros": {
+        "$(thing)": "$(#7B2D8E)",
+        "$(item)": "$(#E6B800)",
+        "$(important)": "$(#C0392B)$(bold)",
+        "$(note)": "$(#7F8C8D)$(italic)",
+        "$(mod_name)": "$(item)MITE宁静$()"
+    }
+}

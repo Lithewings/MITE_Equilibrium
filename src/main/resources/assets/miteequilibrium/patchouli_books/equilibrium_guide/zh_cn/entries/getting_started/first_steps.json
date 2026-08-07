@@ -1,0 +1,48 @@
+{
+    "name": "第一步：燧石时代",
+    "icon": "miteequilibrium:flint_hatchet",
+    "category": "miteequilibrium:getting_started",
+    "sortnum": 0,
+    "advancement": "miteequilibrium:adventure/get_flint",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "燧石时代",
+            "text": "你的旅程始于 $(thing)燧石时代$()。没有金属工具可用，你必须依靠锋利的燧石来生存。$(br2)挖掘沙砾方块来获得 $(item)燧石碎片$() —— 至少需要 4 片才能开始。$(br2)$(note)你偶尔可能从一块沙砾中直接获得整块燧石。$()"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "第一批工具",
+            "text": "你的第一把工具是 $(item)燧石手斧$() —— 它可以让你砍伐树木收集木材。$(br2)接下来，制作一把 $(item)燧石小刀$() 用于基础战斗，也是合成第一个工作台的必需品。$(br2)最后，将燧石小刀与任意原木组合，制作 $(item)燧石工作台$()。"
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "miteequilibrium:flint_hatchet",
+            "text": "$(item)燧石手斧$() —— 你的第一把工具。"
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "miteequilibrium:flint_knife",
+            "text": "$(item)燧石小刀$() —— 制作工作台的必需品。"
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "miteequilibrium:flint_craft_table",
+            "text": "$(item)燧石工作台$() —— 通向一切的大门。"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "下一个目标：铜",
+            "text": "有了燧石工作台后，你的下一个目标是 $(item)铜$()。$(br2)收集 $(thing)27 个铜粒$()来制作 $(item)铜镐$() —— 这将 $(important)解锁村庄生成$()。$(br2)或许有其他的方法可以大幅跳过这个节点?(一个隐藏成就)"
+        },
+        {
+            "type": "patchouli:relations",
+            "entries": [
+                "miteequilibrium:getting_started/basic_tools",
+                "miteequilibrium:mechanics/core_system"
+            ],
+            "title": "下一步",
+            "text": "获得铜工具后，了解等级系统。"
+        }
+    ]
+}

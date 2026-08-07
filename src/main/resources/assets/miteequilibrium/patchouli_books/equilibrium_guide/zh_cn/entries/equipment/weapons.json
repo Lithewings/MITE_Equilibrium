@@ -1,0 +1,75 @@
+{
+    "name": "武器",
+    "icon": "miteequilibrium:adamantium_sword",
+    "category": "miteequilibrium:equipment",
+    "sortnum": 0,
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "武器类型",
+            "text": "$(mod_name) 提供三种武器类型，在多个金属等级中可用：$(li2)$(item)剑$() — 更远的攻击距离。$(li2)$(item)匕首(短剑)$() — 更高攻速。$(thing)对被动生物 1.5 倍伤害$()。$(li2)$(item)锤子$() — 重型。$(thing)对骷髅 1.5 倍伤害$()。$(br2)等级：铜 / 银 /金 → 铁 → 秘银 → 艾德曼。"
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "miteequilibrium:copper_dagger",
+            "recipe2": "miteequilibrium:copper_sword"
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "miteequilibrium:copper_hammer"
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "miteequilibrium:silver_sword",
+            "recipe2": "miteequilibrium:silver_dagger"
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "miteequilibrium:silver_hammer"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "银 — 亡灵杀手",
+            "text": "$(item)银制武器$() 对所有亡灵 $(thing)1.25 / 1.5 倍伤害$()，击杀获得 $(thing)5 秒生命恢复 II$()。$(br2)对付僵尸、骷髅和地下世界亡灵效果极佳。"
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "miteequilibrium:iron_sword",
+            "recipe2": "miteequilibrium:iron_dagger"
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "miteequilibrium:iron_hammer",
+            "text": "坚实的中期武器 & 工具，具有良好的耐久。"
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "miteequilibrium:mithril_sword",
+            "recipe2": "miteequilibrium:mithril_dagger"
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "miteequilibrium:mithril_hammer",
+            "text": "秘银级 —— 伤害和耐久大幅提升，在钻石工作台上制作。"
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "miteequilibrium:admantium_sword",
+            "recipe2": "miteequilibrium:adamantium_dagger"
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "miteequilibrium:adamantium_hammer",
+            "text": "艾德曼合金 —— 极高的耐久度，在下界合金工作台上制作。"
+        },
+        {
+            "type": "patchouli:relations",
+            "entries": [
+                "miteequilibrium:equipment/armor",
+                "miteequilibrium:equipment/artifacts"
+            ],
+            "title": "防御与特殊物品",
+            "text": "探索护甲套装和稀有特殊物品。"
+        }
+    ]
+}

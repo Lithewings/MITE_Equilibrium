@@ -1,0 +1,46 @@
+{
+    "name": "Tools & Workbenches",
+    "icon": "miteequilibrium:copper_pickaxe",
+    "category": "miteequilibrium:getting_started",
+    "sortnum": 1,
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "The Tier System",
+            "text": "$(mod_name) employs a strict $(thing)tier progression system$(). Higher-tier items $(important)can only be$() crafted on workbenches of equal or higher tier.$(br2)Full progression chain:$(br)$(li2)$(item)Flint$() → Copper / Silver → Iron$(br)$(li2)Diamond → Netherite → Auto Crafting Table"
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "miteequilibrium:copper_pickaxe",
+            "recipe2": "miteequilibrium:copper_axe",
+            "text": "$(item)Copper Pickaxe$() — unlocks villages (+100 XP)."
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "miteequilibrium:copper_sword",
+            "recipe2": "miteequilibrium:copper_dagger",
+            "text": "Sword for combat; Dagger: $(thing)1.5x vs passive mobs$()."
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "miteequilibrium:copper_shovel",
+            "recipe2": "miteequilibrium:copper_hoe",
+            "text": "Shovel for digging; Hoe for farming."
+        },
+        {
+            "type": "patchouli:spotlight",
+            "item": "miteequilibrium:copper_hammer",
+            "title": "Copper Hammer",
+            "text": "A unique weapon — the $(thing)Hammer$().$(br2)$(bold)Effect:$() Deals $(thing)1.5x damage$() to skeletons. Available at every metal tier."
+        },
+        {
+            "type": "patchouli:relations",
+            "entries": [
+                "miteequilibrium:mechanics/core_system",
+                "miteequilibrium:equipment/weapons"
+            ],
+            "title": "Continue Reading",
+            "text": "Learn about weapons, armor, and the workbench tier system."
+        }
+    ]
+}

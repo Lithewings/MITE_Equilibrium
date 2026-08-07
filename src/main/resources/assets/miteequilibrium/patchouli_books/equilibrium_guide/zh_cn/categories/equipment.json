@@ -1,0 +1,6 @@
+{
+    "name": "装备与物品",
+    "description": "$(mod_name) 中所有武器、护甲、工具和神器的完整指南。",
+    "icon": "miteequilibrium:adamantium_pickaxe",
+    "sortnum": 3
+}

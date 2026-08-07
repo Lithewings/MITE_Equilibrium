@@ -1,0 +1,83 @@
+{
+    "name": "生物与敌人",
+    "icon": "minecraft:zombie_head",
+    "category": "miteequilibrium:world",
+    "sortnum": 1,
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "新增敌对生物",
+            "text": "$(mod_name) 引入了更多种类的怪物来考验玩家的PVE能力。"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "新增敌对生物",
+            "text": "了解你的对手——每个都有独特的能力、掉落物和弱点。比如对付亡灵时使用 $(item)银制武器$() 可获得额外伤害和生命恢复。$(br2)对付骷髅时使用 $(item)战锤武器$()可造成1.5倍的伤害，两者增益效果还可以乘算。"
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "miteequilibrium:longdead{ArmorItems:[{id:\"miteequilibrium:ancient_metal_chainmail_boots\",count:1},{id:\"miteequilibrium:ancient_metal_chainmail_leggings\",count:1},{id:\"miteequilibrium:ancient_metal_chainmail_chest_plate\",count:1},{id:\"miteequilibrium:ancient_metal_chainmail_helmet\",count:1}]}",
+            "scale": 0.8,
+            "name": "古尸（远古骷髅）",
+            "text": "$(bold)掉落：$() $(item)远古金属锁链护甲$() —— 远古金属的主要来源。$(note)仅生成在地下世界。"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "古尸（远古骷髅）",
+            "text": "会随机生成两种不同形态的类型，分为远程型和近战型。$(br2)远程型古尸持有弓，会尝试远离玩家。$(br2)近战型古尸持有铁制短剑，会主动接近玩家"
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "miteequilibrium:bone_lord{ArmorItems:[{id:\"miteequilibrium:mithril_boots\",count:1},{id:\"miteequilibrium:mithril_leggings\",count:1},{id:\"miteequilibrium:mithril_chest_plate\",count:1},{id:\"miteequilibrium:mithril_helmet\",count:1}]}",
+            "scale": 0.8,
+            "name": "远古骷髅领主",
+            "text": "一种更强大的骷髅变种。比普通的古尸更加危险。$(note)仅生成在地下世界。"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "远古骷髅领主",
+            "text": "距离玩家较远时会使用弓箭攻击玩家，一旦玩家靠近就会切换近战武器。$(br2)手持秘银剑时，拥有极远的攻击距离，伤害极高。手持秘银锤时，会击晕玩家，造成缓慢效果。$(br2)发现玩家时会召唤四个带有强化效果的古尸协助作战。"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "一系列僵尸变种",
+            "text": "$(li2)$(item)白色食尸鬼$() — 一种白色亡灵生物，攻击会汲取玩家经验值。$(li2)$(item)食尸鬼$() — 标准食尸鬼敌人，攻击会造成缓慢效果。$(li2)$(item)黑影$() — 黑色食尸鬼，会沿途破坏掉附近的火把。$(li2)$(item)隐形潜伏者$() — 几乎无声且隐形，攻击时造成失明效果。$(li2)$(item)亡魂$() — 拥有强力攻击的僵尸变种。$(br2)"
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "miteequilibrium:pudding",
+            "scale": 0.8,
+            "name": "布丁（黑色史莱姆）",
+            "text": "具有强腐蚀性的生物，会快速腐蚀你的铁质盔甲和武器。$(note)仅生成在地下世界。"
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "miteequilibrium:wooden_spider",
+            "scale": 0.5,
+            "name": "木蜘蛛",
+            "text": "在树木附近稀有生成，攻击时会造成中毒效果。"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "元素生物",
+            "text": "四种元素傀儡守卫各自的地盘，需要使用镐和战锤来对其造成伤害。$(br)$(li2)$(item)石元素$() — 出没于圆石丰富的区域$(li2)$(item)末地岩元素$() — 守卫着末地$(li2)$(item)下界岩元素$() — 漫游于下界荒地$(li2)$(item)黑曜石元素$() — 最坚硬的元素生物,至少需要铁制镐或战锤来攻击"
+        },
+        {
+            "type": "patchouli:text",
+            "entity": "minecraft:enderman",
+            "scale": 0.8,
+            "title": "末影人",
+            "text": "$(bold)注意$():除了不要盯着他的眼睛看之外，也不要在持有末影珍珠的前提下靠近他。$(br2)如果你的死亡次数过多，末影人也会永久敌对，这会导致末地成为极其危险的存在。$(br)$(note)开启了众矢之的难度词条时，末影人也会永久敌对。"
+        },
+        {
+            "type": "patchouli:relations",
+            "entries": [
+                "miteequilibrium:equipment/weapons",
+                "miteequilibrium:equipment/armor",
+                "miteequilibrium:world/biomes"
+            ],
+            "title": "准备战斗",
+            "text": "了解武器和护甲以应对这些威胁。"
+        }
+    ]
+}

@@ -17,9 +17,9 @@ import net.minecraft.util.Identifier;
 
 public class WoodenSpiderRenderer extends SpiderEntityRenderer {
 
-
     public WoodenSpiderRenderer(EntityRendererFactory.Context context) {
-        super(context);
+        super(context, EntityModelLayers.CAVE_SPIDER);
+        this.shadowRadius *= 0.7F;
     }
     private static final Identifier TEXTURE = Identifier.of(OnServerInitialize.MOD_ID,"textures/entity/wooden_spider.png");
 
