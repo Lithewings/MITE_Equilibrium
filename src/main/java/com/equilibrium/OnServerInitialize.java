@@ -85,6 +85,7 @@ import java.util.concurrent.TimeUnit;
 import static com.equilibrium.GlobalModConfig.initConfig;
 import static com.equilibrium.GlobalModConfig.isSleepChunksAlwaysLoading;
 import static com.equilibrium.block.CraftingDifficultyHelper.initCraftingDifficulties;
+import static com.equilibrium.block.reference.BlocksHardnessList.initModBlocksHardnessHashMap;
 import static com.equilibrium.block.reference.BlocksHardnessList.initVanillaBlocksHardnessHashMap;
 import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.isAnyExtraEntryExisting;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.initGameRules;
@@ -138,6 +139,7 @@ public class OnServerInitialize {
         //初始化游戏规则
         initGameRules();
 
+
         //S->C,发包
         S2CStockChangeGrassColorPacket.registerOnServer();
         S2CIllnessTextureBooleanPacket.registerOnServer();
@@ -185,8 +187,12 @@ public class OnServerInitialize {
         // 注册矿物(Fabric)
         registerModOre();
 
-        //注册结构
+        //加载事件监听
         NeoForge.EVENT_BUS.addListener(this::onServerAboutToStart);
+        modEventBus.addListener(this::onCommonSetup);
+
+
+        //注册结构
         StructureRegister.FEATURES.register(modEventBus);
 
         //效果注册
@@ -406,8 +412,6 @@ public class OnServerInitialize {
         DefaultItemComponentEvents.MODIFY.register(new MaxDamageModifier());
         //食物修改
         event.enqueueWork(FoodComponentModifier::foodComponentModify);
-
-
 
     }
 
