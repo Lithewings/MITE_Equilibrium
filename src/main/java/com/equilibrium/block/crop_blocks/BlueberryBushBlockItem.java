@@ -18,15 +18,14 @@ public class BlueberryBushBlockItem extends BlockItem {
     @Override
     public InteractionResult place(BlockPlaceContext context) {
         Level level = context.getLevel();
-        BlockPos placePos = context.getClickedPos(); // 将要放置方块的位置
+        BlockPos placePos = context.getClickedPos();
         if (!isValidPosition(level, placePos)) {
-            return InteractionResult.FAIL; // 无法放置，不消耗物品
+            return InteractionResult.FAIL;
         }
         return super.place(context);
     }
 
     private boolean isValidPosition(Level level, BlockPos pos) {
-        // 检查下方方块
         BlockPos below = pos.below();
         BlockState belowState = level.getBlockState(below);
         boolean isSoil = belowState.getBlock() == Blocks.GRASS_BLOCK ||
@@ -35,7 +34,6 @@ public class BlueberryBushBlockItem extends BlockItem {
                 belowState.getBlock() == Blocks.ROOTED_DIRT;
         if (!isSoil) return false;
 
-        // 检查生物群系
         var biomeHolder = level.getBiome(pos);
         return biomeHolder.is(BiomeTags.IS_JUNGLE) || biomeHolder.is(BiomeTags.IS_FOREST);
     }

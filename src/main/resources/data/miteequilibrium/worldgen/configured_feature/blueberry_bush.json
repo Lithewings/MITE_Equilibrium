@@ -1,19 +1,14 @@
 {
-  "type": "minecraft:random_patch",
-  "config": {
-    "feature": {
-      "type": "minecraft:simple_block",
-      "config": {
+    "type": "minecraft:simple_block",
+    "config": {
         "to_place": {
-          "type": "minecraft:simple_state_provider",
-          "state": {
-            "Name": "miteequilibrium:blueberry_bush"
-          }
+            "type": "minecraft:simple_state_provider",
+            "state": {
+                "Name": "miteequilibrium:blueberry_bush",
+                "Properties": {
+                    "fruit": "true"
+                }
+            }
         }
-      }
-    },
-    "tries": 64,
-    "xz_spread": 6,
-    "y_spread": 2
-  }
+    }
 }
