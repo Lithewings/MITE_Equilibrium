@@ -180,6 +180,8 @@ public class ModItemGroup {
             FabricItemGroup.builder().displayName(Text.translatable("mod.itemGroup.farm"))
                     .icon(()->new ItemStack(FoodOrFarmItems.SALAD)).entries((displayContext, entries) ->
                             {
+                                entries.add(FoodOrFarmItems.BLUE_BERRY_BUSH);
+                                entries.add(FoodOrFarmItems.BLUE_BERRY);
                                 entries.add(FoodOrFarmItems.CHOCOLATE);
                                 entries.add(FoodOrFarmItems.PUMPKIN_SOUP);
                                 entries.add(FoodOrFarmItems.WATER_BOWL);

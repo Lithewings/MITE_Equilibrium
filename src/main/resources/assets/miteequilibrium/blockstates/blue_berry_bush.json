@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "age=0": {
+      "model": "miteequilibrium:block/blue_berry_bush"
+    },
+    "age=1": {
+      "model": "miteequilibrium:block/blue_berry_bush_with_fruit"
+    }
+  }
+}

@@ -1091,6 +1091,7 @@ public class BlocksHardnessList {
     }
 
     public static void initModBlocksHardnessHashMap(){
+        BLOCKS_HARDNESS_HASHMAP.put("BLUE_BERRY_BUSH", 0);
         BLOCKS_HARDNESS_HASHMAP.put("ONION", 0);
         BLOCKS_HARDNESS_HASHMAP.put("EMERALD_ENCHANTING_TABLE", 0);
         BLOCKS_HARDNESS_HASHMAP.put("ADAMANTIUM_ORE", 960);

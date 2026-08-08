@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "miteequilibrium:block/blue_berry_bush_with_fruit"
+  }
+}

@@ -6,6 +6,7 @@ import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
+import org.apache.logging.log4j.core.pattern.AbstractStyleNameConverter;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +25,12 @@ public class FoodOrFarmItems {
     public static final Item BEEF_SOUP= new BeefSoup(new Item.Settings().food(BeefSoup.BEEF_SOUP).maxCount(16));
     public static final Item VEGETABLE_SOUP = new BeefSoup(new Item.Settings().food(VegetableSoup.VEGETABLE_SOUP).maxCount(16));
     public static final Item ONION = new AliasedBlockItem(ModBlocksRegistry.ONION_BLOCK,new Item.Settings().food(new FoodComponent(1,1f,false,1.6F,Optional.empty(), List.of())).maxCount(32));
+
+
+    public static final Item BLUE_BERRY_BUSH= new AliasedBlockItem(ModBlocksRegistry.BLUE_BERRY_BUSH,new Item.Settings().maxCount(32));
+    public static final Item BLUE_BERRY= new BlueBerry(new Item.Settings().food(BlueBerry.BLUE_BERRY).maxCount(32));
+
+
     public static final Item MANURE = new ManureItem(new Item.Settings().maxCount(16));
     public static final Item CHOCOLATE = new Chocolate(new Item.Settings().food(Chocolate.CHOCOLATE).maxCount(16));
 
@@ -35,6 +42,11 @@ public class FoodOrFarmItems {
         Registry.register(Registries.ITEM, Identifier.of(MOD_ID,"beef_soup"), BEEF_SOUP);
         Registry.register(Registries.ITEM, Identifier.of(MOD_ID,"vegetable_soup"), VEGETABLE_SOUP);
         Registry.register(Registries.ITEM, Identifier.of(MOD_ID,"onion"), ONION);
+
+        Registry.register(Registries.ITEM, Identifier.of(MOD_ID,"blue_berry_bush"), BLUE_BERRY_BUSH);
+        Registry.register(Registries.ITEM, Identifier.of(MOD_ID,"blue_berry"), BLUE_BERRY);
+
+
         Registry.register(Registries.ITEM, Identifier.of(MOD_ID,"cheese"), CHEESE);
         Registry.register(Registries.ITEM, Identifier.of(MOD_ID,"mashed_potato"), MASHED_POTATO);
         Registry.register(Registries.ITEM, Identifier.of(MOD_ID,"manure"), MANURE);

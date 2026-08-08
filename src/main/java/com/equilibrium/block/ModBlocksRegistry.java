@@ -5,6 +5,7 @@ import com.equilibrium.block.anvil_block.adamantium_anvil_block.AdamantiumAnvilB
 import com.equilibrium.block.anvil_block.iron_anvil_block.IronAnvilBlock;
 
 import com.equilibrium.block.anvil_block.mithril_anvil_block.MithrilAnvilBlock;
+import com.equilibrium.block.crop_blocks.BlueBerryBushBlock;
 import com.equilibrium.block.crop_blocks.OnionBlock;
 import com.equilibrium.block.enchanting_table.diamond.DiamondEnchantingTableBlock;
 import com.equilibrium.block.enchanting_table.emerald.EmeraldEnchantingTableBlock;
@@ -35,6 +36,15 @@ public class ModBlocksRegistry {
                             .breakInstantly()
                             .sounds(BlockSoundGroup.CROP)
                             .pistonBehavior(PistonBehavior.DESTROY)
+    );
+
+    public static final Block BLUE_BERRY_BUSH = new BlueBerryBushBlock(
+            AbstractBlock.Settings.create()
+                    .mapColor(MapColor.DARK_GREEN)
+                    .ticksRandomly()
+                    .noCollision()
+                    .sounds(BlockSoundGroup.SWEET_BERRY_BUSH)
+                    .pistonBehavior(PistonBehavior.DESTROY)
     );
 
     public static final Block IRON_ANVIL =
@@ -125,6 +135,8 @@ public class ModBlocksRegistry {
 
 
         Registry.register(Registries.BLOCK, Identifier.of(MOD_ID, "onion"),ONION_BLOCK);
+        Registry.register(Registries.BLOCK, Identifier.of(MOD_ID, "blue_berry_bush"),BLUE_BERRY_BUSH);
+
 
         Registry.register(Registries.BLOCK, Identifier.of(MOD_ID, "mundane_gravel"), MUNDANE_GRAVEL);
         Registry.register(Registries.ITEM, Identifier.of(MOD_ID, "mundane_gravel"), new BlockItem(MUNDANE_GRAVEL, new Item.Settings().maxCount(16)));

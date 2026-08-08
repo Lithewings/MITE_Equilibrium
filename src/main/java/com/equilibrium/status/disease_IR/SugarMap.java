@@ -1,5 +1,6 @@
 package com.equilibrium.status.disease_IR;
 
+import com.equilibrium.item.food.FoodOrFarmItems;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 
@@ -15,6 +16,7 @@ public class SugarMap {
             Items.ENCHANTED_GOLDEN_APPLE,1600,
             Items.SWEET_BERRIES,1600,
             Items.GLOW_BERRIES,1600,
-            Items.MELON_SLICE,800
+            Items.MELON_SLICE,800,
+            FoodOrFarmItems.BLUE_BERRY.asItem(),1600
     );
 }

@@ -52,6 +52,8 @@ public class OnClientInitialize implements ClientModInitializer {
 
 
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), ModBlocksRegistry.ONION_BLOCK);
+        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), ModBlocksRegistry.BLUE_BERRY_BUSH);
+
         RenderBeaconInit();
 
 
