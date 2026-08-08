@@ -1,6 +1,6 @@
 {
   "type": "neoforge:add_features",
-  "biomes": ["#minecraft:is_jungle", "#minecraft:is_forest"],
+  "biomes": ["#minecraft:is_forest", "#minecraft:is_jungle"],
   "features": "miteequilibrium:blueberry_bush",
   "step": "vegetal_decoration"
 }

@@ -1,3 +1,6 @@
 {
-  "parent": "miteequilibrium:block/blueberry_bush"
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "miteequilibrium:block/blueberry_bush"
+  }
 }
