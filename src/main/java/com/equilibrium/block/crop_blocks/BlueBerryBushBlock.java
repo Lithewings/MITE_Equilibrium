@@ -1,5 +1,6 @@
 package com.equilibrium.block.crop_blocks;
 
+import com.equilibrium.block.miscellaneous.MiscellaneousBlocks;
 import com.equilibrium.item.food.FoodItems;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
@@ -81,7 +82,7 @@ public class BlueBerryBushBlock extends BushBlock implements BonemealableBlock {
     protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
         if (entity instanceof LivingEntity && entity.getType() != EntityType.FOX && entity.getType() != EntityType.BEE) {
             entity.makeStuckInBlock(state, new Vec3(0.8F, 0.75, 0.8F));
-            if (!level.isClientSide && state.getValue(AGE) > 0 && (entity.xOld != entity.getX() || entity.zOld != entity.getZ())) {
+            if (!level.isClientSide && state.getValue(AGE) >= 0 && (entity.xOld != entity.getX() || entity.zOld != entity.getZ())) {
                 double d0 = Math.abs(entity.getX() - entity.xOld);
                 double d1 = Math.abs(entity.getZ() - entity.zOld);
                 if (d0 >= 0.003F || d1 >= 0.003F) {
@@ -97,7 +98,7 @@ public class BlueBerryBushBlock extends BushBlock implements BonemealableBlock {
             ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult
     ) {
         if(stack.is(Items.SHEARS)){
-            popResource(level, pos, new ItemStack(FoodItems.BLUEBERRY.get(), 1));
+            popResource(level, pos, new ItemStack(MiscellaneousBlocks.BLUEBERRY_BUSH.get(), 1));
             if(state.getValue(AGE)==1)
                 popResource(level, pos, new ItemStack(FoodItems.BLUEBERRY.get(), 1));
             stack.hurtAndBreak(30,player, EquipmentSlot.MAINHAND);
@@ -122,7 +123,7 @@ public class BlueBerryBushBlock extends BushBlock implements BonemealableBlock {
             level.playSound(
                     null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + level.random.nextFloat() * 0.4F
             );
-            BlockState blockstate = state.setValue(AGE, Integer.valueOf(1));
+            BlockState blockstate = state.setValue(AGE, 0);
             level.setBlock(pos, blockstate, 2);
             level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, blockstate));
             return InteractionResult.sidedSuccess(level.isClientSide);
