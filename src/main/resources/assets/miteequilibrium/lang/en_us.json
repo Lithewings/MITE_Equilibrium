@@ -1,4 +1,5 @@
 {
+
   "item.miteequilibrium.blue_berry": "Blue Berry",
   "item.miteequilibrium.blue_berry_bush": "Blue Berry Bush",
 
@@ -128,7 +129,7 @@
 
 
   "death.attack.fatal_poison": "%1$s died from poison",
-
+  "death.attack.hurt_by_blue_berry": "%1$s was poked to death by a blue berry bush",
 
   "select.world.wrong.version": "You cannot load a world from an incompatible mod version",
 

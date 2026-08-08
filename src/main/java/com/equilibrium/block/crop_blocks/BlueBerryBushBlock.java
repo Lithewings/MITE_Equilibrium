@@ -1,5 +1,6 @@
 package com.equilibrium.block.crop_blocks;
 
+import com.equilibrium.DamageSourceRegister;
 import com.equilibrium.item.food.FoodOrFarmItems;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
@@ -7,9 +8,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.BiomeTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -78,11 +83,16 @@ public class BlueBerryBushBlock extends PlantBlock implements Fertilizable {
     protected void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         if (entity instanceof LivingEntity && entity.getType() != EntityType.FOX && entity.getType() != EntityType.BEE) {
             entity.slowMovement(state, new Vec3d(0.8F, 0.75, 0.8F));
-            if (!world.isClient && (Integer)state.get(AGE) > 0 && (entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ())) {
+            if (!world.isClient && (entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ())) {
                 double d = Math.abs(entity.getX() - entity.lastRenderX);
                 double e = Math.abs(entity.getZ() - entity.lastRenderZ);
                 if (d >= 0.003F || e >= 0.003F) {
-                    entity.damage(world.getDamageSources().sweetBerryBush(), 1.0F);
+
+                    RegistryEntry<DamageType> hurtByBlueBerry = entity.getWorld().getRegistryManager()
+                            .get(RegistryKeys.DAMAGE_TYPE)
+                            .getEntry(DamageSourceRegister.HURT_BY_BLUE_BERRY)
+                            .orElseThrow(() -> new IllegalStateException("DamageType not registered"));
+                    entity.damage(new DamageSource(hurtByBlueBerry), 1.0F);
                 }
             }
         }
