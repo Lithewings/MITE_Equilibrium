@@ -10,7 +10,10 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -21,26 +24,33 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class BlueberryBushBlock extends Block {
-    public static final BooleanProperty FRUIT = BooleanProperty.create("fruit");
+import java.util.Random;
+
+import static net.minecraft.world.item.Items.BONE_MEAL;
+
+public class BlueberryBushBlock extends CropBlock {
+    public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 1);
     private static final VoxelShape SHAPE = Block.box(2.0, 0.0, 2.0, 14.0, 12.0, 14.0);
 
     public BlueberryBushBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.defaultBlockState().setValue(FRUIT, false));
+        this.registerDefaultState(this.defaultBlockState().setValue(AGE, 0));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FRUIT);
+        builder.add(AGE);
     }
 
     @Override
@@ -59,9 +69,23 @@ public class BlueberryBushBlock extends Block {
 
     @Override
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-        if (!state.getValue(FRUIT) && level.getRawBrightness(pos, 0) >= 9) {
-            if (random.nextFloat() < 0.1f) {
-                level.setBlock(pos, state.setValue(FRUIT, true), 3);
+        if (state.getValue(AGE) == 0 && level.getRawBrightness(pos, 0) >= 9) {
+            if (random.nextFloat() < 1f/16) {
+                level.setBlock(pos, state.setValue(AGE, 1), 3);
+            }
+        }
+    }
+    @Override
+    public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+        if (entity instanceof LivingEntity && entity.getType() != EntityType.FOX && entity.getType() != EntityType.BEE) {
+            entity.makeStuckInBlock(state, new Vec3(0.8F, 0.75, 0.8F));
+            if (!level.isClientSide() && state.getValue(AGE) > 0
+                    && (entity.xOld != entity.getX() || entity.zOld != entity.getZ())) {
+                double d = Math.abs(entity.getX() - entity.xOld);
+                double e = Math.abs(entity.getZ() - entity.zOld);
+                if (d >= 0.003F || e >= 0.003F) {
+                    entity.hurt(level.damageSources().sweetBerryBush(), 1.0F);
+                }
             }
         }
     }
@@ -79,10 +103,18 @@ public class BlueberryBushBlock extends Block {
             return ItemInteractionResult.sidedSuccess(level.isClientSide);
         }
 
-        if (state.getValue(FRUIT)) {
+        if (state.getValue(AGE)==0 && heldStack.getItem() == BONE_MEAL) {
+            heldStack.consume(1, player);
+            if (level.random.nextFloat() < 0.125f) {
+                level.setBlock(pos, state.setValue(AGE, 1), 3);
+            }
+            return ItemInteractionResult.sidedSuccess(level.isClientSide);
+        }
+
+        if (state.getValue(AGE) == 1) {
             if (!level.isClientSide) {
                 Block.popResource(level, pos, new ItemStack(FoodItems.BLUEBERRY.get()));
-                level.setBlock(pos, state.setValue(FRUIT, false), 3);
+                level.setBlock(pos, state.setValue(AGE, 1), 3);
             }
             return ItemInteractionResult.sidedSuccess(level.isClientSide);
         }
@@ -92,10 +124,10 @@ public class BlueberryBushBlock extends Block {
     @Override
     public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos,
                                             Player player, BlockHitResult hit) {
-        if (state.getValue(FRUIT)) {
+        if (state.getValue(AGE) == 1) {
             if (!level.isClientSide) {
                 Block.popResource(level, pos, new ItemStack(FoodItems.BLUEBERRY.get()));
-                level.setBlock(pos, state.setValue(FRUIT, false), 3);
+                level.setBlock(pos, state.setValue(AGE, 1), 3);
             }
             return InteractionResult.sidedSuccess(level.isClientSide);
         }
