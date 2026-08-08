@@ -1,6 +1,8 @@
 package com.equilibrium.status.disease_IR;
 
 import java.util.Map;
+
+import com.equilibrium.item.food.FoodItems;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 
@@ -14,6 +16,7 @@ public class SugarMap {
             Items.ENCHANTED_GOLDEN_APPLE,1600,
             Items.SWEET_BERRIES,1600,
             Items.GLOW_BERRIES,1600,
-            Items.MELON_SLICE,800
+            Items.MELON_SLICE,800,
+            FoodItems.BLUEBERRY.get().asItem(),1600
     );
 }
