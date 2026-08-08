@@ -1,9 +1,9 @@
 {
   "variants": {
-    "fruit=true": {
+    "age=1": {
       "model": "miteequilibrium:block/blueberry_bush_fruit"
     },
-    "fruit=false": {
+    "age=0": {
       "model": "miteequilibrium:block/blueberry_bush"
     }
   }

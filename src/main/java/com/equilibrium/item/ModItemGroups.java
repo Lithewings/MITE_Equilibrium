@@ -178,6 +178,8 @@ public class ModItemGroups {
                     .title(Component.translatable("mod.itemGroup.farm"))
                     .icon(() -> new ItemStack(FoodItems.SALAD.get()))
                     .displayItems((params, output) -> {
+                        output.accept(FoodItems.BLUEBERRY.get());
+                        output.accept(MiscellaneousBlocks.BLUEBERRY_BUSH.get());
                         output.accept(FoodItems.CHOCOLATE.get());
                         output.accept(FoodItems.PUMPKIN_SOUP.get());
                         output.accept(FoodItems.WATER_BOWL.get());

@@ -1,6 +1,6 @@
 package com.equilibrium.block.miscellaneous;
 
-import com.equilibrium.block.crop_blocks.BlueberryBushBlock;
+import com.equilibrium.block.crop_blocks.BlueBerryBushBlock;
 import com.equilibrium.block.crop_blocks.OnionBlock;
 import net.minecraft.util.ColorRGBA;
 import net.minecraft.world.item.BlockItem;
@@ -8,6 +8,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ColoredFallingBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.SweetBerryBushBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
@@ -27,14 +28,14 @@ public class MiscellaneousBlocks {
                     .mapColor(MapColor.PLANT).noCollission().randomTicks()
                     .instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
 
-    public static final DeferredBlock<BlueberryBushBlock> BLUEBERRY_BUSH = BLOCKS.register("blueberry_bush",
-            () -> new BlueberryBushBlock(BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.PLANT)
-                    .sound(SoundType.SWEET_BERRY_BUSH)
-                    .strength(0.2f)
-                    .noOcclusion()
-                    .isViewBlocking((s, l, p) -> false)
-                    .isSuffocating((s, l, p) -> false)
+    public static final DeferredBlock<BlueBerryBushBlock> BLUEBERRY_BUSH = BLOCKS.register("blueberry_bush",
+            () -> new BlueBerryBushBlock(
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.PLANT)
+                            .randomTicks()
+                            .noCollission()
+                            .sound(SoundType.SWEET_BERRY_BUSH)
+                            .pushReaction(PushReaction.DESTROY)
             ));
 
     public static final DeferredItem<BlockItem> BLUEBERRY_BUSH_ITEM = ITEMS.register("blueberry_bush",

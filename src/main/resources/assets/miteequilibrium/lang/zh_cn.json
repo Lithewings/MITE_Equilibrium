@@ -82,7 +82,9 @@
   "item.miteequilibrium.onion": "洋葱",
   "item.miteequilibrium.manure": "肥料",
   "item.miteequilibrium.blueberry": "蓝莓",
-  "item.miteequilibrium.blueberry_bush": "蓝莓丛",
+
+  "block.miteequilibrium.blueberry_bush": "蓝莓丛",
+
   "item.miteequilibrium.bowl_water": "水碗",
   "item.miteequilibrium.bowl_milk": "牛奶碗",
   "block.miteequilibrium.emerald_enchanting_table": "绿宝石附魔台",

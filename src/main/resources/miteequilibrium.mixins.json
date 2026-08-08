@@ -3,6 +3,7 @@
   "package": "com.equilibrium.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "LandPathNodeMakerMixin",
     "advancement.AdvancementManagerMixin",
     "advancement.PlayerAdvancementTrackerMixin",
     "crafttime.CraftingScreenHandlerMixin",
