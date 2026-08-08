@@ -45,7 +45,6 @@ public class BlueBerryBushBlock extends PlantBlock implements Fertilizable {
     private static final VoxelShape LARGE_SHAPE = Block.createCuboidShape(1.0, 0.0, 1.0, 15.0, 16.0, 15.0);
 
 
-
     @Override
     public MapCodec<SweetBerryBushBlock> getCodec() {
         return CODEC;

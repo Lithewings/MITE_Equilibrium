@@ -135,6 +135,8 @@ public abstract class DeathScreenMixin extends Screen {
             context.drawCenteredTextWithShadow(this.textRenderer, nextReviveTime, this.width / 2, 100, 16777215);
             context.drawCenteredTextWithShadow(this.textRenderer, deathText, this.width / 2, 115, 16777215);
         }
+        else
+            context.drawCenteredTextWithShadow(this.textRenderer, this.scoreText, this.width / 2, 100, 16777215);
         if (this.message != null && mouseY > 85 && mouseY < 85 + 9) {
             Style style = this.getTextComponentUnderMouse(mouseX);
             context.drawHoverEvent(this.textRenderer, style, mouseX, mouseY);
