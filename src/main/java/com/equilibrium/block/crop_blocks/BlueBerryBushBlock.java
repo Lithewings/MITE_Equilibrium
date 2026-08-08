@@ -117,10 +117,8 @@ public class BlueBerryBushBlock extends BushBlock implements BonemealableBlock {
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         int i = state.getValue(AGE);
-        boolean flag = i == 3;
-        if (i > 1) {
-            int j = 1 + level.random.nextInt(2);
-            popResource(level, pos, new ItemStack(FoodItems.BLUEBERRY.get(), j + (flag ? 1 : 0)));
+        if (i > 0) {
+            popResource(level, pos, new ItemStack(FoodItems.BLUEBERRY.get(), 1));
             level.playSound(
                     null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + level.random.nextFloat() * 0.4F
             );
