@@ -1,5 +1,6 @@
 package com.equilibrium.mixin.crop;
 
+import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -24,8 +25,8 @@ import net.minecraft.world.level.block.Blocks;
 public class BoneMealItemMixin {
 
 
-    @Inject(method = "growCrop", at = @At("HEAD"), cancellable = true)
-    private static void useOnFertilizable1(ItemStack stack, Level world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
+    @Inject(method = "applyBonemeal", at = @At("HEAD"), cancellable = true)
+    private static void useOnFertilizable1(ItemStack stack, Level world, BlockPos pos, Player player, CallbackInfoReturnable<Boolean> cir) {
         if (world.getBlockState(pos).hasProperty(CROP_IS_ILLNESS) && world.getBlockState(pos).getValue(CROP_IS_ILLNESS) && world instanceof ServerLevel serverWorld) {
             world.setBlockAndUpdate(pos, world.getBlockState(pos).setValue(CROP_IS_ILLNESS, false));
             CROP_BLOCK_POS.put(pos,false);

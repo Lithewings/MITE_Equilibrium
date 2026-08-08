@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class OnionBlock extends CropBlock{
+public class OnionBlock extends CropBlock {
     public static final MapCodec<OnionBlock> CODEC = simpleCodec(OnionBlock::new);
     private static final VoxelShape[] AGE_TO_SHAPE = new VoxelShape[]{
             Block.box(0.0, 0.0, 0.0, 16.0, 2.0, 16.0),

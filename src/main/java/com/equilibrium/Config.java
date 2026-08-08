@@ -36,6 +36,8 @@ public class Config {
 
     static final ModConfigSpec SPEC = BUILDER.build();
 
+    public static final boolean IS_DEBUG = true;
+
     private static boolean validateItemName(final Object obj) {
         return obj instanceof String itemName && BuiltInRegistries.ITEM.containsKey(ResourceLocation.parse(itemName));
     }

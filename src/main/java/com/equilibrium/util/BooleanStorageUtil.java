@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import com.equilibrium.Config;
 
 public final class BooleanStorageUtil {
 
@@ -154,6 +155,10 @@ public final class BooleanStorageUtil {
      */
     // 解密加载方法
     public static boolean loadFinishGameOnce(String filePath) {
+        if (Config.IS_DEBUG) {
+            return true;
+        }
+
         Path path = Path.of(filePath);
         if (!Files.exists(path)) {
             return false;
