@@ -121,7 +121,7 @@
   "mod.options.difficulty.normal.info": "敌对生物会生成并造成标准伤害。饥饿条耗尽时会消耗生命值。",
   "mod.selectWorld.mapFeatures.info": "这是完成主要流程的必需选项",
   "mod.selectWorld.bonusItems": "用于生成触发初始成就的物品",
-  "death.attack.fatal_poison": "%1$s 毒发身亡",
+  "death.attack.fatal_poison.player": "%1$s 毒发身亡",
   "select.world.wrong.version": "你无法打开不可兼容版本的存档",
   "adventure.get_flint.description": "挖掘沙砾，获得燧石碎片，或是一整块燧石。",
   "adventure.brew_potion": "酿造出一瓶药水。\n现在所有药水的持续时间效果翻倍。",

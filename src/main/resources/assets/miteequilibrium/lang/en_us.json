@@ -5,7 +5,6 @@
 
 
 
-
   "book.miteequilibrium.equilibrium_guide.name": "Guide & Additional Supplementary Content",
   "book.miteequilibrium.equilibrium_guide.landing_text": "Content condensed from nearly 50,000 characters of update logs, designed to help players get started quickly.",
   "adventure.brew_potion.title": "Witch's Technology",
@@ -145,7 +144,7 @@
   "mod.selectWorld.bonusItems": "Generates structures which contain items to trigger initial advancements",
 
 
-  "death.attack.fatal_poison": "%1$s died from poison",
+  "death.attack.fatal_poison.player": "%1$s died from poison",
 
 
   "select.world.wrong.version": "You cannot load a world from an incompatible mod version",
