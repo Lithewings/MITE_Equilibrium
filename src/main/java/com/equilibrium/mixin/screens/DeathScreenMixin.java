@@ -32,8 +32,10 @@ public abstract class DeathScreenMixin extends Screen {
     @Final
     private static ResourceLocation DRAFT_REPORT_SPRITE;
 
-    @Shadow
     @Final
+    @Shadow
+    private Component causeOfDeath;
+    @Shadow
     private Component deathScore;
     @Shadow
     @Final
@@ -49,13 +51,13 @@ public abstract class DeathScreenMixin extends Screen {
 
     @Shadow
     private Style getClickedComponentStyleAt(int mouseX) {
-        if (this.deathScore == null) {
+        if (this.causeOfDeath == null) {
             return null;
         } else {
-            int i = this.minecraft.font.width(this.deathScore);
+            int i = this.minecraft.font.width(this.causeOfDeath);
             int j = this.width / 2 - i / 2;
             int k = this.width / 2 + i / 2;
-            return mouseX >= j && mouseX <= k ? this.minecraft.font.getSplitter().componentStyleAtWidth(this.deathScore, mouseX - j) : null;
+            return mouseX >= j && mouseX <= k ? this.minecraft.font.getSplitter().componentStyleAtWidth(this.causeOfDeath, mouseX - j) : null;
         }
     }
 
@@ -127,8 +129,8 @@ public abstract class DeathScreenMixin extends Screen {
         context.pose().scale(2.0F, 2.0F, 2.0F);
         context.drawCenteredString(this.font, this.title, this.width / 2 / 2, 30, 16777215);
         context.pose().popPose();
-        if (this.deathScore != null) {
-            context.drawCenteredString(this.font, this.deathScore, this.width / 2, 85, 16777215);
+        if (this.causeOfDeath != null) {
+            context.drawCenteredString(this.font, this.causeOfDeath, this.width / 2, 85, 16777215);
         }
 
         if(!hardcore) {
@@ -136,8 +138,9 @@ public abstract class DeathScreenMixin extends Screen {
             String deathText = Component.translatable("mod_death_text").getString();
             context.drawCenteredString(this.font, nextReviveTime, this.width / 2, 100, 16777215);
             context.drawCenteredString(this.font, deathText, this.width / 2, 115, 16777215);
-        }
-        if (this.deathScore != null && mouseY > 85 && mouseY < 85 + 9) {
+        }else
+            context.drawCenteredString(this.font, this.deathScore, this.width / 2, 100, 16777215);
+        if (this.causeOfDeath != null && mouseY > 85 && mouseY < 85 + 9) {
             Style style = this.getClickedComponentStyleAt(mouseX);
             context.renderComponentHoverEffect(this.font, style, mouseX, mouseY);
         }
