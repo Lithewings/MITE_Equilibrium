@@ -1,4 +1,11 @@
 {
+
+
+  "death.attack.hurt_by_blue_berry": "%1$s was poked to death by a blue berry bush",
+
+
+
+
   "book.miteequilibrium.equilibrium_guide.name": "Guide & Additional Supplementary Content",
   "book.miteequilibrium.equilibrium_guide.landing_text": "Content condensed from nearly 50,000 characters of update logs, designed to help players get started quickly.",
   "adventure.brew_potion.title": "Witch's Technology",

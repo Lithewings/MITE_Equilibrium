@@ -82,6 +82,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static com.equilibrium.DamageSourceRegister.damageSourceInit;
 import static com.equilibrium.GlobalModConfig.initConfig;
 import static com.equilibrium.GlobalModConfig.isSleepChunksAlwaysLoading;
 import static com.equilibrium.block.CraftingDifficultyHelper.initCraftingDifficulties;
@@ -406,6 +407,7 @@ public class OnServerInitialize {
         event.enqueueWork(OnServerInitialize::initXpMap);
         event.enqueueWork(BlocksHardnessList::initVanillaBlocksHardnessHashMap);
         event.enqueueWork(BlocksHardnessList::initModBlocksHardnessHashMap);
+        event.enqueueWork(DamageSourceRegister::damageSourceInit);
 
         //原版物品修改
         DefaultItemComponentEvents.MODIFY.register(new MaxStackSizeModifier());

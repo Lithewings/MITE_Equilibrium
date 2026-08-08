@@ -19,6 +19,8 @@
     "player.PlayerEntityMixin",
     "player.PlayerManagerMixin",
     "player.ServerPlayerEntityMixin",
+    "potion.PoisonStatusEffectMixin",
+    "potion.PotionsDoubleDurationMixin",
     "some_special_rules.BanThreadMachine",
     "some_special_rules.BedRockCannotBreakIllegally",
     "some_special_rules.FireElementalCannotInfluenceSpawnNumberLimit",

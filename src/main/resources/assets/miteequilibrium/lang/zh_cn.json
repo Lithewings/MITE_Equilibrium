@@ -1,4 +1,8 @@
 {
+
+  "death.attack.hurt_by_blue_berry": "%1$s 被蓝莓丛刺死了",
+
+
   "book.miteequilibrium.equilibrium_guide.name": "指引 & 额外补充内容",
   "book.miteequilibrium.equilibrium_guide.landing_text": "从近五万个字符的更新日志中浓缩选取的内容，旨在快速帮助玩家入门。",
   "adventure.brew_potion.title": "女巫科技",

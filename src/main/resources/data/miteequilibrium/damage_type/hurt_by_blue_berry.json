@@ -1,0 +1,6 @@
+{
+  "effects": "poking",
+  "exhaustion": 0.1,
+  "message_id": "hurt_by_blue_berry",
+  "scaling": "when_caused_by_living_non_player"
+}

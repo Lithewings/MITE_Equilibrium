@@ -27,6 +27,7 @@
     "minecraft:outside_border",
     "minecraft:generic_kill",
     "minecraft:campfire",
-    "miteequilibrium:fatal_poison"
+    "miteequilibrium:fatal_poison",
+    "miteequilibrium:hurt_by_blue_berry"
   ]
 }

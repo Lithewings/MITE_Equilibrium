@@ -1,9 +1,13 @@
 package com.equilibrium.block.crop_blocks;
 
+import com.equilibrium.DamageSourceRegister;
 import com.equilibrium.block.miscellaneous.MiscellaneousBlocks;
 import com.equilibrium.item.food.FoodItems;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -12,6 +16,8 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -86,7 +92,14 @@ public class BlueBerryBushBlock extends BushBlock implements BonemealableBlock {
                 double d0 = Math.abs(entity.getX() - entity.xOld);
                 double d1 = Math.abs(entity.getZ() - entity.zOld);
                 if (d0 >= 0.003F || d1 >= 0.003F) {
-                    //这里暂时使用甜浆果的伤害戳刺类型
+
+                    Holder<DamageType> hurtByBlueBerry = entity.level().registryAccess()
+                            .registryOrThrow(Registries.DAMAGE_TYPE)
+                            .getHolder(DamageSourceRegister.HURT_BY_BLUE_BERRY)
+                            .orElseThrow(() -> new IllegalStateException("DamageType not registered"));
+
+
+                    entity.hurt(new DamageSource(hurtByBlueBerry), 1.0F);
                     entity.hurt(level.damageSources().sweetBerryBush(), 1.0F);
                 }
             }
