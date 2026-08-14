@@ -6,6 +6,7 @@ import com.equilibrium.block.ModBlocksRegistry;
 import com.equilibrium.block.anvil_block.adamantium_anvil_block.AdamantiumAnvilScreen;
 import com.equilibrium.block.anvil_block.iron_anvil_block.IronAnvilScreen;
 import com.equilibrium.block.anvil_block.mithril_anvil_block.MithrilAnvilScreen;
+import com.equilibrium.block.crafting_table.ModCraftingScreen;
 import com.equilibrium.block.enchanting_table.*;
 import com.equilibrium.block.enchanting_table.diamond.DiamondEnchantingTableBlockEntityRenderer;
 import com.equilibrium.block.enchanting_table.emerald.EmeraldEnchantingTableBlockEntityRenderer;
@@ -100,7 +101,7 @@ public class OnClientInitialize implements ClientModInitializer {
         HandledScreens.register(ModBlockScreenTypesRegister.IRON_ANVIL_SCREEN_TYPE, IronAnvilScreen::new);
         HandledScreens.register(ModBlockScreenTypesRegister.MITHRIL_ANVIL_SCREEN_TYPE, MithrilAnvilScreen::new);
         HandledScreens.register(ModBlockScreenTypesRegister.ADAMANTIUM_ANVIL_SCREEN_TYPE, AdamantiumAnvilScreen::new);
-
+        HandledScreens.register(ModBlockScreenTypesRegister.MOD_CRAFTING_SCREEN_HANDLER_SCREEN_HANDLER_TYPE, ModCraftingScreen::new);
 
         BlockEntityRendererFactories.register(ModBlockEntityTypes.EMERALD_ENCHANTING_TABLE_BLOCK_ENTITY_TYPE, EmeraldEnchantingTableBlockEntityRenderer::new);
         BlockEntityRendererFactories.register(ModBlockEntityTypes.DIAMOND_ENCHANTING_TABLE_BLOCK_ENTITY_TYPE, DiamondEnchantingTableBlockEntityRenderer::new);

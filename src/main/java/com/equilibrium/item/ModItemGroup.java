@@ -9,7 +9,6 @@ import com.equilibrium.item.food.FoodOrFarmItems;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
@@ -26,8 +25,8 @@ public class ModItemGroup {
                                 entries.add(ModBlocksRegistry2.COPPER_CRAFTING_TABLE);
                                 entries.add(ModBlocksRegistry2.SILVER_CRAFTING_TABLE);
                                 entries.add(ModBlocksRegistry2.IRON_CRAFTING_TABLE);
-                                entries.add(ModBlocksRegistry2.DIAMOND_CRAFTING_TABLE);
-                                entries.add(ModBlocksRegistry2.NETHERITE_CRAFTING_TABLE);
+                                entries.add(ModBlocksRegistry2.MITHRIL_CRAFTING_TABLE);
+                                entries.add(ModBlocksRegistry2.ADAMANTIUM_CRAFTING_TABLE);
 
                                 entries.add(ModBlocksRegistry2.CLAY_FURNACE);
                                 entries.add(ModBlocksRegistry2.OBSIDIAN_FURNACE);

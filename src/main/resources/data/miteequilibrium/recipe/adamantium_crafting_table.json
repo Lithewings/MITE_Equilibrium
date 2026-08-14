@@ -6,8 +6,13 @@
       "tag": "minecraft:logs"
     },
     "X": {
+      "item": "miteequilibrium:adamantium"
+    },
+
+    "P": {
       "item": "minecraft:netherite_ingot"
     },
+
     "Y": {
       "item": "minecraft:stick"
     },
@@ -16,11 +21,12 @@
     }
   },
   "pattern": [
-    "XZ",
-    "YW"
+    "XZ ",
+    "YW ",
+    "  P"
   ],
   "result": {
     "count": 1,
-    "id": "miteequilibrium:netherite_crafting_table"
+    "id": "miteequilibrium:adamantium_crafting_table"
   }
 }

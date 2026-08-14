@@ -30,7 +30,7 @@ import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_CR
 import static com.equilibrium.util.SharedConstant.INVALID_CRAFTING_TEXT;
 
 @Mixin(PlayerScreenHandler.class)
-public abstract class PlayerScreenHandlerMixin extends AbstractRecipeScreenHandler<CraftingRecipeInput, CraftingRecipe> {
+public abstract class PlayerScreenHandlerCheckCraftingLevel extends AbstractRecipeScreenHandler<CraftingRecipeInput, CraftingRecipe> {
     @Shadow @Final private CraftingResultInventory craftingResult;
     @Shadow @Final public boolean onServer;
     @Final
@@ -40,7 +40,7 @@ public abstract class PlayerScreenHandlerMixin extends AbstractRecipeScreenHandl
 
     @Shadow @Final private RecipeInputInventory craftingInput;
 
-    public PlayerScreenHandlerMixin(ScreenHandlerType<?> screenHandlerType, int i) {
+    public PlayerScreenHandlerCheckCraftingLevel(ScreenHandlerType<?> screenHandlerType, int i) {
         super(screenHandlerType, i);
     }
 

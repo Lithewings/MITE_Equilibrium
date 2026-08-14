@@ -26,8 +26,8 @@ public class ModBlocksRegistry2 {
     public static Block SILVER_CRAFTING_TABLE = new TheCraftingTableBlock((AbstractBlock.Settings.create().strength(0.01F).sounds(BlockSoundGroup.WOOD)));//银工作台
 
     public static Block IRON_CRAFTING_TABLE = new TheCraftingTableBlock((AbstractBlock.Settings.create().strength(0.01F).sounds(BlockSoundGroup.WOOD)));//铁工作台
-    public static Block DIAMOND_CRAFTING_TABLE = new TheCraftingTableBlock((AbstractBlock.Settings.create().strength(0.01F).sounds(BlockSoundGroup.WOOD)));//钻石工作台
-    public static Block NETHERITE_CRAFTING_TABLE = new TheCraftingTableBlock((AbstractBlock.Settings.create().strength(0.01F).sounds(BlockSoundGroup.WOOD)));//下界合金工作台
+    public static Block MITHRIL_CRAFTING_TABLE = new TheCraftingTableBlock((AbstractBlock.Settings.create().strength(0.01F).sounds(BlockSoundGroup.WOOD)));//秘银工作台
+    public static Block ADAMANTIUM_CRAFTING_TABLE = new TheCraftingTableBlock((AbstractBlock.Settings.create().strength(0.01F).sounds(BlockSoundGroup.WOOD)));//艾德曼工作台
 
 
 
@@ -46,8 +46,8 @@ public class ModBlocksRegistry2 {
 
 
         Registry.register(Registries.BLOCK, Identifier.of(OnServerInitialize.MOD_ID, "iron_crafting_table"), IRON_CRAFTING_TABLE);
-        Registry.register(Registries.BLOCK, Identifier.of(OnServerInitialize.MOD_ID, "diamond_crafting_table"),DIAMOND_CRAFTING_TABLE);
-        Registry.register(Registries.BLOCK, Identifier.of(OnServerInitialize.MOD_ID, "netherite_crafting_table"), NETHERITE_CRAFTING_TABLE);
+        Registry.register(Registries.BLOCK, Identifier.of(OnServerInitialize.MOD_ID, "mithril_crafting_table"), MITHRIL_CRAFTING_TABLE);
+        Registry.register(Registries.BLOCK, Identifier.of(OnServerInitialize.MOD_ID, "adamantium_crafting_table"), ADAMANTIUM_CRAFTING_TABLE);
 
         Registry.register(Registries.BLOCK, Identifier.of(OnServerInitialize.MOD_ID, "clay_furnace"), CLAY_FURNACE);
         Registry.register(Registries.BLOCK, Identifier.of(OnServerInitialize.MOD_ID, "obsidian_furnace"), OBSIDIAN_FURNACE);
@@ -61,8 +61,8 @@ public class ModBlocksRegistry2 {
         Registry.register(Registries.ITEM, Identifier.of( OnServerInitialize.MOD_ID, "copper_crafting_table"), new BlockItem(COPPER_CRAFTING_TABLE, new Item.Settings().maxCount(16)));
         Registry.register(Registries.ITEM, Identifier.of( OnServerInitialize.MOD_ID, "silver_crafting_table"), new BlockItem(SILVER_CRAFTING_TABLE, new Item.Settings().maxCount(16)));
         Registry.register(Registries.ITEM, Identifier.of( OnServerInitialize.MOD_ID, "iron_crafting_table"), new BlockItem(IRON_CRAFTING_TABLE, new Item.Settings().maxCount(16)));
-        Registry.register(Registries.ITEM, Identifier.of( OnServerInitialize.MOD_ID, "diamond_crafting_table"), new BlockItem(DIAMOND_CRAFTING_TABLE, new Item.Settings().maxCount(16)));
-        Registry.register(Registries.ITEM, Identifier.of( OnServerInitialize.MOD_ID, "netherite_crafting_table"), new BlockItem(NETHERITE_CRAFTING_TABLE, new Item.Settings().maxCount(16)));
+        Registry.register(Registries.ITEM, Identifier.of( OnServerInitialize.MOD_ID, "mithril_crafting_table"), new BlockItem(MITHRIL_CRAFTING_TABLE, new Item.Settings().maxCount(16)));
+        Registry.register(Registries.ITEM, Identifier.of( OnServerInitialize.MOD_ID, "adamantium_crafting_table"), new BlockItem(ADAMANTIUM_CRAFTING_TABLE, new Item.Settings().maxCount(16)));
 
         Registry.register(Registries.ITEM, Identifier.of( OnServerInitialize.MOD_ID, "clay_furnace"), new BlockItem(CLAY_FURNACE, new Item.Settings().maxCount(1)));
         Registry.register(Registries.ITEM, Identifier.of( OnServerInitialize.MOD_ID, "obsidian_furnace"), new BlockItem(OBSIDIAN_FURNACE, new Item.Settings().maxCount(1)));
@@ -74,8 +74,8 @@ public class ModBlocksRegistry2 {
         FuelRegistry.INSTANCE.add(COPPER_CRAFTING_TABLE, 300);
         FuelRegistry.INSTANCE.add(SILVER_CRAFTING_TABLE, 300);
         FuelRegistry.INSTANCE.add(IRON_CRAFTING_TABLE, 300);
-        FuelRegistry.INSTANCE.add(DIAMOND_CRAFTING_TABLE, 300);
-        FuelRegistry.INSTANCE.add(NETHERITE_CRAFTING_TABLE, 300);
+        FuelRegistry.INSTANCE.add(MITHRIL_CRAFTING_TABLE, 300);
+        FuelRegistry.INSTANCE.add(ADAMANTIUM_CRAFTING_TABLE, 300);
     }
 
 

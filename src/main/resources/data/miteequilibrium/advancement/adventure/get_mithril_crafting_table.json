@@ -1,11 +1,11 @@
 {
   "parent": "miteequilibrium:adventure/get_diamond",
   "criteria": {
-    "get_diamond_crafting_table": {
+    "get_mithril_crafting_table": {
       "conditions": {
         "items": [
           {
-            "items": "miteequilibrium:diamond_crafting_table"
+            "items": "miteequilibrium:mithril_crafting_table"
           }
         ]
       },
@@ -15,19 +15,19 @@
   "display": {
     "announce_to_chat": true,
     "description": {
-      "translate": "adventure.get_diamond_crafting_table"
+      "translate": "adventure.get_mithril_crafting_table"
     },
     "icon": {
       "count": 1,
-      "id": "miteequilibrium:diamond_crafting_table"
+      "id": "miteequilibrium:mithril_crafting_table"
     },
     "title": {
-      "translate": "adventure.get_diamond_crafting_table.title"
+      "translate": "adventure.get_mithril_crafting_table.title"
     }
   },
   "requirements": [
     [
-      "get_diamond_crafting_table"
+      "get_mithril_crafting_table"
     ]
   ],
   "rewards": {

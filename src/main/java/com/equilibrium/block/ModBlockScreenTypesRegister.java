@@ -3,6 +3,7 @@ package com.equilibrium.block;
 import com.equilibrium.block.anvil_block.adamantium_anvil_block.AdamantiumScreenHandler;
 import com.equilibrium.block.anvil_block.iron_anvil_block.IronAnvilScreenHandler;
 import com.equilibrium.block.anvil_block.mithril_anvil_block.MithrilAnvilScreenHandler;
+import com.equilibrium.block.crafting_table.ModCraftingScreenHandler;
 import com.equilibrium.block.enchanting_table.ModEnchantmentScreenHandler;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.registry.Registries;
@@ -24,6 +25,7 @@ public class ModBlockScreenTypesRegister {
     public static final ScreenHandlerType<MithrilAnvilScreenHandler> MITHRIL_ANVIL_SCREEN_TYPE = register("miteequilibrium:mithril_anvil", MithrilAnvilScreenHandler::new);
     public static final ScreenHandlerType<AdamantiumScreenHandler> ADAMANTIUM_ANVIL_SCREEN_TYPE = register("miteequilibrium:adamantium_anvil", AdamantiumScreenHandler::new);
 
+    public static final ScreenHandlerType<ModCraftingScreenHandler> MOD_CRAFTING_SCREEN_HANDLER_SCREEN_HANDLER_TYPE = register("miteequilibrium:crafting_table", ModCraftingScreenHandler::new);
 
     public static void registerScreenHandlers() {
         // 空方法，注册已经在静态初始化中完成

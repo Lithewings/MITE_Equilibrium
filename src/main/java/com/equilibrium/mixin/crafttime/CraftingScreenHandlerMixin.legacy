@@ -46,7 +46,7 @@ import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.getGameBool
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.*;
 import static com.equilibrium.util.SharedConstant.*;
 
-
+@Deprecated
 @Mixin(CraftingScreenHandler.class)
 public abstract class CraftingScreenHandlerMixin extends AbstractRecipeScreenHandler<CraftingRecipeInput, CraftingRecipe> {
 	@Final

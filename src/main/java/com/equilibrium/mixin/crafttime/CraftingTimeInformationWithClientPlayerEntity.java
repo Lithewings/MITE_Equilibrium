@@ -1,6 +1,6 @@
 package com.equilibrium.mixin.crafttime;
 
-import com.equilibrium.block.crafting_table.craftTimeController;
+import com.equilibrium.block.crafting_table.CraftTimeController;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(ClientPlayerEntity.class)
-public class MixinClientPlayerEntity extends AbstractClientPlayerEntity implements craftTimeController {
+public class CraftingTimeInformationWithClientPlayerEntity extends AbstractClientPlayerEntity implements CraftTimeController {
 
 	@Shadow
 	@Final
@@ -27,7 +27,7 @@ public class MixinClientPlayerEntity extends AbstractClientPlayerEntity implemen
 	@Unique
 	public float craftStage = 0;
 
-	public MixinClientPlayerEntity(ClientWorld world, GameProfile profile) {
+	public CraftingTimeInformationWithClientPlayerEntity(ClientWorld world, GameProfile profile) {
 		super(world, profile);
 	}
 

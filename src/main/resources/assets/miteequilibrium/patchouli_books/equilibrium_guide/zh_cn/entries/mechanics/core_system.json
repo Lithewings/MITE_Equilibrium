@@ -34,14 +34,13 @@
         },
         {
             "type": "patchouli:crafting",
-            "recipe": "miteequilibrium:diamond_crafting_table",
-            "recipe2": "miteequilibrium:netherite_crafting_table",
-            "text": "钻石：需要远古金属。下界合金：最终等级。"
+            "recipe": "miteequilibrium:mithril_crafting_table",
+            "recipe2": "miteequilibrium:adamantium_crafting_table"
         },
         {
             "type": "patchouli:text",
             "title": "稍等一下",
-            "text": "铁镐无法用来采集钻石矿脉，它太硬了。而制作钻石合成台需要钻石。$(br2)你需要想方设法从什么途径拿到一颗钻石才行。"
+            "text": "铁镐无法用来采集钻石矿脉，它太硬了。而制作秘银合成台至少需要钻石。$(br2)你需要想方设法从什么途径拿到一颗钻石才行。"
         },
         {
             "type": "patchouli:text",

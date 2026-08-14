@@ -1,7 +1,7 @@
 package com.equilibrium.mixin.crafttime;
 
-import com.equilibrium.block.crafting_table.craftTimeController;
 import com.equilibrium.block.CraftingDifficultyHelper;
+import com.equilibrium.block.crafting_table.CraftTimeController;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
@@ -24,20 +24,20 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-
-import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.getGameBooleanRuleFromClient;
 import static com.equilibrium.GlobalModConfig.isAutoCraftingEnabled;
+import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.getGameBooleanRuleFromClient;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_CRAFTING_TIME_AND_LEVEL;
 import static com.equilibrium.network.C2STriggerContentChangePacket.sendTrigger;
 import static com.equilibrium.util.SharedConstant.INVALID_CRAFTING_TEXT;
 
+@Deprecated
 @Mixin(InventoryScreen.class)
-public abstract class MixinInventoryScreen extends AbstractInventoryScreen<PlayerScreenHandler> {
+public abstract class MixinInventoryScreenLegacy extends AbstractInventoryScreen<PlayerScreenHandler> {
 
 	@Unique
-	private craftTimeController player;
+	private CraftTimeController player;
 
-	public MixinInventoryScreen(PlayerScreenHandler screenHandler, PlayerInventory playerInventory, Text text) {
+	public MixinInventoryScreenLegacy(PlayerScreenHandler screenHandler, PlayerInventory playerInventory, Text text) {
 		super(screenHandler, playerInventory, text);
 	}
 
@@ -58,7 +58,7 @@ public abstract class MixinInventoryScreen extends AbstractInventoryScreen<Playe
 
 	@Inject(method = "drawBackground", at = @At("TAIL"))
 	protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY, CallbackInfo ci) {
-		this.player = (craftTimeController) this.client.player;
+		this.player = (CraftTimeController) this.client.player;
 
 		RenderSystem.setShaderTexture(0,CRAFT_OVERLAY_TEXTURE);
 		int i = this.x;
@@ -74,7 +74,7 @@ public abstract class MixinInventoryScreen extends AbstractInventoryScreen<Playe
 	@Inject(method = "handledScreenTick", at = @At("TAIL"))
 	public void handledScreenTick(CallbackInfo info) {
         if (this.client != null) {
-            this.player = (craftTimeController) this.client.player;
+            this.player = (CraftTimeController) this.client.player;
         }
 		ItemStack resultItemStack = this.handler.getSlot(0).getStack();
 		if (resultItemStack.get(DataComponentTypes.LORE) != null) {
