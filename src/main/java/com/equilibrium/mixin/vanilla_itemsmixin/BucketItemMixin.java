@@ -174,10 +174,11 @@ public abstract class BucketItemMixin extends Item implements DispensibleContain
         world.gameEvent(player, GameEvent.FLUID_PLACE, pos);
     }
 
-    @Override
-    public boolean emptyContents(@Nullable Player player, Level world, BlockPos pos, @Nullable BlockHitResult hitResult) {
+    @Inject(method = "emptyContents(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/BlockHitResult;Lnet/minecraft/world/item/ItemStack;)Z",at = @At("HEAD"), cancellable = true)
+    public void emptyContents(Player player, Level world, BlockPos pos, BlockHitResult hitResult, ItemStack container, CallbackInfoReturnable<Boolean> cir) {
+        cir.cancel();
         if (!(this.content instanceof FlowingFluid flowableFluid)) {
-            return false;
+            cir.setReturnValue(false);
         } else {
             Block block;
             boolean bl;
@@ -202,7 +203,7 @@ public abstract class BucketItemMixin extends Item implements DispensibleContain
 
             boolean bl2 = var10000;
             if (!bl2) {
-                return hitResult != null && this.emptyContents(player, world, hitResult.getBlockPos().relative(hitResult.getDirection()), null);
+                cir.setReturnValue(hitResult != null && this.emptyContents(player, world, hitResult.getBlockPos().relative(hitResult.getDirection()), null));
             }
             //地狱蒸发
             else if (world.dimensionType().ultraWarm() && this.content.is(FluidTags.WATER)) {
@@ -216,13 +217,12 @@ public abstract class BucketItemMixin extends Item implements DispensibleContain
                 for (int l = 0; l < 8; l++) {
                     world.addParticle(ParticleTypes.LARGE_SMOKE, (double)i + Math.random(), (double)j + Math.random(), (double)k + Math.random(), 0.0, 0.0, 0.0);
                 }
-
-                return true;
+                cir.setReturnValue(true);
             } else {
                 if (block instanceof LiquidBlockContainer fluidFillable && this.content == Fluids.WATER) {
                     fluidFillable.placeLiquid(world, pos, blockState, flowableFluid.getSource(false));
                     this.playEmptySound(player, world, pos);
-                    return true;
+                    cir.setReturnValue(true);
                 }
 
                 if (!world.isClientSide && bl && !blockState.liquid()) {
@@ -230,10 +230,10 @@ public abstract class BucketItemMixin extends Item implements DispensibleContain
                 }
 
                 if (!world.setBlock(pos, this.content.defaultFluidState().createLegacyBlock(), Block.UPDATE_ALL_IMMEDIATE) && !blockState.getFluidState().isSource()) {
-                    return false;
+                    cir.setReturnValue(false);
                 } else {
                     this.playEmptySound(player, world, pos);
-                    return true;
+                    cir.setReturnValue(true);
                 }
             }
         }
