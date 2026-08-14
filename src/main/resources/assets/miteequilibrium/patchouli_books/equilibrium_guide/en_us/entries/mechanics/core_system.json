@@ -13,12 +13,12 @@
         {
             "type": "patchouli:text",
             "title": "Workbench Crafting",
-            "text": "Starting from the Flint Crafting Table$() — craft in the player's 2x2 inventory$(li2)$(item)Copper Crafting Table$() — craft on the Flint Crafting Table$(li2)$(item)Silver Crafting Table$() — craft on the Flint Crafting Table$(li2)$(item)Iron Crafting Table$() — craft on the Copper/Silver Crafting Table$(li2)$(item)Diamond Crafting Table$() — craft on the Iron Crafting Table$(li2)$(item)Netherite Crafting Table$() — craft on the Diamond Crafting Table$(li2)$(item)Vintage Crafting Table$() (use it to craft the Auto Crafting Table, skip crafting time!)"
+            "text": "Starting from the Flint Crafting Table$() — craft in the player's 2x2 inventory$(li2)$(item)Copper Crafting Table$() — craft on the Flint Crafting Table$(li2)$(item)Silver Crafting Table$() — craft on the Flint Crafting Table$(li2)$(item)Iron Crafting Table$() — craft on the Copper/Silver Crafting Table$(li2)$(item)Diamond Crafting Table$() — craft on the Iron Crafting Table"
         },
         {
             "type": "patchouli:text",
             "title": "Workbench Tiers",
-            "text": "$(li2)$(item)Vintage Crafting Table$() — craft on the Netherite Crafting Table, use it to craft the Auto Crafting Table, skip crafting time!$(li2)$(item)Auto Crafting Table$() — craft on the Iron Crafting Table, finally, you are no longer limited by crafting time."
+            "text": "$(li2)$(item)Netherite Crafting Table$() — craft on the Diamond Crafting Table$(li2)$(item)Vanilla Crafting Table$() — craft on the Netherite Crafting Table, use it to craft the Crafter , skip crafting time!$(li2)$(item)Crafter$() — craft on the Iron Crafting Table, finally, you are no longer limited by crafting time."
         },
         {
             "type": "patchouli:crafting",
@@ -56,12 +56,21 @@
         {
             "type": "patchouli:text",
             "title": "Block Tiers & Mining Levels",
-            "text": "$(li2)At least use Flint tools to harvest logs.$(li2)At least use Flint tools (but very slow) or Copper tools to harvest stone.$(li2)At least use Copper Pickaxe/Hammer to harvest Iron ore.$(li2)At least use Iron Pickaxe/Hammer to harvest Obsidian.$(li2)At least use Mithril Pickaxe to harvest Diamond ore/Ancient Debris.$(li2)$(note)Experiment freely — if mining progress advances, the block can be harvested.$()"
+            "text": "$(li2)At least use Flint tools to harvest logs.$(li2)At least use Flint tools (but very slow) or Copper tools to harvest stone.$(li2)At least use Copper Pickaxe/Hammer to harvest Iron ore.$(li2)At least use Iron Pickaxe/Hammer to harvest Obsidian.$(li2)At least use Mithril Pickaxe to harvest Diamond ore/Ancient Debris."
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Block Tiers & Mining Levels",
+            "text": "$(note)Experiment freely — if mining progress advances, the block can be harvested.$()"
         },
         {
             "type": "patchouli:text",
             "title": "Anvil Tiers",
-            "text": "Repairing equipment requires progressively better anvils, but now you don't need to spend XP to retrieve items — you only need sufficient tier:$(li2)$(item)Anvil$() — repairs up to Iron-tier equipment$(li2)$(item)Mithril Anvil$() — repairs up to Diamond or Mithril-tier equipment$(li2)$(item)Adamantium Anvil$() — infinite durability, supports all item repairs$(br)Each anvil repair has a $(thing)tier requirement$() — $(note)You can use the vanilla Anvil from Minecraft, or place it in the crafting grid at any time to convert it to the mod's custom anvil."
+            "text": "Repairing equipment requires progressively better anvils, but now you don't need to spend XP to retrieve items — you only need sufficient tier:$(li2)$(item)Anvil$() — repairs up to Iron-tier equipment$(li2)$(item)Mithril Anvil$() — repairs up to Diamond or Mithril-tier equipment$(li2)$(item)Adamantium Anvil$() — infinite durability, supports all item repairs$(br)Each anvil repair has a $(thing)tier requirement$()."
+        },     {
+            "type": "patchouli:text",
+            "title": "Anvil Tiers",
+            "text": "$(note)You can use the vanilla Anvil from Minecraft, or place it in the crafting grid at any time to convert it to the mod's custom anvil."
         },
         {
             "type": "patchouli:text",
@@ -80,3 +89,4 @@
         }
     ]
 }
+

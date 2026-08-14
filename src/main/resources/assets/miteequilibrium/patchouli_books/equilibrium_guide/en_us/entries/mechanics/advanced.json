@@ -28,22 +28,32 @@
         {
             "type": "patchouli:text",
             "title": "Crop & Farm Systems",
-            "text": "$(thing)Crop Disease$() — Crops can become diseased (blight) and require bone meal to cure. Use $(item)Manure$() on farmland to protect and accelerate growth; manure is periodically produced by livestock.$(li2)$(item)Onion$() — A new crop with 4 growth stages, only found in loot chests.$(li2)$(thing)Advanced Animal AI$() — Livestock have improved behavior patterns.$(br2)$(note)In Blight mode, crops cannot grow; in Extinction mode, animals will not spawn.$()"
+            "text": "$(thing)Crop Disease$() — Crops can become diseased (blight) and require bone meal to cure. Use $(item)Manure$() on farmland to protect and accelerate growth; manure is periodically produced by livestock.$(li2)$(item)Onion$() — A new crop with 4 growth stages, only found in loot chests.$(li2)$(thing)Advanced Animal AI$() — Livestock have improved behavior patterns."
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Crop & Farm Systems",
+            "text": "$(note)In \"Blight\" difficulty entry, crops cannot grow; in \"Extinction\" difficulty entry, animals will not spawn.$()"
         },
         {
             "type": "patchouli:text",
             "title": "The Moon System",
-            "text": "Pay attention to the night sky! Special moon phases bring unique effects:$(li2)$(#C0392B)$(bold)Blood Moon$() — Prevents sleeping. If the gamerule is enabled, may be accompanied by more dangerous thunderstorms.$(li2)$(#3498DB)$(bold)Blue Moon$() — Rare moon phase.$(li2)$(#27AE60)$(bold)Harvest Moon$() — Crop growth benefits.$(li2)$(#D3D3D3)$(bold)Crescent Moon$() — Binds nearby monsters, inflicting Weakness and Slowness.$(li2)$(#F39C12)$(bold)Halo Moon$() — Special atmospheric effects.$(br2)$(note)Check the moon phase each night before making plans!$()"
+            "text": "Pay attention to the night sky! Special moon phases bring unique effects:$(li2)$(#C0392B)$(bold)Blood Moon$() — Prevents sleeping. If the gamerule is enabled, may be accompanied by more dangerous thunderstorms.$(li2)$(#3498DB)$(bold)Blue Moon$() — Rare moon phase.$(li2)$(#27AE60)$(bold)Harvest Moon$() — Crop growth benefits.$(li2)$(#D3D3D3)$(bold)New Moon$() — Binds nearby monsters, inflicting Weakness and Slowness."
         },
         {
             "type": "patchouli:text",
-            "title": "Basic Difficulty Rules",
+            "title": "The Moon System",
+            "text": "$(li2)$(#F39C12)$(bold)Halo Moon$() — Special atmospheric effects.$(br2)$(note)Check the moon phase each night before making plans!$()"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Basic Difficulty Entries(Game Rules)",
             "text": "Customize your experience with these gamerules:$(li2)$(thing)Crafting Time & Level$() — Enables workbench tier gating and crafting delays$(li2)$(thing)Standard Breaking Speed$() — Mining speed consistent with MITE style$(li2)$(thing)Crop Disease$() — Crops can become diseased$(li2)$(thing)Phytonutrient$() — Enables malnutrition tracking"
         },
         {
             "type": "patchouli:text",
-            "title": "Advanced Difficulty Rules",
-            "text": "$(li2)$(#C0392B)$(thing)Desolation$() — Removes all villages and pillager outposts$(li2)$(#C0392B)$(thing)Extinction$() — Animals no longer spawn$(li2)$(#C0392B)$(thing)Blight$() — Crops stop growing naturally$(li2)$(#C0392B)$(thing)Rainy Season$() — Greatly increased rain duration$(li2)$(#C0392B)$(thing)Universal Aggro$() — Piglins and Endermen attack unconditionally$(li2)$(#C0392B)$(thing)SL Punishment$() — Save/load actions cause health loss$(br2)$(important)More options available in the game rules when creating a world.$()"
+            "title": "Advanced Difficulty Entries(Game Rules)",
+            "text": "More options available in the game rules when creating a world.$()$(li2)$(#C0392B)$(thing)Desolation$() — Removes all villages and pillager outposts$(li2)$(#C0392B)$(thing)Extinction$() — Animals no longer spawn$(li2)$(#C0392B)$(thing)Blight$() — Crops stop growing naturally$(li2)$(#C0392B)$(thing)Rainy Season$() — Greatly increased rain duration$(li2)$(#C0392B)$(thing)Universal Aggro$() — Piglins and Endermen attack unconditionally$(li2)$(#C0392B)$(thing)SL Punishment$() — Save/load actions cause health loss$(br2)$(important)More options available in the game rules when creating a world.$()"
         }
     ]
 }
