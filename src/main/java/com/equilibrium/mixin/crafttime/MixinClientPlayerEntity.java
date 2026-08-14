@@ -1,17 +1,12 @@
 package com.equilibrium.mixin.crafttime;
 
-import com.equilibrium.block.ITimeCraftPlayer;
+import com.equilibrium.block.crafting_table.craftTimeController;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.sound.SoundEvents;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,61 +14,64 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(ClientPlayerEntity.class)
-public class MixinClientPlayerEntity extends AbstractClientPlayerEntity implements ITimeCraftPlayer {
+public class MixinClientPlayerEntity extends AbstractClientPlayerEntity implements craftTimeController {
 
-	@Shadow @Final protected MinecraftClient client;
+	@Shadow
+	@Final
+	public MinecraftClient client;
+
 	@Unique
-	public boolean is_crafting = false;
+	public boolean isCrafting = false;
 	@Unique
-	public float craft_time = 0;
+	public float craftTimeCost = 0;
 	@Unique
-	public float craft_period = 0;
+	public float craftStage = 0;
 
 	public MixinClientPlayerEntity(ClientWorld world, GameProfile profile) {
 		super(world, profile);
 	}
 
 	@Override
-	public void craftTime$setCrafting(boolean is_crafting) {
-		this.is_crafting = is_crafting;
+	public void setCraftingStatus(boolean isCrafting) {
+		this.isCrafting = isCrafting;
 	}
 
 	@Override
-	public boolean craftTime$isCrafting() {
-		return this.is_crafting;
+	public boolean isCrafting() {
+		return this.isCrafting;
 	}
 
 	@Override
-	public void craftTime$setCraftTime(float craft_time) {
-		this.craft_time = craft_time;
+	public void setCraftTimeCost(float craftTimeCost) {
+		this.craftTimeCost = craftTimeCost;
 	}
 
 	@Override
-	public float craftTime$getCraftTime() {
-		return this.craft_time;
+	public float getCraftTimeCost() {
+		return this.craftTimeCost;
 	}
 
 	@Override
-	public void craftTime$setCraftPeriod(float craft_period) {
-		this.craft_period = craft_period;
+	public void setCraftStage(float craftStage) {
+		this.craftStage = craftStage;
 	}
 
 	@Override
-	public float craftTime$getCraftPeriod() {
-		return this.craft_period;
+	public float getCraftStage() {
+		return this.craftStage;
 	}
 	
 	@Override
-	public void craftTime$stopCraft() {
-		this.is_crafting = false;
-		this.craft_time = 0F;
+	public void stopCraft() {
+		this.isCrafting = false;
+		this.craftTimeCost = 0F;
 	}
 
 	@Override
-	public void craftTime$startCraftWithNewPeriod(float craft_period) {
-		this.craft_time = 0;
-		this.craft_period = craft_period;
-		this.is_crafting = true;
+	public void startCraftWithNewStage(float craftStage) {
+		this.craftTimeCost = 0;
+		this.craftStage = craftStage;
+		this.isCrafting = true;
 
 //		if (craft_period >= 10F) {
 //			MinecraftClient.getInstance().getSoundManager().play(new CraftingTickableSound(Random.create(),this, this.getBlockPos()));
@@ -81,14 +79,14 @@ public class MixinClientPlayerEntity extends AbstractClientPlayerEntity implemen
 	}
 
 	@Override
-	public boolean craftTime$craftTickIsFinished() {
-		if (this.craftTime$isCrafting()) {
-			if (this.craftTime$getCraftTime() < this.craftTime$getCraftPeriod()) {
-				this.craft_time += getCraftingSpeed(this);
-			} else if (this.craftTime$getCraftTime() >= this.craftTime$getCraftPeriod()) {
+	public boolean isCraftTickFinished() {
+		if (this.isCrafting()) {
+			if (this.getCraftTimeCost() < this.getCraftStage()) {
+				this.craftTimeCost += getCraftingSpeed(this);
+			} else if (this.getCraftTimeCost() >= this.getCraftStage()) {
 				//合成结束播放声音
 				this.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 0.1F, 1f);
-				this.craftTime$startCraftWithNewPeriod(craft_period);
+				this.startCraftWithNewStage(craftStage);
 				return true;
 			}
 		}

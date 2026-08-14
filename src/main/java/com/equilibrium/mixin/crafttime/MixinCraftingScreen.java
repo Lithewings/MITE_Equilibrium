@@ -1,6 +1,6 @@
 package com.equilibrium.mixin.crafttime;
 
-import com.equilibrium.block.ITimeCraftPlayer;
+import com.equilibrium.block.crafting_table.craftTimeController;
 import com.equilibrium.network.C2SClickTimesPacket;
 import com.equilibrium.network.C2STriggerContentChangePacket;
 import com.equilibrium.block.CraftingDifficultyHelper;
@@ -39,7 +39,7 @@ public abstract class MixinCraftingScreen extends HandledScreen<CraftingScreenHa
     protected abstract void onMouseClick(Slot slot, int slotId, int button, SlotActionType actionType);
 
     @Unique
-    private ITimeCraftPlayer player;
+    private craftTimeController player;
 
     public MixinCraftingScreen(CraftingScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -54,7 +54,7 @@ public abstract class MixinCraftingScreen extends HandledScreen<CraftingScreenHa
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if ((keyCode == GLFW.GLFW_KEY_E || (keyCode == GLFW.GLFW_KEY_ESCAPE)) && this.shouldCloseOnEsc()) {
             //一旦中途退出,就失去所有进度渲染
-            player.craftTime$setCraftTime(0);
+            player.setCraftTimeCost(0);
             C2SClickTimesPacket.sendClickTimes(0);
             this.close();
             return true;
@@ -70,15 +70,15 @@ public abstract class MixinCraftingScreen extends HandledScreen<CraftingScreenHa
 
         //每秒渲染20次
         assert this.client != null;
-        this.player = (ITimeCraftPlayer) this.client.player;
+        this.player = (craftTimeController) this.client.player;
 
         RenderSystem.setShaderTexture(0, CRAFT_OVERLAY_TEXTURE);
         int i = this.x;
         int j = (this.height - this.backgroundHeight) / 2;
 
 
-        if (player.craftTime$isCrafting() && player.craftTime$getCraftPeriod() > 0) {
-            int l = (int) ((player.craftTime$getCraftTime() * 24.0F / player.craftTime$getCraftPeriod()));
+        if (player.isCrafting() && player.getCraftStage() > 0) {
+            int l = (int) ((player.getCraftTimeCost() * 24.0F / player.getCraftStage()));
             if (l >= 24) {
                 context.drawTexture(CRAFT_OVERLAY_TEXTURE, i + 89, j + 35, 0, 0, 25, 16, 24, 17);
             } else {
@@ -95,14 +95,14 @@ public abstract class MixinCraftingScreen extends HandledScreen<CraftingScreenHa
 
 
         if (this.client != null) {
-            this.player = (ITimeCraftPlayer) this.client.player;
+            this.player = (craftTimeController) this.client.player;
         }
 
         ItemStack resultItemStack = this.handler.getSlot(0).getStack();
         if (resultItemStack.get(DataComponentTypes.LORE) != null) {
             for (Text text : resultItemStack.get(DataComponentTypes.LORE).lines()) {
                 if (text.contains(INVALID_CRAFTING_TEXT)) {
-                    player.craftTime$stopCraft();
+                    player.stopCraft();
                     return;
                 }
             }
@@ -113,21 +113,21 @@ public abstract class MixinCraftingScreen extends HandledScreen<CraftingScreenHa
         //输入输出不为空时,才考虑试图合成
         if (!this.handler.input.isEmpty() && !this.handler.getSlot(0).getStack().isEmpty()) {
             //获得合成难度
-            player.craftTime$setCraftPeriod(CraftingDifficultyHelper.getCraftingDifficultyFromMatrix(this.handler, true, this));
+            player.setCraftStage(CraftingDifficultyHelper.getCraftingDifficultyFromMatrix(this.handler, true, this));
             //进行一次craftTick,若合成结束返回true
-            if (this.player.craftTime$craftTickIsFinished()) {
+            if (this.player.isCraftTickFinished()) {
                 //模拟无限制时秒出合成物品的一次操作
                 super.onMouseClick(this.handler.getSlot(0), 0, 0, SlotActionType.THROW);
                 //在ScreenHandlerMixin中自动将鼠标stack下的物品放入玩家物品栏中
                 if(!isAutoCraftingEnabled()){
-                    player.craftTime$stopCraft();
+                    player.stopCraft();
                 }
             }
             //刷新一次合成结果栏
             if (this.handler.getSlot(0).getStack().isEmpty()) {
                 sendTrigger();
             }
-        } else player.craftTime$stopCraft();
+        } else player.stopCraft();
 
 
     }
@@ -163,13 +163,13 @@ public abstract class MixinCraftingScreen extends HandledScreen<CraftingScreenHa
 
             C2SClickTimesPacket.sendClickTimes(time);
             C2STriggerContentChangePacket.sendTrigger();
-            player.craftTime$setCraftTime(0);
-            player.craftTime$setCrafting(false);
+            player.setCraftTimeCost(0);
+            player.setCraftingStatus(false);
             ci.cancel();
         }
         if (invSlot > 0 && invSlot < 10) {
-            player.craftTime$setCraftTime(0);
-            player.craftTime$setCrafting(false);
+            player.setCraftTimeCost(0);
+            player.setCraftingStatus(false);
         }
         if (invSlot == 0 && clickData == 0) {
             ItemStack resultItemStack = this.handler.getSlot(0).getStack();
@@ -183,8 +183,8 @@ public abstract class MixinCraftingScreen extends HandledScreen<CraftingScreenHa
             }
 
             //没有进行合成且输入输出不会空时,才考虑合成
-            if (!player.craftTime$isCrafting() && !this.handler.input.isEmpty() && !this.handler.getSlot(0).getStack().isEmpty()) {
-                player.craftTime$startCraftWithNewPeriod(CraftingDifficultyHelper.getCraftingDifficultyFromMatrix(this.handler, false, this));
+            if (!player.isCrafting() && !this.handler.input.isEmpty() && !this.handler.getSlot(0).getStack().isEmpty()) {
+                player.startCraftWithNewStage(CraftingDifficultyHelper.getCraftingDifficultyFromMatrix(this.handler, false, this));
             }
             //阻止直接从输出栏拿物品
             if(getGameBooleanRuleFromClient(ENABLE_CRAFTING_TIME_AND_LEVEL))
