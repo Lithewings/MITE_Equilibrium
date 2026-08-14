@@ -47,13 +47,13 @@
         },
         {
             "type": "patchouli:text",
-            "title": "Basic Difficulty Entries(Game Rules)",
+            "title": "Basic Difficulty Entries",
             "text": "Customize your experience with these gamerules:$(li2)$(thing)Crafting Time & Level$() — Enables workbench tier gating and crafting delays$(li2)$(thing)Standard Breaking Speed$() — Mining speed consistent with MITE style$(li2)$(thing)Crop Disease$() — Crops can become diseased$(li2)$(thing)Phytonutrient$() — Enables malnutrition tracking"
         },
         {
             "type": "patchouli:text",
-            "title": "Advanced Difficulty Entries(Game Rules)",
-            "text": "More options available in the game rules when creating a world.$()$(li2)$(#C0392B)$(thing)Desolation$() — Removes all villages and pillager outposts$(li2)$(#C0392B)$(thing)Extinction$() — Animals no longer spawn$(li2)$(#C0392B)$(thing)Blight$() — Crops stop growing naturally$(li2)$(#C0392B)$(thing)Rainy Season$() — Greatly increased rain duration$(li2)$(#C0392B)$(thing)Universal Aggro$() — Piglins and Endermen attack unconditionally$(li2)$(#C0392B)$(thing)SL Punishment$() — Save/load actions cause health loss$(br2)$(important)More options available in the game rules when creating a world.$()"
+            "title": "Advanced Difficulty Entries",
+            "text": "More options available in the game rules when creating a world.$()$(li2)$(#C0392B)$(thing)Desolation$() — Removes all villages and pillager outposts$(li2)$(#C0392B)$(thing)Extinction$() — Animals no longer spawn$(li2)$(#C0392B)$(thing)Blight$() — Crops stop growing naturally$(li2)$(#C0392B)$(thing)Rainy Season$() — Greatly increased rain duration$(li2)$(#C0392B)$(thing)Universal Aggro$() — Piglins and Endermen attack unconditionally$(li2)$(#C0392B)$(thing)SL Punishment$() — Save/load actions cause more health loss"
         }
     ]
 }
