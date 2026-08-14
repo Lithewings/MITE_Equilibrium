@@ -169,10 +169,11 @@ public abstract class BucketItemMixin extends Item implements FluidModificationI
         world.emitGameEvent(player, GameEvent.FLUID_PLACE, pos);
     }
 
-    @Override
-    public boolean placeFluid(@Nullable PlayerEntity player, World world, BlockPos pos, @Nullable BlockHitResult hitResult) {
+    @Inject(method = "placeFluid",at = @At("HEAD"), cancellable = true)
+    public void placeFluid(PlayerEntity player, World world, BlockPos pos, BlockHitResult hitResult, CallbackInfoReturnable<Boolean> cir) {
+        cir.cancel();
         if (!(this.fluid instanceof FlowableFluid flowableFluid)) {
-            return false;
+            cir.setReturnValue(false);
         } else {
             Block block;
             boolean bl;
@@ -197,7 +198,7 @@ public abstract class BucketItemMixin extends Item implements FluidModificationI
 
             boolean bl2 = var10000;
             if (!bl2) {
-                return hitResult != null && this.placeFluid(player, world, hitResult.getBlockPos().offset(hitResult.getSide()), null);
+                cir.setReturnValue(hitResult != null && this.placeFluid(player, world, hitResult.getBlockPos().offset(hitResult.getSide()), null));
             }
             //地狱蒸发
             else if (world.getDimension().ultrawarm() && this.fluid.isIn(FluidTags.WATER)) {
@@ -211,13 +212,12 @@ public abstract class BucketItemMixin extends Item implements FluidModificationI
                 for (int l = 0; l < 8; l++) {
                     world.addParticle(ParticleTypes.LARGE_SMOKE, (double)i + Math.random(), (double)j + Math.random(), (double)k + Math.random(), 0.0, 0.0, 0.0);
                 }
-
-                return true;
+                cir.setReturnValue(true);
             } else {
                 if (block instanceof FluidFillable fluidFillable && this.fluid == Fluids.WATER) {
                     fluidFillable.tryFillWithFluid(world, pos, blockState, flowableFluid.getStill(false));
                     this.playEmptyingSound(player, world, pos);
-                    return true;
+                    cir.setReturnValue(true);
                 }
 
                 if (!world.isClient && bl && !blockState.isLiquid()) {
@@ -225,10 +225,10 @@ public abstract class BucketItemMixin extends Item implements FluidModificationI
                 }
 
                 if (!world.setBlockState(pos, this.fluid.getDefaultState().getBlockState(), Block.NOTIFY_ALL_AND_REDRAW) && !blockState.getFluidState().isStill()) {
-                    return false;
+                    cir.setReturnValue(false);
                 } else {
                     this.playEmptyingSound(player, world, pos);
-                    return true;
+                    cir.setReturnValue(true);
                 }
             }
         }
