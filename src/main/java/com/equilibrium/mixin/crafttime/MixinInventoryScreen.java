@@ -57,7 +57,7 @@ public abstract class MixinInventoryScreen extends AbstractInventoryScreen<Playe
 
 
 	@Inject(method = "drawBackground", at = @At("TAIL"))
-	protected void timecraft$drawBackground(DrawContext context, float delta, int mouseX, int mouseY, CallbackInfo ci) {
+	protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY, CallbackInfo ci) {
 		this.player = (craftTimeController) this.client.player;
 
 		RenderSystem.setShaderTexture(0,CRAFT_OVERLAY_TEXTURE);
@@ -72,7 +72,7 @@ public abstract class MixinInventoryScreen extends AbstractInventoryScreen<Playe
 	}
 
 	@Inject(method = "handledScreenTick", at = @At("TAIL"))
-	public void timecraft$tick(CallbackInfo info) {
+	public void handledScreenTick(CallbackInfo info) {
         if (this.client != null) {
             this.player = (craftTimeController) this.client.player;
         }
@@ -119,7 +119,7 @@ public abstract class MixinInventoryScreen extends AbstractInventoryScreen<Playe
 
 
 	@Inject(method = "onMouseClick", at = @At("HEAD"), cancellable = true)
-	public void timecraft$onMouseClick(Slot slot, int invSlot, int clickData, SlotActionType actionType,
+	public void onMouseClick(Slot slot, int invSlot, int clickData, SlotActionType actionType,
 			CallbackInfo info) {
 		if (slot != null) {
 			invSlot = slot.id;
