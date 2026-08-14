@@ -1,0 +1,6 @@
+{
+    "name": "核心机制",
+    "description": "深入了解让 $(mod_name) 的核心系统和机制。",
+    "icon": "minecraft:crafting_table",
+    "sortnum": 1
+}

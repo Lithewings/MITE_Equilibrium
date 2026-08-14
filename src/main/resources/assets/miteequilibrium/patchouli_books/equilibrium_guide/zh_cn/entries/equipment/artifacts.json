@@ -1,0 +1,35 @@
+{
+    "name": "特殊物品",
+    "icon": "miteequilibrium:adamantium_pickaxe",
+    "category": "miteequilibrium:equipment",
+    "sortnum": 2,
+    "secret": true,
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "传奇工具",
+            "text": "$(mod_name) 中对一些物品进行了改造。$(br2)这些物品拥有独特的能力。"
+        },
+        {
+            "type": "patchouli:spotlight",
+            "item": "miteequilibrium:adamantium_pickaxe",
+            "title": "末影水晶破坏者",
+            "link_recipe": false,
+            "text": "$(item)艾德曼镐$() 是整个游戏中 $(important)唯一$() 能够破坏 $(thing)末影水晶$() 的工具。$(br2)没有它就几乎无法击败末影龙。$(br2)在下界合金工作台上制作。"
+        },
+        {
+            "type": "patchouli:spotlight",
+            "item": "miteequilibrium:adamantium_hoe",
+            "title": "步履从容",
+            "link_recipe": false,
+            "text": "$(thing)效果：$() 右键以获得加速。$()。$(br2)虽然主要用途是耕作，但速度加成使其成为出色的探索工具。$(br2)$(note)以从容的步伐穿越任何地形。$()"
+        },
+        {
+            "type": "patchouli:spotlight",
+            "item": "minecraft:compass",
+            "title": "记录坐标",
+            "link_recipe": false,
+            "text": "$(thing)效果：$() 右键以显示坐标。$()"
+        }
+    ]
+}
