@@ -1,6 +1,6 @@
 package com.equilibrium.mixin.crafttime;
 
-import com.equilibrium.block.crafting_table.craftTimeController;
+import com.equilibrium.block.crafting_table.CraftTimeController;
 import com.equilibrium.network.C2SClickTimesPacket;
 import com.equilibrium.network.C2STriggerContentChangePacket;
 import com.equilibrium.block.CraftingDifficultyHelper;
@@ -31,7 +31,7 @@ import static com.equilibrium.GlobalModConfig.isAutoCraftingEnabled;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_CRAFTING_TIME_AND_LEVEL;
 import static com.equilibrium.network.C2STriggerContentChangePacket.sendTrigger;
 import static com.equilibrium.util.SharedConstant.*;
-
+@Deprecated
 @Mixin(CraftingScreen.class)
 public abstract class MixinCraftingScreen extends HandledScreen<CraftingScreenHandler> {
 
@@ -39,7 +39,7 @@ public abstract class MixinCraftingScreen extends HandledScreen<CraftingScreenHa
     protected abstract void onMouseClick(Slot slot, int slotId, int button, SlotActionType actionType);
 
     @Unique
-    private craftTimeController playerCraftingView;
+    private CraftTimeController playerCraftingView;
 
     public MixinCraftingScreen(CraftingScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -70,7 +70,7 @@ public abstract class MixinCraftingScreen extends HandledScreen<CraftingScreenHa
 
         //每秒渲染20次
         assert this.client != null;
-        this.playerCraftingView = (craftTimeController) this.client.player;
+        this.playerCraftingView = (CraftTimeController) this.client.player;
 
         RenderSystem.setShaderTexture(0, CRAFT_OVERLAY_TEXTURE);
         int i = this.x;
@@ -95,7 +95,7 @@ public abstract class MixinCraftingScreen extends HandledScreen<CraftingScreenHa
 
 
         if (this.client != null) {
-            this.playerCraftingView = (craftTimeController) this.client.player;
+            this.playerCraftingView = (CraftTimeController) this.client.player;
         }
 
         ItemStack resultItemStack = this.handler.getSlot(0).getStack();

@@ -1,5 +1,5 @@
 {
-  "parent": "miteequilibrium:adventure/get_diamond_crafting_table",
+  "parent": "miteequilibrium:adventure/get_mithril_crafting_table",
   "criteria": {
     "get_mithril_pickaxe": {
       "conditions": {

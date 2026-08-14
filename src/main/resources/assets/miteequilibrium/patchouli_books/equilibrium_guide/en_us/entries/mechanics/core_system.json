@@ -34,9 +34,8 @@
         },
         {
             "type": "patchouli:crafting",
-            "recipe": "miteequilibrium:diamond_crafting_table",
-            "recipe2": "miteequilibrium:netherite_crafting_table",
-            "text": "Diamond: needs Ancient Metal. Netherite: final tier."
+            "recipe": "miteequilibrium:mithril_crafting_table",
+            "recipe2": "miteequilibrium:adamantium_crafting_table"
         },
         {
             "type": "patchouli:text",

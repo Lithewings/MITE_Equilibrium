@@ -1,11 +1,8 @@
 package com.equilibrium.mixin.crafttime;
 
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.NbtComponent;
+import com.equilibrium.block.crafting_table.ModCraftingScreenHandler;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.Registries;
 import net.minecraft.screen.CraftingScreenHandler;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
@@ -16,15 +13,12 @@ import net.minecraft.util.collection.DefaultedList;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.Objects;
-
 @Mixin(ScreenHandler.class)
-public class ScreenHandlerMixin {
+public class CraftingResultSendToInventory {
     @Final
     @Shadow public final DefaultedList<Slot> slots = DefaultedList.of();
 
@@ -38,7 +32,7 @@ public class ScreenHandlerMixin {
         //试图修复右键容器之外的栏造成异常发包的问题
         if(!player.getWorld().isClient && slotIndex!=-999){
             Slot slot3 = this.slots.get(slotIndex);
-            if(slot3 instanceof CraftingResultSlot && ((ScreenHandler)(Object)this instanceof CraftingScreenHandler || (ScreenHandler)(Object)this instanceof PlayerScreenHandler)){
+            if(slot3 instanceof CraftingResultSlot && ((ScreenHandler)(Object)this instanceof ModCraftingScreenHandler ||(ScreenHandler)(Object)this instanceof CraftingScreenHandler || (ScreenHandler)(Object)this instanceof PlayerScreenHandler)){
                 if (actionType == SlotActionType.THROW && slotIndex >= 0) {
 
                     int j = button == 0 ? 1 : slot3.getStack().getCount();

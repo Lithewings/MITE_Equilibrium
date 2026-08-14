@@ -13,7 +13,7 @@
   "adventure.get_ancient_metal.title": "Ancient Metal!",
   "adventure.get_copper.title": "Gacha Game?",
   "adventure.get_diamond.title": "Diamond!",
-  "adventure.get_diamond_crafting_table.title": "Crafting a Diamond Crafting Table",
+  "adventure.get_mithril_crafting_table.title": "Crafting a Mithril Crafting Table",
   "adventure.get_emerald.title": "Emerald!",
   "adventure.get_emerald_enchantment_table.title": "Enchanter I",
   "adventure.get_enchantment_table.title": "Enchanter II",
@@ -184,7 +184,7 @@
 
   "adventure.get_ancient_metal": "Safely kill Longdead to collect enough Ancient Chain Armor, uncraft them into Ancient Metal Nuggets and craft into Ancient Metal Ingots, or go venturing out to locate a Longdead spawner.",
 
-  "adventure.get_diamond_crafting_table": "Collect Ancient Metal and Diamonds to create a Diamond Crafting Table, to then forge Mithril Tools.",
+  "adventure.get_mithril_crafting_table": "Collect Ancient Metal and Diamonds to create a Mithril Crafting Table, to then crafting Mithril tools.",
 
 
   "adventure.get_mithril_pickaxe": "Craft a Mithril Pickaxe on the Diamond Crafting Table to mine the Adamantium Ore you've encountered.",
@@ -342,8 +342,8 @@
   "block.miteequilibrium.copper_crafting_table": "Copper Crafting Table",
   "block.miteequilibrium.silver_crafting_table": "Silver Crafting Table",
   "block.miteequilibrium.iron_crafting_table": "Iron Crafting Table",
-  "block.miteequilibrium.diamond_crafting_table": "Diamond Crafting Table",
-  "block.miteequilibrium.netherite_crafting_table": "Netherite Crafting Table",
+  "block.miteequilibrium.mithril_crafting_table": "Mithril Crafting Table",
+  "block.miteequilibrium.adamantium_crafting_table": "Adamantium Crafting Table",
 
   "block.miteequilibrium.gold_ore":"Gold Ore Block",
   "block.miteequilibrium.adamantium_ore":"Adamantium Ore Block",
@@ -357,8 +357,8 @@
   "container.copper_crafting": "Copper Crafting Table",
   "container.silver_crafting": "Silver Crafting Table",
   "container.iron_crafting": "Iron Crafting Table",
-  "container.diamond_crafting": "Diamond Crafting Table",
-  "container.netherite_crafting": "Netherite Crafting Table",
+  "container.mithril_crafting": "Mithril Crafting Table",
+  "container.adamantium_crafting": "Adamantium Crafting Table",
 
   "aliveandwell.crafttable.info1": "The workbench is not graded enough to synthesize！！！",
   "aliveandwell.crafttable.info2": "This item could not be synthesized 32 days ago！！！",

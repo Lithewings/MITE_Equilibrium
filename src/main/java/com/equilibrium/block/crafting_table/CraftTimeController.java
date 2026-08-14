@@ -1,6 +1,6 @@
 package com.equilibrium.block.crafting_table;
 
-public interface craftTimeController {
+public interface CraftTimeController {
 
 	void setCraftingStatus(boolean isCrafting);
 
