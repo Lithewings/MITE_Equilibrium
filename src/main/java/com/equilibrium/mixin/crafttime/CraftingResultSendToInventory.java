@@ -1,5 +1,6 @@
 package com.equilibrium.mixin.crafttime;
 
+import com.equilibrium.block.crafting_table.ModCraftingScreenHandler;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
@@ -12,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(AbstractContainerMenu.class)
-public class ScreenHandlerMixin {
+public class CraftingResultSendToInventory {
     @Final
     @Shadow public final NonNullList<Slot> slots = NonNullList.create();
 
@@ -26,7 +27,7 @@ public class ScreenHandlerMixin {
         //试图修复右键容器之外的栏造成异常发包的问题
         if(!player.level().isClientSide && slotIndex!=-999){
             Slot slot3 = this.slots.get(slotIndex);
-            if(slot3 instanceof ResultSlot && ((AbstractContainerMenu)(Object)this instanceof CraftingMenu || (AbstractContainerMenu)(Object)this instanceof InventoryMenu)){
+            if(slot3 instanceof ResultSlot && ((AbstractContainerMenu)(Object)this instanceof ModCraftingScreenHandler ||(AbstractContainerMenu)(Object)this instanceof CraftingMenu || (AbstractContainerMenu)(Object)this instanceof InventoryMenu)){
                 if (actionType == ClickType.THROW && slotIndex >= 0) {
 
                     int j = button == 0 ? 1 : slot3.getItem().getCount();

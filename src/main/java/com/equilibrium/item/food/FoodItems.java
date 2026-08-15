@@ -56,6 +56,6 @@ public class FoodItems {
         public static final DeferredItem<Item> CHOCOLATE = ITEMS.register("chocolate",
                 () -> new Chocolate(new Item.Properties().food(Chocolate.CHOCOLATE).stacksTo(16)));
 
-        public static final DeferredItem<Item> BLUEBERRY = ITEMS.register("blueberry",
+        public static final DeferredItem<Item> BLUEBERRY = ITEMS.register("blue_berry",
                 () -> new Blueberry(new Item.Properties().food(Blueberry.BLUEBERRY).stacksTo(16)));
 }

@@ -1,7 +1,7 @@
 {
 
-  "death.attack.hurt_by_blue_berry": "%1$s 被蓝莓丛刺死了",
-
+  "item.miteequilibrium.blue_berry": "蓝莓",
+  "block.miteequilibrium.blue_berry_bush": "蓝莓丛",
 
   "book.miteequilibrium.equilibrium_guide.name": "指引 & 额外补充内容",
   "book.miteequilibrium.equilibrium_guide.landing_text": "从近五万个字符的更新日志中浓缩选取的内容，旨在快速帮助玩家入门。",
@@ -13,7 +13,7 @@
   "adventure.get_ancient_metal.title": "远古金属!",
   "adventure.get_copper.title": "怎么是抽卡游戏?",
   "adventure.get_diamond.title": "钻石!",
-  "adventure.get_diamond_crafting_table.title": "制作钻石工作台",
+  "adventure.get_mithril_crafting_table.title": "制作秘银工作台",
   "adventure.get_emerald.title": "绿宝石!",
   "adventure.get_emerald_enchantment_table.title": "初级附魔师",
   "adventure.get_enchantment_table.title": "附魔师",
@@ -85,10 +85,6 @@
   "item.miteequilibrium.vegetable_soup": "蔬菜汤",
   "item.miteequilibrium.onion": "洋葱",
   "item.miteequilibrium.manure": "肥料",
-  "item.miteequilibrium.blueberry": "蓝莓",
-
-  "block.miteequilibrium.blueberry_bush": "蓝莓丛",
-
   "item.miteequilibrium.bowl_water": "水碗",
   "item.miteequilibrium.bowl_milk": "牛奶碗",
   "block.miteequilibrium.emerald_enchanting_table": "绿宝石附魔台",
@@ -121,7 +117,11 @@
   "mod.options.difficulty.normal.info": "敌对生物会生成并造成标准伤害。饥饿条耗尽时会消耗生命值。",
   "mod.selectWorld.mapFeatures.info": "这是完成主要流程的必需选项",
   "mod.selectWorld.bonusItems": "用于生成触发初始成就的物品",
-  "death.attack.fatal_poison.player": "%1$s 毒发身亡",
+
+  "death.attack.fatal_poison": "%1$s 毒发身亡",
+
+  "death.attack.hurt_by_blue_berry": "%1$s 被蓝莓丛刺死了",
+
   "select.world.wrong.version": "你无法打开不可兼容版本的存档",
   "adventure.get_flint.description": "挖掘沙砾，获得燧石碎片，或是一整块燧石。",
   "adventure.brew_potion": "酿造出一瓶药水。\n现在所有药水的持续时间效果翻倍。",
@@ -151,7 +151,7 @@
   "adventure.root": "一份纪念品——来自你出生点旁的箱子。",
   "adventure.use_ender_eye": "抵达距离出生点至少12千米的位置，成功投掷出一颗末影之眼，然后捡起来。",
   "adventure.get_ancient_metal": "在安全的位置击败古尸，收集足够多的远古锁链盔甲,反向合成远古金属颗粒再合成出远古金属锭,亦或是去冒险寻找古尸刷怪笼。",
-  "adventure.get_diamond_crafting_table": "使用远古金属和钻石,制作出钻石合成台,以合成秘银工具。",
+  "adventure.get_mithril_crafting_table": "使用远古金属和钻石,制作出秘银合成台,以合成秘银工具。",
   "adventure.get_mithril_pickaxe": "在钻石合成台上合成秘银镐,采下你曾遇到过的艾德曼矿石",
   "item.miteequilibrium.adamantium_hoe.tooltip1": "获得20%的速度加成",
   "item.miteequilibrium.adamantium_hoe.tooltip2": "泰然自若地快步行走",
@@ -261,8 +261,8 @@
   "block.miteequilibrium.copper_crafting_table": "铜工作台",
   "block.miteequilibrium.silver_crafting_table": "银工作台",
   "block.miteequilibrium.iron_crafting_table": "铁工作台",
-  "block.miteequilibrium.diamond_crafting_table": "钻石工作台",
-  "block.miteequilibrium.netherite_crafting_table": "下界合金工作台",
+  "block.miteequilibrium.mithril_crafting_table": "秘银工作台",
+  "block.miteequilibrium.adamantium_crafting_table": "艾德曼工作台",
   "block.miteequilibrium.gold_ore": "金矿石方块",
   "block.miteequilibrium.adamantium_ore": "艾德曼矿石方块",
   "block.miteequilibrium.copper_ore": "铜矿石方块",
@@ -273,8 +273,8 @@
   "container.copper_crafting": "铜工作台",
   "container.silver_crafting": "银工作台",
   "container.iron_crafting": "铁工作台",
-  "container.diamond_crafting": "钻石工作台",
-  "container.netherite_crafting": "下界合金工作台",
+  "container.mithril_crafting": "秘银工作台",
+  "container.adamantium_crafting": "艾德曼工作台",
   "aliveandwell.crafttable.info1": "该工作台等级不足",
   "aliveandwell.crafttable.info2": "该物品无法在第32天前合成",
   "aliveandwell.crafttable.info3": "该物品已被禁用",
@@ -298,31 +298,22 @@
   "mod.itemGroup.armors_and_tools": "工具与盔甲",
   "mod.itemGroup.blocks_and_metallic_items": "方块与金属制品",
   "mod.itemGroup.farm": "农业与食物",
-  "gamerule.01enableCraftingTimeAndLevel": "启用合成耗时和合成台等级",
-  "gamerule.02enableSlowBreakingSpeed": "启用标准挖掘速度",
-  "gamerule.03enableCropIllness": "启用作物生病机制",
-  "gamerule.04enableAdvanceAnimalAI": "启用高级动物AI",
-  "gamerule.05enableRestrictVillageGen": "启用更严格的村庄和前哨站生成条件",
-  "gamerule.06enablePhytonutrient": "启用营养不良机制",
-  "gamerule.07enableBloodMoonThunder": "启用血月雷电",
-  "gamerule.08disablePlayerTeleport": "禁用玩家间的传送指令：/teleportToPlayer",
-
-  "gamerule.001disableVillageAndPillage": "荒芜：移除了村庄、附属的农田和掠夺者前哨站结构",
-  "gamerule.002enableMoreSlDamage": "三思而后行：SL行为会损失更多生命值",
-  "gamerule.003enableNoAnimals": "灭绝：牛、羊、猪、鸡四种动物不再生成",
-  "gamerule.004enableMoreRainWeather": "雨季：一段时间后大幅提高世界下雨的时长",
-  "gamerule.005disableCropGrow": "荒疫：农作物不再自然生长",
-  "gamerule.006enableUniversalAggro": "众矢之的：玩家会无条件引起猪人和末影人的仇恨",
-  "gamerule.007enableAnvilLevel": "启用铁砧等级",
-  "gamerule.008enableAdvancedEnchantingTable": "启用高级附魔台",
-
-
-
-
-
-
-
-
+  "gamerule.enableCraftingTimeAndLevel": "启用合成耗时和合成台等级",
+  "gamerule.enableSlowBreakingSpeed": "启用标准挖掘速度",
+  "gamerule.enableCropIllness": "启用作物生病机制",
+  "gamerule.enableAdvanceAnimalAI": "启用高级动物AI",
+  "gamerule.enableRestrictVillageGen": "启用更严格的村庄和前哨站生成条件",
+  "gamerule.enablePhytonutrient": "启用营养不良机制",
+  "gamerule.enableBloodMoonThunder": "启用血月雷电",
+  "gamerule.disablePlayerTeleport": "禁用玩家间的传送指令：/teleportToPlayer",
+  "gamerule.enableAnvilLevel": "启用铁砧等级",
+  "gamerule.enableAdvancedEnchantingTable": "启用高级附魔台",
+  "gamerule.disableVillageAndPillage": "荒芜：移除了村庄、附属的农田和掠夺者前哨站结构",
+  "gamerule.enableMoreSlDamage": "三思而后行：SL行为会损失更多生命值",
+  "gamerule.enableNoAnimals": "灭绝：牛、羊、猪、鸡四种动物不再生成",
+  "gamerule.disableCropGrow": "荒疫：农作物不再自然生长",
+  "gamerule.enableMoreRainWeather": "雨季：一段时间后大幅提高世界下雨的时长",
+  "gamerule.enableUniversalAggro": "众矢之的：玩家会无条件引起猪人和末影人的仇恨",
   "generator.miteequilibrium.classic_overworld": "默认（经典）",
   "effect.miteequilibrium.insulin_resistance": "糖尿病"
 }

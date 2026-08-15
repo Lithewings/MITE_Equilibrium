@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "miteequilibrium:item/blueberry"
+    "layer0": "miteequilibrium:item/blue_berry"
   }
 }

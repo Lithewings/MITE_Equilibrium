@@ -6,9 +6,8 @@
     "LandPathNodeMakerMixin",
     "advancement.AdvancementManagerMixin",
     "advancement.PlayerAdvancementTrackerMixin",
-    "crafttime.CraftingScreenHandlerMixin",
-    "crafttime.PlayerScreenHandlerMixin",
-    "crafttime.ScreenHandlerMixin",
+    "crafttime.PlayerScreenHandlerCheckCraftingLevel",
+    "crafttime.CraftingResultSendToInventory",
     "crop.BoneMealItemMixin",
     "crop.CropBlockMixin",
     "crop.FarmlandBlockMixin",
@@ -85,9 +84,7 @@
     "defaultRequire": 1
   },
   "client": [
-    "crafttime.MixinClientPlayerEntity",
-    "crafttime.MixinCraftingScreen",
-    "crafttime.MixinInventoryScreen",
+    "crafttime.CraftingTimeInformationWithClientPlayerEntity",
     "crafttime.RecipeBookMixin",
     "player.ClientPlayerEntityMixin",
     "render.hud_at_players_screen.DebugHudMixin",

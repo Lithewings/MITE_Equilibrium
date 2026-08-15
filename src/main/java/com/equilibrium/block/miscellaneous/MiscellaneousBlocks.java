@@ -28,7 +28,7 @@ public class MiscellaneousBlocks {
                     .mapColor(MapColor.PLANT).noCollission().randomTicks()
                     .instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
 
-    public static final DeferredBlock<BlueBerryBushBlock> BLUEBERRY_BUSH = BLOCKS.register("blueberry_bush",
+    public static final DeferredBlock<BlueBerryBushBlock> BLUEBERRY_BUSH = BLOCKS.register("blue_berry_bush",
             () -> new BlueBerryBushBlock(
                     BlockBehaviour.Properties.of()
                             .mapColor(MapColor.PLANT)
@@ -38,7 +38,7 @@ public class MiscellaneousBlocks {
                             .pushReaction(PushReaction.DESTROY)
             ));
 
-    public static final DeferredItem<BlockItem> BLUEBERRY_BUSH_ITEM = ITEMS.register("blueberry_bush",
+    public static final DeferredItem<BlockItem> BLUEBERRY_BUSH_ITEM = ITEMS.register("blue_berry_bush",
             () -> new BlockItem(BLUEBERRY_BUSH.get(), new Item.Properties().stacksTo(16)));
 
     public static final DeferredBlock<Block> EXAMPLE_BLOCK = BLOCKS.register("example_block",

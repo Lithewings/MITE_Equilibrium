@@ -1,5 +1,7 @@
 {
   "values": [
-    "#minecraft:logs"
+    "#minecraft:logs",
+    "minecraft:milk_bucket",
+    "miteequilibrium:bowl_milk"
   ]
 }

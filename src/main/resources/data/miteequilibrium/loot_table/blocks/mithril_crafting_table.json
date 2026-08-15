@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "miteequilibrium:netherite_crafting_table"
+          "name": "miteequilibrium:mithril_crafting_table"
         }
       ],
       "rolls": 1.0

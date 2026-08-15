@@ -41,12 +41,12 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class BlueBerryBushBlock extends BushBlock implements BonemealableBlock {
-    public static final MapCodec<SweetBerryBushBlock> CODEC = simpleCodec(SweetBerryBushBlock::new);
+    public static final MapCodec<BlueBerryBushBlock> CODEC = simpleCodec(BlueBerryBushBlock::new);
     public static final IntegerProperty AGE = BlockStateProperties.AGE_2;
     private static final VoxelShape MID_GROWTH_SHAPE = Block.box(1.0, 0.0, 1.0, 15.0, 16.0, 15.0);
 
     @Override
-    public MapCodec<SweetBerryBushBlock> codec() {
+    public MapCodec<BlueBerryBushBlock> codec() {
         return CODEC;
     }
 
@@ -158,7 +158,7 @@ public class BlueBerryBushBlock extends BushBlock implements BonemealableBlock {
 
     @Override
     public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
-        return state.getValue(AGE) < 3;
+        return state.getValue(AGE) < 1;
     }
 
     @Override

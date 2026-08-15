@@ -1,6 +1,8 @@
 package com.equilibrium;
 
 import com.equilibrium.block.ModBlockScreenTypesRegister;
+import com.equilibrium.block.crafting_table.ModCraftingScreen;
+import com.equilibrium.block.crafting_table.ModCraftingScreenHandler;
 import com.equilibrium.block.miscellaneous.MiscellaneousBlocks;
 import com.equilibrium.block.anvil.adamantium_anvil_block.AdamantiumAnvilScreen;
 import com.equilibrium.block.anvil.iron_anvil_block.IronAnvilScreen;
@@ -10,6 +12,7 @@ import com.equilibrium.block.enchanting_table.ModEnchantmentScreen;
 import com.equilibrium.block.enchanting_table.diamond.DiamondEnchantingTableBlockEntityRenderer;
 import com.equilibrium.block.enchanting_table.emerald.EmeraldEnchantingTableBlockEntityRenderer;
 import com.equilibrium.item.armor.ArmorItems;
+import com.equilibrium.item.food.FoodItems;
 import com.equilibrium.network.S2CGameRuleSyncPayloadForBooleanPacket;
 import com.equilibrium.network.S2CIllnessTextureBooleanPacket;
 import com.equilibrium.network.S2CStockChangeGrassColorPacket;
@@ -73,7 +76,7 @@ public class OnClientInitialize {
             MenuScreens.register(ModBlockScreenTypesRegister.IRON_ANVIL_SCREEN_TYPE, IronAnvilScreen::new);
             MenuScreens.register(ModBlockScreenTypesRegister.MITHRIL_ANVIL_SCREEN_TYPE, MithrilAnvilScreen::new);
             MenuScreens.register(ModBlockScreenTypesRegister.ADAMANTIUM_ANVIL_SCREEN_TYPE, AdamantiumAnvilScreen::new);
-
+            MenuScreens.register(ModBlockScreenTypesRegister.MOD_CRAFTING_SCREEN_HANDLER_SCREEN_HANDLER_TYPE, ModCraftingScreen::new);
             // 注册方块实体渲染器
             BlockEntityRenderers.register(ModBlockEntityTypes.EMERALD_ENCHANTING_TABLE_BLOCK_ENTITY_TYPE,
                     EmeraldEnchantingTableBlockEntityRenderer::new);
@@ -82,6 +85,7 @@ public class OnClientInitialize {
 
 
             BlockRenderLayerMap.INSTANCE.putBlocks(RenderType.cutout(), MiscellaneousBlocks.ONION_BLOCK.get());
+            BlockRenderLayerMap.INSTANCE.putBlocks(RenderType.cutout(), MiscellaneousBlocks.BLUEBERRY_BUSH.get());
 
             ItemTooltipCallback.EVENT.register((stack, context, type, lines) -> {
                 // 判断物品是青金石（Lapis Lazuli）或其他物品

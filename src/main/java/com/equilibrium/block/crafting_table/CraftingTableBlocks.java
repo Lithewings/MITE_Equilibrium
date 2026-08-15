@@ -30,11 +30,11 @@ public class CraftingTableBlocks {
             () -> new TheCraftingTableBlock(BlockBehaviour.Properties.of()
                     .strength(0.01F).sound(SoundType.WOOD)));
 
-    public static final DeferredBlock<TheCraftingTableBlock> DIAMOND_CRAFTING_TABLE = BLOCKS.register("diamond_crafting_table",
+    public static final DeferredBlock<TheCraftingTableBlock> MITHRIL_CRAFTING_TABLE = BLOCKS.register("mithril_crafting_table",
             () -> new TheCraftingTableBlock(BlockBehaviour.Properties.of()
                     .strength(0.01F).sound(SoundType.WOOD)));
 
-    public static final DeferredBlock<TheCraftingTableBlock> NETHERITE_CRAFTING_TABLE = BLOCKS.register("netherite_crafting_table",
+    public static final DeferredBlock<TheCraftingTableBlock> ADAMANTIUM_CRAFTING_TABLE = BLOCKS.register("adamantium_crafting_table",
             () -> new TheCraftingTableBlock(BlockBehaviour.Properties.of()
                     .strength(0.01F).sound(SoundType.WOOD)));
 
@@ -50,9 +50,9 @@ public class CraftingTableBlocks {
     public static final DeferredItem<BlockItem> IRON_CRAFTING_TABLE_ITEM = ITEMS.register("iron_crafting_table",
             () -> new BlockItem(IRON_CRAFTING_TABLE.get(), new Item.Properties().stacksTo(16)));
 
-    public static final DeferredItem<BlockItem> DIAMOND_CRAFTING_TABLE_ITEM = ITEMS.register("diamond_crafting_table",
-            () -> new BlockItem(DIAMOND_CRAFTING_TABLE.get(), new Item.Properties().stacksTo(16)));
+    public static final DeferredItem<BlockItem> MITHRIL_CRAFTING_TABLE_ITEM = ITEMS.register("mithril_crafting_table",
+            () -> new BlockItem(MITHRIL_CRAFTING_TABLE.get(), new Item.Properties().stacksTo(16)));
 
-    public static final DeferredItem<BlockItem> NETHERITE_CRAFTING_TABLE_ITEM = ITEMS.register("netherite_crafting_table",
-            () -> new BlockItem(NETHERITE_CRAFTING_TABLE.get(), new Item.Properties().stacksTo(16)));
+    public static final DeferredItem<BlockItem> ADAMANTIUM_CRAFTING_TABLE_ITEM = ITEMS.register("adamantium_crafting_table",
+            () -> new BlockItem(ADAMANTIUM_CRAFTING_TABLE.get(), new Item.Properties().stacksTo(16)));
 }

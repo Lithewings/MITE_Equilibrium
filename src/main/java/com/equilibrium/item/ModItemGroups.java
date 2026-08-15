@@ -18,7 +18,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.FurnaceBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.function.Supplier;
@@ -39,8 +38,8 @@ public class ModItemGroups {
                         output.accept(CraftingTableBlocks.COPPER_CRAFTING_TABLE);
                         output.accept(CraftingTableBlocks.SILVER_CRAFTING_TABLE);
                         output.accept(CraftingTableBlocks.IRON_CRAFTING_TABLE);
-                        output.accept(CraftingTableBlocks.DIAMOND_CRAFTING_TABLE);
-                        output.accept(CraftingTableBlocks.NETHERITE_CRAFTING_TABLE);
+                        output.accept(CraftingTableBlocks.MITHRIL_CRAFTING_TABLE);
+                        output.accept(CraftingTableBlocks.ADAMANTIUM_CRAFTING_TABLE);
 
                         output.accept(FurnaceBlocks.CLAY_FURNACE);
                         output.accept(FurnaceBlocks.OBSIDIAN_FURNACE);
