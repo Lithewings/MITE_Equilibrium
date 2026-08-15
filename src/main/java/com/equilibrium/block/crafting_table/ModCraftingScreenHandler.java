@@ -200,12 +200,6 @@ public class ModCraftingScreenHandler extends AbstractRecipeScreenHandler<Crafti
 
 
 
-            //合成台需要玩家至少拥有200级经验才能合成,用以合成自动合成器
-            if(itemStack.isOf(Items.CRAFTING_TABLE) && player.experienceLevel<50 && !player.isCreative()){
-                itemStack = ItemStack.EMPTY;
-                player.sendMessage(Text.of("你需要至少50级经验来合成该工作台"));
-            }
-
             if(itemStack.isOf(Items.ANVIL) && getGameBooleanRuleFromServer(ENABLE_ANVIL_LEVEL,world.getServer())){
                 itemStack = ModBlocksRegistry.IRON_ANVIL.asItem().getDefaultStack();
             }

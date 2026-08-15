@@ -31,6 +31,7 @@ import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.getGameBool
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_MORE_SL_DAMAGE;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_NO_ANIMALS;
 import static com.equilibrium.difficulty_entry.DifficultyEntryUtil.onPlayerConnectSynchronizingGameRulesForBoolean;
+import static com.equilibrium.util.CommandExecutor.executeCommandWithSlash;
 
 
 @Mixin(PlayerManager.class)
@@ -53,8 +54,7 @@ public abstract class PlayerManagerMixin {
                 leather.setCount(16);
                 player.getInventory().offerOrDrop(leather);
             }
-
-
+            executeCommandWithSlash(player.server, "/give @p patchouli:guide_book[patchouli:book=\"miteequilibrium:equilibrium_guide\"]");
         }
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 100, 255, false, false, false));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 100, 255, false, false, false));

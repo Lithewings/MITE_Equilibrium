@@ -13,12 +13,12 @@
         {
             "type": "patchouli:text",
             "title": "Workbench Crafting",
-            "text": "Starting from the Flint Crafting Table$() — craft in the player's 2x2 inventory$(li2)$(item)Copper Crafting Table$() — craft on the Flint Crafting Table$(li2)$(item)Silver Crafting Table$() — craft on the Flint Crafting Table$(li2)$(item)Iron Crafting Table$() — craft on the Copper/Silver Crafting Table$(li2)$(item)Diamond Crafting Table$() — craft on the Iron Crafting Table"
+            "text": "Starting from the Flint Crafting Table$() — craft in the player's 2x2 inventory$(li2)$(item)Copper Crafting Table$() — craft on the Flint Crafting Table$(li2)$(item)Silver Crafting Table$() — craft on the Flint Crafting Table$(li2)$(item)Iron Crafting Table$() — craft on the Copper/Silver Crafting Table$(li2)$(item)Mithril Crafting Table$() — craft on the Iron Crafting Table at least"
         },
         {
             "type": "patchouli:text",
             "title": "Workbench Tiers",
-            "text": "$(li2)$(item)Netherite Crafting Table$() — craft on the Diamond Crafting Table$(li2)$(item)Vanilla Crafting Table$() — craft on the Netherite Crafting Table, use it to craft the Crafter , skip crafting time!$(li2)$(item)Crafter$() — craft on the Iron Crafting Table, finally, you are no longer limited by crafting time."
+            "text": "$(li2)$(item)Vanilla Crafting Table$() — craft on the Adamantium Crafting Table, use it to craft the Crafter, skip crafting time!$(li2)$(item)Crafter$() — craft on the Iron Crafting Table, finally, you are no longer limited by crafting time."
         },
         {
             "type": "patchouli:crafting",
@@ -48,6 +48,16 @@
             "text": "Smelting also follows the tier system:$(li2)$(item)Clay Furnace$() — the most basic furnace, but cannot handle high-grade fuels$(li2)$(item)Cobblestone Furnace$() — can only be lit by coal$(li2)$(item)Obsidian Furnace$() — requires lava to power, essential for smelting Mithril ore$(li2)$(item)Netherrack Furnace$() — extremely high smelting speed, powered by Blaze Rods, can smelt Adamantium ore."
         },
         {
+            "type": "patchouli:crafting",
+            "recipe": "miteequilibrium:clay_furnace",
+            "recipe2": "minecraft:furnace"
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "miteequilibrium:obsidian_furnace",
+            "recipe2": "miteequilibrium:netherrack_furnace"
+        },
+        {
             "type": "patchouli:text",
             "title": "Block Tiers & Mining Levels",
             "text": "Blocks have hardness, and tools have mining levels. If your mining progress on a block remains at zero, try using a higher-tier tool to harvest it."
@@ -69,7 +79,7 @@
         },     {
             "type": "patchouli:text",
             "title": "Anvil Tiers",
-            "text": "$(note)You can use the vanilla Anvil from Minecraft, or place it in the crafting grid at any time to convert it to the mod's custom anvil."
+            "text": "$(note)You can use the vanilla Anvil from Minecraft, or place it in the crafting slot at any time to convert it to the mod's custom iron anvil."
         },
         {
             "type": "patchouli:text",
