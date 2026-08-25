@@ -12,7 +12,7 @@
         },
         {
             "type": "patchouli:text",
-            "title": "工作台合成",
+            "title": "工作台等级",
             "text": "从燧石工作台开始$() — 在玩家四格合成栏里合成$(li2)$(item)铜工作台$() — 在燧石工作台上合成$(li2)$(item)银工作台$() — 在燧石工作台上合成$(li2)$(item)铁工作台$() — 在铜/银工作台上合成$(li2)$(item)秘银工作台$() — 至少在铁合成台上合成$(li2)$(item)艾德曼工作台$() — 在秘银合成台上合成$(li2)$(item)原版的合成台$()(请用它制作自动合成台，跳过合成耗时！)"
         },
         {
@@ -36,6 +36,16 @@
             "type": "patchouli:crafting",
             "recipe": "miteequilibrium:mithril_crafting_table",
             "recipe2": "miteequilibrium:adamantium_crafting_table"
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "minecraft:crafting_table",
+            "recipe2": "minecraft:crafter"
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "miteequilibrium:fake_mithril_crafting_table",
+            "text":"以上为秘银工作台的第二种合成方式"
         },
         {
             "type": "patchouli:text",

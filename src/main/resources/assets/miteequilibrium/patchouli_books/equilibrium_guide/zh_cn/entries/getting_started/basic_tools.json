@@ -7,7 +7,7 @@
         {
             "type": "patchouli:text",
             "title": "等级系统",
-            "text": "$(mod_name) 采用严格的 $(thing)等级递进系统$()。高等级物品 $(important)只能在$() 同等或更高等级的工作台上制作。$(br2)完整递进链：$(br)$(li2)$(item)燧石$() → 铜 / 银 → 铁$(br)$(li2)钻石 → 下界合金 → 自动合成台"
+            "text": "$(mod_name) 采用严格的 $(thing)等级递进系统$()。高等级物品 $(important)只能在$() 同等或更高等级的工作台上制作。"
         },
         {
             "type": "patchouli:crafting",
@@ -31,7 +31,7 @@
             "type": "patchouli:spotlight",
             "item": "miteequilibrium:copper_hammer",
             "title": "铜锤",
-            "text": "独特武器 —— $(thing)锤子$()。$(br2)$(bold)效果：$() 对骷髅造成 $(thing)1.5 倍伤害$()。每个金属等级都可用。"
+            "text": "独特武器 —— $(thing)锤子$()。$(br2)$(bold)效果：$() 对骷髅造成 $(thing)1.5 倍伤害$()。每个金属等级都可用。锤子在合成时拥有更高耐久，可作为镐类工具进行挖掘，但挖掘效率不及镐类工具"
         },
         {
             "type": "patchouli:relations",

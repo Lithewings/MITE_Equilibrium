@@ -33,7 +33,7 @@
             "item": "miteequilibrium:mithril_chest_plate",
             "title": "Mithril Armor Set Bonus",
             "link_recipe": false,
-            "text": "The Mithril Chestplate doubles your natural health regeneration rate. $(important)All set pieces must be crafted on a Diamond Crafting Table (or higher).$()"
+            "text": "The Mithril Chestplate doubles your natural health regeneration rate. $(important)All set pieces must be crafted on a Mithril Crafting Table (or higher).$()"
         },
         {
             "type": "patchouli:crafting",

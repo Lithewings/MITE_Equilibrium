@@ -12,7 +12,7 @@
         },
         {
             "type": "patchouli:text",
-            "title": "Workbench Crafting",
+            "title": "Workbench Tiers",
             "text": "Starting from the Flint Crafting Table$() — craft in the player's 2x2 inventory$(li2)$(item)Copper Crafting Table$() — craft on the Flint Crafting Table$(li2)$(item)Silver Crafting Table$() — craft on the Flint Crafting Table$(li2)$(item)Iron Crafting Table$() — craft on the Copper/Silver Crafting Table$(li2)$(item)Mithril Crafting Table$() — craft on the Iron Crafting Table at least"
         },
         {
@@ -38,9 +38,19 @@
             "recipe2": "miteequilibrium:adamantium_crafting_table"
         },
         {
+            "type": "patchouli:crafting",
+            "recipe": "minecraft:crafting_table",
+            "recipe2": "minecraft:crafter"
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "miteequilibrium:fake_mithril_crafting_table",
+            "text":"The above is the second crafting method for the Mithril Crafting Table."
+        },
+        {
             "type": "patchouli:text",
             "title": "Hold On a Moment",
-            "text": "An Iron Pickaxe cannot mine diamond ore veins — it's too hard. And crafting a Diamond Crafting Table requires diamonds.$(br2)You'll need to find a way to obtain a diamond through other means."
+            "text": "An Iron Pickaxe cannot mine the diamond ore  — it's too hard. And crafting a Mithril Crafting Table requires a diamond.$(br2)You'll need to find a way to obtain a diamond through other means."
         },
         {
             "type": "patchouli:text",

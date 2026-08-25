@@ -22,8 +22,31 @@
         {
             "type": "patchouli:crafting",
             "recipe": "miteequilibrium:beef_soup",
-            "recipe2": "miteequilibrium:vegetable_soup",
-            "text": "Staple meals for maintaining nutrition balance."
+            "recipe2": "miteequilibrium:vegetable_soup"
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "minecraft:pumpkin_pie",
+            "recipe2": "miteequilibrium:cheese"
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "miteequilibrium:cheese_double",
+            "recipe2": "miteequilibrium:cheese_double2"
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "miteequilibrium:cheese_triple",
+            "recipe2": "miteequilibrium:cheese_full"
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "miteequilibrium:chocolate",
+            "recipe2": "miteequilibrium:salad"
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "miteequilibrium:mashed_potato"
         },
         {
             "type": "patchouli:text",
@@ -38,12 +61,12 @@
         {
             "type": "patchouli:text",
             "title": "The Moon System",
-            "text": "Pay attention to the night sky! Special moon phases bring unique effects:$(li2)$(#C0392B)$(bold)Blood Moon$() — Prevents sleeping. If the gamerule is enabled, may be accompanied by more dangerous thunderstorms.$(li2)$(#3498DB)$(bold)Blue Moon$() — Rare moon phase.$(li2)$(#27AE60)$(bold)Harvest Moon$() — Crop growth benefits.$(li2)$(#D3D3D3)$(bold)New Moon$() — Binds nearby monsters, inflicting Weakness and Slowness."
+            "text": "Pay attention to the night sky! Special moon phases bring unique effects:$(li2)$(#C0392B)$(bold)BloodMoon$() — Prevents sleeping, monsters continuously spawn near the player, and all monsters have the Strength effect. If the game rule is enabled, it may be accompanied by more dangerous thunderstorms.$(li2)$(#3498DB)$(bold)BlueMoon$() — Prevents any monster from spawning."
         },
         {
             "type": "patchouli:text",
             "title": "The Moon System",
-            "text": "$(li2)$(#F39C12)$(bold)Halo Moon$() — Special atmospheric effects.$(br2)$(note)Check the moon phase each night before making plans!$()"
+            "text": "$(li2)$(#27AE60)$(bold)Harvest Moon$() — Crop growth benefits.$(li2)$(#F39C12)$(bold)FullMoon$() — Prevents sleeping, and monsters have the Strength effect.$(li2)$(#D3D3D3)$(bold)New Moon$() — Binds nearby monsters, inflicting Weakness and Slowness.$(li2)$(#3498DB)$(bold)Halo Moon$() — Special atmospheric effects.$(br2)$(note)Check the moon phase each night before making plans!$()"
         },
         {
             "type": "patchouli:text",
