@@ -33,7 +33,7 @@
             "item": "miteequilibrium:mithril_chest_plate",
             "title": "秘银套装奖励",
             "link_recipe": false,
-            "text": "秘银胸甲让你的自然生命回复速率翻倍。$(important)全套装备均需要在钻石工作台(或更高等级)上制作。$()"
+            "text": "秘银胸甲让你的自然生命回复速率翻倍。$(important)全套装备均需要在秘银工作台(或更高等级)上制作。$()"
         },
         {
             "type": "patchouli:crafting",

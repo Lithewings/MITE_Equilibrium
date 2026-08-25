@@ -22,8 +22,31 @@
         {
             "type": "patchouli:crafting",
             "recipe": "miteequilibrium:beef_soup",
-            "recipe2": "miteequilibrium:vegetable_soup",
-            "text": "维持营养平衡的主食。"
+            "recipe2": "miteequilibrium:vegetable_soup"
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "minecraft:pumpkin_pie",
+            "recipe2": "miteequilibrium:cheese"
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "miteequilibrium:cheese_double",
+            "recipe2": "miteequilibrium:cheese_double2"
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "miteequilibrium:cheese_triple",
+            "recipe2": "miteequilibrium:cheese_full"
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "miteequilibrium:chocolate",
+            "recipe2": "miteequilibrium:salad"
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "miteequilibrium:mashed_potato"
         },
         {
             "type": "patchouli:text",
@@ -33,7 +56,12 @@
         {
             "type": "patchouli:text",
             "title": "月亮系统",
-            "text": "注意夜空！特殊的月相会带来独特效果：$(li2)$(#C0392B)$(bold)血月$() — 阻止睡觉。如果游戏规则启用，可能伴随更加危险的雷暴。$(li2)$(#3498DB)$(bold)蓝月$() — 罕见月相。$(li2)$(#27AE60)$(bold)丰收之月$() — 作物生长受益。$(li2)$(#D3D3D3)$(bold)新月$() — 束缚你周围的怪物，造成虚弱和缓慢效果。$(li2)$(#F39C12)$(bold)幻月$() — 特殊大气效果。$(br2)$(note)每晚制定计划前先查看月相！$()"
+            "text": "注意夜空！特殊的月相会带来独特效果：$(li2)$(#C0392B)$(bold)血月$() — 阻止睡觉，怪物源源不断刷新在玩家附近，所有怪物拥有力量效果。如果游戏规则启用，可能伴随更加危险的雷暴。$(li2)$(#3498DB)$(bold)蓝月$() — 阻止任何怪物生成。$(li2)$(#F39C12)$(bold)满月$() — 阻止睡觉，怪物拥有力量效果。$(li2)$(#27AE60)$(bold)黄月$() — 作物生长受益。"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "月亮系统",
+            "text": "$(li2)$(#D3D3D3)$(bold)新月$() — 束缚你周围的怪物，造成虚弱和缓慢效果。$(li2)$(#3498DB)$(bold)幻月$() — 特殊大气效果。$(br2)$(note)每晚制定计划前先查看月相！$()"
         },
         {
             "type": "patchouli:text",
