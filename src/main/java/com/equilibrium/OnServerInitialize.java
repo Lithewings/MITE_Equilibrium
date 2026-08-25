@@ -205,7 +205,7 @@ public class OnServerInitialize {
 
             @Override
             public @NotNull DataVersion getDataVersion() {
-                return new DataVersion(110111, "MITE:Equilibrium-NeoForge-Beta");
+                return new DataVersion(110111, "MITE:Equilibrium-NeoForge-Alpha");
             }
 
             @Override
@@ -215,7 +215,7 @@ public class OnServerInitialize {
 
             @Override
             public @NotNull String getName() {
-                return "MITE:Equilibrium Beta v1.1.0_7";
+                return "MITE:Equilibrium Alpha v1.1.0_7";
             }
 
             @Override
