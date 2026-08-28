@@ -14,82 +14,82 @@ public class DifficultyEntryRegister {
 
     // ---------- Basic 规则 ----------
     public static final GameRules.Key<GameRules.BooleanValue> ENABLE_CRAFTING_TIME_AND_LEVEL =
-            GameRules.register("01enableCraftingTimeAndLevel", BASIC_CATEGORY, GameRules.BooleanValue.create(true, (server, booleanRule) -> onGameRuleChangedForBoolean(server, booleanRule,
-                               "01enableCraftingTimeAndLevel")));
+            GameRules.register("basicEnableCraftingTimeAndLevel", BASIC_CATEGORY, GameRules.BooleanValue.create(true, (server, booleanRule) -> onGameRuleChangedForBoolean(server, booleanRule,
+                               "basicEnableCraftingTimeAndLevel")));
 
     public static final GameRules.Key<GameRules.BooleanValue> ENABLE_SLOW_BREAKING_SPEED =
-            GameRules.register("02enableSlowBreakingSpeed", BASIC_CATEGORY, GameRules.BooleanValue.create(true, (server, booleanRule) -> onGameRuleChangedForBoolean(server, booleanRule,
-                               "02enableSlowBreakingSpeed")));
+            GameRules.register("basicEnableSlowBreakingSpeed", BASIC_CATEGORY, GameRules.BooleanValue.create(true, (server, booleanRule) -> onGameRuleChangedForBoolean(server, booleanRule,
+                               "basicEnableSlowBreakingSpeed")));
 
     public static final GameRules.Key<GameRules.BooleanValue> ENABLE_CROP_ILLNESS =
-            GameRules.register("03enableCropIllness", BASIC_CATEGORY, GameRules.BooleanValue.create(true, (server, booleanRule) -> onGameRuleChangedForBoolean(server, booleanRule,
-                               "03enableCropIllness")));
+            GameRules.register("basicEnableCropIllness", BASIC_CATEGORY, GameRules.BooleanValue.create(true, (server, booleanRule) -> onGameRuleChangedForBoolean(server, booleanRule,
+                               "basicEnableCropIllness")));
 
     public static final GameRules.Key<GameRules.BooleanValue> ENABLE_ADVANCE_ANIMAL_AI =
-            GameRules.register("04enableAdvanceAnimalAI", BASIC_CATEGORY,
+            GameRules.register("basicEnableAdvanceAnimalAI", BASIC_CATEGORY,
                     GameRules.BooleanValue.create(true, (server, booleanRule) ->
-                            onGameRuleChangedForBoolean(server, booleanRule, "04enableAdvanceAnimalAI")));
+                            onGameRuleChangedForBoolean(server, booleanRule, "basicEnableAdvanceAnimalAI")));
 
     public static final GameRules.Key<GameRules.BooleanValue> ENABLE_RESTRICT_VILLAGE_GEN =
-            GameRules.register("05enableRestrictVillageGen", BASIC_CATEGORY,
+            GameRules.register("basicEnableRestrictVillageGen", BASIC_CATEGORY,
                     GameRules.BooleanValue.create(true, (server, booleanRule) ->
-                            onGameRuleChangedForBoolean(server, booleanRule, "05enableRestrictVillageGen")));
+                            onGameRuleChangedForBoolean(server, booleanRule, "basicEnableRestrictVillageGen")));
 
     public static final GameRules.Key<GameRules.BooleanValue> ENABLE_PHYTONUTRIENT =
-            GameRules.register("06enablePhytonutrient", BASIC_CATEGORY,
+            GameRules.register("basicEnablePhytonutrient", BASIC_CATEGORY,
                     GameRules.BooleanValue.create(true, (server, booleanRule) ->
-                            onGameRuleChangedForBoolean(server, booleanRule, "06enablePhytonutrient")));
+                            onGameRuleChangedForBoolean(server, booleanRule, "basicEnablePhytonutrient")));
 
     public static final GameRules.Key<GameRules.BooleanValue> ENABLE_BLOOD_MOON_THUNDER =
-            GameRules.register("07enableBloodMoonThunder", BASIC_CATEGORY,
+            GameRules.register("basicEnableBloodMoonThunder", BASIC_CATEGORY,
                     GameRules.BooleanValue.create(true, (server, booleanRule) ->
-                            onGameRuleChangedForBoolean(server, booleanRule, "07enableBloodMoonThunder")));
+                            onGameRuleChangedForBoolean(server, booleanRule, "basicEnableBloodMoonThunder")));
 
     public static final GameRules.Key<GameRules.BooleanValue> DISABLE_PLAYER_TELEPORT =
-            GameRules.register("08disablePlayerTeleport", BASIC_CATEGORY,
+            GameRules.register("basicDisablePlayerTeleport", BASIC_CATEGORY,
                     GameRules.BooleanValue.create(true, (server, booleanRule) ->
-                            onGameRuleChangedForBoolean(server, booleanRule, "08disablePlayerTeleport")));
+                            onGameRuleChangedForBoolean(server, booleanRule, "basicDisablePlayerTeleport")));
 
     // ---------- Extra 规则 ----------
     public static final GameRules.Key<GameRules.BooleanValue> DISABLE_VILLAGE_AND_PILLAGE =
-            GameRules.register("001disableVillageAndPillage", EXTRA_CATEGORY,
+            GameRules.register("extraDisableVillageAndPillage", EXTRA_CATEGORY,
                     GameRules.BooleanValue.create(false, (server, booleanRule) ->
-                            onGameRuleChangedForBoolean(server, booleanRule, "001disableVillageAndPillage")));
+                            onGameRuleChangedForBoolean(server, booleanRule, "extraDisableVillageAndPillage")));
 
     public static final GameRules.Key<GameRules.BooleanValue> ENABLE_MORE_SL_DAMAGE =
-            GameRules.register("002enableMoreSlDamage", EXTRA_CATEGORY,
+            GameRules.register("extraEnableMoreSlDamage", EXTRA_CATEGORY,
                     GameRules.BooleanValue.create(false, (server, booleanRule) ->
-                            onGameRuleChangedForBoolean(server, booleanRule, "002enableMoreSlDamage")));
+                            onGameRuleChangedForBoolean(server, booleanRule, "extraEnableMoreSlDamage")));
 
     public static final GameRules.Key<GameRules.BooleanValue> ENABLE_NO_ANIMALS =
-            GameRules.register("003enableNoAnimals", EXTRA_CATEGORY,
+            GameRules.register("extraEnableNoAnimals", EXTRA_CATEGORY,
                     GameRules.BooleanValue.create(false, (server, booleanRule) ->
-                            onGameRuleChangedForBoolean(server, booleanRule, "003enableNoAnimals")));
+                            onGameRuleChangedForBoolean(server, booleanRule, "extraEnableNoAnimals")));
 
     public static final GameRules.Key<GameRules.BooleanValue> ENABLE_MORE_RAIN_WEATHER =
-            GameRules.register("004enableMoreRainWeather", EXTRA_CATEGORY,
+            GameRules.register("extraEnableMoreRainWeather", EXTRA_CATEGORY,
                     GameRules.BooleanValue.create(false, (server, booleanRule) ->
-                            onGameRuleChangedForBoolean(server, booleanRule, "004enableMoreRainWeather")));
+                            onGameRuleChangedForBoolean(server, booleanRule, "extraEnableMoreRainWeather")));
 
     public static final GameRules.Key<GameRules.BooleanValue> DISABLE_CROP_GROW =
-            GameRules.register("005disableCropGrow", EXTRA_CATEGORY,
+            GameRules.register("extraDisableCropGrow", EXTRA_CATEGORY,
                     GameRules.BooleanValue.create(false, (server, booleanRule) ->
-                            onGameRuleChangedForBoolean(server, booleanRule, "005disableCropGrow")));
+                            onGameRuleChangedForBoolean(server, booleanRule, "extraDisableCropGrow")));
 
     public static final GameRules.Key<GameRules.BooleanValue> ENABLE_UNIVERSAL_AGGRO =
-            GameRules.register("006enableUniversalAggro", EXTRA_CATEGORY,
+            GameRules.register("extraEnableUniversalAggro", EXTRA_CATEGORY,
                     GameRules.BooleanValue.create(false, (server, booleanRule) ->
-                            onGameRuleChangedForBoolean(server, booleanRule, "006enableUniversalAggro")));
+                            onGameRuleChangedForBoolean(server, booleanRule, "extraEnableUniversalAggro")));
 
     public static final GameRules.Key<GameRules.BooleanValue> ENABLE_ANVIL_LEVEL =
-            GameRules.register("007enableAnvilLevel", EXTRA_CATEGORY,
+            GameRules.register("extraEnableAnvilLevel", EXTRA_CATEGORY,
                     GameRules.BooleanValue.create(false, (server, booleanRule) ->
-                            onGameRuleChangedForBoolean(server, booleanRule, "007enableAnvilLevel")));
+                            onGameRuleChangedForBoolean(server, booleanRule, "extraEnableAnvilLevel")));
 
     public static final GameRules.Key<GameRules.BooleanValue> ENABLE_ADVANCED_ENCHANTING_TABLE =
-            GameRules.register("008enableAdvancedEnchantingTable", EXTRA_CATEGORY,
+            GameRules.register("extraEnableAdvancedEnchantingTable", EXTRA_CATEGORY,
                     GameRules.BooleanValue.create(false, (server, booleanRule) ->
-                            onGameRuleChangedForBoolean(server, booleanRule, "008enableAdvancedEnchantingTable")));
+                            onGameRuleChangedForBoolean(server, booleanRule, "extraEnableAdvancedEnchantingTable")));
 
     // ---------- 分组集合 ----------
     public static final Set<GameRules.Key<GameRules.BooleanValue>> ALL_EXTRA_ENTRY_KEYS =
@@ -117,23 +117,23 @@ public class DifficultyEntryRegister {
     // ---------- 名称 -> Key 映射 ----------
     // 供客户端网络通信同步数据使用
     public static final Map<String, GameRules.Key<GameRules.BooleanValue>> GET_ALL_ENTRY_KEY = Map.ofEntries(
-            Map.entry("01enableCraftingTimeAndLevel", ENABLE_CRAFTING_TIME_AND_LEVEL),
-            Map.entry("02enableSlowBreakingSpeed", ENABLE_SLOW_BREAKING_SPEED),
-            Map.entry("03enableCropIllness", ENABLE_CROP_ILLNESS),
-            Map.entry("04enableAdvanceAnimalAI", ENABLE_ADVANCE_ANIMAL_AI),
-            Map.entry("05enableRestrictVillageGen", ENABLE_RESTRICT_VILLAGE_GEN),
-            Map.entry("06enablePhytonutrient", ENABLE_PHYTONUTRIENT),
-            Map.entry("07enableBloodMoonThunder", ENABLE_BLOOD_MOON_THUNDER),
-            Map.entry("08disablePlayerTeleport", DISABLE_PLAYER_TELEPORT),
+            Map.entry("basicEnableCraftingTimeAndLevel", ENABLE_CRAFTING_TIME_AND_LEVEL),
+            Map.entry("basicEnableSlowBreakingSpeed", ENABLE_SLOW_BREAKING_SPEED),
+            Map.entry("basicEnableCropIllness", ENABLE_CROP_ILLNESS),
+            Map.entry("basicEnableAdvanceAnimalAI", ENABLE_ADVANCE_ANIMAL_AI),
+            Map.entry("basicEnableRestrictVillageGen", ENABLE_RESTRICT_VILLAGE_GEN),
+            Map.entry("basicEnablePhytonutrient", ENABLE_PHYTONUTRIENT),
+            Map.entry("basicEnableBloodMoonThunder", ENABLE_BLOOD_MOON_THUNDER),
+            Map.entry("basicDisablePlayerTeleport", DISABLE_PLAYER_TELEPORT),
 
-            Map.entry("001disableVillageAndPillage", DISABLE_VILLAGE_AND_PILLAGE),
-            Map.entry("002enableMoreSlDamage", ENABLE_MORE_SL_DAMAGE),
-            Map.entry("003enableNoAnimals", ENABLE_NO_ANIMALS),
-            Map.entry("004enableMoreRainWeather", ENABLE_MORE_RAIN_WEATHER),
-            Map.entry("005disableCropGrow", DISABLE_CROP_GROW),
-            Map.entry("006enableUniversalAggro", ENABLE_UNIVERSAL_AGGRO),
-            Map.entry("007enableAnvilLevel", ENABLE_ANVIL_LEVEL),
-            Map.entry("008enableAdvancedEnchantingTable", ENABLE_ADVANCED_ENCHANTING_TABLE)
+            Map.entry("extraDisableVillageAndPillage", DISABLE_VILLAGE_AND_PILLAGE),
+            Map.entry("extraEnableMoreSlDamage", ENABLE_MORE_SL_DAMAGE),
+            Map.entry("extraEnableNoAnimals", ENABLE_NO_ANIMALS),
+            Map.entry("extraEnableMoreRainWeather", ENABLE_MORE_RAIN_WEATHER),
+            Map.entry("extraDisableCropGrow", DISABLE_CROP_GROW),
+            Map.entry("extraEnableUniversalAggro", ENABLE_UNIVERSAL_AGGRO),
+            Map.entry("extraEnableAnvilLevel", ENABLE_ANVIL_LEVEL),
+            Map.entry("extraEnableAdvancedEnchantingTable", ENABLE_ADVANCED_ENCHANTING_TABLE)
     );
 
     public static void initGameRules() {
