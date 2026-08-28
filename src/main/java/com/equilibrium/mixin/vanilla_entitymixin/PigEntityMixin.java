@@ -43,16 +43,10 @@ public abstract class PigEntityMixin extends Animal implements ItemSteerable, Sa
 
     @Override
     public boolean checkSpawnRules(LevelAccessor world, MobSpawnType spawnReason) {
-        if(world instanceof ServerLevel){
-            boolean shouldNotGen = getGameBooleanRuleFromServer(ENABLE_NO_ANIMALS,world.getServer());
-            if(spawnReason==MobSpawnType.NATURAL && shouldNotGen){
-                return false;
-            }
-            return true;
-        }
+        if(world.getServer()!=null && getGameBooleanRuleFromServer(ENABLE_NO_ANIMALS, world.getServer()))
+            return false;
         return super.checkSpawnRules(world,spawnReason);
     }
-
 
     @Override
     public void aiStep() {

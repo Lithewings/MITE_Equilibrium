@@ -26,6 +26,7 @@ import com.equilibrium.network.*;
 import com.equilibrium.server_and_client.server.SoundEventRegistry;
 import com.equilibrium.server_and_client.server.command.ServerCommands;
 import com.equilibrium.server_and_client.server.event.*;
+import com.equilibrium.server_and_client.server.event.break_block_strategy.BreakBlockEvent;
 import com.equilibrium.server_and_client.server.persistent_state.MapNbtSerializer;
 import com.equilibrium.server_and_client.server.persistent_state.StateSaverAndLoader;
 import com.equilibrium.status.RegisterStatusEffect;
@@ -61,16 +62,9 @@ import org.slf4j.Logger;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
-import net.neoforged.neoforge.event.server.ServerStartingEvent;
-import net.neoforged.neoforge.registries.DeferredBlock;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredItem;
-import net.neoforged.neoforge.registries.DeferredRegister;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
@@ -82,23 +76,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import static com.equilibrium.DamageSourceRegister.damageSourceInit;
-import static com.equilibrium.GlobalModConfig.initConfig;
 import static com.equilibrium.GlobalModConfig.isSleepChunksAlwaysLoading;
-import static com.equilibrium.block.CraftingDifficultyHelper.initCraftingDifficulties;
-import static com.equilibrium.block.reference.BlocksHardnessList.initModBlocksHardnessHashMap;
-import static com.equilibrium.block.reference.BlocksHardnessList.initVanillaBlocksHardnessHashMap;
 import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.isAnyExtraEntryExisting;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.initGameRules;
 
-import static com.equilibrium.item.vanilla_modify.FoodComponentModifier.foodComponentModify;
 import static com.equilibrium.server_and_client.server.event.CropIllnessEvent.updateCropBlockPos;
 import static com.equilibrium.server_and_client.server.event.SleepChunkLoaderEvents.registerSleepEvents;
 import static com.equilibrium.server_and_client.server.moonphase_tasks.MoonPhaseEvent.moonPhaseEvent;
 import static com.equilibrium.structure.ModPlacementGenerator.registerModOre;
-import static com.equilibrium.tags.ModBlockTags.registerModBlockTags;
-import static com.equilibrium.tags.ModEntityTags.registerModEntityTags;
-import static com.equilibrium.tags.ModItemTags.registerModItemTags;
 import static com.equilibrium.util.BooleanStorageUtil.loadWorldInformation;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
