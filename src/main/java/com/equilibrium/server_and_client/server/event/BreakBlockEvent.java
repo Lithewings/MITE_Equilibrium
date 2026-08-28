@@ -120,14 +120,11 @@ public class BreakBlockEvent implements PlayerBlockBreakEvents.After {
                         new ItemStack(Items.FLINT));
                 world.spawnEntity(itemDrop);
 
-            } else if (randomNumber2 <= 400) {
-                //241-400,共160个 16%
+            } else if (randomNumber2 <= 455) {
                 itemDrop = new ItemEntity(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
                         new ItemStack(Metal.copper_nugget));
                 world.spawnEntity(itemDrop);
-
             } else {
-                //401-999,共599个 59.9%
                 itemDrop = new ItemEntity(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
                         new ItemStack(Metal.FLINT));
                 world.spawnEntity(itemDrop);
