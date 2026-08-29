@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.Random;
 
 public class GravelDropStrategy implements BlockDropStrategy {
-    // 保底计数器：连续不掉落沙砾的次数，达到12次后强制掉落
+    // 保底计数器：全服务器共享，记录连续掉落沙砾的次数
     private static int guarantee = 0;
 
     @Override
@@ -33,15 +33,13 @@ public class GravelDropStrategy implements BlockDropStrategy {
             return;
         }
 
-        // 判断是否掉落沙砾（受时运影响，保底机制）
+        // 判断是否掉落沙砾（线程安全地更新保底计数器）
         int gravelDropChance = 75 - fortuneLevel * 15;
-        if (world.getRandom().nextInt(100) < gravelDropChance && guarantee < 12) {
-            guarantee++;
+        boolean dropGravel = shouldDropGravel(world, gravelDropChance);
+        if (dropGravel) {
             world.addFreshEntity(new ItemEntity(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
                     new ItemStack(Blocks.GRAVEL)));
             return;
-        } else {
-            guarantee = 0; // 重置保底计数器
         }
 
         // 掉落其他物品（概率表）
@@ -53,11 +51,34 @@ public class GravelDropStrategy implements BlockDropStrategy {
             dropStack = new ItemStack(MaterialItems.SILVER_NUGGET.get()); // 10%
         } else if (roll <= 240) {
             dropStack = new ItemStack(Items.FLINT);              // 14%
-        } else if (roll <= 400) {
-            dropStack = new ItemStack(MaterialItems.COPPER_NUGGET.get()); // 16%
+        } else if (roll <= 455) {
+            dropStack = new ItemStack(MaterialItems.COPPER_NUGGET.get());// 21.5%
         } else {
-            dropStack = new ItemStack(MaterialItems.FLINT.get()); // 59.9%
+            dropStack = new ItemStack(MaterialItems.FLINT.get());// 54.4%
         }
         world.addFreshEntity(new ItemEntity(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, dropStack));
+    }
+
+    /**
+     * 线程安全地判断是否应该掉落沙砾，并更新全局保底计数器。
+     *
+     * @param level 来自世界实例）
+     * @param chance 掉落沙砾的基础概率（百分比）
+     * @return true 表示掉落沙砾，false 表示不掉落（可能触发保底）
+     */
+    private static synchronized boolean shouldDropGravel(Level level, int chance) {
+        // 保底触发：连续掉落沙砾达到 12 次后，本次强制不掉落
+        if (guarantee >= 12) {
+            guarantee = 0;
+            return false;
+        }
+        // 正常随机判断
+        if (level.getRandom().nextInt(100) < chance) {
+            guarantee++;
+            return true;
+        } else {
+            guarantee = 0;
+            return false;
+        }
     }
 }

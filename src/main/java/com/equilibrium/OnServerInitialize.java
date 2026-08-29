@@ -190,7 +190,7 @@ public class OnServerInitialize {
 
             @Override
             public @NotNull DataVersion getDataVersion() {
-                return new DataVersion(110111, "MITE:Equilibrium-NeoForge-Alpha");
+                return new DataVersion(110111, "MITE:Equilibrium-NeoForge-Beta");
             }
 
             @Override
@@ -200,7 +200,7 @@ public class OnServerInitialize {
 
             @Override
             public @NotNull String getName() {
-                return "MITE:Equilibrium Alpha v1.1.0_7";
+                return "MITE:Equilibrium Beta v1.1.0_7";
             }
 
             @Override
@@ -288,8 +288,8 @@ public class OnServerInitialize {
             );
         });
 
-        //注册事件
-        PlayerBlockBreakEvents.AFTER.register(new BreakBlockEvent());
+
+
         if (isSleepChunksAlwaysLoading())
             registerSleepEvents();
 
@@ -393,6 +393,14 @@ public class OnServerInitialize {
         event.enqueueWork(BlocksHardnessList::initVanillaBlocksHardnessHashMap);
         event.enqueueWork(BlocksHardnessList::initModBlocksHardnessHashMap);
         event.enqueueWork(DamageSourceRegister::damageSourceInit);
+
+
+        //注册事件
+        PlayerBlockBreakEvents.AFTER.register(BreakBlockEvent.getInstance());
+
+
+
+
 
         //原版物品修改
         DefaultItemComponentEvents.MODIFY.register(new MaxStackSizeModifier());
