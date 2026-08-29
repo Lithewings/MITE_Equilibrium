@@ -46,6 +46,8 @@ public abstract class NetherPortalBlockMixin extends Block implements Portal{
     @Nullable protected abstract DimensionTransition getExitPortal(ServerLevel world, Entity entity, BlockPos pos, BlockPos scaledPos, boolean inNether, WorldBorder worldBorder);
 
 
+    @Shadow @javax.annotation.Nullable public abstract DimensionTransition getPortalDestination(ServerLevel level, Entity entity, BlockPos pos);
+
     public NetherPortalBlockMixin(Properties settings) {
         super(settings);
     }
@@ -219,7 +221,7 @@ public abstract class NetherPortalBlockMixin extends Block implements Portal{
             } else if (world.dimension()==overworld && !atBottom && !buffer) {
                 //不在底部,且不在缓冲区上
                 teleport=overworld;
-                if(entity instanceof ServerPlayer player){
+                if (entity instanceof ServerPlayer || (entity.hasPassenger(rider-> rider instanceof Player) && !entity.level().isClientSide())){
                     serverWorld=world.getServer().getLevel(teleport);
 
                     MobEffectInstance statusEffectInstance1 = new MobEffectInstance(MobEffects.BLINDNESS, 60,255, false,false,false);
@@ -232,7 +234,7 @@ public abstract class NetherPortalBlockMixin extends Block implements Portal{
                     MobEffectUtil.addEffectToPlayersAround(world, entity, entity.position(), 4, statusEffectInstance3,100);
 
 
-                    player.changeDimension(toSpawn(serverWorld,player));
+                    entity.changeDimension(toSpawn(serverWorld,entity));
 
 //                    for(int i=0;i<=3;i++){
 //                        world.breakBlock(spawnPos.add(1,i,1),true);
