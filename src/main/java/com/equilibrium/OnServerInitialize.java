@@ -10,10 +10,10 @@ import com.equilibrium.network.*;
 import com.equilibrium.server_and_client.server.event.CropIllnessEvent;
 import com.equilibrium.server_and_client.server.event.UpdateArmorEvent;
 import com.equilibrium.server_and_client.server.command.ServerCommands;
-import com.equilibrium.server_and_client.server.event.BreakBlockEvent;
 import com.equilibrium.server_and_client.server.event.CraftingMetalPickAxeCallback;
 import com.equilibrium.server_and_client.server.event.OnCraftingMetalPickAxe;
 import com.equilibrium.server_and_client.server.event.OnItemUseEvent;
+import com.equilibrium.server_and_client.server.event.break_block_strategy.BreakBlockEvent;
 import com.equilibrium.server_and_client.server.persistent_state.MapNbtSerializer;
 import com.equilibrium.server_and_client.server.persistent_state.StateSaverAndLoader;
 import com.equilibrium.util.AdvancementRemover;
@@ -379,7 +379,7 @@ public class OnServerInitialize implements ModInitializer {
         registerModEntities();
 
         //注册事件
-        PlayerBlockBreakEvents.AFTER.register(new BreakBlockEvent());
+        PlayerBlockBreakEvents.AFTER.register(BreakBlockEvent.getInstance());
         if (isSleepChunksAlwaysLoading())
             registerSleepEvents();
         //创建标签

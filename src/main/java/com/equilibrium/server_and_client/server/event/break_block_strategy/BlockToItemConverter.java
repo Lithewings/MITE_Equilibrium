@@ -1,4 +1,4 @@
-package com.equilibrium.util;
+package com.equilibrium.server_and_client.server.event.break_block_strategy;
 
 import com.equilibrium.block.ModBlocksRegistry;
 import com.equilibrium.item.Metal;

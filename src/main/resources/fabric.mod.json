@@ -1,7 +1,7 @@
 {
 	"schemaVersion": 1,
 	"id": "miteequilibrium",
-	"version": "1.1.0.720260803_Beta",
+	"version":"Fabric-1.1.0.720260901_Beta",
 	"name": "MITE-宁静",
 	"description": "MITE的1.21.1移植，并在此基础上做了更适应高版本的一些改动",
 	"authors": [

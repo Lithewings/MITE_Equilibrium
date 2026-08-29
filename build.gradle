@@ -3,7 +3,7 @@ plugins {
 	id 'maven-publish'
 }
 
-version = "1.1.0.720260803_Beta"
+version = "Fabric-1.1.0.720260901_Beta"
 group = project.maven_group
 
 base {
