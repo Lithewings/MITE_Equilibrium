@@ -8,7 +8,5 @@ import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(PanicGoal.class)
 public abstract class EscapeDangerGoalMixin extends Goal {
-    @Shadow
-    @Final
-    protected double speedModifier = 2;
+
 }
