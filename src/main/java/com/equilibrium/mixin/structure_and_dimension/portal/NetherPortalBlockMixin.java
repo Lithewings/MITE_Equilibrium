@@ -180,7 +180,7 @@ public abstract class NetherPortalBlockMixin extends Block implements Portal {
             teleport = getUnderworldKey();
         } else if (world.getRegistryKey() == getOverworldKey() && !atBottom && !buffer) {
             teleport = getOverworldKey();
-            if (entity instanceof ServerPlayerEntity player) {
+            if (entity instanceof ServerPlayerEntity || (entity.hasPlayerRider() && !entity.getWorld().isClient)) {
                 serverWorld = world.getServer().getWorld(teleport);
 
                 StatusEffectInstance blindness = new StatusEffectInstance(StatusEffects.BLINDNESS, 60, 255, false, false, false);
@@ -192,7 +192,7 @@ public abstract class NetherPortalBlockMixin extends Block implements Portal {
                 StatusEffectInstance nausea = new StatusEffectInstance(StatusEffects.NAUSEA, 100, 255, false, false, false);
                 StatusEffectUtil.addEffectToPlayersWithinDistance(world, entity, entity.getPos(), 4, nausea, 100);
 
-                player.teleportTo(toSpawn(serverWorld, player));
+                entity.teleportTo(toSpawn(serverWorld,entity));
                 return;
             } else {
                 teleport = getUnderworldKey();
