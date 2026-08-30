@@ -230,8 +230,6 @@ public class OnServerInitialize {
     @SubscribeEvent
     //需要进行手动注册到addListener中
     public void onServerAboutToStart(ServerAboutToStartEvent event) {
-        StructureRegister.addFeatureToBiomes();
-
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
 
 
@@ -287,12 +285,6 @@ public class OnServerInitialize {
                     ConcurrentHashMap::new
             );
         });
-
-
-
-        if (isSleepChunksAlwaysLoading())
-            registerSleepEvents();
-
         // 注册服务器 tick 事件
         ServerTickEvents.START_SERVER_TICK.register(server -> {
 
@@ -365,17 +357,6 @@ public class OnServerInitialize {
             }
         });
 
-        //使用物品监听器,能不在这里写就不要在这里写,用物品自带的onUse方法
-        //合成金属镐监听器
-        CraftingMetalPickAxeCallback.EVENT.register(OnCraftingMetalPickAxe::onCraftingMetalPickAxe);
-        //命令注册
-        CommandRegistrationCallback.EVENT.register(ServerCommands::registerCommands);
-
-
-        UseItemCallback.EVENT.register(OnItemUseEvent::onUseItem);
-
-        //移除原版工作台方块,创造模式除外
-        UseBlockCallback.EVENT.register(UseBlockActionUtil::canUseVanillaCraftingTable);
     }
 
     /**
@@ -399,14 +380,28 @@ public class OnServerInitialize {
         PlayerBlockBreakEvents.AFTER.register(BreakBlockEvent.getInstance());
 
 
+        //使用物品监听器,能不在这里写就不要在这里写,用物品自带的onUse方法
+        //合成金属镐监听器
+        CraftingMetalPickAxeCallback.EVENT.register(OnCraftingMetalPickAxe::onCraftingMetalPickAxe);
+        //命令注册
+        CommandRegistrationCallback.EVENT.register(ServerCommands::registerCommands);
 
 
+        UseItemCallback.EVENT.register(OnItemUseEvent::onUseItem);
+
+        //移除原版工作台方块,创造模式除外
+        UseBlockCallback.EVENT.register(UseBlockActionUtil::canUseVanillaCraftingTable);
+
+        StructureRegister.addFeatureToBiomes();
 
         //原版物品修改
         DefaultItemComponentEvents.MODIFY.register(new MaxStackSizeModifier());
         DefaultItemComponentEvents.MODIFY.register(new MaxDamageModifier());
         //食物修改
         event.enqueueWork(FoodComponentModifier::foodComponentModify);
+        if (isSleepChunksAlwaysLoading())
+            registerSleepEvents();
+
 
     }
 

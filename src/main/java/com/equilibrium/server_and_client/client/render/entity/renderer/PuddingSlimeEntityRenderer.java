@@ -13,7 +13,7 @@ public class PuddingSlimeEntityRenderer extends BaseSlimeRenderer {
         super(context);
     }
 
-    public ResourceLocation getTexture(BaseSlimeEntity baseSlimeEntity) {
+    public ResourceLocation getTextureLocation(BaseSlimeEntity baseSlimeEntity) {
         return TEXTURE;
     }
 

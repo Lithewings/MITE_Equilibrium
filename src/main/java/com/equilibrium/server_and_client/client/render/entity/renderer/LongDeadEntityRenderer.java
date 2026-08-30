@@ -12,7 +12,7 @@ public class LongDeadEntityRenderer extends ModSkeletonEntityRenderer<LongDeadEn
     }
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(MOD_ID,"textures/entity/longdead.png");
 
-    public ResourceLocation getTexture(LongDeadEntity longDeadEntity) {
+    public ResourceLocation getTextureLocation(LongDeadEntity longDeadEntity) {
         return TEXTURE;
     }
 }

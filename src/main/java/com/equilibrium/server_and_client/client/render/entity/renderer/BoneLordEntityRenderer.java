@@ -22,7 +22,7 @@ public class BoneLordEntityRenderer extends ModSkeletonEntityRenderer<BoneLordEn
     }
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(MOD_ID,"textures/entity/bone_lord.png");
     private static final ResourceLocation TEXTURE_EYES = ResourceLocation.fromNamespaceAndPath(MOD_ID,"textures/entity/bone_lord_glow.png");
-    public ResourceLocation getTexture(BoneLordEntity boneLordEntity) {
+    public ResourceLocation getTextureLocation(BoneLordEntity boneLordEntity) {
         return TEXTURE;
     }
 
