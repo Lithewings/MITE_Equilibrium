@@ -41,7 +41,7 @@ public class FogWeatherHandler {
     public static final int FOG_VIEW_DISTANCE_MIN = 4;
     public static final int FOG_VIEW_DISTANCE_MAX = 8;
 
-
+    public static final float FOG_WEATHER_POSSIBILITY = 0.5f;
 
 
 

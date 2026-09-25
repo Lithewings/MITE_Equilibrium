@@ -68,6 +68,7 @@ import static com.equilibrium.item.ItemComponentModifier.foodComponentModify;
 import static com.equilibrium.item.Metal.registerModItemRaw;
 import static com.equilibrium.item.extend_item.CoinItems.registerCoinItems;
 import static com.equilibrium.item.food.FoodOrFarmItems.registerFoodItems;
+import static com.equilibrium.server_and_client.fog_weather_event.FogWeatherMediator.addFogRandomly;
 import static com.equilibrium.server_and_client.server.event.CropIllnessEvent.updateCropBlockPos;
 import static com.equilibrium.server_and_client.server.SoundEventRegistry.registrySoundEvents;
 import static com.equilibrium.server_and_client.server.event.SleepChunkLoaderEvents.registerSleepEvents;
@@ -235,6 +236,8 @@ public class OnServerInitialize implements ModInitializer {
 
         // 注册服务器 tick 事件
         ServerTickEvents.START_SERVER_TICK.register(server -> {
+            //加雾
+            addFogRandomly(server.getOverworld());
 
             serverState = StateSaverAndLoader.getServerState(server);
 

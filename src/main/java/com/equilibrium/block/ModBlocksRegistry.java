@@ -80,8 +80,8 @@ public class ModBlocksRegistry {
     public static final Block EXAMPLE_BLOCK = new Block(Block.Settings.create().strength(4.0f));
 
 
-    public static final Block ADAMANTIUM_ORE = new Block(Block.Settings.create().strength(4.0f));
-    public static final Block ADAMANTIUM_BLOCK = new Block(Block.Settings.create().strength(4.0f));
+    public static final Block ADAMANTIUM_ORE = new Block(Block.Settings.create().strength(4.0f,1200f));
+    public static final Block ADAMANTIUM_BLOCK = new Block(Block.Settings.create().strength(4.0f,1200f));
 
 
     public static final Block ANCIENT_METAL_BLOCK = new Block(Block.Settings.create().strength(3.0f));
@@ -89,8 +89,8 @@ public class ModBlocksRegistry {
     public static final Block COPPER_ORE = new Block(Block.Settings.create().strength(1.0f));
     public static final Block COPPER_BLOCK = new Block(Block.Settings.create().strength(4.0f));
 
-    public static final Block MITHRIL_ORE = new Block(Block.Settings.create().strength(4.0f));
-    public static final Block MITHRIL_BLOCK = new Block(Block.Settings.create().strength(4.0f));
+    public static final Block MITHRIL_ORE = new Block(Block.Settings.create().strength(4.0f,1200f));
+    public static final Block MITHRIL_BLOCK = new Block(Block.Settings.create().strength(4.0f,1200f));
 
     public static final Block SILVER_ORE = new Block(Block.Settings.create().strength(1.0f));
     public static final Block SILVER_BLOCK = new Block(Block.Settings.create().strength(4.0f));

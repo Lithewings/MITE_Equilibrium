@@ -153,7 +153,7 @@ public class OnClientInitialize implements ClientModInitializer {
 
 
         //世界实例一变就先补一次游戏规则同步(先注册的先执行),再走雾天采样
-        //虽然每一个tick都执行一次,但至于维度变了才会发送数据包
+        //虽然每一个tick都执行一次,但至于维度变了才会发送数据包,所以不会造成太大网络压力
         ClientTickEvents.START_WORLD_TICK.register(C2SRequestGameRuleResyncPacket::requestResyncOnWorldInstanceChange);
         //只能注册一次,注意调用时机,不要再犯NeoForge那边的多次注册错误了
         ClientTickEvents.START_WORLD_TICK.register(FogWeatherMediator::synchronizeFogWeatherIfAvailable);

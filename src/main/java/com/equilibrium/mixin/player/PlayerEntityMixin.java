@@ -280,18 +280,10 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
     @Inject(method = "jump", at = @At("TAIL"))
     public void jump(CallbackInfo ci) {
-
-
-//
-//        this.sendMessage(Text.of(""+getAttributeInstance(GENERIC_ATTACK_DAMAGE).getBaseValue()));
-//        this.sendMessage(Text.of(""+getAttributeInstance(GENERIC_MOVEMENT_SPEED).getBaseValue()));
-//        this.sendMessage(Text.of(""+getAttributeInstance(PLAYER_ENTITY_INTERACTION_RANGE).getBaseValue()));
-
-//        this.diabetes=0;
-//        if((PlayerEntity)(Object)this instanceof ServerPlayerEntity serverPlayerEntity)
-//            showAllValuesToServerPlayer(serverPlayerEntity);
-//        if(this.getWorld() instanceof ServerWorld serverWorld)
-//            testChunkLoading(serverWorld,new ChunkPos(0,0));
+//        if(!this.getWorld().isClient()){
+//            this.sendMessage(Text.of(("getTimeOfDay():"+this.getWorld().getTimeOfDay())));
+//            this.sendMessage(Text.of(("getTime:"+this.getWorld().getTime())));
+//        }
     }
 
 
