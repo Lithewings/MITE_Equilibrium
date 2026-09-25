@@ -44,6 +44,8 @@ import net.minecraft.world.dimension.NetherPortal;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
+import static net.minecraft.world.World.OVERWORLD;
+
 public class PortalBlock extends Block implements Portal {
     public static final MapCodec<PortalBlock> CODEC = createCodec(PortalBlock::new);
     public static final EnumProperty<Direction.Axis> AXIS = Properties.HORIZONTAL_AXIS;
@@ -158,7 +160,10 @@ public class PortalBlock extends Block implements Portal {
                 for (int dz = 0; dz < 4; dz++) {
                     BlockPos platformPos = teleportPos.add(dx, -1, dz);
                     world.breakBlock(platformPos,false);
-                    world.setBlockState(platformPos, Blocks.STONE.getDefaultState());
+                    world.setBlockState(platformPos,
+                            world.getRegistryKey() == OVERWORLD?
+                                    Blocks.STONE.getDefaultState():
+                                    Blocks.NETHERRACK.getDefaultState());
                 }
             }
 

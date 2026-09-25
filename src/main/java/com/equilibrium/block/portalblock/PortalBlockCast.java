@@ -26,7 +26,7 @@ public class PortalBlockCast {
             Direction.Axis axis = state.get(NetherPortalBlock.AXIS);
             ItemStack handStack = player.getMainHandStack();
             if(handStack.isOf(Metal.mithril_nugget) && handStack.getCount()>=NUGGET_COST){
-                handStack.decrement(NUGGET_COST);
+                handStack.decrementUnlessCreative(NUGGET_COST,player);
                 replacePortalBlocks(world,pos, (NetherPortalBlock)Blocks.NETHER_PORTAL, (PortalBlock) ModBlocksRegistry.PORTAL_BLOCK,MAX_PORTAL_SEARCH_DEPTH,axis);
             }
         }

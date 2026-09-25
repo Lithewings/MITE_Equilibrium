@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "miteequilibrium:block/portal_ns"
+    },
+    "axis=z": {
+      "model": "miteequilibrium:block/portal_ew"
+    }
+  }
+}
