@@ -11,6 +11,8 @@ import com.equilibrium.block.material.MaterialBlocks;
 import com.equilibrium.block.miscellaneous.MiscellaneousBlocks;
 import com.equilibrium.block.ore.OreBlocks;
 import com.equilibrium.block.reference.BlocksHardnessList;
+import com.equilibrium.common_gamerules.GameRuleRegister;
+import com.equilibrium.difficulty_entry.DifficultyEntryRegister;
 import com.equilibrium.entity.goal.BreakBlockGoal;
 import com.equilibrium.item.armor.ArmorItems;
 import com.equilibrium.item.coin.CoinItems;
@@ -124,8 +126,8 @@ public class OnServerInitialize {
     public StateSaverAndLoader serverState;
     public OnServerInitialize(IEventBus modEventBus,ModContainer modContainer){
         //初始化游戏规则
-        initGameRules();
-
+        DifficultyEntryRegister.initGameRules();
+        GameRuleRegister.initGameRules();
 
         //S->C,发包
         S2CStockChangeGrassColorPacket.registerOnServer();
