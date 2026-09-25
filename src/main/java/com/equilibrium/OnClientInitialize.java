@@ -2,7 +2,6 @@ package com.equilibrium;
 
 import com.equilibrium.block.ModBlockScreenTypesRegister;
 import com.equilibrium.block.crafting_table.ModCraftingScreen;
-import com.equilibrium.block.crafting_table.ModCraftingScreenHandler;
 import com.equilibrium.block.miscellaneous.MiscellaneousBlocks;
 import com.equilibrium.block.anvil.adamantium_anvil_block.AdamantiumAnvilScreen;
 import com.equilibrium.block.anvil.iron_anvil_block.IronAnvilScreen;
@@ -12,10 +11,7 @@ import com.equilibrium.block.enchanting_table.ModEnchantmentScreen;
 import com.equilibrium.block.enchanting_table.diamond.DiamondEnchantingTableBlockEntityRenderer;
 import com.equilibrium.block.enchanting_table.emerald.EmeraldEnchantingTableBlockEntityRenderer;
 import com.equilibrium.item.armor.ArmorItems;
-import com.equilibrium.item.food.FoodItems;
-import com.equilibrium.network.S2CGameRuleSyncPayloadForBooleanPacket;
-import com.equilibrium.network.S2CIllnessTextureBooleanPacket;
-import com.equilibrium.network.S2CStockChangeGrassColorPacket;
+import com.equilibrium.network.*;
 import com.equilibrium.server_and_client.client.command.ClientCommands;
 import com.equilibrium.server_and_client.client.render.entity.model.BaseEarthElementalEntityModel;
 import com.equilibrium.server_and_client.client.render.entity.renderer.*;
@@ -23,8 +19,10 @@ import com.equilibrium.server_and_client.client.render.entity.renderer.elemental
 import com.equilibrium.server_and_client.client.render.entity.renderer.elemental.NetherrackElementalEntityRenderer;
 import com.equilibrium.server_and_client.client.render.entity.renderer.elemental.ObsidianElementalEntityRenderer;
 import com.equilibrium.server_and_client.client.render.entity.renderer.elemental.StoneElementalEntityRenderer;
+import com.equilibrium.server_and_client.fog_weather_event.FogWeatherMediator;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.ChatFormatting;
@@ -62,8 +60,8 @@ public class OnClientInitialize {
         //S->C,发包、接收
         S2CStockChangeGrassColorPacket.registerOnClient();
         S2CIllnessTextureBooleanPacket.registerOnClient();
-        S2CGameRuleSyncPayloadForBooleanPacket.registerOnClient();
-
+        S2CGameRuleDifficultyEntrySyncPayloadForBooleanPacket.registerOnClient();
+        S2CGameRuleBooleanSimplePacket.registerOnClient();
 
     }
 
@@ -86,6 +84,7 @@ public class OnClientInitialize {
 
             BlockRenderLayerMap.INSTANCE.putBlocks(RenderType.cutout(), MiscellaneousBlocks.ONION_BLOCK.get());
             BlockRenderLayerMap.INSTANCE.putBlocks(RenderType.cutout(), MiscellaneousBlocks.BLUEBERRY_BUSH.get());
+            BlockRenderLayerMap.INSTANCE.putBlock(MiscellaneousBlocks.PORTAL_BLOCK.get(), RenderType.translucent());
 
             ItemTooltipCallback.EVENT.register((stack, context, type, lines) -> {
                 // 判断物品是青金石（Lapis Lazuli）或其他物品
@@ -157,6 +156,13 @@ public class OnClientInitialize {
 
             //信标柱渲染
             RenderBeaconInit();
+
+
+            //世界实例一变就先补一次游戏规则同步(先注册的先执行),再走雾天采样
+            //虽然每一个tick都执行一次,但至于维度变了才会发送数据包,所以不会造成太大网络压力
+            ClientTickEvents.START_WORLD_TICK.register(C2SRequestGameRuleResyncPacket::requestResyncOnWorldInstanceChange);
+            //只能注册一次,注意调用时机,不要再犯NeoForge那边的多次注册错误了
+            ClientTickEvents.START_WORLD_TICK.register(FogWeatherMediator::synchronizeFogWeatherIfAvailable);
         });
     }
 }

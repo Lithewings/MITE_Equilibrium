@@ -80,6 +80,7 @@ import static com.equilibrium.GlobalModConfig.isSleepChunksAlwaysLoading;
 import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.isAnyExtraEntryExisting;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.initGameRules;
 
+import static com.equilibrium.server_and_client.fog_weather_event.FogWeatherMediator.addFogRandomly;
 import static com.equilibrium.server_and_client.server.event.CropIllnessEvent.updateCropBlockPos;
 import static com.equilibrium.server_and_client.server.event.SleepChunkLoaderEvents.registerSleepEvents;
 import static com.equilibrium.server_and_client.server.moonphase_tasks.MoonPhaseEvent.moonPhaseEvent;
@@ -129,12 +130,13 @@ public class OnServerInitialize {
         //S->C,发包
         S2CStockChangeGrassColorPacket.registerOnServer();
         S2CIllnessTextureBooleanPacket.registerOnServer();
-        S2CGameRuleSyncPayloadForBooleanPacket.registerOnServer();
+        S2CGameRuleDifficultyEntrySyncPayloadForBooleanPacket.registerOnServer();
+        S2CGameRuleBooleanSimplePacket.registerOnServer();
 
         //C->S,发包、接收
         C2SClickTimesPacket.registerOnServer();
         C2STriggerContentChangePacket.registerOnServer();
-
+        C2SRequestGameRuleResyncPacket.registerOnServer();
 
         //DeferredRegister风格下,所有要注册的物品,先触发类加载
         //方块等注册暂时使用@EventBusSubscriber + helper.register方法
@@ -230,6 +232,43 @@ public class OnServerInitialize {
     @SubscribeEvent
     //需要进行手动注册到addListener中
     public void onServerAboutToStart(ServerAboutToStartEvent event) {
+
+    }
+
+    /**
+     * 在所有注册完成后初始化依赖物品/方块的逻辑
+     */
+    @SubscribeEvent
+    public void onCommonSetup(FMLCommonSetupEvent event) {
+        // 此时所有物品、方块均已注册，字段非 null
+        event.enqueueWork(CraftingDifficultyHelper::initCraftingDifficulties);
+        event.enqueueWork(ModBlockTags::registerModBlockTags);
+        event.enqueueWork(ModEntityTags::registerModEntityTags);
+        event.enqueueWork(ModItemTags::registerModItemTags);
+        event.enqueueWork(GlobalModConfig::initConfig);
+        event.enqueueWork(OnServerInitialize::initXpMap);
+        event.enqueueWork(BlocksHardnessList::initVanillaBlocksHardnessHashMap);
+        event.enqueueWork(BlocksHardnessList::initModBlocksHardnessHashMap);
+        event.enqueueWork(DamageSourceRegister::damageSourceInit);
+
+
+        //注册事件
+        PlayerBlockBreakEvents.AFTER.register(BreakBlockEvent.getInstance());
+
+
+        //使用物品监听器,能不在这里写就不要在这里写,用物品自带的onUse方法
+        //合成金属镐监听器
+        CraftingMetalPickAxeCallback.EVENT.register(OnCraftingMetalPickAxe::onCraftingMetalPickAxe);
+        //命令注册
+        CommandRegistrationCallback.EVENT.register(ServerCommands::registerCommands);
+
+
+        UseItemCallback.EVENT.register(OnItemUseEvent::onUseItem);
+
+        //移除原版工作台方块,创造模式除外
+        UseBlockCallback.EVENT.register(UseBlockActionUtil::canUseVanillaCraftingTable);
+
+
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
 
 
@@ -289,6 +328,11 @@ public class OnServerInitialize {
         ServerTickEvents.START_SERVER_TICK.register(server -> {
 
             serverState = StateSaverAndLoader.getServerState(server);
+
+            //加雾
+            addFogRandomly(server.overworld());
+
+
 
             //更新服务器状态,在这里修改的所有数据都会被保存
             if (tickCount % (TICK_INTERVAL / 10) == 0) {
@@ -357,42 +401,12 @@ public class OnServerInitialize {
             }
         });
 
-    }
 
-    /**
-     * 在所有注册完成后初始化依赖物品/方块的逻辑
-     */
-    @SubscribeEvent
-    public void onCommonSetup(FMLCommonSetupEvent event) {
-        // 此时所有物品、方块均已注册，字段非 null
-        event.enqueueWork(CraftingDifficultyHelper::initCraftingDifficulties);
-        event.enqueueWork(ModBlockTags::registerModBlockTags);
-        event.enqueueWork(ModEntityTags::registerModEntityTags);
-        event.enqueueWork(ModItemTags::registerModItemTags);
-        event.enqueueWork(GlobalModConfig::initConfig);
-        event.enqueueWork(OnServerInitialize::initXpMap);
-        event.enqueueWork(BlocksHardnessList::initVanillaBlocksHardnessHashMap);
-        event.enqueueWork(BlocksHardnessList::initModBlocksHardnessHashMap);
-        event.enqueueWork(DamageSourceRegister::damageSourceInit);
-
-
-        //注册事件
-        PlayerBlockBreakEvents.AFTER.register(BreakBlockEvent.getInstance());
-
-
-        //使用物品监听器,能不在这里写就不要在这里写,用物品自带的onUse方法
-        //合成金属镐监听器
-        CraftingMetalPickAxeCallback.EVENT.register(OnCraftingMetalPickAxe::onCraftingMetalPickAxe);
-        //命令注册
-        CommandRegistrationCallback.EVENT.register(ServerCommands::registerCommands);
-
-
-        UseItemCallback.EVENT.register(OnItemUseEvent::onUseItem);
-
-        //移除原版工作台方块,创造模式除外
-        UseBlockCallback.EVENT.register(UseBlockActionUtil::canUseVanillaCraftingTable);
 
         StructureRegister.addFeatureToBiomes();
+
+
+
 
         //原版物品修改
         DefaultItemComponentEvents.MODIFY.register(new MaxStackSizeModifier());

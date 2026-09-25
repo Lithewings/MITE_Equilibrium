@@ -13,8 +13,8 @@ import net.minecraft.world.level.GameRules;
 import static com.equilibrium.OnServerInitialize.MOD_ID;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.GET_ALL_ENTRY_KEY;
 
-public class S2CGameRuleSyncPayloadForBooleanPacket  {
-    public static final CustomPacketPayload.Type<S2CGameRuleSyncPayload> ID = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(MOD_ID, "game_rule_sync"));
+public class S2CGameRuleDifficultyEntrySyncPayloadForBooleanPacket {
+    public static final CustomPacketPayload.Type<S2CGameRuleSyncPayload> ID = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(MOD_ID, "difficulty_entry_game_rule_sync"));
 
 
 

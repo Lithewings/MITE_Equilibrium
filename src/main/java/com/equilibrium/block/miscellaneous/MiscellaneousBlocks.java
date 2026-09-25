@@ -2,6 +2,7 @@ package com.equilibrium.block.miscellaneous;
 
 import com.equilibrium.block.crop_blocks.BlueBerryBushBlock;
 import com.equilibrium.block.crop_blocks.OnionBlock;
+import com.equilibrium.block.portalblock.PortalBlock;
 import net.minecraft.util.ColorRGBA;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -38,6 +39,18 @@ public class MiscellaneousBlocks {
                             .pushReaction(PushReaction.DESTROY)
             ));
 
+
+    public static final DeferredBlock<PortalBlock> PORTAL_BLOCK = BLOCKS.register("portal_block",
+            ()->new PortalBlock(
+                    BlockBehaviour.Properties.of()
+            .noCollission()
+            .randomTicks()
+            .strength(-1.0F)
+            .sound(SoundType.GLASS)
+            .lightLevel(state -> 11)
+            .pushReaction(PushReaction.BLOCK)));
+
+
     public static final DeferredItem<BlockItem> BLUEBERRY_BUSH_ITEM = ITEMS.register("blue_berry_bush",
             () -> new BlockItem(BLUEBERRY_BUSH.get(), new Item.Properties().stacksTo(16)));
 
@@ -54,4 +67,7 @@ public class MiscellaneousBlocks {
 
     public static final DeferredItem<BlockItem> MUNDANE_GRAVEL_ITEM = ITEMS.register("mundane_gravel",
             () -> new BlockItem(MUNDANE_GRAVEL.get(), new Item.Properties().stacksTo(16)));
+
+
+
 }

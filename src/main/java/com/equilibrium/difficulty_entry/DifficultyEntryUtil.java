@@ -1,7 +1,7 @@
 package com.equilibrium.difficulty_entry;
 
 import com.equilibrium.OnServerInitialize;
-import com.equilibrium.network.S2CGameRuleSyncPayloadForBooleanPacket;
+import com.equilibrium.network.S2CGameRuleDifficultyEntrySyncPayloadForBooleanPacket;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -19,7 +19,7 @@ public class DifficultyEntryUtil {
     public static void onGameRuleChangedForBoolean(MinecraftServer server, GameRules.BooleanValue booleanRule, String ruleId){
         // 仅在服务端执行，向所有在线玩家发送针对单个规则的同步包
         // 构造一个game_rule->value的键值对
-        S2CGameRuleSyncPayloadForBooleanPacket.S2CGameRuleSyncPayload payload = new S2CGameRuleSyncPayloadForBooleanPacket.S2CGameRuleSyncPayload(ruleId,booleanRule.get());
+        S2CGameRuleDifficultyEntrySyncPayloadForBooleanPacket.S2CGameRuleSyncPayload payload = new S2CGameRuleDifficultyEntrySyncPayloadForBooleanPacket.S2CGameRuleSyncPayload(ruleId,booleanRule.get());
         for (ServerPlayer player : server.getPlayerList().getPlayers()) {
             ServerPlayNetworking.send(player, payload);
         }
@@ -37,7 +37,7 @@ public class DifficultyEntryUtil {
         // 构造一个game_rule->value的键值对
         for(String ruleId : GET_ALL_ENTRY_KEY.keySet()){
 
-            S2CGameRuleSyncPayloadForBooleanPacket.S2CGameRuleSyncPayload payload = new S2CGameRuleSyncPayloadForBooleanPacket.S2CGameRuleSyncPayload(ruleId,serverPlayerEntity.level().getGameRules().getRule(GET_ALL_ENTRY_KEY.get(ruleId)).get());
+            S2CGameRuleDifficultyEntrySyncPayloadForBooleanPacket.S2CGameRuleSyncPayload payload = new S2CGameRuleDifficultyEntrySyncPayloadForBooleanPacket.S2CGameRuleSyncPayload(ruleId,serverPlayerEntity.level().getGameRules().getRule(GET_ALL_ENTRY_KEY.get(ruleId)).get());
             ServerPlayNetworking.send(serverPlayerEntity, payload);
         }
         OnServerInitialize.LOGGER.info("A player is connecting, synchronizing all game rules.");
