@@ -11,6 +11,8 @@ import net.minecraft.world.GameRules;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 import static com.equilibrium.difficulty_entry.DifficultyEntryUtil.onGameRuleChangedForBoolean;
 
@@ -129,6 +131,10 @@ public class DifficultyEntryRegister {
                     ENABLE_BLOOD_MOON_THUNDER,
                     DISABLE_PLAYER_TELEPORT
             );
+
+    public static Set<GameRules.Key<GameRules.BooleanRule>> ALL_THE_KEYS =
+            Stream.concat(ALL_EXTRA_ENTRY_KEYS.stream(), ALL_BASIC_ENTRY_KEYS.stream())
+                    .collect(Collectors.toSet());
 
 
     //id字典,用于将服务端的规则同步到客户端上去
