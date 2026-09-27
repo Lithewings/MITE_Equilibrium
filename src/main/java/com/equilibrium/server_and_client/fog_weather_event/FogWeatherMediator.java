@@ -54,23 +54,21 @@ public class FogWeatherMediator {
             // 如果是雾天，但这次判断不应该加雾：切换回晴天
             if (isFogNow && !tryAddFog) {
                 serverWorld.getGameRules().getRule(IS_FOG_WEATHER_NOW).set(false, serverWorld.getServer());
+                serverWorld.getServer().getPlayerList().getPlayers()
+                        .forEach(serverPlayerEntity -> serverPlayerEntity.sendSystemMessage(Component.nullToEmpty("雾散了")));
             }
 
             // 如果是晴天，但这次判断应该加雾：切换为雾天
             if (!isFogNow && tryAddFog) {
                 serverWorld.getGameRules().getRule(IS_FOG_WEATHER_NOW).set(true, serverWorld.getServer());
+                serverWorld.getServer().getPlayerList().getPlayers()
+                        .forEach(serverPlayerEntity -> serverPlayerEntity.sendSystemMessage(Component.nullToEmpty("今天的天气是: 雾天")));
             }
 
             // 其余情况：
             // 雾天 + 应该加雾 -> 不变
             // 晴天 + 不应该加雾 -> 不变
 
-            //输出本次的服务端计算结果
-            boolean isFogNowAfterCal = booleanGameRuleGetterFromServer(serverWorld.getServer(),IS_FOG_WEATHER_NOW);
-            String weatherName = isFogNowAfterCal ? "雾天" : "晴天";
-            String weatherInfo = String.format("今天的天气是: %s", weatherName);
-            serverWorld.getServer().getPlayerList().getPlayers()
-                    .forEach(serverPlayerEntity -> serverPlayerEntity.sendSystemMessage(Component.nullToEmpty(weatherInfo)));
 
         }
 

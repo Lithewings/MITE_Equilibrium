@@ -38,10 +38,10 @@ public class FogWeatherHandler {
     //具体由每个玩家设定的值决定
     private final int baseViewDistance;
 
-    public static final int FOG_VIEW_DISTANCE_MIN = 4;
-    public static final int FOG_VIEW_DISTANCE_MAX = 8;
+    public static final int FOG_VIEW_DISTANCE_MIN = 3;
+    public static final int FOG_VIEW_DISTANCE_MAX = 6;
 
-    public static final float FOG_WEATHER_POSSIBILITY = 0.5f;
+    public static final float FOG_WEATHER_POSSIBILITY = 0.125f;
 
 
 
