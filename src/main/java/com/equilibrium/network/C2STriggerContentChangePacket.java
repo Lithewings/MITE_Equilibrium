@@ -1,5 +1,7 @@
 package com.equilibrium.network;
 
+import com.equilibrium.block.crafting_table.ModCraftingScreen;
+import com.equilibrium.block.crafting_table.ModCraftingScreenHandler;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -43,6 +45,13 @@ public class C2STriggerContentChangePacket {
 
             // 方法2：直接调用 onContentChanged
             craftingHandler.slotsChanged(craftingHandler.craftSlots);
+
+//            System.out.println("已触发合成台内容变化事件");
+        }
+        if (screenHandler instanceof ModCraftingScreenHandler modCraftingScreenHandler) {
+
+            // 方法2：直接调用 onContentChanged
+            modCraftingScreenHandler.slotsChanged(modCraftingScreenHandler.input);
 
 //            System.out.println("已触发合成台内容变化事件");
         }

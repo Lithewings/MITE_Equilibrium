@@ -15,13 +15,13 @@ public class OreBlocks {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MOD_ID);
 
     public static final DeferredBlock<Block> ADAMANTIUM_ORE = BLOCKS.register("adamantium_ore",
-            () -> new Block(BlockBehaviour.Properties.of().strength(4.0f)));
+            () -> new Block(BlockBehaviour.Properties.of().strength(4.0f,1200f)));
     public static final DeferredBlock<Block> COPPER_ORE = BLOCKS.register("copper_ore",
             () -> new Block(BlockBehaviour.Properties.of().strength(1.0f)));
     public static final DeferredBlock<Block> SILVER_ORE = BLOCKS.register("silver_ore",
             () -> new Block(BlockBehaviour.Properties.of().strength(1.0f)));
     public static final DeferredBlock<Block> MITHRIL_ORE = BLOCKS.register("mithril_ore",
-            () -> new Block(BlockBehaviour.Properties.of().strength(4.0f)));
+            () -> new Block(BlockBehaviour.Properties.of().strength(4.0f,1200f)));
     public static final DeferredBlock<Block> GOLD_ORE = BLOCKS.register("gold_ore",
             () -> new Block(BlockBehaviour.Properties.of().strength(1.0f)));
 

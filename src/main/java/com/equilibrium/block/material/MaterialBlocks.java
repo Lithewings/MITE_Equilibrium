@@ -19,7 +19,7 @@ public class MaterialBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MOD_ID);
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MOD_ID);
     public static final DeferredBlock<Block> ADAMANTIUM_BLOCK = BLOCKS.register("adamantium_block",
-            () -> new Block(BlockBehaviour.Properties.of().strength(4.0f)));
+            () -> new Block(BlockBehaviour.Properties.of().strength(4.0f,1200f)));
 
     public static final DeferredBlock<Block> ANCIENT_METAL_BLOCK = BLOCKS.register("ancient_metal_block",
             () -> new Block(BlockBehaviour.Properties.of().strength(3.0f)));
@@ -31,7 +31,7 @@ public class MaterialBlocks {
 
 
     public static final DeferredBlock<Block> MITHRIL_BLOCK = BLOCKS.register("mithril_block",
-            () -> new Block(BlockBehaviour.Properties.of().strength(4.0f)));
+            () -> new Block(BlockBehaviour.Properties.of().strength(4.0f,1200f)));
 
 
 
