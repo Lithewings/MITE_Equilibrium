@@ -31,17 +31,7 @@ public class EditGameRulesScreenMixin {
         map.remove(GameRules.Category.DROPS);
         map.remove(GameRules.Category.SPAWNING);
         map.remove(GameRules.Category.UPDATES);
-
-//        //只有布尔型规则
-        map.get(GameRules.Category.MISC).keySet().removeIf(key->
-            key!=GameRules.GLOBAL_SOUND_EVENTS && !(DifficultyEntryRegister.ALL_BASIC_ENTRY_KEYS.contains(key)||DifficultyEntryRegister.ALL_EXTRA_ENTRY_KEYS.contains(key))
-        );
-
-
-
-
-
-
+        map.remove(GameRules.Category.MISC);
 
     }
 }

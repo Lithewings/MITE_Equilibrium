@@ -4,8 +4,7 @@ import net.minecraft.world.GameRules;
 
 import java.util.Map;
 
-import static com.equilibrium.common_gamerules.GameRuleRegister.FOG_WEATHER;
-import static com.equilibrium.common_gamerules.GameRuleRegister.IS_FOG_WEATHER_NOW;
+import static com.equilibrium.common_gamerules.GameRuleRegister.*;
 
 public class GameRuleSynMap {
     //id字典,用于将服务端的规则同步到客户端上去

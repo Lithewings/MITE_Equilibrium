@@ -24,6 +24,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Objects;
 
+import static com.equilibrium.GlobalModConfig.getReceiveNightVision;
+import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.getGameBooleanRuleFromClient;
+import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.DISABLE_ALWAYS_NIGHT_VISION;
 import static net.minecraft.client.render.LightmapTextureManager.getBrightness;
 
 @Mixin(LightmapTextureManager.class)
@@ -165,6 +168,8 @@ public abstract class LightmapTextureManagerMixin {
                         //100级时获得最大增益值
                         float nightVision = Math.clamp((this.client.player.experienceLevel)*0.01F,0,1);
 
+                        if(!getGameBooleanRuleFromClient(DISABLE_ALWAYS_NIGHT_VISION)&& getReceiveNightVision())
+                            nightVision=100;
 
                         //返回方块底色颜色浓淡的因子
                         float factor = MoonlightController.calculateFactor(clientWorld.getTimeOfDay());

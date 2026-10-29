@@ -1,7 +1,10 @@
 package com.equilibrium.mixin.player;
 
 import com.equilibrium.common_gamerules.GameRuleUtil;
+import com.equilibrium.difficulty_entry.DifficultyEntryDisplay;
 import com.equilibrium.difficulty_entry.DifficultyEntryUtil;
+import com.equilibrium.difficulty_entry_screen.DifficultyEntryScreen;
+import com.equilibrium.difficulty_entry_screen.DifficultyEntryScreenMediator;
 import com.equilibrium.server_and_client.server.persistent_state.StateSaverAndLoader;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -57,6 +60,7 @@ public abstract class PlayerManagerMixin {
                 player.getInventory().offerOrDrop(leather);
             }
             executeCommandWithSlash(player.server, "/give @p patchouli:guide_book[patchouli:book=\"miteequilibrium:equilibrium_guide\"]");
+            DifficultyEntryScreenMediator.openFor(player);
         }
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 100, 255, false, false, false));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 100, 255, false, false, false));

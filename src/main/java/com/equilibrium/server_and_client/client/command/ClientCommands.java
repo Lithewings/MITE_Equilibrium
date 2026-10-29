@@ -11,6 +11,7 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
@@ -30,10 +31,18 @@ public class ClientCommands {
 
 
     public static void registerClientAllCommands(CommandDispatcher<FabricClientCommandSource> dispatcher) {
+
+
         /*
          * 统一注册所有客户端命令
          */
         // 注册 moonType 命令
+
+
+
+
+
+
         dispatcher.register(ClientCommandManager.literal("moonType")
                 .executes(context -> {
                     // 从客户端获取当前世界

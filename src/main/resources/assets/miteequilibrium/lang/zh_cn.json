@@ -1,4 +1,7 @@
 {
+  "difficulty_entry_screen.notice.unlocked": "Extra 栏可修改",
+  "difficulty_entry_screen.notice.commands": "锁定：存在玩家允许命令",
+  "difficulty_entry_screen.notice.creative": "锁定：存在玩家为创造模式或旁观模式",
 
   "item.miteequilibrium.blue_berry": "蓝莓",
   "item.miteequilibrium.blue_berry_bush": "蓝莓丛",
@@ -298,6 +301,8 @@
   "mod.itemGroup.armors_and_tools": "工具与盔甲",
   "mod.itemGroup.blocks_and_metallic_items": "方块与金属制品",
   "mod.itemGroup.farm": "农业与食物",
+
+  "gamerule.disableAlwaysNightVision": "禁用永久夜视",
   "gamerule.enableCraftingTimeAndLevel": "启用合成耗时和合成台等级",
   "gamerule.enableSlowBreakingSpeed": "启用标准挖掘速度",
   "gamerule.enableCropIllness": "启用作物生病机制",

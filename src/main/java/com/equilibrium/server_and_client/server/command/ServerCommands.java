@@ -134,6 +134,7 @@ public class ServerCommands {
 
     // 注册命令的标准方式，适配 CommandDispatcher 的签名
     public static void registerCommands(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess, CommandManager.RegistrationEnvironment registrationEnvironment) {
+
         dispatcher.register(
                 CommandManager.literal("sun")
                         .requires(source -> {

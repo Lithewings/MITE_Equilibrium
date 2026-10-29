@@ -1,5 +1,9 @@
 {
 
+  "difficulty_entry_screen.notice.unlocked": "Extra rules can be edited",
+  "difficulty_entry_screen.notice.commands": "Locked: cheats are enabled",
+  "difficulty_entry_screen.notice.creative": "Locked: a player is in creative or spectator mode",
+
   "item.miteequilibrium.blue_berry": "Blue Berry",
   "item.miteequilibrium.blue_berry_bush": "Blue Berry Bush",
 
@@ -390,15 +394,15 @@
   "mod.itemGroup.blocks_and_metallic_items": "Blocks and Metallic Items",
   "mod.itemGroup.farm": "Farm",
 
+  "gamerule.disableAlwaysNightVision": "Disable Always Night Vision",
   "gamerule.enableCraftingTimeAndLevel": "Enable Crafting Time And Level",
-
   "gamerule.enableSlowBreakingSpeed": "Enable Slow Breaking Speed",
   "gamerule.enableCropIllness": "Enable Crop Illness Function",
   "gamerule.enableAdvanceAnimalAI": "Enable Animal Advance AI",
   "gamerule.enableRestrictVillageGen": "Enable Strict Village Generation Conditions",
   "gamerule.enablePhytonutrient": "Enable Phytonutrient Function",
   "gamerule.enableBloodMoonThunder": "Enable Weather Effect On BloodMoon",
-  "gamerule.disablePlayerTeleport": "Disable Teleport Commands Between Players",
+  "gamerule.disablePlayerTeleport": "Disable Teleport Command: /teleportToPlayer",
 
   "gamerule.enableAnvilLevel": "Enable Anvil Level",
   "gamerule.enableAdvancedEnchantingTable": "Enable Advanced Enchanting Table",

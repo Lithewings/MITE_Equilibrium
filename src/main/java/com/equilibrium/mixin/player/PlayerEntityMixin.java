@@ -15,8 +15,6 @@ import net.minecraft.component.EnchantmentEffectComponentTypes;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.TrackedData;
@@ -34,7 +32,6 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.tag.FluidTags;
-import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
@@ -60,6 +57,7 @@ import static com.equilibrium.GlobalModConfig.isShowDamageEnabled;
 import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.*;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_PHYTONUTRIENT;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_SLOW_BREAKING_SPEED;
+import static com.equilibrium.difficulty_entry_screen.DifficultyEntryScreenMediator.openFor;
 import static com.equilibrium.item.tools_attribute.ExtraDamageFromExperienceLevel.getDamageLevel;
 import static com.equilibrium.status.disease_IR.DiabetesEffect.tryApplyDiabetesEffect;
 import static com.equilibrium.util.ableToMine.getBlockHarvestLevel;
@@ -280,6 +278,8 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
     @Inject(method = "jump", at = @At("TAIL"))
     public void jump(CallbackInfo ci) {
+//        if((Object)this instanceof ServerPlayerEntity serverPlayerEntity)
+//            openFor(serverPlayerEntity);
 //        if(!this.getWorld().isClient()){
 //            this.sendMessage(Text.of(("getTimeOfDay():"+this.getWorld().getTimeOfDay())));
 //            this.sendMessage(Text.of(("getTime:"+this.getWorld().getTime())));

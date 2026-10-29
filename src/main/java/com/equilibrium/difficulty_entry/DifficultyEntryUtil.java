@@ -8,7 +8,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.GameRules;
 
-import static com.equilibrium.common_gamerules.GameRuleSynMap.GET_ALL_RULES;
+
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.GET_ALL_ENTRY_KEY;
 
 public class DifficultyEntryUtil {

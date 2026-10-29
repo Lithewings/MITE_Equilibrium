@@ -42,6 +42,7 @@ import net.minecraft.util.Formatting;
 
 import static com.equilibrium.entity.ModEntities.*;
 
+import static com.equilibrium.difficulty_entry_screen.DifficultyEntryScreenRegistrations.initGameScreenOnClient;
 import static com.equilibrium.util.RenderBeaconBeam.RenderBeaconInit;
 
 
@@ -112,6 +113,11 @@ public class OnClientInitialize implements ClientModInitializer {
 
         BlockEntityRendererFactories.register(ModBlockEntityTypes.EMERALD_ENCHANTING_TABLE_BLOCK_ENTITY_TYPE, EmeraldEnchantingTableBlockEntityRenderer::new);
         BlockEntityRendererFactories.register(ModBlockEntityTypes.DIAMOND_ENCHANTING_TABLE_BLOCK_ENTITY_TYPE, DiamondEnchantingTableBlockEntityRenderer::new);
+
+
+        initGameScreenOnClient();
+
+
 
         //注册渲染器(渲染器中包含了实体和模型)
 

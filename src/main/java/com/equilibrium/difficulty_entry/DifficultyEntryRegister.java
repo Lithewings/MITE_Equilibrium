@@ -27,6 +27,13 @@ public class DifficultyEntryRegister {
 
     private static final CustomGameRuleCategory EXTRA_GAMERULE_CATEGORY = new CustomGameRuleCategory(COLUMN_EXTRA_ID, EXTRA_ENTRIES);
 
+    public static final GameRules.Key<GameRules.BooleanRule> DISABLE_ALWAYS_NIGHT_VISION =
+            GameRuleRegistry.register("disableAlwaysNightVision", DEFAULT_GAMERULE_CATEGORY, GameRuleFactory.createBooleanRule(true, (server, booleanRule) -> {
+                onGameRuleChangedForBoolean(server, booleanRule, "disableAlwaysNightVision");
+            }));
+
+
+
     public static final GameRules.Key<GameRules.BooleanRule> ENABLE_CRAFTING_TIME_AND_LEVEL =
             GameRuleRegistry.register("enableCraftingTimeAndLevel", DEFAULT_GAMERULE_CATEGORY, GameRuleFactory.createBooleanRule(true, (server, booleanRule) -> {
                 onGameRuleChangedForBoolean(server, booleanRule, "enableCraftingTimeAndLevel");
@@ -129,7 +136,8 @@ public class DifficultyEntryRegister {
                     ENABLE_RESTRICT_VILLAGE_GEN,
                     ENABLE_PHYTONUTRIENT,
                     ENABLE_BLOOD_MOON_THUNDER,
-                    DISABLE_PLAYER_TELEPORT
+                    DISABLE_PLAYER_TELEPORT,
+                    DISABLE_ALWAYS_NIGHT_VISION
             );
 
     public static Set<GameRules.Key<GameRules.BooleanRule>> ALL_THE_KEYS =
@@ -139,6 +147,7 @@ public class DifficultyEntryRegister {
 
     //id字典,用于将服务端的规则同步到客户端上去
     public static Map<String, GameRules.Key<GameRules.BooleanRule>> GET_ALL_ENTRY_KEY = Map.ofEntries(
+            Map.entry("disableAlwaysNightVision", DISABLE_ALWAYS_NIGHT_VISION),
             Map.entry("enableCraftingTimeAndLevel", ENABLE_CRAFTING_TIME_AND_LEVEL),
             Map.entry("enableSlowBreakingSpeed", ENABLE_SLOW_BREAKING_SPEED),
             Map.entry("enableCropIllness", ENABLE_CROP_ILLNESS),

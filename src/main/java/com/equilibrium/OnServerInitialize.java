@@ -63,6 +63,7 @@ import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.isAnyExtraE
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.initDifficultyEntryGameRules;
 import static com.equilibrium.entity.ModEntities.registerModEntities;
 import static com.equilibrium.entity.ModSpawnRestriction.registerModSpawnRestriction;
+import static com.equilibrium.difficulty_entry_screen.DifficultyEntryScreenRegistrations.initGameScreenOnServer;
 import static com.equilibrium.item.Armors.registerArmors;
 import static com.equilibrium.item.ItemComponentModifier.foodComponentModify;
 import static com.equilibrium.item.Metal.registerModItemRaw;
@@ -412,6 +413,12 @@ public class OnServerInitialize implements ModInitializer {
         modBlockEntityTypesInit();
 
         initGameRules();
+
+        initGameScreenOnServer();
+
+
+
+
         LOGGER.info("Hello Fabric world!");
     }
 
