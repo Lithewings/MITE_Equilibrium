@@ -6,9 +6,11 @@ import com.equilibrium.block.anvil.iron_anvil_block.IronAnvilScreenHandler;
 import com.equilibrium.block.anvil.mithril_anvil_block.MithrilAnvilScreenHandler;
 import com.equilibrium.block.crafting_table.ModCraftingScreenHandler;
 import com.equilibrium.block.enchanting_table.ModEnchantmentScreenHandler;
+import com.equilibrium.difficulty_entry_screen.DifficultyEntryScreenHandler;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.MenuType;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -26,10 +28,21 @@ public class ModBlockScreenTypesRegister {
     public static MenuType<AdamantiumAnvilScreenHandler> ADAMANTIUM_ANVIL_SCREEN_TYPE;
 
     public static MenuType<ModCraftingScreenHandler> MOD_CRAFTING_SCREEN_HANDLER_SCREEN_HANDLER_TYPE;
+    public static MenuType<DifficultyEntryScreenHandler> DIFFICULTY_ENTRY_SCREEN_HANDLER_MENU_TYPE;
+
+
 
     @SubscribeEvent
     public static void register(RegisterEvent event) {
         event.register(BuiltInRegistries.MENU.key(), helper -> {
+            // 注册菜单类型
+            DIFFICULTY_ENTRY_SCREEN_HANDLER_MENU_TYPE = Registry.register(
+                    BuiltInRegistries.MENU,
+                    ResourceLocation.fromNamespaceAndPath(OnServerInitialize.MOD_ID, "difficulty_entries"),
+                    new MenuType<>(DifficultyEntryScreenHandler::new, FeatureFlags.VANILLA_SET)
+            );
+
+
             // 注册菜单类型
             EMERALD_ENCHANTING_TABLE = Registry.register(
                     BuiltInRegistries.MENU,

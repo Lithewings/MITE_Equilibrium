@@ -10,7 +10,7 @@ import com.equilibrium.block.enchanting_table.ModBlockEntityTypes;
 import com.equilibrium.block.enchanting_table.ModEnchantmentScreen;
 import com.equilibrium.block.enchanting_table.diamond.DiamondEnchantingTableBlockEntityRenderer;
 import com.equilibrium.block.enchanting_table.emerald.EmeraldEnchantingTableBlockEntityRenderer;
-import com.equilibrium.difficulty_entry_screen.DifficultyEntryScreenRegistrations;
+import com.equilibrium.difficulty_entry_screen.DifficultyEntryScreen;
 import com.equilibrium.item.armor.ArmorItems;
 import com.equilibrium.network.*;
 import com.equilibrium.server_and_client.client.command.ClientCommands;
@@ -76,8 +76,7 @@ public class OnClientInitialize {
             MenuScreens.register(ModBlockScreenTypesRegister.MITHRIL_ANVIL_SCREEN_TYPE, MithrilAnvilScreen::new);
             MenuScreens.register(ModBlockScreenTypesRegister.ADAMANTIUM_ANVIL_SCREEN_TYPE, AdamantiumAnvilScreen::new);
             MenuScreens.register(ModBlockScreenTypesRegister.MOD_CRAFTING_SCREEN_HANDLER_SCREEN_HANDLER_TYPE, ModCraftingScreen::new);
-
-            DifficultyEntryScreenRegistrations.initGameScreenOnClient();
+            MenuScreens.register(ModBlockScreenTypesRegister.DIFFICULTY_ENTRY_SCREEN_HANDLER_MENU_TYPE, DifficultyEntryScreen::new);
 
 
 

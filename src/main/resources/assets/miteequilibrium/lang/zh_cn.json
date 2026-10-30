@@ -300,6 +300,8 @@
   "mod.itemGroup.armors_and_tools": "工具与盔甲",
   "mod.itemGroup.blocks_and_metallic_items": "方块与金属制品",
   "mod.itemGroup.farm": "农业与食物",
+
+  "gamerule.basicDisableAlwaysNightVision": "禁用永久夜视",
   "gamerule.basicEnableCraftingTimeAndLevel": "启用合成耗时和合成台等级",
   "gamerule.basicEnableSlowBreakingSpeed": "启用标准挖掘速度",
   "gamerule.basicEnableCropIllness": "启用作物生病机制",

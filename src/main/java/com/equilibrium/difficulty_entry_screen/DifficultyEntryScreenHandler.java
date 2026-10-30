@@ -1,5 +1,6 @@
 package com.equilibrium.difficulty_entry_screen;
 
+import com.equilibrium.block.ModBlockScreenTypesRegister;
 import com.equilibrium.difficulty_entry.DifficultyEntryRegister;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -58,7 +59,7 @@ public class DifficultyEntryScreenHandler extends AbstractContainerMenu {
     }
 
     public DifficultyEntryScreenHandler(int syncId, Inventory inventory, ContainerLevelAccess context) {
-        super(DifficultyEntryScreenRegistrations.SCREEN_TYPE, syncId);
+        super(ModBlockScreenTypesRegister.DIFFICULTY_ENTRY_SCREEN_HANDLER_MENU_TYPE, syncId);
         this.server = context.evaluate((world, pos) -> world.getServer()).orElse(null);
         this.addDataSlots(this.ruleValues);
         this.addDataSlots(this.gateStates);
