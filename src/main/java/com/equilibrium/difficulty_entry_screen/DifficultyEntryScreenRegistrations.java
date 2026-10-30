@@ -14,7 +14,7 @@ import static com.equilibrium.OnServerInitialize.MOD_ID;
 
 public final class DifficultyEntryScreenRegistrations {
 
-    public static final Identifier SCREEN_ID = Identifier.of(MOD_ID, "difficulty_entry");
+    public static final Identifier SCREEN_ID = Identifier.of(MOD_ID, "difficulty_entries");
 
 
     public static final ScreenHandlerType<DifficultyEntryScreenHandler> SCREEN_TYPE =

@@ -38,6 +38,7 @@
     "vanilla_blocksmixin.FireBlockForPortalMixin",
     "vanilla_blocksmixin.FluidBlockMixin",
     "vanilla_blocksmixin.GrassBlockMixin",
+    "vanilla_blocksmixin.LetLeavesBlockNoBoxMixin",
     "vanilla_blocksmixin.tables.AbstractFurnaceEntityMixin",
     "vanilla_blocksmixin.tables.BedBlockMixin",
     "vanilla_blocksmixin.tables.PlayerScreenHandlerAccessor",
@@ -107,6 +108,6 @@
     "some_special_rules.EditGameRulesScreenMixin",
     "some_special_rules.EntityRenderDispatcherMixinForRenderHitBox",
     "some_special_rules.KeepBreakingMixin",
-    "vanilla_blocksmixin.GrassBlockColorWithBiomeMixin",
+    "vanilla_blocksmixin.GrassBlockColorWithBiomeMixin"
   ]
 }

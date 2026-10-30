@@ -23,12 +23,12 @@ public final class DifficultyEntryScreenMediator {
     private DifficultyEntryScreenMediator() {
     }
 
-    /** 立即为玩家打开规则屏幕，返回是否发出成功。 */
+
     public static boolean openFor(ServerPlayerEntity player) {
         if (player == null || player.isRemoved()) {
             return false;
         }
-        // 原版开屏流程：服务端建 handler → 发 OpenScreenS2CPacket → 客户端按屏幕种类查 HandledScreens 映射
+        // 原版开屏流程：服务端建 handler →  OpenScreenS2CPacket → 客户端按屏幕种类查 HandledScreens 映射
         OptionalInt syncId = player.openHandledScreen(new SimpleNamedScreenHandlerFactory(
                 (id, inventory, p) -> new DifficultyEntryScreenHandler(id, inventory,
                         ScreenHandlerContext.create(p.getWorld(), p.getBlockPos())),
