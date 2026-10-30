@@ -334,10 +334,7 @@ public class DifficultyEntryScreen extends AbstractContainerScreen<DifficultyEnt
                 return List.of();
             }
 
-            @Override
-            public List<? extends NarratableEntry> selectableChildren() {
-                return List.of();
-            }
+
 
             void sync(DifficultyEntryScreenHandler handler) {
             }
@@ -406,7 +403,7 @@ public class DifficultyEntryScreen extends AbstractContainerScreen<DifficultyEnt
 
             @Override
             public List<? extends NarratableEntry> narratables() {
-                return null;
+                return List.of();
             }
         }
 
@@ -473,10 +470,6 @@ public class DifficultyEntryScreen extends AbstractContainerScreen<DifficultyEnt
                 return List.of(this.widget);
             }
 
-            @Override
-            public List<? extends NarratableEntry> selectableChildren() {
-                return List.of(this.widget);
-            }
 
             @Override
             public void render(GuiGraphics context, int index, int y, int x, int width, int height,
@@ -521,7 +514,7 @@ public class DifficultyEntryScreen extends AbstractContainerScreen<DifficultyEnt
 
             @Override
             public List<? extends NarratableEntry> narratables() {
-                return null;
+                return List.of();
             }
         }
     }

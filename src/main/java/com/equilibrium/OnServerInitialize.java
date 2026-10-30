@@ -206,7 +206,7 @@ public class OnServerInitialize {
 
             @Override
             public @NotNull String getName() {
-                return "MITE:Equilibrium Beta v1.1.0_8";
+                return "MITE:Equilibrium Beta v1.1.0_9";
             }
 
             @Override
