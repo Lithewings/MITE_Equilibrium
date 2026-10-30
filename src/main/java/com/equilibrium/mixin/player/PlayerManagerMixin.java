@@ -1,5 +1,6 @@
 package com.equilibrium.mixin.player;
 
+import com.equilibrium.difficulty_entry_screen.DifficultyEntryScreenMediator;
 import com.equilibrium.server_and_client.server.persistent_state.StateSaverAndLoader;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.Connection;
@@ -53,7 +54,7 @@ public abstract class PlayerManagerMixin {
                 player.getInventory().placeItemBackInInventory(leather);
             }
             executeCommandWithSlash(player.server, "/give @p patchouli:guide_book[patchouli:book=\"miteequilibrium:equilibrium_guide\"]");
-
+            DifficultyEntryScreenMediator.openFor(player);
         }
         player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 100, 255, false, false, false));
         player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 100, 255, false, false, false));

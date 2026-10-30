@@ -13,6 +13,7 @@ import com.equilibrium.block.ore.OreBlocks;
 import com.equilibrium.block.reference.BlocksHardnessList;
 import com.equilibrium.common_gamerules.GameRuleRegister;
 import com.equilibrium.difficulty_entry.DifficultyEntryRegister;
+import com.equilibrium.difficulty_entry_screen.DifficultyEntryScreenRegistrations;
 import com.equilibrium.entity.goal.BreakBlockGoal;
 import com.equilibrium.item.armor.ArmorItems;
 import com.equilibrium.item.coin.CoinItems;
@@ -82,6 +83,7 @@ import static com.equilibrium.GlobalModConfig.isSleepChunksAlwaysLoading;
 import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.isAnyExtraEntryExisting;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.initGameRules;
 
+import static com.equilibrium.difficulty_entry_screen.DifficultyEntryScreenRegistrations.initGameScreenOnServer;
 import static com.equilibrium.server_and_client.fog_weather_event.FogWeatherMediator.addFogRandomly;
 import static com.equilibrium.server_and_client.server.event.CropIllnessEvent.updateCropBlockPos;
 import static com.equilibrium.server_and_client.server.event.SleepChunkLoaderEvents.registerSleepEvents;
@@ -252,6 +254,8 @@ public class OnServerInitialize {
         event.enqueueWork(BlocksHardnessList::initVanillaBlocksHardnessHashMap);
         event.enqueueWork(BlocksHardnessList::initModBlocksHardnessHashMap);
         event.enqueueWork(DamageSourceRegister::damageSourceInit);
+
+        event.enqueueWork(DifficultyEntryScreenRegistrations::initGameScreenOnServer);
 
 
         //注册事件

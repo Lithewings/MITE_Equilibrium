@@ -31,11 +31,8 @@ public class EditGameRulesScreenMixin {
         map.remove(GameRules.Category.DROPS);
         map.remove(GameRules.Category.SPAWNING);
         map.remove(GameRules.Category.UPDATES);
+        map.remove(GameRules.Category.MISC);
 
-//        //只有布尔型规则
-        map.get(GameRules.Category.MISC).keySet().removeIf(key->
-            !(DifficultyEntryRegister.ALL_BASIC_ENTRY_KEYS.contains(key)||DifficultyEntryRegister.ALL_EXTRA_ENTRY_KEYS.contains(key))
-        );
 
 
 

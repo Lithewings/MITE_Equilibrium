@@ -37,6 +37,7 @@
     "vanilla_blocksmixin.FireBlockForPortalMixin",
     "vanilla_blocksmixin.FluidBlockMixin",
     "vanilla_blocksmixin.GrassBlockMixin",
+    "vanilla_blocksmixin.LetLeavesBlockNoBoxMixin",
     "vanilla_blocksmixin.tables.AbstractFurnaceEntityMixin",
     "vanilla_blocksmixin.tables.BedBlockMixin",
     "vanilla_blocksmixin.tables.PlayerScreenHandlerAccessor",

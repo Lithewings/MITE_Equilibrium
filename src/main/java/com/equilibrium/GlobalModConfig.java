@@ -20,6 +20,7 @@ public class  GlobalModConfig {
 
     public boolean enableShowDamage = false;
 
+    public boolean receiveNightVision = true;
 
     public int fogDissipatedViewDistance = -1;
 
@@ -84,5 +85,8 @@ public class  GlobalModConfig {
     }
     public static int getFogDissipatedViewDistance() {
         return getInstance().fogDissipatedViewDistance;
+    }
+    public static boolean getReceiveNightVision() {
+        return getInstance().receiveNightVision;
     }
 }

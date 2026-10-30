@@ -1,5 +1,7 @@
 {
-
+  "difficulty_entry_screen.notice.unlocked": "Extra 栏可修改",
+  "difficulty_entry_screen.notice.commands": "锁定：存在玩家允许命令",
+  "difficulty_entry_screen.notice.creative": "锁定：存在玩家为创造模式或旁观模式",
   "item.miteequilibrium.blue_berry": "蓝莓",
   "block.miteequilibrium.blue_berry_bush": "蓝莓丛",
 

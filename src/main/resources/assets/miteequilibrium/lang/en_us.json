@@ -1,4 +1,7 @@
 {
+  "difficulty_entry_screen.notice.unlocked": "Extra rules can be edited",
+  "difficulty_entry_screen.notice.commands": "Locked: cheats are enabled",
+  "difficulty_entry_screen.notice.creative": "Locked: a player is in creative or spectator mode",
 
   "item.miteequilibrium.blue_berry": "Blue Berry",
   "block.miteequilibrium.blue_berry_bush": "Blue Berry Bush",
