@@ -48,11 +48,6 @@ public abstract class PlayerManagerMixin {
             //只触发一次
             serverState.onFirstInTheWorld = false;
             player.sendSystemMessage(Component.translatable("mod.first_day.helloWorld").withStyle(ChatFormatting.YELLOW));
-            if(getGameBooleanRuleFromServer(ENABLE_NO_ANIMALS,player.getServer())){
-                ItemStack leather = Items.LEATHER.getDefaultInstance();
-                leather.setCount(16);
-                player.getInventory().placeItemBackInInventory(leather);
-            }
             executeCommandWithSlash(player.server, "/give @p patchouli:guide_book[patchouli:book=\"miteequilibrium:equilibrium_guide\"]");
             DifficultyEntryScreenMediator.openFor(player);
         }
