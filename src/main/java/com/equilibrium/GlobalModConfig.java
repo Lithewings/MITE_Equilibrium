@@ -2,7 +2,7 @@ package com.equilibrium;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import net.fabricmc.loader.api.FabricLoader;
+import net.neoforged.fml.loading.FMLPaths;
 
 import java.io.File;
 import java.io.FileReader;
@@ -27,7 +27,7 @@ public class  GlobalModConfig {
     // 静态实例，全局唯一
     private static GlobalModConfig INSTANCE;
     // 总配置文件路径：
-    private static final File GLOBAL_CONFIG_FILE = FabricLoader.getInstance().getConfigDir()
+    private static final File GLOBAL_CONFIG_FILE = FMLPaths.CONFIGDIR.get()
             .resolve("mite_equilibrium.json").toFile();
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 

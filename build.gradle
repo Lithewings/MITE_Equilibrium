@@ -27,8 +27,17 @@ sourceSets.main.resources {
 }
 
 repositories {
+    // 国内镜像：Maven Central 全量代理（asm / slf4j / gson / antlr / commons 等构建期依赖）。
+    maven {
+        name = 'AliyunPublic'
+        url = 'https://maven.aliyun.com/repository/public'
+    }
     maven {
         url "https://maven.sinytra.org"
+    }
+    maven {
+        name = 'parchment'
+        url "https://maven.parchmentmc.org"
     }
 }
 base {
@@ -136,11 +145,6 @@ dependencies {
     // Example mod dependency using a file as dependency
 
 
-    
-    // I can not find pom
-    // So annoying
-    // I decide to use absolute path
-    implementation files("C:\\Users\\Lithewings\\.gradle\\caches\\modules-2\\files-2.1\\org.sinytra\\connector\\2.0.0-beta.14+1.21.1\\6b3188da636ceaeb7c14fc47f09dc43fe327ef92\\connector-2.0.0-beta.14+1.21.1-full.jar")
 
 
     
