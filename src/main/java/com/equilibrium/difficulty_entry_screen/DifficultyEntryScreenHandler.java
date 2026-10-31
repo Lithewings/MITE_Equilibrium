@@ -63,7 +63,6 @@ public class DifficultyEntryScreenHandler extends AbstractContainerMenu {
         this.server = context.evaluate((world, pos) -> world.getServer()).orElse(null);
         this.addDataSlots(this.ruleValues);
         this.addDataSlots(this.gateStates);
-        // 客户端（server == null）下面两句空转，初值来自属性包
         this.pullValues();
         this.refreshStates();
     }
@@ -71,7 +70,6 @@ public class DifficultyEntryScreenHandler extends AbstractContainerMenu {
 
 
 
-    /** 某条规则在开屏快照里的值。 */
     public int valueAt(int index) {
         return this.ruleValues.get(index);
     }

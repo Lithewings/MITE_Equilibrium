@@ -19,7 +19,6 @@ import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 //Powered by Deepseek V4 pro
-//写前端大大方方用AI,坦坦荡荡见自己.屏幕控件自己写就好了,ScreenHandler出问题可就致命多了
 public class DifficultyEntryScreen extends AbstractContainerScreen<DifficultyEntryScreenHandler> {
 
     /** 行高。列表用固定 itemHeight 布局（{@code Entry} 没有 getHeight），所以只能统一取一个够两行名称的值。 */
