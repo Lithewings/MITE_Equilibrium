@@ -294,40 +294,41 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
     }
 
-    @Unique
-    private double interactionRange = 2f;
+
 
 
     //以下修改实体交互距离
     @Inject(method = "getEntityInteractionRange", at = @At("HEAD"), cancellable = true)
     public void getEntityInteractionRange(CallbackInfoReturnable<Double> cir) {
+        double interactionRange = this.getAttributeValue(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE)-2f;
+
         ItemStack itemStack = this.getMainHandStack();
         if (itemStack.isIn(ModItemTags.SHOVELS)) {
             //铲子
-            interactionRange = 1.5f + 0.75f;
+            interactionRange += 0.75f;
         } else if (itemStack.isIn(ModItemTags.PICKAXES)) {
             //镐子
-            interactionRange = 1.5f + 0.75f;
+            interactionRange += 0.75f;
         } else if (itemStack.isIn(ModItemTags.AXES)) {
             //斧子
-            interactionRange = 1.5f + 0.75f;
+            interactionRange += 0.75f;
         } else if (itemStack.isIn(ModItemTags.SWORDS)) {
             //剑
-            interactionRange = 1.5f + 1f;
+            interactionRange += 1f;
         } else if (itemStack.isIn(ModItemTags.HOES)) {
             //锄头
-            interactionRange = 1.5f + 0.75f;
+            interactionRange += 0.75f;
             //手斧
         } else if (itemStack.isIn(ModItemTags.HATCHET)) {
-            interactionRange = 1.5f + 0.75f;
+            interactionRange += 0.75f;
         } else if (itemStack.isIn(ModItemTags.DAGGERS)) {
             //小刀、匕首
-            interactionRange = 1.5f + 0.5f;
+            interactionRange += 0.5f;
         } else if (itemStack.isOf(Items.STICK) || itemStack.isOf(Items.BONE)) {
             //木棍和骨头
-            interactionRange = 1.5f + 0.5f;
+            interactionRange += 0.5f;
         } else {
-            interactionRange = 1.5f + 0f;
+            interactionRange += 0f;
         }
 
 
@@ -340,8 +341,8 @@ public abstract class PlayerEntityMixin extends LivingEntity {
             interactionRange += 1.5f;
         }
 
-//        if(!this.getWorld().isClient)
-//            this.sendMessage(Text.of("你的生物交互距离为"+interactionRange));
+        if(!this.getWorld().isClient)
+            this.sendMessage(Text.of("你的生物交互距离为"+interactionRange),true);
 
         cir.setReturnValue(interactionRange);
 
