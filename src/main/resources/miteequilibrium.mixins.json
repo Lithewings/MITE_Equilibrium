@@ -4,6 +4,8 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "LandPathNodeMakerMixin",
+    "LivingEntityMixinForArrowAttach",
+    "PersistentProjectileEntityMixinForArrowAttach",
     "ServerPlayerRenamePacketMixin",
     "advancement.AdvancementManagerMixin",
     "advancement.PlayerAdvancementTrackerMixin",

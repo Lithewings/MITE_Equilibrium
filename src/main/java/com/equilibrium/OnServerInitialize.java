@@ -64,6 +64,7 @@ import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.initDiffi
 import static com.equilibrium.entity.ModEntities.registerModEntities;
 import static com.equilibrium.entity.ModSpawnRestriction.registerModSpawnRestriction;
 import static com.equilibrium.difficulty_entry_screen.DifficultyEntryScreenRegistrations.initGameScreenOnServer;
+import static com.equilibrium.entity.arrow_attach.ArrowDeathHandler.registerArrowsDropEvents;
 import static com.equilibrium.item.Armors.registerArmors;
 import static com.equilibrium.item.ItemComponentModifier.foodComponentModify;
 import static com.equilibrium.item.Metal.registerModItemRaw;
@@ -417,7 +418,7 @@ public class OnServerInitialize implements ModInitializer {
         initGameScreenOnServer();
 
 
-
+        registerArrowsDropEvents();
 
         LOGGER.info("Hello Fabric world!");
     }

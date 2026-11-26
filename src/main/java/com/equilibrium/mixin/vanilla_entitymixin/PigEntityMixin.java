@@ -18,6 +18,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.event.GameEvent;
@@ -128,47 +129,17 @@ public abstract class PigEntityMixin extends AnimalEntity implements ItemSteerab
         environmentChecker.readCustomDataFromNbt(nbt);
     }
 
-
     @Override
-    public void onDeath(DamageSource damageSource) {
-        onDeathAndCheckIllness(damageSource);
-    }
-
-    @Unique
-    private void onDeathAndCheckIllness(DamageSource damageSource) {
-        if (!this.isRemoved() && !this.dead) {
-            Entity entity = damageSource.getAttacker();
-            LivingEntity livingEntity = this.getPrimeAdversary();
-            if (this.scoreAmount >= 0 && livingEntity != null) {
-                livingEntity.updateKilledAdvancementCriterion(this, this.scoreAmount, damageSource);
-            }
-
-            if (this.isSleeping()) {
-                this.wakeUp();
-            }
-
-            if (!this.getWorld().isClient && this.hasCustomName()) {
-                OnServerInitialize.LOGGER.info("Named entity {} died: {}", this, this.getDamageTracker().getDeathMessage().getString());
-            }
-
-            this.dead = true;
-            this.getDamageTracker().update();
-            if (this.getWorld() instanceof ServerWorld serverWorld) {
-                if (entity == null || entity.onKilledOther(serverWorld, this)) {
-                    this.emitGameEvent(GameEvent.ENTITY_DIE);
-                    if(!environmentChecker.isIllness())
-                        this.drop(serverWorld, damageSource);
-                    else if(this.isSaddled()){
-                        this.getWorld().spawnEntity(new ItemEntity(this.getWorld(),this.getX(),this.getY(),this.getZ(),Items.SADDLE.getDefaultStack()));
-                    }
-                    this.onKilledBy(livingEntity);
-                }
-
-                this.getWorld().sendEntityStatus(this, EntityStatuses.PLAY_DEATH_SOUND_OR_ADD_PROJECTILE_HIT_PARTICLES);
-            }
-
-            this.setPose(EntityPose.DYING);
+    protected void drop(ServerWorld world, DamageSource damageSource) {
+        if(environmentChecker.isIllness())
+            return;
+        boolean bl = this.playerHitTimer > 0;
+        if (this.shouldDropLoot() && world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) {
+            this.dropLoot(damageSource, bl);
+            this.dropEquipment(world, damageSource, bl);
         }
+        this.dropInventory();
+        this.dropXp(damageSource.getAttacker());
     }
 
 }
