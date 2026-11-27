@@ -1,4 +1,18 @@
 {
+
+  "item.miteequilibrium.flint_fishing_rod": "燧石钓鱼竿",
+  "item.miteequilibrium.copper_fishing_rod": "铜钓鱼竿",
+  "item.miteequilibrium.silver_fishing_rod": "银钓鱼竿",
+  "item.miteequilibrium.gold_fishing_rod": "金钓鱼竿",
+  "item.miteequilibrium.mithril_fishing_rod": "秘银钓鱼竿",
+  "item.miteequilibrium.adamantium_fishing_rod": "艾德曼钓鱼竿",
+
+
+
+
+
+
+
   "difficulty_entry_screen.notice.unlocked": "Extra 栏可修改",
   "difficulty_entry_screen.notice.commands": "锁定：存在玩家允许命令",
   "difficulty_entry_screen.notice.creative": "锁定：存在玩家为创造模式或旁观模式",

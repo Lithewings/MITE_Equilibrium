@@ -2,6 +2,7 @@ package com.equilibrium.block.anvil_block.adamantium_anvil_block;
 
 import com.equilibrium.OnServerInitialize;
 import com.equilibrium.block.ModBlockScreenTypesRegister;
+import com.equilibrium.block.anvil_block.AnvilRepairUtil;
 import com.mojang.logging.LogUtils;
 import it.unimi.dsi.fastutil.objects.Object2IntMap.Entry;
 import net.minecraft.block.BlockState;
@@ -26,7 +27,6 @@ import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
 import static com.equilibrium.block.anvil_block.adamantium_anvil_block.AdamantiumAnvilBlock.*;
-import static com.equilibrium.block.anvil_block.mithril_anvil_block.MithrilAnvilBlock.*;
 import static com.equilibrium.block.anvil_block.util.getPhaseFromDurability;
 
 
@@ -154,7 +154,7 @@ public class AdamantiumScreenHandler extends ForgingScreenHandler {
             if (!itemStack3.isEmpty()) {
                 boolean bl = itemStack3.contains(DataComponentTypes.STORED_ENCHANTMENTS);
                 if (itemStack2.isDamageable() && itemStack2.getItem().canRepair(itemStack, itemStack3)) {
-                    int k = Math.min(itemStack2.getDamage(), itemStack2.getMaxDamage() / 4);
+                    int k = AnvilRepairUtil.nextRepairAmount(itemStack2);
                     if (k <= 0) {
                         this.output.setStack(0, ItemStack.EMPTY);
                         this.levelCost.set(0);
@@ -166,7 +166,7 @@ public class AdamantiumScreenHandler extends ForgingScreenHandler {
                         int n = itemStack2.getDamage() - k;
                         itemStack2.setDamage(n);
                         i++;
-                        k = Math.min(itemStack2.getDamage(), itemStack2.getMaxDamage() / 4);
+                        k = AnvilRepairUtil.nextRepairAmount(itemStack2);
                     }
 
                     this.repairItemUsage = m;

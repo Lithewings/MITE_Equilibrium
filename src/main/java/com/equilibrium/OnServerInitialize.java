@@ -69,6 +69,7 @@ import static com.equilibrium.item.Armors.registerArmors;
 import static com.equilibrium.item.ItemComponentModifier.foodComponentModify;
 import static com.equilibrium.item.Metal.registerModItemRaw;
 import static com.equilibrium.item.extend_item.CoinItems.registerCoinItems;
+import static com.equilibrium.item.fishrod.FishingRods.registerModItemFishingRods;
 import static com.equilibrium.item.food.FoodOrFarmItems.registerFoodItems;
 import static com.equilibrium.server_and_client.fog_weather_event.FogWeatherMediator.addFogRandomly;
 import static com.equilibrium.server_and_client.server.event.CropIllnessEvent.updateCropBlockPos;
@@ -419,6 +420,7 @@ public class OnServerInitialize implements ModInitializer {
 
 
         registerArrowsDropEvents();
+        registerModItemFishingRods();
 
         LOGGER.info("Hello Fabric world!");
     }

@@ -1,5 +1,15 @@
 {
 
+
+  "item.miteequilibrium.flint_fishing_rod": "Flint Fishing Rod",
+  "item.miteequilibrium.copper_fishing_rod": "Copper Fishing Rod",
+  "item.miteequilibrium.silver_fishing_rod": "Silver Fishing Rod",
+  "item.miteequilibrium.gold_fishing_rod": "Golden Fishing Rod",
+  "item.miteequilibrium.mithril_fishing_rod": "Mithril Fishing Rod",
+  "item.miteequilibrium.adamantium_fishing_rod": "Adamantium Fishing Rod",
+
+
+
   "difficulty_entry_screen.notice.unlocked": "Extra rules can be edited",
   "difficulty_entry_screen.notice.commands": "Locked: cheats are enabled",
   "difficulty_entry_screen.notice.creative": "Locked: a player is in creative or spectator mode",

@@ -1,28 +1,20 @@
 package com.equilibrium.mixin.vanilla_entitymixin;
 
-import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FishingBobberEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.fluid.FluidState;
-import net.minecraft.item.ItemStack;
-import net.minecraft.loot.LootTable;
-import net.minecraft.loot.LootTables;
-import net.minecraft.loot.context.LootContextParameterSet;
-import net.minecraft.loot.context.LootContextParameters;
-import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.tag.BiomeTags;
 import net.minecraft.registry.tag.FluidTags;
-import net.minecraft.registry.tag.ItemTags;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.stat.Stats;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -35,9 +27,14 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static com.equilibrium.item.fishrod.FishingRodConfig.isAnyFishingRod;
 
 @Mixin(FishingBobberEntity.class)
 public abstract class FishingBobberEntityMixin extends ProjectileEntity {
@@ -119,6 +116,22 @@ public abstract class FishingBobberEntityMixin extends ProjectileEntity {
 
 
     @Shadow public abstract @Nullable PlayerEntity getPlayerOwner();
+
+
+
+    @Inject(method = "removeIfInvalid", at = @At("HEAD"), cancellable = true)
+    private void removeIfInvalid(PlayerEntity player, CallbackInfoReturnable<Boolean> cir) {
+        boolean bl  = isAnyFishingRod(player.getMainHandStack());
+        boolean bl2 = isAnyFishingRod(player.getOffHandStack());
+
+        if (!player.isRemoved() && player.isAlive() && (bl || bl2) && !(this.squaredDistanceTo(player) > 1024.0)) {
+            cir.setReturnValue(false);
+        } else {
+            this.discard();
+            cir.setReturnValue(true);
+        }
+    }
+
 
     @Inject(method = "tickFishingLogic",at = @At("HEAD"))
     private void tickFishingLogic(BlockPos pos, CallbackInfo ci) {
@@ -257,7 +270,6 @@ public abstract class FishingBobberEntityMixin extends ProjectileEntity {
         PlayerEntity playerEntity = this.getPlayerOwner();
         return new ExperienceOrbEntity(playerEntity.getWorld(), playerEntity.getX(), playerEntity.getY() + 0.5, playerEntity.getZ() + 0.5, 0);
     }
-
 
 
 

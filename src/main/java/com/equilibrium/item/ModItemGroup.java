@@ -5,6 +5,7 @@ import com.equilibrium.OnServerInitialize;
 import com.equilibrium.block.ModBlocksRegistry;
 import com.equilibrium.block.ModBlocksRegistry2;
 import com.equilibrium.item.extend_item.CoinItems;
+import com.equilibrium.item.fishrod.FishingRods;
 import com.equilibrium.item.food.FoodOrFarmItems;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.ItemGroup;
@@ -165,6 +166,15 @@ public class ModItemGroup {
                                 entries.add(Armors.ANCIENT_METAL_CHAINMAIL_CHEST_PLATE);
                                 entries.add(Armors.ANCIENT_METAL_CHAINMAIL_LEGGINGS);
                                 entries.add(Armors.ANCIENT_METAL_CHAINMAIL_BOOTS);
+
+
+                                entries.add(FishingRods.FLINT_FISHING_ROD);
+                                entries.add(FishingRods.COPPER_FISHING_ROD);
+                                entries.add(FishingRods.SILVER_FISHING_ROD);
+                                entries.add(FishingRods.GOLD_FISHING_ROD);
+                                entries.add(FishingRods.MITHRIL_FISHING_ROD);
+                                entries.add(FishingRods.ADAMANTIUM_FISHING_ROD);
+
 
                             }
                     ).build());
