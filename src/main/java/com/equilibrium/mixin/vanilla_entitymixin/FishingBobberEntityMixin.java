@@ -89,6 +89,7 @@ public abstract class FishingBobberEntityMixin extends Projectile {
 
 
     @Unique
+    //IS_WIDE_OPEN_WATER 是 static 且永不清理、也不带维度键：同一坐标在主世界和下界会命中同一条缓存；长时间运行的服务器只增不减（P1-2 原样还在）。最小改法是把 key 换成 Level.RESOURCE_KEY + pos，或在 remove()/discard() 时移除该 pos。
     private static Map<BlockPos,Boolean> IS_WIDE_OPEN_WATER = new ConcurrentHashMap<>();;
 
 
@@ -117,8 +118,9 @@ public abstract class FishingBobberEntityMixin extends Projectile {
 
     @Shadow public abstract @Nullable Player getPlayerOwner();
 
-    @Inject(method = "catchingFish",at = @At("HEAD"))
+    @Inject(method = "catchingFish",at = @At("HEAD"), cancellable = true)
     private void tickFishingLogic(BlockPos pos, CallbackInfo ci) {
+        ci.cancel();
         ServerLevel serverWorld = (ServerLevel)this.level();
 
 
