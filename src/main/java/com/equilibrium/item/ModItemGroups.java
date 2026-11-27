@@ -91,12 +91,7 @@ public class ModItemGroups {
                         output.accept(MiscellaneousItems.EMERALD_SHARD.get());
                         output.accept(MiscellaneousItems.GLASS_FRAGMENT.get());
 
-                        output.accept(FishingRods.FLINT_FISHING_ROD.get());
-                        output.accept(FishingRods.COPPER_FISHING_ROD.get());
-                        output.accept(FishingRods.SILVER_FISHING_ROD.get());
-                        output.accept(FishingRods.GOLD_FISHING_ROD.get());
-                        output.accept(FishingRods.MITHRIL_FISHING_ROD.get());
-                        output.accept(FishingRods.ADAMANTIUM_FISHING_ROD.get());
+
 
 
 
@@ -178,6 +173,14 @@ public class ModItemGroups {
                         output.accept(ArmorItems.ANCIENT_METAL_CHAINMAIL_CHEST_PLATE.get());
                         output.accept(ArmorItems.ANCIENT_METAL_CHAINMAIL_LEGGINGS.get());
                         output.accept(ArmorItems.ANCIENT_METAL_CHAINMAIL_BOOTS.get());
+
+                        output.accept(FishingRods.FLINT_FISHING_ROD.get());
+                        output.accept(FishingRods.COPPER_FISHING_ROD.get());
+                        output.accept(FishingRods.SILVER_FISHING_ROD.get());
+                        output.accept(FishingRods.GOLD_FISHING_ROD.get());
+                        output.accept(FishingRods.MITHRIL_FISHING_ROD.get());
+                        output.accept(FishingRods.ADAMANTIUM_FISHING_ROD.get());
+
                     })
                     .build()
     );

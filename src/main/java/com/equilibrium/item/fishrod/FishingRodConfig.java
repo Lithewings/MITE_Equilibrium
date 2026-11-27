@@ -15,12 +15,11 @@ public class FishingRodConfig {
 
     public static final List<Item> FISHING_ROD_ITEMS = List.of(
             Items.FISHING_ROD,
-            FLINT_FISHING_ROD,
-            COPPER_FISHING_ROD,
-            SILVER_FISHING_ROD,
-            GOLD_FISHING_ROD,
-            MITHRIL_FISHING_ROD,
-            ADAMANTIUM_FISHING_ROD
+            COPPER_FISHING_ROD.get(),
+            SILVER_FISHING_ROD.get(),
+            GOLD_FISHING_ROD.get(),
+            MITHRIL_FISHING_ROD.get(),
+            ADAMANTIUM_FISHING_ROD.get()
     );
 
 

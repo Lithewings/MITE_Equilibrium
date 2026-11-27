@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "H": {
+      "item": "minecraft:flint"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "X": {
+      "item": "minecraft:string"
+    },
+    "F": {
+      "item": "miteequilibrium:flint"
+    }
+  },
+  "pattern": [
+    "  H",
+    " SX",
+    "SFX"
+  ],
+  "result": {
+    "count": 1,
+    "id": "miteequilibrium:flint_fishing_rod"
+  }
+}

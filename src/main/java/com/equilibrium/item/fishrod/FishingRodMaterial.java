@@ -1,6 +1,7 @@
 package com.equilibrium.item.fishrod;
 
-import com.equilibrium.item.Metal;
+
+import com.equilibrium.item.material.MaterialItems;
 import com.google.common.base.Suppliers;
 import java.util.function.Supplier;
 import net.minecraft.world.item.Items;
@@ -8,12 +9,12 @@ import net.minecraft.world.item.crafting.Ingredient;
 
 public enum FishingRodMaterial {
 
-    FLINT(3, 0, () -> Ingredient.of(Metal.FLINT)),
-    COPPER(8, 15, () -> Ingredient.of(Metal.copper_nugget)),
-    SILVER(8, 15, () -> Ingredient.of(Metal.silver_nugget)),
+    FLINT(3, 0, () -> Ingredient.of(MaterialItems.FLINT)),
+    COPPER(8, 15, () -> Ingredient.of(MaterialItems.COPPER_NUGGET)),
+    SILVER(8, 15, () -> Ingredient.of(MaterialItems.SILVER_NUGGET)),
     GOLD(8, 25, () -> Ingredient.of(Items.GOLD_NUGGET)),
-    MITHRIL(128, 25, () -> Ingredient.of(Metal.mithril_nugget)),
-    ADAMANTIUM(512, 18, () -> Ingredient.of(Metal.adamantium_nugget));
+    MITHRIL(128, 25, () -> Ingredient.of(MaterialItems.MITHRIL_NUGGET)),
+    ADAMANTIUM(512, 18, () -> Ingredient.of(MaterialItems.MITHRIL_NUGGET));
 
     private final int durability;
     private final int enchantability;
