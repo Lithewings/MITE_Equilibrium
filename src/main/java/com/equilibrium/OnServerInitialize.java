@@ -136,22 +136,22 @@ public class OnServerInitialize implements ModInitializer {
         SharedConstants.gameVersion = new GameVersion() {
             @Override
             public SaveVersion getSaveVersion() {
-                return new SaveVersion(108109, "MITE:Equilibrium Beta");
+                return new SaveVersion(676767, "MITE:Equilibrium Beta Fabric/NeoForge");
             }
 
             @Override
             public String getId() {
-                return "108109";
+                return "676767";
             }
 
             @Override
             public String getName() {
-                return "MITE:Equilibrium Beta v1.1.0_9";
+                return "MITE:Equilibrium Beta v1.2.0_1";
             }
 
             @Override
             public int getProtocolVersion() {
-                return 108109;
+                return 676767;
             }
 
             @Override
