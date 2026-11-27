@@ -174,6 +174,10 @@ public abstract class CowEntityMixin extends AnimalEntity implements ProduceManu
             if(milkCoolDown<=0)
                 milkCoolDown=0;
         }
+        if(this.getWorld() instanceof ServerWorld serverWorld){
+            if(getGameBooleanRuleFromServer(ENABLE_NO_ANIMALS, serverWorld.getServer()))
+                this.setHealth(0);
+        }
     }
 
 

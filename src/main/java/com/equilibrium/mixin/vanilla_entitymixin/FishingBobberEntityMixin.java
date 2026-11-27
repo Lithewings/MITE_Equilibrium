@@ -178,7 +178,7 @@ public abstract class FishingBobberEntityMixin extends ProjectileEntity {
         long timeOfDay = this.getWorld().getTimeOfDay() % 24000L;
         boolean isDusk = timeOfDay >= 12000L && timeOfDay < 13000L;
         boolean isDawn = timeOfDay >= 23000L || timeOfDay < 1000L;
-        if (this.random.nextFloat() < 0.25F &&isDusk || isDawn) {
+        if (this.random.nextFloat() < 0.25F && (isDusk || isDawn)) {
             i=i+4;
         }
 

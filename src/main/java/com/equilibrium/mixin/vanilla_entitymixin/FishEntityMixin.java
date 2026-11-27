@@ -30,7 +30,13 @@ public abstract class FishEntityMixin extends WaterCreatureEntity implements Buc
     protected FishEntityMixin(EntityType<? extends WaterCreatureEntity> entityType, World world) {
         super(entityType, world);
     }
-
+    @Override
+    public void mobTick() {
+        if(this.getWorld() instanceof ServerWorld serverWorld){
+            if(getGameBooleanRuleFromServer(ENABLE_NO_ANIMALS, serverWorld.getServer()))
+                this.setHealth(0);
+        }
+    }
     @Override
     public boolean canSpawn(WorldAccess world, SpawnReason spawnReason) {
         if(world.getServer()!=null && getGameBooleanRuleFromServer(ENABLE_NO_ANIMALS, world.getServer()))

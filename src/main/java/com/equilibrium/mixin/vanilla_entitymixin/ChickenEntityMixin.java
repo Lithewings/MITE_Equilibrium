@@ -96,6 +96,12 @@ public abstract class ChickenEntityMixin extends AnimalEntity implements Produce
     protected void mobTick() {
         super.mobTick();
         environmentChecker.tickTask();
+
+        if(this.getWorld() instanceof ServerWorld serverWorld){
+            if(getGameBooleanRuleFromServer(ENABLE_NO_ANIMALS, serverWorld.getServer()))
+                this.setHealth(0);
+        }
+
     }
 
     @Override

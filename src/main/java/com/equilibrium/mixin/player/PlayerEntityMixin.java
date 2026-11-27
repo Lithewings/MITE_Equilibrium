@@ -300,7 +300,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     //以下修改实体交互距离
     @Inject(method = "getEntityInteractionRange", at = @At("HEAD"), cancellable = true)
     public void getEntityInteractionRange(CallbackInfoReturnable<Double> cir) {
-        double interactionRange = this.getAttributeValue(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE)-2f;
+        double interactionRange = this.getAttributeValue(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE);
 
         ItemStack itemStack = this.getMainHandStack();
         if (itemStack.isIn(ModItemTags.SHOVELS)) {

@@ -100,6 +100,12 @@ public abstract class PigEntityMixin extends AnimalEntity implements ItemSteerab
     protected void mobTick() {
         super.mobTick();
         environmentChecker.tickTask();
+
+        if(this.getWorld() instanceof ServerWorld serverWorld){
+            if(getGameBooleanRuleFromServer(ENABLE_NO_ANIMALS, serverWorld.getServer()))
+                this.setHealth(0);
+        }
+
     }
 
     @Inject(method = "interactMob",at = @At("HEAD"), cancellable = true)

@@ -16,6 +16,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.event.GameEvent;
@@ -56,6 +57,10 @@ public abstract  class SheepEntityMixin extends AnimalEntity implements Shearabl
     @Inject(method = "mobTick",at = @At("HEAD"))
     protected void mobTick(CallbackInfo ci) {
         environmentChecker.tickTask();
+        if(this.getWorld() instanceof ServerWorld serverWorld){
+            if(getGameBooleanRuleFromServer(ENABLE_NO_ANIMALS, serverWorld.getServer()))
+                this.setHealth(0);
+        }
     }
 
 
@@ -98,6 +103,18 @@ public abstract  class SheepEntityMixin extends AnimalEntity implements Shearabl
     public int itemLayTime =  this.random.nextInt(6000)+6000;
 
 
+    @Override
+    protected void drop(ServerWorld world, DamageSource damageSource) {
+        if(environmentChecker.isIllness())
+            return;
+        boolean bl = this.playerHitTimer > 0;
+        if (this.shouldDropLoot() && world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) {
+            this.dropLoot(damageSource, bl);
+            this.dropEquipment(world, damageSource, bl);
+        }
+        this.dropInventory();
+        this.dropXp(damageSource.getAttacker());
+    }
 
     @Unique
     public void produceManure(AnimalEntity entity) {
