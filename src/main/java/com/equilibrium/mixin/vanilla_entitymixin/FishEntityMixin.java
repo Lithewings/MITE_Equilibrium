@@ -10,6 +10,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static com.equilibrium.difficulty_entry.DifficultyEntryGetter.getGameBooleanRuleFromServer;
 import static com.equilibrium.difficulty_entry.DifficultyEntryRegister.ENABLE_NO_ANIMALS;
@@ -29,4 +32,14 @@ public abstract class FishEntityMixin extends WaterAnimal implements Bucketable 
             return false;
         return super.checkSpawnRules(world,spawnReason);
     }
+
+    @Override
+    protected void customServerAiStep() {
+        if (this.level() instanceof ServerLevel serverLevel) {
+            if (getGameBooleanRuleFromServer(ENABLE_NO_ANIMALS, serverLevel.getServer()))
+                this.setHealth(0.0F);
+        }
+    }
+
+
 }

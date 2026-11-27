@@ -98,6 +98,10 @@ public abstract class PigEntityMixin extends Animal implements ItemSteerable, Sa
     protected void customServerAiStep() {
         super.customServerAiStep();
         environmentChecker.tickTask();
+        if (this.level() instanceof ServerLevel serverLevel) {
+            if (getGameBooleanRuleFromServer(ENABLE_NO_ANIMALS, serverLevel.getServer()))
+                this.setHealth(0.0F);
+        }
     }
 
     @Inject(method = "mobInteract",at = @At("HEAD"), cancellable = true)

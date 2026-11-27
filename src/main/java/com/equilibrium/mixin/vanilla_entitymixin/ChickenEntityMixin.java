@@ -92,6 +92,11 @@ public abstract class ChickenEntityMixin extends Animal implements ProduceManure
     protected void customServerAiStep() {
         super.customServerAiStep();
         environmentChecker.tickTask();
+
+        if (this.level() instanceof ServerLevel serverLevel) {
+            if (getGameBooleanRuleFromServer(ENABLE_NO_ANIMALS, serverLevel.getServer()))
+                this.setHealth(0.0F);
+        }
     }
 
     @Override

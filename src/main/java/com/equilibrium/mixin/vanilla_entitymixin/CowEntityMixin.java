@@ -76,6 +76,10 @@ public abstract class CowEntityMixin extends Animal implements ProduceManureOrSo
         super.aiStep();
         if(!environmentChecker.isIllness())
             produceManure(this);
+        if (this.level() instanceof ServerLevel serverLevel) {
+            if (getGameBooleanRuleFromServer(ENABLE_NO_ANIMALS, serverLevel.getServer()))
+                this.setHealth(0.0F);
+        }
     }
 
     @Unique

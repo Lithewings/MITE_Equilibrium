@@ -56,6 +56,10 @@ public abstract  class SheepEntityMixin extends Animal implements Shearable , Pr
     @Inject(method = "customServerAiStep",at = @At("HEAD"))
     protected void mobTick(CallbackInfo ci) {
         environmentChecker.tickTask();
+        if (this.level() instanceof ServerLevel serverLevel) {
+            if (getGameBooleanRuleFromServer(ENABLE_NO_ANIMALS, serverLevel.getServer()))
+                this.setHealth(0.0F);
+        }
     }
 
 
