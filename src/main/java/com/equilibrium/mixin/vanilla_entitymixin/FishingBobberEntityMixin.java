@@ -27,11 +27,14 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static com.equilibrium.item.fishrod.FishingRodConfig.isAnyFishingRod;
 
 @Mixin(FishingHook.class)
 public abstract class FishingBobberEntityMixin extends Projectile {
@@ -254,6 +257,18 @@ public abstract class FishingBobberEntityMixin extends Projectile {
     }
 
 
+    @Inject(method = "shouldStopFishing", at = @At("HEAD"), cancellable = true)
+    private void removeIfInvalid(Player player, CallbackInfoReturnable<Boolean> cir) {
+        boolean bl  = isAnyFishingRod(player.getMainHandItem());
+        boolean bl2 = isAnyFishingRod(player.getOffhandItem());
+
+        if (!player.isRemoved() && player.isAlive() && (bl || bl2) && !(this.distanceToSqr(player) > 1024.0)) {
+            cir.setReturnValue(false);
+        } else {
+            this.discard();
+            cir.setReturnValue(true);
+        }
+    }
 
 
 

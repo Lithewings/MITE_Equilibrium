@@ -276,40 +276,40 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
     }
 
-    @Unique
-    private double interactionRange = 2f;
 
 
     //以下修改实体交互距离
     @Inject(method = "entityInteractionRange", at = @At("HEAD"), cancellable = true)
     public void getEntityInteractionRange(CallbackInfoReturnable<Double> cir) {
+        double interactionRange = this.getAttributeValue(Attributes.ENTITY_INTERACTION_RANGE)-2f;
+
         ItemStack itemStack = this.getMainHandItem();
         if (itemStack.is(ModItemTags.SHOVELS)) {
             //铲子
-            interactionRange = 1.5f + 0.75f;
+            interactionRange += 0.75f;
         } else if (itemStack.is(ModItemTags.PICKAXES)) {
             //镐子
-            interactionRange = 1.5f + 0.75f;
+            interactionRange += 0.75f;
         } else if (itemStack.is(ModItemTags.AXES)) {
             //斧子
-            interactionRange = 1.5f + 0.75f;
+            interactionRange += 0.75f;
         } else if (itemStack.is(ModItemTags.SWORDS)) {
             //剑
-            interactionRange = 1.5f + 1f;
+            interactionRange += 1f;
         } else if (itemStack.is(ModItemTags.HOES)) {
             //锄头
-            interactionRange = 1.5f + 0.75f;
+            interactionRange += 0.75f;
             //手斧
         } else if (itemStack.is(ModItemTags.HATCHET)) {
-            interactionRange = 1.5f + 0.75f;
+            interactionRange += 0.75f;
         } else if (itemStack.is(ModItemTags.DAGGERS)) {
             //小刀、匕首
-            interactionRange = 1.5f + 0.5f;
+            interactionRange += 0.5f;
         } else if (itemStack.is(Items.STICK) || itemStack.is(Items.BONE)) {
             //木棍和骨头
-            interactionRange = 1.5f + 0.5f;
+            interactionRange += 0.5f;
         } else {
-            interactionRange = 1.5f + 0f;
+            interactionRange += 0f;
         }
 
 
@@ -322,11 +322,10 @@ public abstract class PlayerEntityMixin extends LivingEntity {
             interactionRange += 1.5f;
         }
 
-//        if(!this.getWorld().isClient)
-//            this.sendMessage(Text.of("你的生物交互距离为"+interactionRange));
+        if(!this.level().isClientSide)
+            this.displayClientMessage(Component.nullToEmpty("你的生物交互距离为"+interactionRange),true);
 
         cir.setReturnValue(interactionRange);
-
     }
 
 
@@ -456,6 +455,8 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     protected abstract float getFlyingSpeed();
 
     @Shadow public abstract boolean hurt(DamageSource source, float amount);
+
+    @Shadow public abstract void displayClientMessage(Component chatComponent, boolean actionBar);
 
     @Unique
     private double lastSleepTime = 0;

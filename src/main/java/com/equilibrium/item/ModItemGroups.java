@@ -10,6 +10,7 @@ import com.equilibrium.block.miscellaneous.MiscellaneousBlocks;
 import com.equilibrium.block.ore.OreBlocks;
 import com.equilibrium.item.armor.ArmorItems;
 import com.equilibrium.item.coin.CoinItems;
+import com.equilibrium.item.fishrod.FishingRods;
 import com.equilibrium.item.food.FoodItems;
 import com.equilibrium.item.material.MaterialItems;
 import com.equilibrium.item.miscellaneous.MiscellaneousItems;
@@ -89,6 +90,16 @@ public class ModItemGroups {
                         output.accept(MiscellaneousItems.DIAMOND_SHARD.get());
                         output.accept(MiscellaneousItems.EMERALD_SHARD.get());
                         output.accept(MiscellaneousItems.GLASS_FRAGMENT.get());
+
+                        output.accept(FishingRods.FLINT_FISHING_ROD.get());
+                        output.accept(FishingRods.COPPER_FISHING_ROD.get());
+                        output.accept(FishingRods.SILVER_FISHING_ROD.get());
+                        output.accept(FishingRods.GOLD_FISHING_ROD.get());
+                        output.accept(FishingRods.MITHRIL_FISHING_ROD.get());
+                        output.accept(FishingRods.ADAMANTIUM_FISHING_ROD.get());
+
+
+
                     })
                     .build()
     );

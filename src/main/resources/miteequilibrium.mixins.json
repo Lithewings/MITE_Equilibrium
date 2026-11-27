@@ -4,6 +4,8 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "LandPathNodeMakerMixin",
+    "LivingEntityMixinForArrowAttach",
+    "PersistentProjectileEntityMixinForArrowAttach",
     "advancement.AdvancementManagerMixin",
     "advancement.PlayerAdvancementTrackerMixin",
     "crafttime.CraftingResultSendToInventory",
@@ -77,6 +79,7 @@
     "vanilla_itemsmixin.FluidBlockMixin",
     "vanilla_itemsmixin.WoodenMaterialsModify",
     "vanilla_itemsmixin.tool.ArmorMaterialsMixin",
+    "vanilla_itemsmixin.tool.FishingRodItemMixin",
     "vanilla_itemsmixin.tool.ShearsItemMixin",
     "vanilla_itemsmixin.tool.ShovelItemMixin",
     "world.ServerWorldMixin"
@@ -88,6 +91,7 @@
     "crafttime.CraftingTimeInformationWithClientPlayerEntity",
     "crafttime.RecipeBookMixin",
     "player.ClientPlayerEntityMixin",
+    "render.entity_renderer.FishingBobberEntityRendererMixin",
     "render.hud_at_players_screen.DebugHudMixin",
     "render.hud_at_players_screen.InGameHudMixin",
     "render.moonlight_renderer.LightmapTextureManagerMixin",

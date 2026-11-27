@@ -18,6 +18,7 @@ import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -128,45 +129,16 @@ public abstract class PigEntityMixin extends Animal implements ItemSteerable, Sa
 
 
     @Override
-    public void die(DamageSource damageSource) {
-        onDeathAndCheckIllness(damageSource);
-    }
-
-    @Unique
-    private void onDeathAndCheckIllness(DamageSource damageSource) {
-        if (!this.isRemoved() && !this.dead) {
-            Entity entity = damageSource.getEntity();
-            LivingEntity livingEntity = this.getKillCredit();
-            if (this.deathScore >= 0 && livingEntity != null) {
-                livingEntity.awardKillScore(this, this.deathScore, damageSource);
-            }
-
-            if (this.isSleeping()) {
-                this.stopSleeping();
-            }
-
-            if (!this.level().isClientSide && this.hasCustomName()) {
-                OnServerInitialize.LOGGER.info("Named entity {} died: {}", this, this.getCombatTracker().getDeathMessage().getString());
-            }
-
-            this.dead = true;
-            this.getCombatTracker().recheckStatus();
-            if (this.level() instanceof ServerLevel serverWorld) {
-                if (entity == null || entity.killedEntity(serverWorld, this)) {
-                    this.gameEvent(GameEvent.ENTITY_DIE);
-                    if(!environmentChecker.isIllness())
-                        this.dropAllDeathLoot(serverWorld, damageSource);
-                    else if(this.isSaddled()){
-                        this.level().addFreshEntity(new ItemEntity(this.level(),this.getX(),this.getY(),this.getZ(),Items.SADDLE.getDefaultInstance()));
-                    }
-                    this.createWitherRose(livingEntity);
-                }
-
-                this.level().broadcastEntityEvent(this, EntityEvent.DEATH);
-            }
-
-            this.setPose(Pose.DYING);
+    protected void dropAllDeathLoot(ServerLevel world, DamageSource damageSource) {
+        if(environmentChecker.isIllness())
+            return;
+        boolean bl = this.lastHurtByPlayerTime > 0;
+        if (this.shouldDropLoot() && world.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
+            this.dropFromLootTable(damageSource, bl);
+            this.dropCustomDeathLoot(world, damageSource, bl);
         }
+        this.dropEquipment();
+        this.dropExperience(damageSource.getEntity());
     }
 
 }

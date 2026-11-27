@@ -2,6 +2,7 @@ package com.equilibrium.block.anvil.adamantium_anvil_block;
 
 import com.equilibrium.OnServerInitialize;
 import com.equilibrium.block.ModBlockScreenTypesRegister;
+import com.equilibrium.block.anvil.AnvilRepairUtil;
 import com.mojang.logging.LogUtils;
 import it.unimi.dsi.fastutil.objects.Object2IntMap.Entry;
 import net.minecraft.core.Holder;
@@ -153,7 +154,7 @@ public class AdamantiumAnvilScreenHandler extends ItemCombinerMenu {
             if (!itemStack3.isEmpty()) {
                 boolean bl = itemStack3.has(DataComponents.STORED_ENCHANTMENTS);
                 if (itemStack2.isDamageableItem() && itemStack2.getItem().isValidRepairItem(itemStack, itemStack3)) {
-                    int k = Math.min(itemStack2.getDamageValue(), itemStack2.getMaxDamage() / 4);
+                    int k = AnvilRepairUtil.nextRepairAmount(itemStack2);
                     if (k <= 0) {
                         this.resultSlots.setItem(0, ItemStack.EMPTY);
                         this.levelCost.set(0);
@@ -165,7 +166,7 @@ public class AdamantiumAnvilScreenHandler extends ItemCombinerMenu {
                         int n = itemStack2.getDamageValue() - k;
                         itemStack2.setDamageValue(n);
                         i++;
-                        k = Math.min(itemStack2.getDamageValue(), itemStack2.getMaxDamage() / 4);
+                        k = AnvilRepairUtil.nextRepairAmount(itemStack2);
                     }
 
                     this.repairItemUsage = m;

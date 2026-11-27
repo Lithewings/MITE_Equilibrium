@@ -13,9 +13,11 @@ import com.equilibrium.block.ore.OreBlocks;
 import com.equilibrium.block.reference.BlocksHardnessList;
 import com.equilibrium.common_gamerules.GameRuleRegister;
 import com.equilibrium.difficulty_entry.DifficultyEntryRegister;
+import com.equilibrium.entity.arrow_attach.ArrowDeathHandler;
 import com.equilibrium.entity.goal.BreakBlockGoal;
 import com.equilibrium.item.armor.ArmorItems;
 import com.equilibrium.item.coin.CoinItems;
+import com.equilibrium.item.fishrod.FishingRods;
 import com.equilibrium.item.food.FoodItems;
 import com.equilibrium.item.material.MaterialItems;
 import com.equilibrium.item.ModItemGroups;
@@ -40,6 +42,7 @@ import com.equilibrium.util.AdvancementRemover;
 import com.equilibrium.util.BooleanStorageUtil;
 import com.equilibrium.util.XpHashMap;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
@@ -148,6 +151,8 @@ public class OnServerInitialize {
         ToolItems.ITEMS.register(modEventBus);
         CoinItems.ITEMS.register(modEventBus);
         MiscellaneousItems.ITEMS.register(modEventBus);
+        FishingRods.ITEMS.register(modEventBus);
+
 
         //方块物品注册
         AnvilBlocks.ITEMS.register(modEventBus);
@@ -192,22 +197,22 @@ public class OnServerInitialize {
 
             @Override
             public @NotNull DataVersion getDataVersion() {
-                return new DataVersion(110111, "MITE:Equilibrium-NeoForge-Beta");
+                return new DataVersion(676767, "MITE:Equilibrium Beta Fabric/NeoForge");
             }
 
             @Override
             public @NotNull String getId() {
-                return "108109";
+                return "676767";
             }
 
             @Override
             public @NotNull String getName() {
-                return "MITE:Equilibrium Beta v1.1.0_9";
+                return "MITE:Equilibrium Beta v1.2.0_1";
             }
 
             @Override
             public int getProtocolVersion() {
-                return 108109;
+                return 676767;
             }
 
             @Override
@@ -256,7 +261,8 @@ public class OnServerInitialize {
 
         //注册事件
         PlayerBlockBreakEvents.AFTER.register(BreakBlockEvent.getInstance());
-
+        //只有LivingEntity正确使用了原本继承的onDeath()方法,这里的AFTER_DEATH才会正确被监听
+        ServerLivingEntityEvents.AFTER_DEATH.register(ArrowDeathHandler::onDeath);
 
         //使用物品监听器,能不在这里写就不要在这里写,用物品自带的onUse方法
         //合成金属镐监听器
