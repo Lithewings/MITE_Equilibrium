@@ -135,6 +135,7 @@ public abstract class FishingBobberEntityMixin extends ProjectileEntity {
 
     @Inject(method = "tickFishingLogic",at = @At("HEAD"))
     private void tickFishingLogic(BlockPos pos, CallbackInfo ci) {
+        ci.cancel();
         ServerWorld serverWorld = (ServerWorld)this.getWorld();
 
 
